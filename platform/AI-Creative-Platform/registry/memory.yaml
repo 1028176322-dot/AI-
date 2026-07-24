@@ -1,0 +1,41 @@
+# 内存治理配置（Memory Governance）
+# 阈值与晋升门槛。对应 core/contracts/memory.schema.yaml
+
+memory_governor:
+  version: 1.0.0
+
+# 晋升门槛（对应 晋升机制.md）
+promotion:
+  project_to_genre:
+    min_validated_projects: 2        # 至少 2 个同类型项目验证
+    require_same_genre: true
+  genre_to_global:
+    min_validated_projects: 3        # 至少 3 个不同类型项目验证
+    require_cross_genre: true
+
+# 重复检测
+dedup:
+  similarity_threshold: 0.85         # 归一化 problem 相似度 >= 此值判重复
+  normalize: true                    # 去标点/小写/按字符 bigram
+
+# 门禁扣分（健康分 = 100 - 扣分）
+gate:
+  fatal_penalty: 40                  # SC2/SC3 结构错配
+  caution_penalty: 5                 # SC4/SC5/SC6 软问题
+  block_on_fatal: true               # 结构错配 → doctor FAIL
+  caution_max_ignore: 999            # caution 不阻断，仅报告
+
+# level 前缀 ↔ 目录要求
+level_dir:
+  global: memory/global/
+  genre: memory/genre/<genre>/
+  project: memory/project/
+  rejected: memory/rejected/
+
+# action 失效引用检测（轻量）
+reference_check:
+  enabled: true
+  check_relative_paths: true
+
+# README 要求（各级目录应有 README，缺失仅提示不扣分）
+require_readme: true

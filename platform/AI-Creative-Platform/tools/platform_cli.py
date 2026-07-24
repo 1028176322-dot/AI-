@@ -334,6 +334,22 @@ def cmd_doctor(args):
             if sym == FAIL:
                 overall_fail = True
 
+    _print_block("内存治理（platform/memory/ 体检）")
+    try:
+        import memory_governor as _mg
+        rep = _mg.govern(platform_root, write=False)
+        gd = (rep.get("gate") or {}).get("decision", "proceed")
+        if gd == "block":
+            _print_result("MemoryGov", FAIL, "结构错配：%s" % "；".join(rep["gate"]["reasons"][:3]))
+            overall_fail = True
+        elif gd == "caution":
+            _print_result("MemoryGov", WARN, "软问题 %d 项（健康分 %s）" % (
+                len(rep["gate"]["reasons"]), rep["composite"]["health"]))
+        else:
+            _print_result("MemoryGov", PASS, "健康分 %s" % rep["composite"]["health"])
+    except Exception as _e:
+        _print_result("MemoryGov", WARN, "自检异常：%s" % _e)
+
     print("")
     if overall_fail:
         print("结果：存在 FAIL —— 平台/项目不兼容，请先修复后再运行。")
@@ -724,6 +740,10 @@ def build_parser():
     gr = sub.add_parser("reader", help="读者模拟：读者体验模拟与门禁（sim/from-task/show）")
     gr.add_argument("--project-root", required=True)
     gr.add_argument("rest", nargs=argparse.REMAINDER)
+
+    gm = sub.add_parser("memory", help="内存治理：对 platform/memory/ 四层经验库体检（validate/report/dedup）")
+    gm.add_argument("--platform-root", required=True)
+    gm.add_argument("rest", nargs=argparse.REMAINDER)
     return p
 
 
@@ -746,7 +766,7 @@ def main():
         cmd_init_project(args)
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
                       "init", "charter", "psrc", "genesis", "ready",
-                      "status", "task", "ver", "impact", "quality", "reader"):
+                      "status", "task", "ver", "impact", "quality", "reader", "memory"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -778,6 +798,7 @@ def _delegate_gov(cmd, args):
         "impact": "impact_analyzer",
         "quality": "quality_scorer",
         "reader": "reader_simulator",
+        "memory": "memory_governor",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])

@@ -305,3 +305,20 @@ roles:
       - sources/**
     requires:
       - project_root
+  memory-governor:
+    purpose: 内存治理（Memory Governance），对 platform/memory/ 四层经验库做体检与门禁建议（只读 memory/ 本身）
+    capabilities: [memory_gov]
+    may_write:
+      - analysis/memory/**
+    may_not_write:
+      - memory/**
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
+    requires:
+      - project_root

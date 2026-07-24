@@ -209,3 +209,16 @@ roles:
       - approved/**
       - tasks/**
       - sources/**
+  memory-governor:
+    allow_write:
+      - analysis/memory/**
+    deny_write:
+      - memory/**
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**

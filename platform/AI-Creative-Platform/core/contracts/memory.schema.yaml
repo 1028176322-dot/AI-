@@ -1,0 +1,38 @@
+schema_id: memory
+version: 1.0.0
+applies_to: ["memory/**/*.yaml"]
+requires_document_header: false
+top_level_sections:
+  - name: id
+    required_fields: [id, level, problem, root_cause, action, validated_projects, confidence, status]
+  - name: conditional
+    required_fields: []
+nested_required: {}
+required_fields: [id, level, problem, root_cause, action, validated_projects, confidence, status]
+conditional_required:
+  level=genre:
+    - genre
+  level=project:
+    - scope
+field_types:
+  id: str
+  level: str
+  problem: str
+  root_cause: str
+  action: list
+  validated_projects: int
+  confidence: float
+  status: str
+  genre: str
+  scope: str
+enums:
+  level: [global, genre, project]
+  status: [active, deprecated]
+id_pattern: "^MEM-(G|XH|P|R)-[0-9]{3}$"
+id_level_map:
+  G: global
+  XH: genre
+  P: project
+  R: rejected
+confidence_range: [0.0, 1.0]
+forbidden_patterns: ["TODO", "FIXME", "占位", "待补"]
