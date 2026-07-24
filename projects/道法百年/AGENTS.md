@@ -34,6 +34,8 @@
 
 22. **图谱可视化（Knowledge Graph Viz）**：NKB 组件（Characters/Events/Graph/WorldState/Canon）转 graph JSON + HTML/SVG 由 `platform graph` 负责（`build`/`render`/`validate`）。只读 NKB、**不修改**；空 NKB→空图（0 节点/边）不报错。`doctor` 在项目循环内接入图谱自检（GraphGov）——`caution`=悬空边（引用不存在节点）/孤立节点，`proceed`=空图或健康；属项目级健康检查，**不阻断 task submit**。graph JSON 落在 `analysis/graph/GRAPH-NN.json`，HTML 落在 `GRAPH-NN.html`。
 
+23. **市场分析（Market Analysis）**：外部市场信号摄取→机会打分→brief 由 `platform market` 负责（`ingest`/`score`/`brief`/`sync`/`validate`）。信号来自 `sources/research/market/*.yaml`（genre + trend_score/competition/reader_demand，均 0..1；competition 越低机会越大），机会分 = Σ 权重·指标（按 `registry/market.yaml` 权重，缺省 0.4/0.3/0.3）。`sync` 可选把机会分写入 NKB `Market.yaml`（不覆盖既有）。**不替代创作决策**。`doctor` 在项目循环内接入市场自检（MarketGov）——`block`=market.yaml 权重缺项/非数值/和不为 1，`caution`=未配置 market.yaml（可选）；属项目级健康检查，**不阻断 task submit**。brief 落在 `analysis/market/`。
+
 ## 启动时序（强制）
 
 ```

@@ -306,6 +306,19 @@ roles:
       - approved/**
       - tasks/**
       - sources/**
+      - txt/**
+
+  market-analyst:
+    allow_write:
+      - registry/market.yaml
+      - analysis/market/**
+      - NKB/Market.yaml
+    deny_write:
+      - core/**
+      - templates/**
+      - chapters/**
+      - approved/**
+      - tasks/**
       - txt/****
 
 

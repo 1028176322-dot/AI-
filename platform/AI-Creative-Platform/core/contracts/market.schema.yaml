@@ -1,0 +1,35 @@
+schema_version: "1.0.0"
+# 市场分析契约（Phase 3-6 Market Analysis）
+# applies_to: registry/market.yaml + sources/research/market/*.yaml
+# 职责：摄取外部市场信号（genre trends / competition / reader demand）→ 机会打分 →
+#       产出 market brief；可选写入 NKB Market 组件（市场事实）。不替代创作决策。
+applies_to:
+  - registry/market.yaml
+  - sources/research/market/*.yaml
+
+meta:
+  required: [schema_version]
+  forgeable: false
+
+market_signal:
+  required: [genre]
+  metric_keys: [trend_score, competition, reader_demand]   # 均取值 0..1
+  # competition 越低=竞争越小=机会越大（score 中按 1-competition 计）
+
+market_registry:
+  required: [weights]
+  weight_keys: [trend_score, competition, reader_demand]
+  weight_sum_must_be: 1.0
+
+govern:
+  # market.yaml 缺失→caution（市场分析为可选规划输入）；存在但 weights 非法→fatal
+  missing_is: caution
+  fatal_when:
+    - weights 缺项（trend_score/competition/reader_demand 不全）
+    - weights 非数值或和不为 1.0
+
+forbidden_patterns:
+  - TODO
+  - FIXME
+  - 占位
+  - 待补

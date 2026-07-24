@@ -431,3 +431,21 @@ roles:
       - txt/**
     requires:
       - project_root
+
+  market-analyst:
+    purpose: 市场分析（Market Analysis），摄取市场信号→机会打分→brief，可选写入 NKB Market 组件（只读 sources、写 analysis/market + NKB/Market.yaml）
+    capabilities: [market_ingest, market_score, market_sync]
+    may_write:
+      - registry/market.yaml
+      - analysis/market/**
+      - NKB/Market.yaml
+    may_not_write:
+      - core/**
+      - templates/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - txt/**
+    requires:
+      - platform_root
+      - project_root

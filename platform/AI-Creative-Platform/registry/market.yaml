@@ -1,0 +1,11 @@
+schema_version: "1.0.0"
+# 市场分析配置（Phase 3-6）
+# weights：机会打分权重（trend_score / competition / reader_demand），和须为 1.0
+#   competition 越低=竞争越小=机会越大（score 中按 1-competition 计）
+# thresholds.opportunity_floor：机会分阈值，用于 brief 的 verdict 判定
+weights:
+  trend_score: 0.4
+  competition: 0.3
+  reader_demand: 0.3
+thresholds:
+  opportunity_floor: 0.5
