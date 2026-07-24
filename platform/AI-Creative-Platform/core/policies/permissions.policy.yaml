@@ -321,4 +321,17 @@ roles:
       - tasks/**
       - txt/****
 
+  project-initiator:
+    allow_write:
+      - projects/**
+      - registry/projects.yaml
+      - workspace.yaml
+      - sources/research/market/**
+    deny_write:
+      - core/**
+      - templates/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+
 

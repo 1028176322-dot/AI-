@@ -467,6 +467,23 @@ def cmd_doctor(args):
     except Exception as _e:
         _print_result("BiGov", WARN, "自检异常：%s" % _e)
 
+    _print_block("项目模板（Phase 3-7 自检）")
+    try:
+        import project_template as _pt
+        ptrep = _pt.govern(platform_root, write=False)
+        ptgd = (ptrep.get("gate") or {}).get("decision", "proceed")
+        if ptgd == "block":
+            _print_result("TemplateGov", FAIL, "模板契约损坏：%s" % "；".join(ptrep["gate"]["reasons"][:3]))
+            overall_fail = True
+        elif ptgd == "caution":
+            _print_result("TemplateGov", WARN, "软问题 %d 项（健康分 %s）" % (
+                len(ptrep["gate"]["reasons"]), ptrep["composite"]["health"]))
+        else:
+            _print_result("TemplateGov", PASS, "健康分 %s（%d 模板 / %d 注册项目）" % (
+                ptrep["composite"]["health"], ptrep["response"]["templates"], ptrep["response"]["projects"]))
+    except Exception as _e:
+        _print_result("TemplateGov", WARN, "自检异常：%s" % _e)
+
     print("")
     if overall_fail:
         print("结果：存在 FAIL —— 平台/项目不兼容，请先修复后再运行。")
@@ -605,142 +622,25 @@ def cmd_init_project(args):
     ws = load_yaml(os.path.join(ws_root, "workspace.yaml"))
     platform_root = resolve_platform_root(ws_root, ws)
     genre = args.type
-    tpl = os.path.join(platform_root, "templates", genre)
-    if not os.path.isdir(tpl):
-        die("类型模板不存在：templates/%s" % genre, 2)
     name = args.name
-    pid = args.id or ("novel-%s" % re.sub(r"\W+", "-", name).lower())
-    proot = os.path.normpath(os.path.join(ws_root, "projects", name))
-    if os.path.exists(proot):
-        die("项目目录已存在：%s" % proot, 2)
-    os.makedirs(proot)
-    # 读模板版本
-    tdata = load_yaml(os.path.join(tpl, "profile.yaml")) or {}
-    tver = str(tdata.get("schema_version", "0"))
-    # 生成 project.yaml
-    project_yaml = (
-        "project:\n"
-        "  id: %s\n"
-        "  name: %s\n"
-        "  type: %s\n"
-        "  status: active\n\n"
-        "requires:\n"
-        "  platform: \">=2.1.0\"\n"
-        "  nkb_schema: \">=1.2.0\"\n"
-        "  contracts: \">=1.0.0\"\n"
-        "  templates:\n"
-        "    %s: \">=%s\"\n\n"
-        "template:\n"
-        "  id: %s\n"
-        "  version: %s\n\n"
-        "plugins:\n"
-        "  planner: planner.default@1.2.0\n"
-        "  context: context.runtime@2.0.0\n"
-        "  workflow: workflow.novel@1.4.0\n"
-        "  review: review.four-pillars@4.3.0\n\n"
-        "capabilities:\n"
-        "  narrative: capability.narrative.default@2.0.0\n"
-        "  character: capability.character.default@1.5.0\n"
-        "  dialogue: capability.dialogue.ancient@1.3.0\n"
-        "  battle: capability.battle.xuanhuan@2.1.0\n"
-        "  emotion: capability.emotion.commercial@1.2.0\n"
-        "  description: capability.description.ancient@1.1.0\n\n"
-        "paths:\n"
-        "  nkb: ./NKB\n"
-        "  outline: ./outline.md\n"
-        "  chapters: ./txt\n"
-        "  artifacts: ./artifacts\n"
-        "  overrides: ./overrides\n"
-        "  memory: ./memory/project\n\n"
-        "gates:\n"
-        "  editor_score: 80\n"
-        "  consistency_index: 0.95\n"
-        "  reader_index: 60\n"
-        "  payment_intent: 60\n"
-        "  max_loop: 5\n"
-    ) % (pid, name, genre, genre, tver, genre, tver)
-    with open(os.path.join(proot, "project.yaml"), "w", encoding="utf-8") as f:
-        f.write(project_yaml)
-    # 空 NKB（从模板 schema 扩展字段读取字段名）
-    nkb_dir = os.path.join(proot, "NKB")
-    os.makedirs(nkb_dir)
-    # 基础 11 组件
-    base_components = ["Canon", "Characters", "Timeline", "WorldState", "Events",
-                       "Foreshadow", "Assets", "Terminology", "StoryState",
-                       "ReaderState", "Graph"]
-    ext_path = os.path.join(tpl, "nkb-schema-extension.yaml")
-    ext_fields = []
-    if os.path.isfile(ext_path):
-        ext = load_yaml(ext_path) or {}
-        # extends / add_fields 仅作信息记录
-        ext_fields = list((ext.get("add_fields") or {}).keys())
-    idx_lines = ["# NKB 索引（schema_version 1.2.0）", "schema_version: 1.2.0",
-                 "project_id: %s" % pid, "", "components:"]
-    for c in base_components + ext_fields:
-        fname = "%s.yaml" % c
-        with open(os.path.join(nkb_dir, fname), "w", encoding="utf-8") as f:
-            f.write("schema_version: 1.2.0\nproject_id: %s\nrecords: []\n" % pid)
-        idx_lines.append("  - %s" % fname)
-    with open(os.path.join(nkb_dir, "NKB.md"), "w", encoding="utf-8") as f:
-        f.write("\n".join(idx_lines) + "\n")
-    # 空 Derived
-    with open(os.path.join(nkb_dir, "Derived.yaml"), "w", encoding="utf-8") as f:
-        f.write("schema_version: 1.2.0\nproject_id: %s\nrecords: []\n" % pid)
-    # overrides / metrics / artifacts / memory
-    for d in ("overrides", "metrics", "artifacts", "memory/project"):
-        os.makedirs(os.path.join(proot, d), exist_ok=True)
-        with open(os.path.join(proot, d, "README.md"), "w", encoding="utf-8") as f:
-            f.write("# %s\n\n（项目私有目录，由 bootstrap 校验）\n" % d)
-    # 更新 workspace.yaml 登记
-    ws_path = os.path.join(ws_root, "workspace.yaml")
-    cur = load_yaml(ws_path)
-    w = cur.get("workspace", cur)
-    plist = w.get("projects", []) or []
-    new_rel = "./projects/%s" % name
-    if new_rel not in plist:
-        plist.append(new_rel)
-        w["projects"] = plist
-        # 仅追加一行，保留注释与结构
-        _append_project_to_workspace(ws_path, new_rel)
+    pid = args.id
+    import project_template as _pt
+    ok, errs, proot = _pt.scaffold(
+        platform_root, ws_root, name, genre, pid=pid, write=True)
+    if not ok:
+        die("; ".join(errs), 2)
+    rok, rerrs, _ = _pt.register_multi_project(
+        platform_root, ws_root, name, genre, pid=pid, proot=proot, write=True)
+    if not rok:
+        sys.stderr.write(
+            "⚠ 多项目注册未完成：%s（项目已脚手架，可重试 platform projects register）\n"
+            % "; ".join(rerrs))
     print("✓ 已脚手架项目：%s" % proot)
     print("  请运行：python tools/platform_cli.py bootstrap")
     sys.exit(0)
 
 
-def _append_project_to_workspace(ws_path, new_rel):
-    # 仅追加一行到 projects 列表，保留注释与既有结构（不整文件重写）
-    with open(ws_path, "r", encoding="utf-8") as f:
-        lines = f.read().split("\n")
-    proj_idx = None
-    for i, line in enumerate(lines):
-        if line.strip() == "projects:":
-            proj_idx = i
-            break
-    if proj_idx is None:
-        # 兜底：直接附加到文件尾
-        lines.append("workspace:")
-        lines.append("  platform: ./platform/AI-Creative-Platform")
-        lines.append("  projects:")
-        lines.append("    - %s" % new_rel)
-        with open(ws_path, "w", encoding="utf-8") as f:
-            f.write("\n".join(lines))
-        return
-    indent = "    "
-    last_item_idx = proj_idx
-    for j in range(proj_idx + 1, len(lines)):
-        s = lines[j]
-        if s.strip().startswith("- "):
-            last_item_idx = j
-            indent = s[: len(s) - len(s.lstrip(" "))]
-        elif s.strip() == "":
-            continue
-        else:
-            # 下一个顶层键或注释结束列表
-            if j > proj_idx + 1:
-                break
-    lines.insert(last_item_idx + 1, "%s- %s" % (indent, new_rel))
-    with open(ws_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
+# _append_project_to_workspace 已迁移至 tools/project_template.py（_append_to_workspace）
 
 
 # ─────────────────────────────────────────────────────────────

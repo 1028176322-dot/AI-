@@ -36,6 +36,8 @@
 
 23. **市场分析（Market Analysis）**：外部市场信号摄取→机会打分→brief 由 `platform market` 负责（`ingest`/`score`/`brief`/`sync`/`validate`）。信号来自 `sources/research/market/*.yaml`（genre + trend_score/competition/reader_demand，均 0..1；competition 越低机会越大），机会分 = Σ 权重·指标（按 `registry/market.yaml` 权重，缺省 0.4/0.3/0.3）。`sync` 可选把机会分写入 NKB `Market.yaml`（不覆盖既有）。**不替代创作决策**。`doctor` 在项目循环内接入市场自检（MarketGov）——`block`=market.yaml 权重缺项/非数值/和不为 1，`caution`=未配置 market.yaml（可选）；属项目级健康检查，**不阻断 task submit**。brief 落在 `analysis/market/`。
 
+24. **项目模板（Project Templates）**：从 genre 模板脚手架新项目由 `platform init-project` 负责（`scaffold`/`register`）。读取 `templates/<genre>/profile.yaml`（schema_version 须与 `versions.yaml` 的 `templates.<genre>` 对齐）生成 project.yaml/空 NKB/sources/overrides/lifecycle，并在 `sources/research/market/` 落地 P3-6 市场钩子（投放区 + `TEMPLATE-<genre>.yaml.example` 填表模板），同时写 `registry/projects.yaml`（P3-2 多项目注册）+ 更新 `workspace.yaml`。**不做创作**，只做脚手架与注册；`templates/` 由 system-maintainer 维护，init 仅读模板。doctor 接入模板自检（TemplateGov）——`caution`=模板缺失/已注册项目 genre 无对应模板（init-project 将失败，但不破坏既有项目）；属平台级健康检查，**不阻断 task submit**。
+
 ## 启动时序（强制）
 
 ```

@@ -449,3 +449,21 @@ roles:
     requires:
       - platform_root
       - project_root
+
+  project-initiator:
+    purpose: 脚手架新项目（init-project）：从 genre 模板生成 project.yaml/空NKB/sources 并注册到多项目与 workspace
+    capabilities: [project_scaffold, project_register]
+    may_write:
+      - projects/**                # 新建项目实例（含空 NKB / sources / overrides / lifecycle）
+      - registry/projects.yaml     # 多项目注册
+      - workspace.yaml             # workspace 登记
+      - sources/research/market/** # 市场钩子种子
+    may_not_write:
+      - core/**
+      - templates/**               # 读模板，不写模板
+      - chapters/**
+      - approved/**
+      - tasks/**
+    requires:
+      - platform_root
+      - workspace_root

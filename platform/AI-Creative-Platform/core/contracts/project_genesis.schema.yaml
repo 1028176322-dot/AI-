@@ -1,0 +1,48 @@
+schema_version: "1.0.0"
+# 项目模板契约（Phase 3-7 Project Templates）
+# applies_to: templates/<genre>/profile.yaml + templates/<genre>/nkb-schema-extension.yaml + 脚手架产物
+# 职责：定义 genre 模板结构 + 市场钩子种子 + 多项目注册约束。
+# 脚手架由 `platform init-project` 执行（引擎 tools/project_template.py）。
+applies_to:
+  - templates/*/profile.yaml
+  - templates/*/nkb-schema-extension.yaml
+  - projects/*/sources/research/market/*.yaml.example
+
+meta:
+  required: [schema_version]
+  forgeable: false
+
+template_profile:
+  required: [schema_version, genre]
+  # genre 须与模板目录名一致（脚手架校验）
+
+template_nkb_extension:
+  optional: [add_fields]           # 附加 NKB 组件名（dict 键），扩展基础 11 组件
+  add_fields_type: map(component_name -> note)
+
+market_hook:
+  # init-project 在每个新项目生成 sources/research/market/ 钩子
+  drop_dir: sources/research/market
+  template_example: "TEMPLATE-<genre>.yaml.example"
+  note: 占位模板，market-analyst 填真实指标后重命名为 .yaml 即被 market.ingest 摄取
+
+registration:
+  # 新项目须注册到 registry/projects.yaml（multi_project.register）
+  required: [id, path, type]
+  path_relative_to: platform_root
+  id_pattern: ^[a-z0-9][a-z0-9_-]*$
+
+govern:
+  # 模板缺失→caution（init-project 将失败，但不破坏既有项目）；结构损坏→fatal
+  missing_is: caution
+  fatal_when:
+    - 模板 profile.yaml 存在但缺 schema_version 或 genre（结构损坏）
+  caution_when:
+    - 已注册项目 genre 无对应模板
+    - templates/ 目录缺失
+
+forbidden_patterns:
+  - TODO
+  - FIXME
+  - 占位
+  - 待补
