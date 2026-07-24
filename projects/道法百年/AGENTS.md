@@ -26,6 +26,8 @@
 
 18. **模型布线器（Model Router）**：任务/角色→模型的路由与降级链由 `platform model` 决策（`resolve`/`validate`）。布线器只做路由决策、返回 model spec，**不调用模型**；模型调用仍由各引擎/编排器负责。`doctor` 接入模型自检（ModelGov）——`block`=无可用模型或配置损坏，`caution`=规则引用不可用模型。属平台级健康检查，**不阻断 task submit**。报告落在 `analysis/model-router/`。
 
+19. **多项目管理（Multi-Project）**：跨项目注册 / 隔离等级解析（Global→Genre→Project→Chapter）/ 统一 dispatch 由 `platform projects` 负责（`list`/`register`/`query`/`dispatch`/`validate`）。只做注册与调度解析，**不做创作**；dispatch 协同 `platform model` 给出项目级模型。`doctor` 接入多项目自检（MultiProjGov）——`block`=注册表损坏/项目路径缺失/重复 id，`caution`=项目无 NKB/非活跃。属平台级健康检查，**不阻断 task submit**。报告落在 `analysis/multi-project/`。
+
 ## 启动时序（强制）
 
 ```

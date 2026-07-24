@@ -253,4 +253,17 @@ roles:
       - tasks/**
       - sources/**
 
+  multi-project:
+    allow_write:
+      - registry/projects.yaml
+      - analysis/multi-project/**
+    deny_write:
+      - core/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
+
 

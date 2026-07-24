@@ -382,6 +382,23 @@ def cmd_doctor(args):
     except Exception as _e:
         _print_result("ModelGov", WARN, "自检异常：%s" % _e)
 
+    _print_block("多项目管理（Phase 3-2 自检）")
+    try:
+        import multi_project as _mp
+        mprep = _mp.govern(platform_root, write=False)
+        mpgd = (mprep.get("gate") or {}).get("decision", "proceed")
+        if mpgd == "block":
+            _print_result("MultiProjGov", FAIL, "注册表损坏/项目路径缺失：%s" % "；".join(mprep["gate"]["reasons"][:3]))
+            overall_fail = True
+        elif mpgd == "caution":
+            _print_result("MultiProjGov", WARN, "软问题 %d 项（健康分 %s）" % (
+                len(mprep["gate"]["reasons"]), mprep["composite"]["health"]))
+        else:
+            _print_result("MultiProjGov", PASS, "健康分 %s（%d 项目）" % (
+                mprep["composite"]["health"], mprep["response"]["projects"]))
+    except Exception as _e:
+        _print_result("MultiProjGov", WARN, "自检异常：%s" % _e)
+
     print("")
     if overall_fail:
         print("结果：存在 FAIL —— 平台/项目不兼容，请先修复后再运行。")
@@ -784,6 +801,10 @@ def build_parser():
     gm2 = sub.add_parser("model", help="模型布线器：任务→模型路由与降级链（resolve/validate）")
     gm2.add_argument("--platform-root", required=True)
     gm2.add_argument("rest", nargs=argparse.REMAINDER)
+
+    gpj = sub.add_parser("projects", help="多项目管理：跨项目注册/隔离解析/统一 dispatch（list/register/query/dispatch/validate）")
+    gpj.add_argument("--platform-root", required=True)
+    gpj.add_argument("rest", nargs=argparse.REMAINDER)
     return p
 
 
@@ -806,7 +827,7 @@ def main():
         cmd_init_project(args)
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
                       "init", "charter", "psrc", "genesis", "ready",
-                      "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model"):
+                      "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -841,6 +862,7 @@ def _delegate_gov(cmd, args):
         "memory": "memory_governor",
         "asset": "asset_manager",
         "model": "model_router",
+        "projects": "multi_project",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])

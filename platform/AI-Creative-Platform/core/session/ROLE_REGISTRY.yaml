@@ -360,3 +360,20 @@ roles:
       - sources/**
     requires:
       - platform_root
+
+  multi-project:
+    purpose: 多项目管理（Multi-Project），跨项目注册 / 隔离等级解析 / 统一 dispatch（只读项目、写自身注册表）
+    capabilities: [project_query, project_dispatch]
+    may_write:
+      - registry/projects.yaml
+      - analysis/multi-project/**
+    may_not_write:
+      - core/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
+    requires:
+      - platform_root

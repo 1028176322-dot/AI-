@@ -1,0 +1,56 @@
+schema_version: "1.0.0"
+# 多项目注册表契约（Phase 3-2 Multi-Project）
+# applies_to: registry/projects.yaml
+# 职责：跨项目注册 / 隔离等级解析 / 统一 dispatch。不做创作。
+applies_to:
+  - registry/projects.yaml
+
+meta:
+  required: [schema_version]
+  forgeable: false
+
+request:    # query / dispatch 请求段（可选，供调用方构造）
+  fields:
+    - name: project_id
+      type: string
+      required: false
+    - name: level
+      type: enum
+      enum: [global, genre, project, chapter]
+      required: false
+    - name: role
+      type: string
+      required: false
+    - name: capability
+      type: string
+      required: false
+    - name: quality_tier
+      type: integer
+      required: false
+    - name: cost_budget
+      type: number
+      required: false
+
+response:   # 返回段
+  fields:
+    - name: projects
+      type: list
+      required: false
+    - name: resolved
+      type: object
+      required: false
+    - name: dispatch
+      type: object
+      required: false
+
+registry_entry:
+  required: [id, path, type]
+  optional: [name, genre, status, created, overrides]
+  id_pattern: "^[a-z0-9][a-z0-9_-]*$"
+  status_enum: [active, paused, archived]
+
+forbidden_patterns:
+  - TODO
+  - FIXME
+  - 占位
+  - 待补

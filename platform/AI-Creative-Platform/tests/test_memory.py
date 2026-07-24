@@ -139,11 +139,26 @@ class TestMemoryGov(unittest.TestCase):
                 f.write("workspace:\n  name: t\n  platform: ./platform\n  projects: []\n")
             with open(os.path.join(plat, "registry", "versions.yaml"), "w", encoding="utf-8") as f:
                 f.write("core:\n  platform: 1.0.0\n")
-            # 补齐 model-router 注册表（Phase 3-1 新增，doctor 的 ModelGov 块依赖）
+            # 补齐 model-router + 多项目 注册表（Phase 3-1/3-2 新增，doctor 的 ModelGov/MultiProjGov 块依赖）
             for _f in ("models.yaml", "model-router.yaml"):
                 _src = os.path.join(PLATFORM_ROOT, "registry", _f)
                 if os.path.isfile(_src):
                     shutil.copy(_src, os.path.join(plat, "registry", _f))
+            # 临时合法 projects.yaml（指向临时项目目录，避免 MultiProjGov 因缺注册表而 block）
+            os.makedirs(os.path.join(plat, "projX", "NKB"), exist_ok=True)
+            with open(os.path.join(plat, "registry", "projects.yaml"), "w", encoding="utf-8") as _pf:
+                _pf.write(
+                    "schema_version: \"1.0.0\"\n"
+                    "projects:\n"
+                    "  - id: tmp-p\n"
+                    "    name: tmp\n"
+                    "    path: ./projX\n"
+                    "    type: xuanhuan\n"
+                    "    genre: xuanhuan\n"
+                    "    status: active\n"
+                    "    overrides:\n"
+                    "      model_preference: null\n"
+                )
             # 复用已构造的合规 memory/
             shutil.copytree(self.mem, os.path.join(plat, "memory"))
             cli = os.path.join(TOOLS, "platform_cli.py")
