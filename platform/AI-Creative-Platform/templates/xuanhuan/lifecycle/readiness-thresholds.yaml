@@ -1,0 +1,16 @@
+# 玄幻题材 · 开写准备度阈值
+# 用途：与 readiness_gate.py 的维度判定对齐，题材可微调。
+schema_version: 1.0.0
+thresholds:
+  characters:
+    core_cast_min: 2
+  planning:
+    first_three_detailed_min: 3
+    first_ten_planned_min: 10
+  nkb:
+    require_genesis_snapshot: true
+    require_reader_state_initialized: true
+  world:
+    require_immutable_rules: true
+    require_power_limits: true
+dimensions_enabled: [A, B, C, D, E, F]

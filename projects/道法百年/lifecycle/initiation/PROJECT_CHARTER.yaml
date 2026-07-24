@@ -1,0 +1,52 @@
+document:
+  id: novel-dsf
+  type: project_charter
+  title: 道士也玩火力覆盖 立项书
+  status: approved
+  version: 1
+  updated_at: 2026-07-24
+  owner: author
+  project_id: novel-dsf
+legacy_backfilled: true
+note: 本文件由生命周期系统建立前的既有项目回填，值取自已知事实，作者应核对与补全。
+project:
+  id: novel-dsf
+  working_title: 道士也玩火力覆盖
+  project_type: novel
+  status: active
+  genre: xuanhuan
+  subgenres:
+    - 架空历史
+    - 经营
+    - 轻喜剧
+concept:
+  one_sentence_premise: 一个小道士用现代商业与火力逻辑改变架空王朝
+  central_question: 当现代效率逻辑进入传统权力社会，会产生什么后果
+  core_hook:
+    - 道士
+    - 商城
+    - 火力覆盖
+goals:
+  length_target: 3000000
+  serialization: true
+  commercial_target: 长篇网络小说
+  update_frequency: 每日
+  target_completion: null
+scope:
+  included:
+    - 主角成长
+    - 商业扩张
+    - 王朝权力斗争
+  excluded:
+    - 纯粹修仙升级
+    - 无限制科技碾压
+    - 多世界穿越
+success_criteria:
+  creative:
+    - 核心卖点在前三章可感知
+    - 主角目标明确
+  structural:
+    - 主线可支持长篇扩展
+  operational:
+    - NKB 可事件驱动维护
+    - 日更生产链能够运行

@@ -74,3 +74,134 @@ roles:
       - projects/**/approved/**
     requires:
       - explicit_user_approval
+
+  # ── 前期生命周期角色（P0–P5，区别于 P6 生产角色）──
+  idea-analyst:
+    purpose: 整理与评估创意候选（P0）
+    may_write:
+      - lifecycle/idea/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - sources/**
+      - chapters/**
+      - approved/**
+    requires:
+      - project_yaml
+
+  project-producer:
+    purpose: 立项与范围定义（P1/P2 initiation+definition）
+    may_write:
+      - lifecycle/initiation/**
+      - lifecycle/definition/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - sources/**
+      - chapters/**
+      - approved/**
+    requires:
+      - idea_approved
+
+  market-reader-analyst:
+    purpose: 受众与定位分析（P2 definition）
+    may_write:
+      - lifecycle/definition/AUDIENCE.yaml
+      - lifecycle/definition/POSITIONING.yaml
+      - lifecycle/definition/CONTENT_BOUNDARIES.yaml
+    may_not_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - sources/**
+      - chapters/**
+      - approved/**
+    requires:
+      - project_brief
+
+  story-architect:
+    purpose: 故事架构设计（P3 story/outline）
+    may_write:
+      - sources/design/story/**
+      - sources/outline/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+    requires:
+      - project_brief
+      - scope_defined
+
+  world-designer:
+    purpose: 世界与设定设计（P3 canon/design）
+    may_write:
+      - sources/canon/**
+      - sources/design/world/**
+      - sources/design/locations/**
+      - sources/design/factions/**
+      - sources/design/items/**
+      - sources/design/abilities/**
+      - sources/design/conflicts/**
+      - sources/design/arcs/**
+      - sources/design/foreshadow/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+    requires:
+      - project_brief
+
+  character-designer:
+    purpose: 人物设计（P3 characters）
+    may_write:
+      - sources/design/characters/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+    requires:
+      - project_brief
+
+  knowledge-engineer:
+    purpose: NKB Genesis 与前期知识准备（P4）
+    may_write:
+      - NKB/**
+      - sources/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - chapters/**
+      - approved/**
+    requires:
+      - validated_sources
+
+  readiness-reviewer:
+    purpose: 开写验收（P5 Readiness Gate）
+    may_write:
+      - lifecycle/readiness/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - sources/**
+      - chapters/**
+      - approved/**
+    requires:
+      - lifecycle_artifacts
+      - nkb_genesis

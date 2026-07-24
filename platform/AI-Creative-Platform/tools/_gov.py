@@ -69,11 +69,17 @@ def check_permission(role, target):
 def _scalar(v):
     if isinstance(v, bool):
         return "true" if v else "false"
+    if v is None:
+        return "null"
     return v
 
 
 def dump_block(d, prefix=""):
-    """极简 block YAML 序列化（dict / list-of-scalar / scalar）。"""
+    """极简 block YAML 序列化（dict / list-of-scalar / list-of-dict / scalar）。
+
+    注意：列表中的 dict 项必须把首个键提到 dash 同行（"- key: val"），
+    否则 _yaml_lite 在 strip 后会把 "  - " 变成 "-"，无法识别为序列项。
+    """
     lines = []
     if isinstance(d, dict):
         for k, v in d.items():
@@ -85,10 +91,16 @@ def dump_block(d, prefix=""):
     elif isinstance(d, list):
         if not d:
             lines.append("%s[]" % prefix)
+        child_pfx = prefix + "  "
         for item in d:
-            if isinstance(item, (dict, list)):
-                lines.append("%s-" % prefix)
-                lines.append(dump_block(item, prefix + "  "))
+            if isinstance(item, dict):
+                sub = dump_block(item, child_pfx).split("\n")
+                first = sub[0][len(child_pfx):] if (sub and sub[0].startswith(child_pfx)) else (sub[0] if sub else "")
+                lines.append("%s- %s" % (prefix, first))
+                lines.extend(sub[1:])
+            elif isinstance(item, list):
+                lines.append("%s- " % prefix)
+                lines.append(dump_block(item, child_pfx))
             else:
                 lines.append("%s- %s" % (prefix, _scalar(item)))
     else:

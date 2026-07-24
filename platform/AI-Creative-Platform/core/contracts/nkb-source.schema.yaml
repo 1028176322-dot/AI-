@@ -1,0 +1,116 @@
+# NKB 源文件质量门禁 schema（机器可读）
+# 对应《NKB信息源与入库规范.md》§19 源文件质量门禁
+# 由 tools/validate_nkb_sources.py 加载执行。
+# 注意：本文件仅使用 _yaml_lite 支持的语法（映射/行内列表/标量），不使用 | > 块标量。
+
+schema_version: 1.0.0
+
+# 所有 sources/ 下文件必须包含的 document 元数据段字段（§19.1）
+common_required:
+  - id
+  - type
+  - title
+  - status
+  - version
+  - updated_at
+  - owner
+  - project_id
+
+# status 合法枚举（§19.1）
+allowed_status:
+  - draft
+  - approved
+  - deprecated
+
+# 各 document.type 对应的业务必填字段（点路径，相对文件顶层）
+# 仅声明常见类型；未列出的 type 只校验 common_required。
+type_required:
+  character:
+    - character.id
+    - character.canonical_name
+    - character.status
+    - identity.current_age.value
+    - personality.stable_traits
+    - personality.values
+    - personality.forbidden_behaviors
+    - relationships
+    - metadata.version
+    - metadata.updated
+  faction:
+    - faction.id
+    - faction.canonical_name
+    - faction.type
+    - faction.status
+  location:
+    - location.id
+    - location.canonical_name
+    - location.type
+  item:
+    - item.id
+    - item.canonical_name
+    - item.type
+  world:
+    - world.id
+    - world.name
+    - world.era
+  immutable_rules:
+    - rules
+  decision:
+    - decision.id
+    - decision.status
+    - decision.decided_by
+    - decision.decided_at
+    - decision_content.old_fact
+    - decision_content.new_fact
+  retcon:
+    - retcon.id
+    - retcon.status
+  deprecation:
+    - deprecation.id
+    - deprecation.status
+  approval:
+    - approval.id
+    - approval.status
+  plan:
+    - plan.id
+    - plan.chapter_id
+    - plan.status
+  chapter:
+    - chapter.id
+    - chapter.number
+    - chapter.title
+    - chapter.status
+  knowledge_update_proposal:
+    - knowledge_update_proposal.id
+    - knowledge_update_proposal.status
+
+# 推测性词汇：出现在非规划/非批准文件中且 status != approved 即违规（§19.2）
+forbidden_patterns:
+  - "可能"
+  - "也许"
+  - "预计"
+  - "大概"
+  - "应该会"
+  - "说不定"
+
+# 事实类 type：status 必须为 approved 方可作为事实源；否则判 WARN（§13、§19.2）
+fact_types:
+  - character
+  - faction
+  - location
+  - item
+  - world
+  - immutable_rules
+  - decision
+  - retcon
+  - deprecation
+  - approval
+  - chapter
+
+# 不受事实源约束的类型（允许 draft / 含推测词 / 规划态）
+non_fact_types:
+  - inbox
+  - research
+  - outline
+  - plan
+  - knowledge_update_proposal

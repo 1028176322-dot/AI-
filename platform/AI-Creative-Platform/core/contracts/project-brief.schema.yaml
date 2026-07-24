@@ -1,0 +1,21 @@
+schema_id: project-brief
+version: 1.0.0
+applies_to: ["lifecycle/definition/PROJECT_BRIEF.yaml", "lifecycle/definition/AUDIENCE.yaml", "lifecycle/definition/POSITIONING.yaml", "lifecycle/definition/CONTENT_BOUNDARIES.yaml"]
+description: 项目定义 P2 四类文件共享契约（document 头 + 按文件名区分业务必填）
+requires_document_header: true
+file_sections:
+  PROJECT_BRIEF.yaml:
+    section: project_brief
+    required_fields: [genre, narrative_mode, target_length, chapter_length, serialization_mode, ending_type]
+  AUDIENCE.yaml:
+    section: audience
+    required_fields: [primary]
+  POSITIONING.yaml:
+    section: positioning
+    required_fields: [category, differentiation]
+  CONTENT_BOUNDARIES.yaml:
+    section: content_boundaries
+    required_fields: [prohibited, sensitive]
+enums:
+  ending_type: [closed, open, ambiguous]
+forbidden_patterns: []

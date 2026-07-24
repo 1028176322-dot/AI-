@@ -1,0 +1,45 @@
+schema_id: design-source
+version: 1.0.0
+applies_to: ["sources/design/**", "sources/canon/**"]
+description: P3 创作设计源契约（按 document.type 区分必填业务段）
+requires_document_header: true
+type_required:
+  character:
+    section: character
+    required_fields: [id, canonical_name, status]
+    nested_required:
+      identity: [current_age]
+      personality: [stable_traits, values, forbidden_behaviors]
+      metadata: [version, updated]
+  faction:
+    section: faction
+    required_fields: [id, canonical_name, type, status]
+  location:
+    section: location
+    required_fields: [id, canonical_name, type]
+  item:
+    section: item
+    required_fields: [id, canonical_name, type]
+  ability:
+    section: ability
+    required_fields: [id, canonical_name, type]
+  conflict:
+    section: conflict
+    required_fields: [id, category, description]
+    enums:
+      category: [internal, interpersonal, organizational, systemic, existential]
+  arc:
+    section: arc
+    required_fields: [id, name, dimension]
+  foreshadow:
+    section: foreshadow
+    required_fields: [id, content, planned_reveal]
+  world:
+    section: world
+    required_fields: [id, name, genre]
+  canon_rule:
+    section: rules
+    required_fields: [id, statement, severity]
+    enums:
+      severity: [fatal, major, minor]
+forbidden_patterns: ["可能", "也许", "预计", "大概", "或许", "应该"]

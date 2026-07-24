@@ -1,0 +1,16 @@
+schema_id: idea
+version: 1.0.0
+applies_to: ["lifecycle/idea/**", "workspace/ideas/**"]
+description: 创意卡结构契约（P0 创意收集）
+requires_document_header: false
+top_level_sections:
+  - name: idea
+    required_fields: [id, title, status, created_at, source]
+    enums:
+      status: [inbox, evaluating, approved, rejected]
+      source: [user, ai, external]
+  - name: core_concept
+    required_fields: [premise]
+  - name: initial_elements
+    required_fields: [protagonist, setting]
+forbidden_patterns: []

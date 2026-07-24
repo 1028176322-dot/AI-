@@ -669,6 +669,36 @@ def build_parser():
     gx.add_argument("--contract-version", default="2.0.0")
     gx.add_argument("--policy-version", default="1.3.0")
     gx.add_argument("--session", default="SES-unknown")
+
+    gn = sub.add_parser("nkb", help="NKB 源文件/候选事实质量门禁校验")
+    gn.add_argument("--project-root", help="项目根（自动推导 sources/ 与 NKB/candidates/）")
+    gn.add_argument("--project", help="期望 project_id")
+    gn.add_argument("--sources", help="sources 目录（覆盖默认）")
+    gn.add_argument("--candidates", help="候选事实目录（覆盖默认）")
+
+    gi = sub.add_parser("init", help="脚手架项目生命周期目录 + status.yaml（P0 入口）")
+    gi.add_argument("--project-root", required=True)
+    gi.add_argument("--title", default="未命名项目")
+    gi.add_argument("--genre", default="xuanhuan")
+    gi.add_argument("--id", default=None)
+    gi.add_argument("--stage", default="idea")
+    gi.add_argument("--legacy", action="store_true", help="祖父化：直接置 writing + legacy_backfill_required")
+
+    gch = sub.add_parser("charter", help="校验 P0/P1/P2 生命周期制品契约")
+    gch.add_argument("--project-root", required=True)
+    gch.add_argument("--file", default=None)
+
+    gps = sub.add_parser("psrc", help="校验 P3 创作设计源门禁（sources/design+canon）")
+    gps.add_argument("--project-root", required=True)
+    gps.add_argument("--src", default=None)
+
+    gg2 = sub.add_parser("genesis", help="从 sources 构建 NKB-GENESIS-001（P4）")
+    gg2.add_argument("--project-root", required=True)
+
+    gr = sub.add_parser("ready", help="开写验收 P5 + 编排器 pre-flight")
+    gr.add_argument("--project-root", required=True)
+    gr.add_argument("--preflight", action="store_true", help="仅做编排器前置检查（JSON 输出）")
+    gr.add_argument("--approve", action="store_true", help="验收通过并置 ready_for_writing")
     return p
 
 
@@ -689,7 +719,8 @@ def main():
         cmd_list(args)
     elif args.cmd == "init-project":
         cmd_init_project(args)
-    elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite"):
+    elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
+                      "init", "charter", "psrc", "genesis", "ready"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -709,6 +740,12 @@ def _delegate_gov(cmd, args):
         "gate": "compliance_gate",
         "handoff": "create_handoff",
         "cwrite": "controlled_write",
+        "nkb": "validate_nkb_sources",
+        "init": "project_init",
+        "charter": "validate_charter",
+        "psrc": "validate_sources",
+        "genesis": "build_nkb_genesis",
+        "ready": "readiness_gate",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])

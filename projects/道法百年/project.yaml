@@ -12,7 +12,7 @@ project:
 requires:
   platform: ">=2.1.0"        # registry/versions.yaml → core.platform
   nkb_schema: ">=1.2.0"      # NKB/*.yaml → schema_version
-  contracts: ">=1.0.0"       # registry/versions.yaml → core.contract
+  contracts: ">=1.1.0"       # registry/versions.yaml → core.contract
   templates:
     xuanhuan: ">=1.3.0"      # templates/xuanhuan → profile.yaml schema_version
 

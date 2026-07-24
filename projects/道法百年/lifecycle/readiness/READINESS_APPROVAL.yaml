@@ -1,0 +1,6 @@
+readiness_gate:
+  status: pass
+  approved_by: pending
+  approved_at: 
+  entry_point: CH-001
+  nkb_snapshot: 

@@ -1,0 +1,74 @@
+# NKB 候选事实结构 schema（机器可读）
+# 对应《NKB信息源与入库规范.md》§15 候选事实统一结构
+# 由 tools/validate_nkb_sources.py 在 --candidates 模式下加载执行。
+# 注意：仅使用 _yaml_lite 支持的语法，不使用 | > 块标量。
+
+schema_version: 1.0.0
+
+# 候选事实顶层必备字段（§15 candidate: 段）
+required:
+  - id
+  - target_component
+  - operation
+  - target_id
+  - field
+  - value
+  - source
+  - classification
+  - effects
+  - status
+
+# operation 合法枚举
+allowed_operations:
+  - create
+  - update
+  - delete
+  - deprecate
+
+# target_component 合法枚举（对应 NKB 组件）
+allowed_target_components:
+  - Canon
+  - Characters
+  - Timeline
+  - WorldState
+  - Events
+  - Foreshadow
+  - Assets
+  - Terminology
+  - StoryState
+  - ReaderState
+  - Graph
+  - Derived
+
+# classification.fact_type 合法枚举（§16.2）
+allowed_fact_types:
+  - designed
+  - occurred
+  - revealed
+  - believed
+  - claimed
+  - deprecated
+
+# status 合法枚举（§15 status）
+allowed_status:
+  - pending_validation
+  - approved
+  - rejected
+
+# source 段必备字段（§15 source:）
+source_required:
+  - type
+  - file
+  - build_id
+
+# classification 段必备字段（§15 classification:）
+classification_required:
+  - fact_type
+  - confidence
+  - requires_author_decision
+  - contains_inference
+
+# effects 段可选字段（存在时仅作记录，不强制）
+effects_optional:
+  - create_event
+  - rebuild

@@ -1,0 +1,29 @@
+schema_id: nkb-genesis
+version: 1.0.0
+applies_to: ["NKB/manifest.yaml (genesis 产物)"]
+description: NKB 创世快照契约（P4 知识准备）
+requires_document_header: false
+top_level_sections:
+  - name: nkb
+    required_fields: [project_id, schema_version, snapshot_id, status, authoritative, story_time, generated_at]
+    enums:
+      status: [migration, active]
+      authoritative: [pending, "true"]
+      story_time: [story_start]
+required_components:
+  - Canon
+  - Characters
+  - Timeline
+  - WorldState
+  - Events
+  - Foreshadow
+  - Assets
+  - Terminology
+  - StoryState
+  - ReaderState
+  - Graph
+  - Derived
+integrity:
+  unresolved_fatal_conflicts: 0
+  broken_references: 0
+forbidden_patterns: []

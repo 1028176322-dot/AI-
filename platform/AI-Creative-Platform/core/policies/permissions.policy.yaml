@@ -45,3 +45,99 @@ roles:
     deny_write:
       - projects/**/NKB/**
       - projects/**/approved/**
+  idea-analyst:
+    allow_write:
+      - lifecycle/idea/**
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - sources/**
+      - chapters/**
+      - approved/**
+  project-producer:
+    allow_write:
+      - lifecycle/initiation/**
+      - lifecycle/definition/**
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - sources/**
+      - chapters/**
+      - approved/**
+  market-reader-analyst:
+    allow_write:
+      - lifecycle/definition/AUDIENCE.yaml
+      - lifecycle/definition/POSITIONING.yaml
+      - lifecycle/definition/CONTENT_BOUNDARIES.yaml
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - sources/**
+      - chapters/**
+      - approved/**
+  story-architect:
+    allow_write:
+      - sources/design/story/**
+      - sources/outline/**
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+  world-designer:
+    allow_write:
+      - sources/canon/**
+      - sources/design/world/**
+      - sources/design/locations/**
+      - sources/design/factions/**
+      - sources/design/items/**
+      - sources/design/abilities/**
+      - sources/design/conflicts/**
+      - sources/design/arcs/**
+      - sources/design/foreshadow/**
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+  character-designer:
+    allow_write:
+      - sources/design/characters/**
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+  knowledge-engineer:
+    allow_write:
+      - NKB/**
+      - sources/**
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - chapters/**
+      - approved/**
+  readiness-reviewer:
+    allow_write:
+      - lifecycle/readiness/**
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - sources/**
+      - chapters/**
+      - approved/**

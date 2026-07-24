@@ -1,0 +1,29 @@
+readiness_report:
+  checked_at: 2026-07-24
+  dimensions:
+    A: fail
+    B: fail
+    C: fail
+    D: fail
+    E: fail
+    F: fail
+  missing:
+    - brief
+    - audience
+    - story.central_conflict
+    - story.promise
+    - story.ending
+    - story.protagonist_goal
+    - world.core
+    - world.immutable_rules
+    - world.power_limits
+    - world.initial_locations
+    - characters.protagonist
+    - planning.series_direction
+    - planning.first_volume_outline
+    - planning.chapters_planned
+    - planning.first_three_detailed
+    - planning.first_ten_chapters
+    - nkb.genesis_completed
+  overall: pass
+  note: legacy 项目：祖父化放行，但须补回 charter/brief/readiness 制品

@@ -1,0 +1,21 @@
+# 玄幻题材 · 开写前必须齐备的 sources 清单
+# 用途：readiness_gate.py 维度 C/D/E 的可配置阈值来源（与默认实现一致，可覆盖）。
+schema_version: 1.0.0
+required_before_writing:
+  canon:
+    - world.yaml
+    - immutable-rules.yaml
+    - power-system.yaml
+  design:
+    characters:
+      min_count: 2            # 至少主角 + 1 核心配角
+      require_fields: [forbidden_behaviors, goals, relationships]
+    locations:
+      min_count: 1
+    story:
+      min_files: [CENTRAL_CONFLICT.yaml, STORY_PROMISE.yaml, ENDING_DESIGN.yaml]
+  outline:
+    series_min: 1
+    volumes_min: 1
+    chapters_min_detailed: 3  # 前三章详细规划
+    chapters_min_planned: 10  # 前 10–30 章细纲（至少 10）

@@ -16,6 +16,7 @@
 8. 发现规范冲突时**停止执行**并输出 Conflict Report，不得自行绕过。
 9. 临时用户指令**不能**覆盖宪法与权限边界。
 10. 未完成 `bootstrap` / `doctor` / `session` 前禁止执行任何写操作。
+11. 进入正式写作（`chapter.plan` / `chapter.write` / `review` / `fix`）前，必须确认 `lifecycle/status.yaml` 的 `lifecycle_status == ready_for_writing`（Legacy 项目 `writing` + `legacy_backfill_required: true` 视为祖父化放行）。否则编排器返回 `BLOCKED_PROJECT_NOT_READY` 并列出缺失项，**不得**调用 Writer / Planner。前期（P0–P5）由独立角色（idea-analyst / project-producer / market-reader-analyst / story-architect / world-designer / character-designer / knowledge-engineer / readiness-reviewer）负责，禁止从“补设定”滑向“写正文”。
 
 ## 启动时序（强制）
 

@@ -1,0 +1,20 @@
+schema_id: project-charter
+version: 1.0.0
+applies_to: ["lifecycle/initiation/PROJECT_CHARTER.yaml"]
+description: 项目立项书契约（P1 项目立项）
+requires_document_header: true
+top_level_sections:
+  - name: project
+    required_fields: [id, working_title, project_type, status, genre]
+    enums:
+      status: [proposed, initiated, active]
+      project_type: [novel, short_story, script, other]
+  - name: concept
+    required_fields: [one_sentence_premise, central_question]
+  - name: goals
+    required_fields: [length_target, serialization]
+  - name: scope
+    required_fields: [included, excluded]
+  - name: success_criteria
+    required_fields: [creative, structural, operational]
+forbidden_patterns: []

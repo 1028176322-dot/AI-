@@ -1,0 +1,16 @@
+document:
+  id: novel-dsf
+  type: initiation_gate
+  title: 立项门禁（legacy 回填）
+  status: approved
+  version: 1
+  updated_at: 2026-07-24
+  owner: author
+  project_id: novel-dsf
+legacy_backfilled: true
+initiation_gate:
+  status: pass
+  decision: approved
+  approved_by: user
+  checked_at: 2026-07-24
+  blockers: []

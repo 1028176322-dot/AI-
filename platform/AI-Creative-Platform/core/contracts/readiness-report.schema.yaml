@@ -1,0 +1,29 @@
+schema_id: readiness-report
+version: 1.0.0
+applies_to: ["lifecycle/readiness/READINESS_REPORT.yaml", "lifecycle/readiness/READINESS_APPROVAL.yaml", "lifecycle/status.yaml"]
+description: 开写准备度契约（P5）+ 项目级状态枚举权威源
+requires_document_header: false
+lifecycle_status_enum:
+  - idea
+  - evaluating
+  - initiated
+  - defining
+  - designing
+  - preparing_knowledge
+  - readiness_review
+  - ready_for_writing
+  - writing
+  - completed
+  - archived
+readiness_dimensions: [A, B, C, D, E, F]
+dimension_result_enum: [pass, fail, warn]
+top_level_sections:
+  - name: readiness_report
+    required_fields: [checked_at, dimensions, overall]
+  - name: readiness_gate
+    required_fields: [status, approved_by, approved_at, entry_point, nkb_snapshot]
+    enums:
+      status: [pass, fail]
+  - name: status_holder
+    required_fields: [lifecycle_status]
+forbidden_patterns: []

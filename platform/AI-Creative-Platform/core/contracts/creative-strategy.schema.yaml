@@ -1,0 +1,17 @@
+schema_id: creative-strategy
+version: 1.0.0
+applies_to: ["lifecycle/definition/CREATIVE_STRATEGY.yaml"]
+description: 创作策略契约（P2 项目定义）
+requires_document_header: true
+top_level_sections:
+  - name: creative_strategy
+    required_fields: [pacing, reward_cycle, conflict_mix]
+    nested_required:
+      pacing: [early, middle, late]
+      reward_cycle: [small_reward_chapters, medium_reward_chapters, major_reward_chapters]
+      conflict_mix: [commercial, political, combat, character]
+    sum_fields:
+      conflict_mix: 1.0
+enums:
+  pacing_stage: [fast, layered, convergent]
+forbidden_patterns: []

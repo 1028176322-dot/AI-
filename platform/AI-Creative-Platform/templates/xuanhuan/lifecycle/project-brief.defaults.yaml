@@ -1,0 +1,23 @@
+# 玄幻题材 · PROJECT_BRIEF 默认值
+# 用途：项目 lifecycle/definition/PROJECT_BRIEF.yaml 未填项可继承本默认。
+# 约束：project.yaml 的 template.id 必须为 xuanhuan；本文件不与宪章语义冲突。
+schema_version: 1.0.0
+genre: xuanhuan
+project_brief:
+  narrative_mode: 第三人称限知
+  target_length: 2000000
+  chapter_length:
+    target: 3000
+    min: 2500
+    max: 4000
+  serialization_mode: long_serial
+  ending_type: closed
+conflict_mix_default:
+  commercial: 0.35
+  political: 0.25
+  combat: 0.20
+  character: 0.20
+reward_cycle_default:
+  small_reward_chapters: 3
+  medium_reward_chapters: 10
+  major_reward_chapters: 30

@@ -1,0 +1,42 @@
+# 玄幻题材 · P3 创作设计检查清单
+# 用途：story-architect / world-designer / character-designer 开工前核对。
+# 与 core/project-lifecycle/创作设计规范.md 七域一致。
+schema_version: 1.0.0
+checklist:
+  story:
+    - PREMISE.yaml
+    - THEME.yaml
+    - CENTRAL_CONFLICT.yaml
+    - STORY_PROMISE.yaml
+    - ENDING_DESIGN.yaml
+  world:
+    - sources/canon/world.yaml
+    - sources/canon/immutable-rules.yaml
+    - sources/canon/power-system.yaml
+    - sources/canon/geography.yaml
+    - sources/canon/society.yaml
+    - sources/canon/politics.yaml
+    - sources/canon/economy.yaml
+  characters:
+    - 主角（含 goals/forbidden_behaviors/relationships）
+    - 第一卷核心配角
+    - 第一阶段对手
+    - 关键关系人物
+    - 组织领导者
+  structure:
+    - sources/outline/series/（全书方向）
+    - sources/outline/volumes/（第一卷完整结构）
+    - sources/outline/chapters/（前 10–30 章细纲）
+    - 前三章详细规划
+  conflicts:
+    - internal / interpersonal / organizational / systemic / existential 五类来源
+  growth:
+    - 能力 / 财富 / 势力 / 关系 / 地位 / 认知 / 世界影响力 七维
+  foreshadow:
+    - 核心真相
+    - 读者初始认知
+    - 主角初始认知
+    - 阶段性谜题
+    - 预设伏笔
+    - 可揭露顺序
+    - 禁止提前泄露内容
