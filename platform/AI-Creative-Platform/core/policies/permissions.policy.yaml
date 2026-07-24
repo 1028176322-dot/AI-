@@ -292,6 +292,20 @@ roles:
       - approved/**
       - tasks/**
       - sources/**
+      - txt/**
+
+  graph-viz:
+    allow_write:
+      - analysis/graph/**
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
       - txt/****
 
 

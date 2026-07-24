@@ -413,3 +413,21 @@ roles:
     requires:
       - platform_root
       - project_root
+
+  graph-viz:
+    purpose: 图谱可视化（Knowledge Graph Viz），把 NKB 组件转 graph JSON 并渲染 HTML/SVG（只读 NKB、写 analysis/graph/**）
+    capabilities: [graph_build, graph_render]
+    may_write:
+      - analysis/graph/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
+      - txt/**
+    requires:
+      - project_root

@@ -350,6 +350,23 @@ def cmd_doctor(args):
         except Exception as _e:
             _print_result("AssetGov", WARN, "自检异常：%s" % _e)
 
+        _print_block("图谱可视化（Phase 3-5 自检）")
+        try:
+            import graph_viz as _gv
+            gvrep = _gv.govern(proot, write=False)
+            gvgd = (gvrep.get("gate") or {}).get("decision", "proceed")
+            if gvgd == "block":
+                _print_result("GraphGov", FAIL, "图谱结构损坏：%s" % "；".join(gvrep["gate"]["reasons"][:3]))
+                overall_fail = True
+            elif gvgd == "caution":
+                _print_result("GraphGov", WARN, "软问题 %d 项（健康分 %s）" % (
+                    len(gvrep["gate"]["reasons"]), gvrep["composite"]["health"]))
+            else:
+                _print_result("GraphGov", PASS, "健康分 %s（%d 节点/%d 边）" % (
+                    gvrep["composite"]["health"], gvrep["response"]["nodes"], gvrep["response"]["edges"]))
+        except Exception as _e:
+            _print_result("GraphGov", WARN, "自检异常：%s" % _e)
+
     _print_block("内存治理（platform/memory/ 体检）")
     try:
         import memory_governor as _mg
@@ -848,6 +865,10 @@ def build_parser():
     gbi.add_argument("--platform-root", required=True)
     gbi.add_argument("--project-root", required=True)
     gbi.add_argument("rest", nargs=argparse.REMAINDER)
+
+    ggv = sub.add_parser("graph", help="图谱可视化：NKB→graph JSON + HTML 渲染（build/render/validate）")
+    ggv.add_argument("--project-root", required=True)
+    ggv.add_argument("rest", nargs=argparse.REMAINDER)
     return p
 
 
@@ -870,7 +891,7 @@ def main():
         cmd_init_project(args)
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
                       "init", "charter", "psrc", "genesis", "ready",
-                      "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "exp", "bi"):
+                      "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "exp", "bi", "graph"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -908,6 +929,7 @@ def _delegate_gov(cmd, args):
         "projects": "multi_project",
         "exp": "experiment",
         "bi": "bi",
+        "graph": "graph_viz",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])

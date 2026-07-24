@@ -1,0 +1,34 @@
+schema_version: "1.0.0"
+# 图谱可视化契约（Phase 3-5 Knowledge Graph Viz）
+# applies_to: analysis/graph/GRAPH-*.json + NKB/*.yaml（作为图数据源，只读不修改）
+# 职责：把 NKB 组件（Characters/Events/Graph/WorldState/Canon）转 graph JSON（nodes/edges）
+#       并渲染 HTML/SVG。不修改 NKB。
+applies_to:
+  - analysis/graph/GRAPH-*.json
+  - NKB/*.yaml
+
+meta:
+  required: [schema_version]
+  forgeable: false
+
+graph_node:
+  required: [id, label, type]
+  type_enum: [character, event, faction, location, item, concept, other]
+
+graph_edge:
+  required: [source, target, kind]
+  # kind 自由文本（relationship/participant/affiliation/influence/...）
+
+govern:
+  # 图谱为只读派生可视化，doctor 仅做健康提示：
+  # - 悬空边（source/target 节点不存在）→ caution
+  # - 孤立节点（无边）→ caution（信息）
+  # - 空图（0 节点）→ proceed
+  # 不阻断 task submit
+  missing_contract_is: caution
+
+forbidden_patterns:
+  - TODO
+  - FIXME
+  - 占位
+  - 待补

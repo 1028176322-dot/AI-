@@ -32,6 +32,8 @@
 
 21. **BI 分析（Business Intelligence）**：质量/读者/实验既有数据的统一聚合由 `platform bi` 负责（`rollup`/`dashboard`/`validate`）。从 `analysis/quality/**` + `analysis/reader/**` + `analysis/experiment/**` 回收 records，按维度（project/model/capability/component/experiment）聚合指标均值、按日产出 time-series；仪表盘定义写在 `registry/bi.yaml`（`metrics`/`dimensions`/`filters`）。**不做实时采集**，空数据→0 占位不报错。`doctor` 接入 BI 自检（BiGov）——`block`=仪表盘定义损坏（缺 id/metrics/dimensions 或枚举非法），`caution`=未配置 bi.yaml（可选）。属平台级健康检查，**不阻断 task submit**。报告落在 `analysis/bi/`。
 
+22. **图谱可视化（Knowledge Graph Viz）**：NKB 组件（Characters/Events/Graph/WorldState/Canon）转 graph JSON + HTML/SVG 由 `platform graph` 负责（`build`/`render`/`validate`）。只读 NKB、**不修改**；空 NKB→空图（0 节点/边）不报错。`doctor` 在项目循环内接入图谱自检（GraphGov）——`caution`=悬空边（引用不存在节点）/孤立节点，`proceed`=空图或健康；属项目级健康检查，**不阻断 task submit**。graph JSON 落在 `analysis/graph/GRAPH-NN.json`，HTML 落在 `GRAPH-NN.html`。
+
 ## 启动时序（强制）
 
 ```
