@@ -24,6 +24,8 @@
 16. **内存治理（Memory Governance）**：`platform/memory/` 四层经验库（global/genre/project/rejected）由 `platform memory` 体检——`block`=结构错配（level↔目录错配 / status↔位置错配 / schema 损坏），`caution`=软问题（晋升门槛未达 / 疑似重复 / 失效引用 / 缺 README）。内存治理是**平台级健康检查**，接入 `doctor`（block 致 doctor FAIL），**不阻断内容型 task submit**（memory 非章节内容）。新增经验须经晋升门槛（项目→类型≥2同类型 / 类型→全局≥3跨类型），不得由单次问题直接升全局。报告落在 `analysis/memory/`。
 17. **资产管理（Asset Management）**：项目内容资产（章节/NKB/sources/artifacts/参考/图片）由 `platform asset` 体检——`block`=引用断裂（AT3 missing：章节/NKB 引用的图片/参考/源文件不存在），`caution`=软问题（AT2 orphan 孤儿资产 / AT4 duplicate 重复资产）。资产管理是**项目级健康检查**，接入 `doctor`（block 致 doctor FAIL），**不阻断内容型 task submit**（资产非章节内容门禁）。报告落在 `analysis/asset/`，含资产清单(inventory)/孤儿/缺失/重复/依赖图(dependency_graph)/健康分(health)。
 
+18. **模型布线器（Model Router）**：任务/角色→模型的路由与降级链由 `platform model` 决策（`resolve`/`validate`）。布线器只做路由决策、返回 model spec，**不调用模型**；模型调用仍由各引擎/编排器负责。`doctor` 接入模型自检（ModelGov）——`block`=无可用模型或配置损坏，`caution`=规则引用不可用模型。属平台级健康检查，**不阻断 task submit**。报告落在 `analysis/model-router/`。
+
 ## 启动时序（强制）
 
 ```

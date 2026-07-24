@@ -1,0 +1,31 @@
+schema_version: "1.0.0"
+# 模型目录：id 须在 model-router.yaml 的 rules/default 中引用。
+# available=false 的模型不会被路由选中（降级跳过）。
+models:
+  - id: model-fast
+    endpoint: local://fast
+    ctx_window: 32000
+    cost_per_1k_in: 0.0
+    cost_per_1k_out: 1.0
+    quality_tier: 1
+    modalities: [text]
+    supports: [chapter_write, dialogue_expand, scene_expand, chapter_fix, continuity_fix, nkb_update, impact_analysis, quality_score, reader_sim, memory_gov, asset_mgmt, model_route]
+    available: true
+  - id: model-strong
+    endpoint: local://strong
+    ctx_window: 128000
+    cost_per_1k_in: 0.0
+    cost_per_1k_out: 10.0
+    quality_tier: 3
+    modalities: [text]
+    supports: [chapter_write, chapter_review, chapter_fix, continuity_fix, nkb_update, impact_analysis, quality_score, reader_sim, memory_gov, asset_mgmt, model_route]
+    available: true
+  - id: model-cheap
+    endpoint: local://cheap
+    ctx_window: 8000
+    cost_per_1k_in: 0.0
+    cost_per_1k_out: 0.1
+    quality_tier: 1
+    modalities: [text]
+    supports: [chapter_write, dialogue_expand, scene_expand, chapter_fix, continuity_fix, nkb_update, impact_analysis, quality_score, reader_sim, memory_gov, asset_mgmt, model_route]
+    available: true

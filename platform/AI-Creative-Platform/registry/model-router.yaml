@@ -1,0 +1,30 @@
+schema_version: "1.0.0"
+# 路由规则：按 match 顺序匹配首个全命中规则；primary 不可用/不支持则走 fallback 链；
+# 都不成则回退 default。cost_budget 在 resolve 时按 cost_per_1k_out 粗筛。
+default: model-fast
+rules:
+  - match:
+      role: writer
+      quality_tier_min: 2
+    primary: model-strong
+    fallback: [model-fast]
+  - match:
+      role: reviewer
+    primary: model-strong
+    fallback: [model-fast]
+  - match:
+      role: fixer
+    primary: model-fast
+    fallback: [model-cheap]
+  - match:
+      capability: memory_gov
+    primary: model-fast
+    fallback: []
+  - match:
+      capability: asset_mgmt
+    primary: model-fast
+    fallback: []
+  - match:
+      capability: model_route
+    primary: model-fast
+    fallback: []

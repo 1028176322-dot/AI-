@@ -23,6 +23,7 @@ core:
   reader_simulator: 1.0.0
   memory_governor: 1.0.0
   asset_manager: 1.0.0
+  model_router: 1.0.0
 templates:
   xuanhuan: 1.3.0
   xuanyi: 1.3.0

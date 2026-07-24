@@ -343,3 +343,20 @@ roles:
       - memory/**
     requires:
       - project_root
+
+  model-router:
+    purpose: 模型布线（Model Router），决定任务/角色用哪个模型（只读 registry/models.yaml + model-router.yaml）
+    capabilities: [model_route]
+    may_write:
+      - analysis/model-router/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
+    requires:
+      - platform_root

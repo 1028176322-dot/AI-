@@ -239,3 +239,18 @@ roles:
       - templates/**
       - tasks/**
       - memory/**
+
+  model-router:
+    allow_write:
+      - analysis/model-router/**
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
+
+

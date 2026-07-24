@@ -366,6 +366,22 @@ def cmd_doctor(args):
     except Exception as _e:
         _print_result("MemoryGov", WARN, "自检异常：%s" % _e)
 
+    _print_block("模型布线器（Phase 3-1 自检）")
+    try:
+        import model_router as _mr
+        mrep = _mr.govern(platform_root, write=False)
+        mgd = (mrep.get("gate") or {}).get("decision", "proceed")
+        if mgd == "block":
+            _print_result("ModelGov", FAIL, "无可用模型/配置损坏：%s" % "；".join(mrep["gate"]["reasons"][:3]))
+            overall_fail = True
+        elif mgd == "caution":
+            _print_result("ModelGov", WARN, "软问题 %d 项（健康分 %s）" % (
+                len(mrep["gate"]["reasons"]), mrep["composite"]["health"]))
+        else:
+            _print_result("ModelGov", PASS, "健康分 %s" % mrep["composite"]["health"])
+    except Exception as _e:
+        _print_result("ModelGov", WARN, "自检异常：%s" % _e)
+
     print("")
     if overall_fail:
         print("结果：存在 FAIL —— 平台/项目不兼容，请先修复后再运行。")
@@ -764,6 +780,10 @@ def build_parser():
     ga = sub.add_parser("asset", help="资产管理：对项目内容资产盘点与引用完整性体检（inventory/report/orphans/missing/dedup）")
     ga.add_argument("--project-root", required=True)
     ga.add_argument("rest", nargs=argparse.REMAINDER)
+
+    gm2 = sub.add_parser("model", help="模型布线器：任务→模型路由与降级链（resolve/validate）")
+    gm2.add_argument("--platform-root", required=True)
+    gm2.add_argument("rest", nargs=argparse.REMAINDER)
     return p
 
 
@@ -786,7 +806,7 @@ def main():
         cmd_init_project(args)
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
                       "init", "charter", "psrc", "genesis", "ready",
-                      "status", "task", "ver", "impact", "quality", "reader", "memory", "asset"):
+                      "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -820,6 +840,7 @@ def _delegate_gov(cmd, args):
         "reader": "reader_simulator",
         "memory": "memory_governor",
         "asset": "asset_manager",
+        "model": "model_router",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])

@@ -14,6 +14,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 TOOLS = os.path.join(os.path.dirname(HERE), "tools")
 if TOOLS not in sys.path:
     sys.path.insert(0, TOOLS)
+PLATFORM_ROOT = os.path.dirname(HERE)  # platform 根 = tests 的父目录
 
 import memory_governor as mg
 
@@ -138,6 +139,11 @@ class TestMemoryGov(unittest.TestCase):
                 f.write("workspace:\n  name: t\n  platform: ./platform\n  projects: []\n")
             with open(os.path.join(plat, "registry", "versions.yaml"), "w", encoding="utf-8") as f:
                 f.write("core:\n  platform: 1.0.0\n")
+            # 补齐 model-router 注册表（Phase 3-1 新增，doctor 的 ModelGov 块依赖）
+            for _f in ("models.yaml", "model-router.yaml"):
+                _src = os.path.join(PLATFORM_ROOT, "registry", _f)
+                if os.path.isfile(_src):
+                    shutil.copy(_src, os.path.join(plat, "registry", _f))
             # 复用已构造的合规 memory/
             shutil.copytree(self.mem, os.path.join(plat, "memory"))
             cli = os.path.join(TOOLS, "platform_cli.py")

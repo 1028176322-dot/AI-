@@ -1,0 +1,33 @@
+# Model Router 报告契约
+# applies_to: analysis/model-router/**/*.yaml
+schema_version: "1.0.0"
+applies_to:
+  - "analysis/model-router/**/*.yaml"
+required:
+  - meta
+  - request
+  - response
+  - routing
+  - decision
+  - gate
+meta:
+  required: [generated_at, component, version]
+request:
+  required: [role, task_type, capability]
+  optional: [quality_tier, cost_budget, latency_sla]
+response:
+  required: [model_id, endpoint, ctx_window, quality_tier]
+  optional: [params, decision_path]
+routing:
+  required: [matched_rule, tried]
+decision:
+  enum: [proceed, caution, block]
+gate:
+  required: [decision, reasons]
+composite:
+  required: [health]
+forbidden_patterns:
+  - "TODO"
+  - "FIXME"
+  - "占位"
+  - "待补"
