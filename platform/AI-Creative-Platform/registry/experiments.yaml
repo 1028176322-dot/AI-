@@ -1,0 +1,20 @@
+schema_version: "1.0.0"
+# 实验注册表（Phase 3-3 Experiment）
+# 定义 Prompt/模型 A/B 对照实验；variant 模型经 model-router 解析。
+# 样本回收落在 analysis/experiment/EXP-<id>.yaml。
+experiments:
+  - id: exp-prompt-warmup
+    name: 开篇钩子写法 A/B（强钩子 vs 渐入）
+    variants:
+      - model: model-strong
+        prompt: 强钩子开篇
+        temp: 0.7
+      - model: model-fast
+        prompt: 渐入铺垫开篇
+        temp: 0.9
+    split:
+      by: chapter
+      ratio: 0.5
+    metrics: [quality, reader, ci, cost]
+    min_samples: 8
+    significance: 0.05

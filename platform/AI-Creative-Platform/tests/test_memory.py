@@ -139,8 +139,8 @@ class TestMemoryGov(unittest.TestCase):
                 f.write("workspace:\n  name: t\n  platform: ./platform\n  projects: []\n")
             with open(os.path.join(plat, "registry", "versions.yaml"), "w", encoding="utf-8") as f:
                 f.write("core:\n  platform: 1.0.0\n")
-            # 补齐 model-router + 多项目 注册表（Phase 3-1/3-2 新增，doctor 的 ModelGov/MultiProjGov 块依赖）
-            for _f in ("models.yaml", "model-router.yaml"):
+            # 补齐 model-router + 多项目 + 实验 注册表（Phase 3-1/3-2/3-3 新增，doctor 对应块依赖）
+            for _f in ("models.yaml", "model-router.yaml", "experiments.yaml"):
                 _src = os.path.join(PLATFORM_ROOT, "registry", _f)
                 if os.path.isfile(_src):
                     shutil.copy(_src, os.path.join(plat, "registry", _f))

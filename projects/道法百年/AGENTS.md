@@ -28,6 +28,8 @@
 
 19. **多项目管理（Multi-Project）**：跨项目注册 / 隔离等级解析（Global→Genre→Project→Chapter）/ 统一 dispatch 由 `platform projects` 负责（`list`/`register`/`query`/`dispatch`/`validate`）。只做注册与调度解析，**不做创作**；dispatch 协同 `platform model` 给出项目级模型。`doctor` 接入多项目自检（MultiProjGov）——`block`=注册表损坏/项目路径缺失/重复 id，`caution`=项目无 NKB/非活跃。属平台级健康检查，**不阻断 task submit**。报告落在 `analysis/multi-project/`。
 
+20. **实验系统（Experiment）**：Prompt/模型 A/B 对照由 `platform exp` 负责（`define`/`run`/`sample`/`report`/`validate`）。定义实验、按 split 确定性分配 variant、回收 quality/reader/ci/cost 指标、判定胜者；**不自己跑创作**（挂在 task submit / model-router 上，variant 模型经 `platform model` 解析）。`doctor` 接入实验自检（ExpGov）——`block`=实验定义损坏（无 variant/model/split 非法/min_samples 非法/无 metrics），`caution`=样本不足结论未定。属平台级健康检查，**不阻断 task submit**。样本落在 `analysis/experiment/`，结果可喂经验晋升。
+
 ## 启动时序（强制）
 
 ```

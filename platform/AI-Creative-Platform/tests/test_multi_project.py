@@ -22,8 +22,8 @@ class MultiProjectTest(unittest.TestCase):
         self.tmp = tempfile.mkdtemp()
         reg = os.path.join(self.tmp, "registry")
         os.makedirs(reg)
-        # 复制 model-router 注册表，使 dispatch 协同 resolve 可用
-        for f in ("models.yaml", "model-router.yaml"):
+        # 复制 model-router + 实验 注册表（dispatch 协同 resolve / ExpGov 依赖）
+        for f in ("models.yaml", "model-router.yaml", "experiments.yaml"):
             src = os.path.join(PLATFORM_ROOT, "registry", f)
             if os.path.isfile(src):
                 shutil.copy(src, os.path.join(reg, f))
@@ -146,11 +146,12 @@ class MultiProjectTest(unittest.TestCase):
             with open(os.path.join(plat, "registry", "versions.yaml"),
                       "w", encoding="utf-8") as f:
                 f.write("core:\n  platform: 1.0.0\n")
-            # 复制真实 memory/（真实平台 MemoryGov 健康分100，保证有效）+ model-router 注册表
+            # 复制真实 memory/（真实平台 MemoryGov 健康分100，保证有效）+ 全部带 gov 块的注册表
+            # 注意：doctor 含 MemoryGov/ModelGov/MultiProjGov/ExpGov 四块，缺一即 block → exit 1
             real_mem = os.path.join(PLATFORM_ROOT, "memory")
             if os.path.isdir(real_mem):
                 shutil.copytree(real_mem, os.path.join(plat, "memory"))
-            for f in ("models.yaml", "model-router.yaml"):
+            for f in ("models.yaml", "model-router.yaml", "experiments.yaml"):
                 src = os.path.join(PLATFORM_ROOT, "registry", f)
                 if os.path.isfile(src):
                     shutil.copy(src, os.path.join(plat, "registry", f))

@@ -266,4 +266,17 @@ roles:
       - tasks/**
       - sources/**
 
+  experiment-runner:
+    allow_write:
+      - registry/experiments.yaml
+      - analysis/experiment/**
+    deny_write:
+      - core/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
+
 

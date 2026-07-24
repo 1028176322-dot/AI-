@@ -1,0 +1,27 @@
+schema_version: "1.0.0"
+# 实验系统契约（Phase 3-3 Experiment）
+# applies_to: registry/experiments.yaml + analysis/experiment/EXP-*.yaml
+# 职责：定义实验 / 分配 variant / 回收指标 / 判定胜者。不自己跑创作。
+applies_to:
+  - registry/experiments.yaml
+  - analysis/experiment/EXP-*.yaml
+
+meta:
+  required: [schema_version]
+  forgeable: false
+
+experiment_def:
+  required: [id, name, variants, split, metrics, min_samples]
+  variant_fields: [model, prompt, temp]
+  split_by_enum: [chapter, project, random]
+  metric_enum: [quality, reader, ci, cost]
+
+sample:
+  required: [unit_id, variant, metrics]
+  metric_keys: [quality, reader, ci, cost]
+
+forbidden_patterns:
+  - TODO
+  - FIXME
+  - 占位
+  - 待补

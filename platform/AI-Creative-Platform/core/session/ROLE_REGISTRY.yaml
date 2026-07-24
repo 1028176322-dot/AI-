@@ -377,3 +377,20 @@ roles:
       - sources/**
     requires:
       - platform_root
+
+  experiment-runner:
+    purpose: 实验系统（Experiment），定义 A/B 实验 / 分配 variant / 回收指标 / 判定胜者（只读项目与模型、写自身注册表+样本）
+    capabilities: [experiment_run]
+    may_write:
+      - registry/experiments.yaml
+      - analysis/experiment/**
+    may_not_write:
+      - core/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
+    requires:
+      - platform_root
