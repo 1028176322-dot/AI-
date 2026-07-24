@@ -1,0 +1,8 @@
+# 类型模板 · 轻小说 · NKB Schema 扩展
+schema_version: 1.3.0
+genre: qingxiaoshuo
+extends: [K2 Characters]
+add_fields:
+  K2_characters: 强化 角色标签（傲娇 / 天然）
+  chapter_quality: 章节质量门槛降低（单章结构散允许）
+note: 基础 11 组件见 core/review/NKB.md；本文件仅列题材增量。

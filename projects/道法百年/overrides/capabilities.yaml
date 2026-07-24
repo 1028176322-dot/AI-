@@ -1,0 +1,5 @@
+# 项目能力覆盖（Project Capability Override）
+# 在 xuanhuan 模板 capability-routing.yaml 基础上，声明本作具体引擎与路由偏好。
+# 版本锁定于 project.yaml capabilities 段；此处仅补充路由细节。
+dialogue_style: 古白话 + 身份称谓严格（帝/王/道长/施主/贫道）
+battle_emphasis: 越级破局 + 阵法/符箓辅助

@@ -1,0 +1,13 @@
+# 类型模板 · 轻小说 · 能力路由（能力编排器按此启停 Engine）
+schema_version: 1.3.0
+genre: qingxiaoshuo
+default_enabled:
+  narrative: narrative.default
+  character: character.default
+  dialogue: dialogue.light
+  battle: battle.light
+  emotion: emotion.light
+  description: description.light
+routing:
+  battle_trigger: 轻小说战斗为点缀，非主线
+  dialogue_style: 轻松对白，重吐槽与拟声词

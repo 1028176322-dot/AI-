@@ -1,0 +1,9 @@
+# 类型模板 · 悬疑 · NKB Schema 扩展
+schema_version: 1.3.0
+genre: xuanyi
+extends: [D2 ReaderState, K3 Timeline]
+add_fields:
+  D2_reader_state: 强化 作者/角色/读者 分别已知
+  K3_timeline: 精确到小时
+  Evidence: 新增证据组件（编号/发现章/关联人物）
+note: 基础 11 组件见 core/review/NKB.md；本文件仅列题材增量。

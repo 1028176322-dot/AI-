@@ -1,0 +1,14 @@
+# 类型模板 · 恋爱 · 规划默认值（L3 规划者加载）
+schema_version: 1.3.0
+genre: lianai
+story_beat_emphasis:
+  hook: 心动
+  inciting: 暧昧升温
+  escalation: 误会与阻碍
+  climax: 情感高潮（表白/破镜）
+  resolution: 相守或释然
+emotion_curve_template: [悸动, 甜蜜, 酸涩, 破镜, 圆满]
+beat_preferences:
+  foreshadow_window: 30
+conflict_policy:
+  min_per_chapter: 1

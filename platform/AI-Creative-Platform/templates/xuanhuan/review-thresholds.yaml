@@ -1,0 +1,13 @@
+# 类型模板 · 玄幻 · 审查门禁阈值（L5 发布门禁）
+schema_version: 1.3.0
+genre: xuanhuan
+gates:
+  editor_score: 80
+  consistency_index: 0.95
+  reader_index: 60
+  payment_intent: 60
+  max_loop: 5
+genre_specific:
+  fatal_a: [死人复活, 时间线错误, 世界观冲突, 境界体系崩坏]
+  fatal_b_low_conflict: false
+  foreshadow_warn_days: 150

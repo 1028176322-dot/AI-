@@ -1,0 +1,11 @@
+id: MEM-G-001
+level: global
+problem: 修复人物 OOC 后造成剧情链断裂
+root_cause: 修改人物决策但未重算后续因果
+action:
+  - 重审人物动机
+  - 重审当前场景因果
+  - 重审后续剧情依赖
+validated_projects: 3
+confidence: 0.93
+status: active

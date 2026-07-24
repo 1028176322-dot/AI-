@@ -1,0 +1,23 @@
+# 类型模板 · 都市（dushi）· Profile（支柱一 ES 编辑加权）
+# 来源：原 profiles/dushi.md。权重和=100。
+schema_version: 1.3.0
+genre: dushi
+derived_from: profiles/dushi.md
+applies_to: [都市, 职场, 现实]
+description: 战斗归零，权重转给人物与情感；文笔占比提升。
+es_weights:
+  story_structure: 23
+  plot_logic: 17
+  character: 15
+  worldbuilding: 4
+  setting_consistency: 4
+  battle: 0
+  emotion: 10
+  writing: 7
+  chapter_quality: 3
+  commercial: 3
+  narrative: 6
+  dialogue: 4
+  conflict: 4
+notes:
+  - 由 profiles/dushi.md 迁移；项目可经 overrides 微调但须校验和=100。

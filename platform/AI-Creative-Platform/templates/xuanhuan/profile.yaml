@@ -1,0 +1,23 @@
+# 类型模板 · 玄幻（xuanhuan）· Profile（支柱一 ES 编辑加权）
+# 来源：原 profiles/default.md（玄幻基准）。权重和=100。仅作用于支柱一·专业编辑审查。
+schema_version: 1.3.0
+genre: xuanhuan
+derived_from: profiles/default.md
+applies_to: [修仙, 玄幻, 奇幻]
+description: 故事/剧情逻辑权重最高；战斗启用；叙事 craft 高于战斗/文笔。
+es_weights:
+  story_structure: 21
+  plot_logic: 17
+  character: 13
+  worldbuilding: 9
+  setting_consistency: 9
+  battle: 4
+  emotion: 4
+  writing: 4
+  chapter_quality: 3
+  commercial: 2
+  narrative: 6
+  dialogue: 4
+  conflict: 4
+notes:
+  - 由 profiles/default.md 迁移；项目可经 overrides 微调但须校验和=100。

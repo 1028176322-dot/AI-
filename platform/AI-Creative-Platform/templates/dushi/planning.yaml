@@ -1,0 +1,14 @@
+# 类型模板 · 都市 · 规划默认值（L3 规划者加载）
+schema_version: 1.3.0
+genre: dushi
+story_beat_emphasis:
+  hook: 现实困境
+  inciting: 矛盾爆发
+  escalation: 关系/事业推进
+  climax: 抉择或逆袭
+  resolution: 新平衡
+emotion_curve_template: [憋屈, 共鸣, 暖意, 释然, 爽]
+beat_preferences:
+  foreshadow_window: 40
+conflict_policy:
+  min_per_chapter: 1

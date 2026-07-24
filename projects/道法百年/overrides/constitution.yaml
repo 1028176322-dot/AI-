@@ -1,0 +1,8 @@
+# 项目创作政策（Project Constitution Override）
+# 覆盖顺序：Global Core → Genre Template → Project Override → Chapter Override
+# 重要：项目 Override 不得静默修改全局宪法（宪法修改须用户明确确认）。
+# 本文件以「项目创作政策」形式表达差异，而非篡改全局宪法条文。
+allow_low_conflict_chapters:
+  - interlude
+  - epilogue
+note: 若需修改全局宪法条文本身，须提请用户确认，不在本文件静默改。

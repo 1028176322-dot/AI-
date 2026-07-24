@@ -1,0 +1,13 @@
+# 类型模板 · 科幻 · 能力路由（能力编排器按此启停 Engine）
+schema_version: 1.3.0
+genre: kehuan
+default_enabled:
+  narrative: narrative.default
+  character: character.default
+  dialogue: dialogue.scifi
+  battle: battle.disabled
+  emotion: emotion.speculative
+  description: description.scifi
+routing:
+  battle_trigger: 科幻默认无战力体系
+  dialogue_style: 科幻对白，重术语自洽

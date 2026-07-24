@@ -1,0 +1,13 @@
+# 类型模板 · 都市 · 能力路由（能力编排器按此启停 Engine）
+schema_version: 1.3.0
+genre: dushi
+default_enabled:
+  narrative: narrative.default
+  character: character.default
+  dialogue: dialogue.modern
+  battle: battle.disabled
+  emotion: emotion.realistic
+  description: description.modern
+routing:
+  battle_trigger: 都市无战力体系
+  dialogue_style: 现代现实对白，重行业黑话真实感

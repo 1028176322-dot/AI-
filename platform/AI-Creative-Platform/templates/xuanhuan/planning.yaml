@@ -1,0 +1,16 @@
+# 类型模板 · 玄幻 · 规划默认值（L3 规划者加载）
+schema_version: 1.3.0
+genre: xuanhuan
+story_beat_emphasis:
+  hook: 金手指/危机/身世悬念
+  inciting: 外部事件打破平静（灭门/奇遇/追杀）
+  escalation: 能力成长线 + 势力冲突双线
+  climax: 越级战斗 或 真相揭露
+  resolution: 实力/地位跃升 + 新悬念
+emotion_curve_template: [压抑, 爽点释放, 缓和, 更大危机, 再爽点]
+beat_preferences:
+  upgrade_cooldown: 两次能力升级间须插入外部冲突
+  reward_variation: 第三次同类升级前更换奖励类型
+  foreshadow_window: 150
+conflict_policy:
+  min_per_chapter: 1

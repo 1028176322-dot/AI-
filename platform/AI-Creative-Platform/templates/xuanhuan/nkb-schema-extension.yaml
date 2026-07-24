@@ -1,0 +1,10 @@
+# 类型模板 · 玄幻 · NKB Schema 扩展（新建项目在基础 11 组件上追加字段）
+schema_version: 1.3.0
+genre: xuanhuan
+
+extends: [K2 Characters, K7 Assets, K8 Terminology]
+
+add_fields:
+  # K2+realm/cultivation_method/spiritual_root; K7+treasures/pills/techniques; K8+realm_ladder
+
+note: 基础 11 组件见 core/review/NKB.md；本文件仅列题材增量。

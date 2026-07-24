@@ -1,0 +1,8 @@
+# 工作空间清单（Workspace Manifest）
+schema_version: 1.0.0
+
+workspace:
+  name: AI-Workspace
+  platform: ./platform/AI-Creative-Platform
+  projects:
+    - ./projects/道法百年

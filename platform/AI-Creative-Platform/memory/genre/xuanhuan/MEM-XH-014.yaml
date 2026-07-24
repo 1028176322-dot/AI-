@@ -1,0 +1,11 @@
+id: MEM-XH-014
+level: genre
+genre: xuanhuan
+problem: 连续升级导致爽感疲劳
+root_cause: 同类奖励密集触发，边际递减
+action:
+  - 两次能力升级之间插入外部冲突
+  - 第三次同类升级前更换奖励类型
+validated_projects: 2
+confidence: 0.85
+status: active

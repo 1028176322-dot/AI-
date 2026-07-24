@@ -1,0 +1,51 @@
+project:
+  id: novel-dsf
+  name: 道士也玩火力覆盖
+  type: xuanhuan
+  status: active
+
+# ─────────────────────────────────────────────────────────────
+# 版本约束（非路径）：Platform 实际位置由上层 workspace.yaml 解析，
+# 本项目不写死任何绝对路径，换设备 / 换盘符均不失效。
+# 启动第一件事 = 兼容性检查（bootstrap / doctor），不满足 requires 立即退出。
+# ─────────────────────────────────────────────────────────────
+requires:
+  platform: ">=2.1.0"        # registry/versions.yaml → core.platform
+  nkb_schema: ">=1.2.0"      # NKB/*.yaml → schema_version
+  contracts: ">=1.0.0"       # registry/versions.yaml → core.contract
+  templates:
+    xuanhuan: ">=1.3.0"      # templates/xuanhuan → profile.yaml schema_version
+
+template:
+  id: xuanhuan
+  version: 1.3.0
+
+plugins:
+  planner: planner.default@1.2.0
+  context: context.runtime@2.0.0
+  workflow: workflow.novel@1.4.0
+  review: review.four-pillars@4.3.0
+
+capabilities:
+  narrative: capability.narrative.default@2.0.0
+  character: capability.character.default@1.5.0
+  dialogue: capability.dialogue.ancient@1.3.0
+  battle: capability.battle.xuanhuan@2.1.0
+  emotion: capability.emotion.commercial@1.2.0
+  description: capability.description.ancient@1.1.0
+
+# 以下路径均相对本项目根（可移植）
+paths:
+  nkb: ./NKB
+  outline: ./大纲_1000章总体规划.md
+  chapters: ./txt
+  artifacts: ./artifacts
+  overrides: ./overrides
+  memory: ./memory/project
+
+gates:
+  editor_score: 80
+  consistency_index: 0.95
+  reader_index: 60
+  payment_intent: 60
+  max_loop: 5

@@ -1,0 +1,28 @@
+# 能力引擎目录（Capability Registry）
+# 能力编排器（core/capabilities/AI能力层.md）按此组合调用，不依赖单一模型。
+schema_version: 1.0.0
+capabilities:
+  - id: narrative
+    type: craft
+    default_impl: capability.narrative.default@2.0.0
+    contract: contracts/capability-v1.json
+  - id: character
+    type: craft
+    default_impl: capability.character.default@1.5.0
+    contract: contracts/capability-v1.json
+  - id: dialogue
+    type: craft
+    default_impl: capability.dialogue.ancient@1.3.0
+    contract: contracts/capability-v1.json
+  - id: battle
+    type: craft
+    default_impl: capability.battle.xuanhuan@2.1.0
+    contract: contracts/capability-v1.json
+  - id: emotion
+    type: craft
+    default_impl: capability.emotion.commercial@1.2.0
+    contract: contracts/capability-v1.json
+  - id: description
+    type: craft
+    default_impl: capability.description.ancient@1.1.0
+    contract: contracts/capability-v1.json

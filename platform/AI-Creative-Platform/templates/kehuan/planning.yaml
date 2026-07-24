@@ -1,0 +1,14 @@
+# 类型模板 · 科幻 · 规划默认值（L3 规划者加载）
+schema_version: 1.3.0
+genre: kehuan
+story_beat_emphasis:
+  hook: 异常现象
+  inciting: 危机浮现
+  escalation: 探索与硬解
+  climax: 科学破局
+  resolution: 新知与代价
+emotion_curve_template: [震撼, 困惑, 思辨, 顿悟, 敬畏]
+beat_preferences:
+  foreshadow_window: 50
+conflict_policy:
+  min_per_chapter: 1

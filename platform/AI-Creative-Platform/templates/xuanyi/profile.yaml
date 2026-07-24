@@ -1,0 +1,23 @@
+# 类型模板 · 悬疑（xuanyi）· Profile（支柱一 ES 编辑加权）
+# 来源：原 profiles/xuanyi.md。权重和=100。
+schema_version: 1.3.0
+genre: xuanyi
+derived_from: profiles/xuanyi.md
+applies_to: [推理, 悬疑, 谍战]
+description: 剧情逻辑最重；战斗极低；设定一致性升（线索须严丝合缝）。
+es_weights:
+  story_structure: 19
+  plot_logic: 21
+  character: 13
+  worldbuilding: 7
+  setting_consistency: 7
+  battle: 2
+  emotion: 4
+  writing: 6
+  chapter_quality: 4
+  commercial: 3
+  narrative: 6
+  dialogue: 4
+  conflict: 4
+notes:
+  - 由 profiles/xuanyi.md 迁移；项目可经 overrides 微调但须校验和=100。

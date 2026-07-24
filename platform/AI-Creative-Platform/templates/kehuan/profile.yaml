@@ -1,0 +1,23 @@
+# 类型模板 · 科幻（kehuan）· Profile（支柱一 ES 编辑加权）
+# 来源：原 profiles/kehuan.md。权重和=100。
+schema_version: 1.3.0
+genre: kehuan
+derived_from: profiles/kehuan.md
+applies_to: [硬科幻, 太空, 赛博]
+description: 世界观与设定一致性最重；战斗归零；文笔/商业性压到最低。
+es_weights:
+  story_structure: 19
+  plot_logic: 17
+  character: 10
+  worldbuilding: 17
+  setting_consistency: 13
+  battle: 0
+  emotion: 4
+  writing: 3
+  chapter_quality: 2
+  commercial: 1
+  narrative: 6
+  dialogue: 4
+  conflict: 4
+notes:
+  - 由 profiles/kehuan.md 迁移；项目可经 overrides 微调但须校验和=100。

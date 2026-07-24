@@ -1,0 +1,23 @@
+# 版本目录（Version Catalog）
+# 单一事实源的版本锚点；project.yaml 与 Artifact.build 均引用此处。
+schema_version: 1.0.0
+core:
+  platform: 2.1.0
+  constitution: 1.0.0
+  specification: 1.0.0
+  orchestrator: 2.1.0
+  context_engine: 2.0.0
+  workflow: 1.4.0
+  review: 4.3.0
+  capability_layer: 1.0.0
+  observability: 1.0.0
+  contract: 1.0.0
+  runtime: 1.0.0
+templates:
+  xuanhuan: 1.3.0
+  xuanyi: 1.3.0
+  dushi: 1.3.0
+  lianai: 1.3.0
+  kehuan: 1.3.0
+  qingxiaoshuo: 1.3.0
+plugins: see plugins.yaml

@@ -1,0 +1,7 @@
+# Python 缓存（不应入版本库，跨机易冲突）
+__pycache__/
+*.pyc
+
+# 临时/中间产物
+参考资料/xmind_temp/
+*.bak

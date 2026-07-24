@@ -1,0 +1,5 @@
+# 项目术语覆盖（Project Terminology Override）
+# 在 xuanhuan 模板 terminology-seed.yaml 基础上，声明本作专属术语（写入 NKB/K8）。
+# 这些专名仅本项目使用，绝不进入其他项目。
+seeded_into_nkb: true
+note: 实际词条由 NKB/Terminology.yaml 接管；本文件仅记录覆盖意图。

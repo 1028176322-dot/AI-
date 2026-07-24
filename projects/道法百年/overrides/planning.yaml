@@ -1,0 +1,5 @@
+# 项目规划覆盖（Project Planning Override）
+# 在 xuanhuan 模板 planning.yaml 基础上微调；不修改模板。
+story_beat_emphasis:
+  hook_extra: 现代思维降维打击古代场景（本作特色钩子）
+foreshadow_window: 150

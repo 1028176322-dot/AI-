@@ -1,0 +1,8 @@
+id: MEM-P-021
+level: project
+problem: 肖凡在官府场景易出现主动表忠
+root_cause: 人物生成忽略「不效忠官府」边界
+action:
+  - 官府场景生成前注入「不效忠官府」硬约束
+scope: current_project
+status: active

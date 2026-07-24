@@ -1,0 +1,82 @@
+# 全局插件注册表（Plugin Registry）
+# 各项目仅在 project.yaml 引用 plugin@version，不复制实现。
+# 升级策略：老项目锁旧版 / 新项目用新版 / 同一 Artifact A/B 重跑 / 退化回滚。
+schema_version: 1.0.0
+
+plugins:
+  orchestrator.core:
+    description: 编排器（统一调度全部模块，自动停止）
+    versions:
+      "2.1.0":
+        impl: core/orchestrator/AI编排器.md
+        contract: contracts/orchestrator-v1.json
+
+  planner.default:
+    description: 规划者（L3 规划卡 + Story Beat）
+    versions:
+      "1.2.0":
+        impl: core/planning/AI写作规划.md
+        contract: contracts/planner-v1.json
+
+  context.runtime:
+    description: 上下文引擎（过滤/优先级/压缩/冲突解决/Token Budget）
+    versions:
+      "2.0.0":
+        impl: core/context-engine/AI上下文引擎.md
+        contract: contracts/context-v1.json
+
+  workflow.novel:
+    description: 工作流程（双对话四阶段 + Artifact/Build）
+    versions:
+      "1.4.0":
+        impl: core/workflows/流程体系_小说创作.md
+        contract: contracts/workflow-v1.json
+
+  review.four-pillars:
+    description: 审查体系（四支柱 + 静态/动态 + Delta + 发布门禁）
+    versions:
+      "4.3.0":
+        impl: core/review/审查体系.md
+        contract: contracts/review-v2.json
+
+  capability.narrative.default:
+    description: 叙事引擎
+    versions:
+      "2.0.0":
+        impl: core/capabilities/AI能力层.md#narrative
+        contract: contracts/capability-v1.json
+
+  capability.character.default:
+    description: 人物引擎
+    versions:
+      "1.5.0":
+        impl: core/capabilities/AI能力层.md#character
+        contract: contracts/capability-v1.json
+
+  capability.dialogue.ancient:
+    description: 古风对白引擎
+    versions:
+      "1.3.0":
+        impl: core/capabilities/AI能力层.md#dialogue
+        contract: contracts/capability-v1.json
+
+  capability.battle.xuanhuan:
+    description: 玄幻战斗引擎
+    versions:
+      "2.1.0":
+        impl: core/capabilities/AI能力层.md#battle
+        contract: contracts/capability-v1.json
+
+  capability.emotion.commercial:
+    description: 商业爽文情绪引擎
+    versions:
+      "1.2.0":
+        impl: core/capabilities/AI能力层.md#emotion
+        contract: contracts/capability-v1.json
+
+  capability.description.ancient:
+    description: 古风描写引擎
+    versions:
+      "1.1.0":
+        impl: core/capabilities/AI能力层.md#description
+        contract: contracts/capability-v1.json

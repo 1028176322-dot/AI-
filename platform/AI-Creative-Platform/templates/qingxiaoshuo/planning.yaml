@@ -1,0 +1,15 @@
+# 类型模板 · 轻小说 · 规划默认值（L3 规划者加载）
+schema_version: 1.3.0
+genre: qingxiaoshuo
+story_beat_emphasis:
+  hook: 有趣设定
+  inciting: 日常小事件
+  escalation: 吐槽与温情
+  climax: 轻松高潮
+  resolution: 会心收尾
+emotion_curve_template: [轻松, 笑点, 微温, 会心]
+beat_preferences:
+  foreshadow_window: 40
+conflict_policy:
+  min_per_chapter: 0
+  allow_low_conflict: true

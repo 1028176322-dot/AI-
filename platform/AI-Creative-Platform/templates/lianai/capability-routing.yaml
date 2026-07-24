@@ -1,0 +1,13 @@
+# 类型模板 · 恋爱 · 能力路由（能力编排器按此启停 Engine）
+schema_version: 1.3.0
+genre: lianai
+default_enabled:
+  narrative: narrative.default
+  character: character.default
+  dialogue: dialogue.modern
+  battle: battle.disabled
+  emotion: emotion.romance
+  description: description.atmosphere
+routing:
+  battle_trigger: 恋爱无战斗
+  dialogue_style: 现代对白，重称呼切换表情绪

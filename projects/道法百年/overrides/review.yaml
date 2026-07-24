@@ -1,0 +1,12 @@
+# 项目审查覆盖（Project Review Override）
+# 在 xuanhuan 模板 review-thresholds.yaml 基础上微调门禁。
+gates:
+  editor_score: 80
+  consistency_index: 0.95
+  reader_index: 60
+  payment_intent: 60
+  max_loop: 5
+conflict:
+  allow_low_conflict_chapters:
+    - interlude
+    - epilogue
