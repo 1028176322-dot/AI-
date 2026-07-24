@@ -1,0 +1,23 @@
+schema_id: asset
+version: 1.0.0
+applies_to: ["analysis/asset/**/*.yaml"]
+requires_document_header: false
+top_level_sections:
+  - name: meta
+    required_fields: [scorer, scored_at, project]
+  - name: target
+    required_fields: [project_root, asset_summary]
+  - name: composite
+    required_fields: [health]
+  - name: gate
+    required_fields: [decision, reasons]
+nested_required: {}
+required_fields: [meta, target, signals, composite, fatal, gate, orphans, missing, duplicates, dependency_graph, recommendations]
+field_types:
+  health: int
+  fatal: bool
+  decision: str
+enums:
+  decision: [proceed, caution, block]
+confidence_range: [0.0, 1.0]
+forbidden_patterns: ["TODO", "FIXME", "占位", "待补"]

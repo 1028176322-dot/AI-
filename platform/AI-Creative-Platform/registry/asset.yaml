@@ -1,0 +1,50 @@
+# 资产管理配置（Asset Management）
+# 阈值、扣分权重、引用检测与孤儿/重复判定。对应 core/contracts/asset.schema.yaml
+
+asset_manager:
+  version: 1.0.0
+
+# 资产类型映射（相对项目根；引擎优先读 project.yaml 的 paths，此处为 fallback 默认）
+asset_dirs:
+  chapters: ./txt
+  nkb: ./NKB
+  outline: ./大纲_1000章总体规划.md
+  sources: ./sources
+  artifacts: ./artifacts
+  references: ./参考资料
+  images: ./图片
+
+# 引用检测（轻量路径存在性，不解析语义）
+reference_check:
+  enabled: true
+  # 扫描这些目录下的引用路径字符串
+  scan_dirs: [txt, NKB, sources]
+  # 被引用文件的前缀模式（命中即视为「引用了某资产」）
+  ref_prefixes:
+    - "图片/"
+    - "参考资料/"
+    - "./sources/"
+    - "../sources/"
+    - "./NKB/"
+  # NKB record 中声明来源/引用的字段
+  nkb_ref_fields: [source, ref, references]
+
+# 孤儿检测
+orphan:
+  # sources/inbox/ 下未归类文件全部视为孤儿候选（除非被 NKB 反向引用）
+  inbox_as_orphan: true
+  # artifacts/ 非 README 文件未被任何章节/NKB 文本引用字符串包含即孤儿
+  artifacts_unreferenced_as_orphan: true
+
+# 重复检测（同类型内比较内容相似度）
+dedup:
+  similarity_threshold: 0.85
+  normalize: true
+  same_type_only: true
+
+# 门禁扣分（健康分 = 100 - 扣分）
+gate:
+  fatal_penalty: 40                  # AT3 missing（引用断裂）→ block → doctor FAIL
+  caution_penalty: 5                 # AT2 orphan / AT4 duplicate（软问题）
+  block_on_fatal: true               # missing → 阻断 doctor
+  caution_max_ignore: 999            # caution 不阻断，仅报告

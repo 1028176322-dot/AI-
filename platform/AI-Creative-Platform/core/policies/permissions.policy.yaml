@@ -222,3 +222,20 @@ roles:
       - approved/**
       - tasks/**
       - sources/**
+
+  asset-manager:
+    allow_write:
+      - analysis/asset/**
+    deny_write:
+      - txt/**
+      - NKB/**
+      - sources/**
+      - artifacts/**
+      - 参考资料/**
+      - 图片/**
+      - "*.md"
+      - core/**
+      - registry/**
+      - templates/**
+      - tasks/**
+      - memory/**

@@ -22,6 +22,7 @@
 14. **质量评分门禁**：内容型任务（chapter_write/chapter_fix/continuity_fix/nkb_update/asset_create）`submit` 前，由任务系统自动跑 `platform quality`，门禁 `block` 时拒绝提交（须修复后重提，或建 `human_gate` 放行）；`caution` 放行但须在评审重点看。质量分 = 工程零错误(logic/contract) + 机械可读性 + 可选消费项目四支柱审查报告(analysis/review/)；无深度评审时为 partial 评分（仅拦截结构性致命）。评分报告落在 `analysis/quality/`。
 15. **读者模拟门禁**：内容型任务（chapter_write/chapter_fix/continuity_fix/nkb_update/asset_create）`submit` 前，由任务系统自动跑 `platform reader`，门禁对齐审查体系支柱3——`block`=读者侧致命（RR04期待值缺失 / RR03情绪平 / RR06疲劳极高 / 情绪曲线全程平直），拒绝提交；`caution`=Reader Index<60 或 PI<60，放行但须重点打磨钩子/节奏；`proceed`=读者体验达标。读者模拟报告落在 `analysis/reader/`，可选被质量评分回退消费（缺 review 报告时按 reader 维度计分）。
 16. **内存治理（Memory Governance）**：`platform/memory/` 四层经验库（global/genre/project/rejected）由 `platform memory` 体检——`block`=结构错配（level↔目录错配 / status↔位置错配 / schema 损坏），`caution`=软问题（晋升门槛未达 / 疑似重复 / 失效引用 / 缺 README）。内存治理是**平台级健康检查**，接入 `doctor`（block 致 doctor FAIL），**不阻断内容型 task submit**（memory 非章节内容）。新增经验须经晋升门槛（项目→类型≥2同类型 / 类型→全局≥3跨类型），不得由单次问题直接升全局。报告落在 `analysis/memory/`。
+17. **资产管理（Asset Management）**：项目内容资产（章节/NKB/sources/artifacts/参考/图片）由 `platform asset` 体检——`block`=引用断裂（AT3 missing：章节/NKB 引用的图片/参考/源文件不存在），`caution`=软问题（AT2 orphan 孤儿资产 / AT4 duplicate 重复资产）。资产管理是**项目级健康检查**，接入 `doctor`（block 致 doctor FAIL），**不阻断内容型 task submit**（资产非章节内容门禁）。报告落在 `analysis/asset/`，含资产清单(inventory)/孤儿/缺失/重复/依赖图(dependency_graph)/健康分(health)。
 
 ## 启动时序（强制）
 

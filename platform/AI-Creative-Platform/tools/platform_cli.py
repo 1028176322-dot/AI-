@@ -334,6 +334,22 @@ def cmd_doctor(args):
             if sym == FAIL:
                 overall_fail = True
 
+        _print_block("资产治理（项目内容资产体检）")
+        try:
+            import asset_manager as _am
+            arep = _am.govern(proot, write=False)
+            agd = (arep.get("gate") or {}).get("decision", "proceed")
+            if agd == "block":
+                _print_result("AssetGov", FAIL, "引用断裂：%s" % "；".join(arep["gate"]["reasons"][:3]))
+                overall_fail = True
+            elif agd == "caution":
+                _print_result("AssetGov", WARN, "软问题 %d 项（健康分 %s）" % (
+                    len(arep["gate"]["reasons"]), arep["composite"]["health"]))
+            else:
+                _print_result("AssetGov", PASS, "健康分 %s" % arep["composite"]["health"])
+        except Exception as _e:
+            _print_result("AssetGov", WARN, "自检异常：%s" % _e)
+
     _print_block("内存治理（platform/memory/ 体检）")
     try:
         import memory_governor as _mg
@@ -744,6 +760,10 @@ def build_parser():
     gm = sub.add_parser("memory", help="内存治理：对 platform/memory/ 四层经验库体检（validate/report/dedup）")
     gm.add_argument("--platform-root", required=True)
     gm.add_argument("rest", nargs=argparse.REMAINDER)
+
+    ga = sub.add_parser("asset", help="资产管理：对项目内容资产盘点与引用完整性体检（inventory/report/orphans/missing/dedup）")
+    ga.add_argument("--project-root", required=True)
+    ga.add_argument("rest", nargs=argparse.REMAINDER)
     return p
 
 
@@ -766,7 +786,7 @@ def main():
         cmd_init_project(args)
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
                       "init", "charter", "psrc", "genesis", "ready",
-                      "status", "task", "ver", "impact", "quality", "reader", "memory"):
+                      "status", "task", "ver", "impact", "quality", "reader", "memory", "asset"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -799,6 +819,7 @@ def _delegate_gov(cmd, args):
         "quality": "quality_scorer",
         "reader": "reader_simulator",
         "memory": "memory_governor",
+        "asset": "asset_manager",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])

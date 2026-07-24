@@ -322,3 +322,24 @@ roles:
       - sources/**
     requires:
       - project_root
+
+  asset-manager:
+    purpose: 资产管理（Asset Management），对项目内容资产（章节/NKB/sources/artifacts/参考/图片）做盘点与引用完整性体检（只读内容）
+    capabilities: [asset_mgmt]
+    may_write:
+      - analysis/asset/**
+    may_not_write:
+      - txt/**
+      - NKB/**
+      - sources/**
+      - artifacts/**
+      - 参考资料/**
+      - 图片/**
+      - "*.md"
+      - core/**
+      - registry/**
+      - templates/**
+      - tasks/**
+      - memory/**
+    requires:
+      - project_root
