@@ -1,0 +1,31 @@
+# 质量评分器注册表（Scorer Registry）
+# 单一事实源：quality_scorer 启动时加载此处，决定启用哪些评分器及其权重。
+# 权重语义：
+#   - review（深度评审）消费时，composite = review 分（工程项仅作软罚），review_weight 主导。
+#   - review 未消费（partial）时，composite = 工程基线（logic/contract/readability 按 weight 归一）。
+schema_version: 1.0.0
+scorers:
+  logic:
+    module: logic_scorer
+    weight: 0.40
+    enabled: true
+    desc: 运行 tools/logic_check.py（C1–C22）算零错误密度；HARD 失败即 fatal。
+  contract:
+    module: contract_scorer
+    weight: 0.20
+    enabled: true
+    desc: 制品结构合法性（章节文件存在/非空；NKB 记录必填）；缺失即 fatal。
+  readability:
+    module: readability_scorer
+    weight: 0.40
+    enabled: true
+    desc: 机械可读性（句长方差 / AI 腔锁词密度 / 实词比）代理读者流畅性。
+  review:
+    module: review_scorer
+    weight: 1.00
+    enabled: true
+    desc: 消费项目四支柱审查报告（analysis/review/*.yaml），映射 ES/CI/Reader Index/PI 为质量分。
+thresholds:
+  hard_floor: 60      # review_consumed 时：composite < 此值 -> block
+  target: 80          # review_consumed 时：composite < 此值 -> caution
+  soft_penalty: 0.10  # 工程项非致命但 <100 时，对 review 分的扣分系数

@@ -198,6 +198,8 @@ def _parse_block(tokens, i, indent):
 
 
 def load(text: str) -> dict:
+    # 归一化换行符：Windows 编辑器/工具写出 CRLF 或裸 CR，避免分词器把多行读成单 token。
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
     raw_lines = text.replace("\t", "  ").split("\n")
     tokens = []
     for ln in raw_lines:

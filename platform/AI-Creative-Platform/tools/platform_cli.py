@@ -716,6 +716,10 @@ def build_parser():
     gi2 = sub.add_parser("impact", help="冲击分析仪：变更影响分析（analyze/from-task/index/show）")
     gi2.add_argument("--project-root", required=True)
     gi2.add_argument("rest", nargs=argparse.REMAINDER)
+
+    gq = sub.add_parser("quality", help="质量评分：内容质量评分与门禁（score/from-task/show）")
+    gq.add_argument("--project-root", required=True)
+    gq.add_argument("rest", nargs=argparse.REMAINDER)
     return p
 
 
@@ -738,7 +742,7 @@ def main():
         cmd_init_project(args)
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
                       "init", "charter", "psrc", "genesis", "ready",
-                      "status", "task", "ver", "impact"):
+                      "status", "task", "ver", "impact", "quality"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -768,6 +772,7 @@ def _delegate_gov(cmd, args):
         "task": "task_cli",
         "ver": "version_commit",
         "impact": "impact_analyzer",
+        "quality": "quality_scorer",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])

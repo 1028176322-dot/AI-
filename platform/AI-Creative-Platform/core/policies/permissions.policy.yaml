@@ -185,3 +185,15 @@ roles:
       - approved/**
       - tasks/**
       - sources/**
+  quality-scorer:
+    allow_write:
+      - analysis/quality/**
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
