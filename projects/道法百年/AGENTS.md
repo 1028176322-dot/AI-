@@ -30,6 +30,8 @@
 
 20. **实验系统（Experiment）**：Prompt/模型 A/B 对照由 `platform exp` 负责（`define`/`run`/`sample`/`report`/`validate`）。定义实验、按 split 确定性分配 variant、回收 quality/reader/ci/cost 指标、判定胜者；**不自己跑创作**（挂在 task submit / model-router 上，variant 模型经 `platform model` 解析）。`doctor` 接入实验自检（ExpGov）——`block`=实验定义损坏（无 variant/model/split 非法/min_samples 非法/无 metrics），`caution`=样本不足结论未定。属平台级健康检查，**不阻断 task submit**。样本落在 `analysis/experiment/`，结果可喂经验晋升。
 
+21. **BI 分析（Business Intelligence）**：质量/读者/实验既有数据的统一聚合由 `platform bi` 负责（`rollup`/`dashboard`/`validate`）。从 `analysis/quality/**` + `analysis/reader/**` + `analysis/experiment/**` 回收 records，按维度（project/model/capability/component/experiment）聚合指标均值、按日产出 time-series；仪表盘定义写在 `registry/bi.yaml`（`metrics`/`dimensions`/`filters`）。**不做实时采集**，空数据→0 占位不报错。`doctor` 接入 BI 自检（BiGov）——`block`=仪表盘定义损坏（缺 id/metrics/dimensions 或枚举非法），`caution`=未配置 bi.yaml（可选）。属平台级健康检查，**不阻断 task submit**。报告落在 `analysis/bi/`。
+
 ## 启动时序（强制）
 
 ```

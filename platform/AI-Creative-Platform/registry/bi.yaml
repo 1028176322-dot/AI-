@@ -1,0 +1,28 @@
+schema_version: "1.0.0"
+# BI 仪表盘定义（Phase 3-4）
+# 每个 dashboard 声明要聚合的指标(metrics)与维度(dimensions)；filters 可选。
+# 引擎从 analysis/quality/** + analysis/reader/** + analysis/experiment/** + audit_log 回收指标。
+dashboards:
+  - id: quality-overview
+    title: 质量与读者总览
+    metrics: [quality, reader, payment]
+    dimensions: [project, model]
+    filters: {}
+
+  - id: capability-health
+    title: 能力维度健康度
+    metrics: [quality, reader, count]
+    dimensions: [capability, component]
+    filters: {}
+
+  - id: experiment-impact
+    title: 实验影响
+    metrics: [quality, reader, ci, cost]
+    dimensions: [experiment]
+    filters: {}
+
+  - id: throughput-trend
+    title: 吞吐趋势（按日）
+    metrics: [count]
+    dimensions: [project]
+    filters: {}

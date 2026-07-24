@@ -277,6 +277,21 @@ roles:
       - chapters/**
       - approved/**
       - tasks/**
+      - sources/
+
+
+  bi-analyst:
+    allow_write:
+      - registry/bi.yaml
+      - analysis/bi/**
+    deny_write:
+      - core/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
       - sources/**
+      - txt/****
 
 

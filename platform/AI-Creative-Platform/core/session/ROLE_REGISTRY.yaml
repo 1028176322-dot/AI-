@@ -394,3 +394,22 @@ roles:
       - sources/**
     requires:
       - platform_root
+
+  bi-analyst:
+    purpose: BI 分析（Business Intelligence），聚合 quality/reader/experiment 既有数据产出 rollup + dashboard（只读分析产出、写自身仪表盘）
+    capabilities: [bi_rollup, bi_dashboard]
+    may_write:
+      - registry/bi.yaml
+      - analysis/bi/**
+    may_not_write:
+      - core/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
+      - txt/**
+    requires:
+      - platform_root
+      - project_root

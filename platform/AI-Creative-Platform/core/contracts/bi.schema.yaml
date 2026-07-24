@@ -1,0 +1,35 @@
+schema_version: "1.0.0"
+# BI 分析契约（Phase 3-4 Business Intelligence）
+# applies_to: registry/bi.yaml + analysis/bi/DASH-*.yaml
+# 职责：聚合 quality/reader/experiment/observability 既有数据，产出 rollup + dashboard JSON。
+# 不做实时采集（复用既有 analysis 输出）；空数据→指标以 0/NULL 占位，不报错。
+applies_to:
+  - registry/bi.yaml
+  - analysis/bi/DASH-*.yaml
+
+meta:
+  required: [schema_version]
+  forgeable: false
+
+dashboard_def:
+  required: [id, title, metrics, dimensions]
+  metric_enum: [quality, reader, payment, ci, cost, count]
+  dimension_enum: [project, model, capability, component, experiment]
+  # filters 可选：{project_id, model, capability, experiment_id} 子集过滤
+  filters_optional: true
+
+govern:
+  # bi.yaml 缺失→caution（BI 为可选报告组件）；存在但仪表盘定义损坏→fatal
+  missing_is: caution
+  fatal_when:
+    - 仪表盘缺 id
+    - 仪表盘缺 metrics（非空列表）
+    - 仪表盘缺 dimensions（非空列表）
+    - metrics 含非法枚举值
+    - dimensions 含非法枚举值
+
+forbidden_patterns:
+  - TODO
+  - FIXME
+  - 占位
+  - 待补
