@@ -1,0 +1,13 @@
+schema_id: revision
+version: 1.0.0
+applies_to: ["versions/*/*.yaml"]
+description: 内容版本 revision 契约（Version Control）
+requires_document_header: false
+top_level_sections:
+  - name: meta
+    required_fields: [artifact_type, artifact_id]
+  - name: revisions
+    required_fields: []
+revision_item_required: [id, before, after, reason, approved, author, created]
+artifact_type_enum: [chapter, nkb, outline, world]
+forbidden_patterns: []

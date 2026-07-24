@@ -83,9 +83,15 @@ def dump_block(d, prefix=""):
     lines = []
     if isinstance(d, dict):
         for k, v in d.items():
-            if isinstance(v, (dict, list)):
+            if isinstance(v, dict):
                 lines.append("%s%s:" % (prefix, k))
                 lines.append(dump_block(v, prefix + "  "))
+            elif isinstance(v, list):
+                if not v:
+                    lines.append("%s%s: []" % (prefix, k))
+                else:
+                    lines.append("%s%s:" % (prefix, k))
+                    lines.append(dump_block(v, prefix + "  "))
             else:
                 lines.append("%s%s: %s" % (prefix, k, _scalar(v)))
     elif isinstance(d, list):

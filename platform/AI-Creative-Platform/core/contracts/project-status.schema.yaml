@@ -1,0 +1,21 @@
+schema_id: project-status
+version: 1.0.0
+applies_to: ["project/status.yaml"]
+description: 项目生产状态单一事实源（Project Status Management）
+requires_document_header: false
+top_level_sections:
+  - name: project
+    required_fields: [id]
+  - name: lifecycle
+    required_fields: [stage]
+  - name: phases
+    required_fields: [idea, initiation, design, nkb_genesis, readiness, writing, publishing]
+  - name: current
+    required_fields: [volume, chapter, blocked]
+  - name: updated
+    required_fields: []
+enums:
+  lifecycle_stage: [idea, evaluating, initiated, defining, designing, preparing_knowledge, readiness_review, ready_for_writing, writing, completed, archived]
+  phase_status: [completed, active, pending]
+  step: [plan, write, review, fix, nkb_sync, done]
+forbidden_patterns: []

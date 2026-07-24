@@ -4,6 +4,7 @@ schema_version: "1.0.0"
 roles:
   writer:
     purpose: 生成和修改正文 Draft
+    capabilities: [chapter_write, dialogue_expand, scene_expand]
     may_write:
       - chapters/drafts/**
       - artifacts/plans/**
@@ -22,6 +23,7 @@ roles:
 
   reviewer:
     purpose: 审查 Draft 并产出 Review Report
+    capabilities: [chapter_review, consistency_check]
     may_write:
       - artifacts/reviews/**
       - artifacts/fix-proposals/**
@@ -37,6 +39,7 @@ roles:
 
   fixer:
     purpose: 按 Review Report 修复 Draft
+    capabilities: [chapter_fix, continuity_fix]
     may_write:
       - chapters/drafts/**
       - artifacts/fix-logs/**
@@ -51,6 +54,7 @@ roles:
 
   knowledge-manager:
     purpose: 更新项目事实（NKB）
+    capabilities: [nkb_update, candidate_review]
     may_write:
       - NKB/**
     may_not_write:
@@ -205,3 +209,50 @@ roles:
     requires:
       - lifecycle_artifacts
       - nkb_genesis
+
+  # ── 任务系统角色（Phase 1 操作中心）──
+  planner:
+    purpose: 目标拆解与规划（Goal -> Tasks）
+    capabilities: [goal_decompose, plan_write]
+    may_write:
+      - tasks/goals/**
+      - artifacts/plans/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+    requires:
+      - project_brief
+
+  task-scheduler:
+    purpose: 任务路由/调度/管理（操作中心治理）
+    capabilities: [task_route, task_admin]
+    may_write:
+      - tasks/**
+      - project/status.yaml
+      - audit/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+    requires:
+      - platform_config
+
+  status-updater:
+    purpose: 写入项目生产状态（project/status.yaml）
+    capabilities: [status_write]
+    may_write:
+      - project/status.yaml
+    may_not_write:
+      - core/**
+      - registry/**
+      - NKB/**
+      - chapters/**
+      - tasks/**
+      - approved/**
+    requires:
+      - task_system

@@ -1,0 +1,12 @@
+schema_id: goal
+version: 1.0.0
+applies_to: ["tasks/goals/*.yaml", "goals/*.yaml"]
+description: 目标（Goal）契约 —— 长期目标，由任务拆解实现
+requires_document_header: false
+top_level_sections:
+  - name: goal
+    required_fields: [id, name, type, status, success, project, created, created_by]
+    enums:
+      status: [active, achieved, archived]
+      type: [volume_completion, arc_completion, milestone]
+forbidden_patterns: []

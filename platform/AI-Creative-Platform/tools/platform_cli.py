@@ -699,6 +699,19 @@ def build_parser():
     gr.add_argument("--project-root", required=True)
     gr.add_argument("--preflight", action="store_true", help="仅做编排器前置检查（JSON 输出）")
     gr.add_argument("--approve", action="store_true", help="验收通过并置 ready_for_writing")
+
+    # ── 项目管理平面（Phase 1 必须项）──
+    gst = sub.add_parser("status", help="项目状态管理：project/status.yaml（init/show/set/block）")
+    gst.add_argument("--project-root", required=True)
+    gst.add_argument("rest", nargs=argparse.REMAINDER)
+
+    gt = sub.add_parser("task", help="任务系统操作中心（create/claim/submit/review/...）")
+    gt.add_argument("--project-root", required=True)
+    gt.add_argument("rest", nargs=argparse.REMAINDER)
+
+    gv = sub.add_parser("ver", help="内容版本控制（commit/log/rollback）")
+    gv.add_argument("--project-root", required=True)
+    gv.add_argument("rest", nargs=argparse.REMAINDER)
     return p
 
 
@@ -720,7 +733,8 @@ def main():
     elif args.cmd == "init-project":
         cmd_init_project(args)
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
-                      "init", "charter", "psrc", "genesis", "ready"):
+                      "init", "charter", "psrc", "genesis", "ready",
+                      "status", "task", "ver"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -746,6 +760,9 @@ def _delegate_gov(cmd, args):
         "psrc": "validate_sources",
         "genesis": "build_nkb_genesis",
         "ready": "readiness_gate",
+        "status": "status_update",
+        "task": "task_cli",
+        "ver": "version_commit",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])

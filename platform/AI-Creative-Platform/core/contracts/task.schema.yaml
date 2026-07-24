@@ -1,0 +1,20 @@
+schema_id: task
+version: 1.0.0
+applies_to: ["tasks/*/*.yaml"]
+description: 任务文件契约（Task System 操作中心）
+requires_document_header: false
+top_level_sections:
+  - name: task
+    required_fields: [id, version, project, type, title, status, priority, created, created_by]
+    enums:
+      status: [backlog, ready, claimed, running, submitted, reviewing, passed, completed, failed, archive]
+      type: [chapter_write, chapter_review, chapter_fix, continuity_fix, nkb_update, candidate_review, plan_write, goal_decompose, asset_create, experiment, quality_score, impact_analysis, human_gate]
+      priority: [critical, high, normal, low]
+      urgency: [normal, urgent]
+nested_required:
+  task:
+    inputs: [required]
+    acceptance: [criteria]
+    permissions: [read, write, forbidden]
+    agent: [required_role]
+forbidden_patterns: ["TODO", "FIXME", "占位", "待补"]

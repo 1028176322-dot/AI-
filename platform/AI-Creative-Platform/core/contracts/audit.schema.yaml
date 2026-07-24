@@ -1,0 +1,9 @@
+schema_id: audit
+version: 1.0.0
+applies_to: ["audit/audit.log.jsonl"]
+description: 审计记录契约（append-only jsonl，每行一条）
+requires_document_header: false
+record_required_fields: [op_id, ts, agent, action, result]
+action_enum: [task_create, task_claim, task_start, task_submit, task_review, task_complete, task_fail, ver_commit, ver_rollback, cwrite, status_update, gate_check, human_approve]
+result_enum: [success, fail, denied]
+forbidden_patterns: []

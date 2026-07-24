@@ -141,3 +141,34 @@ roles:
       - sources/**
       - chapters/**
       - approved/**
+  planner:
+    allow_write:
+      - tasks/goals/**
+      - artifacts/plans/**
+    deny_write:
+      - core/**
+      - registry/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+  task-scheduler:
+    allow_write:
+      - tasks/**
+      - project/status.yaml
+      - audit/**
+    deny_write:
+      - core/**
+      - registry/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+  status-updater:
+    allow_write:
+      - project/status.yaml
+    deny_write:
+      - core/**
+      - registry/**
+      - NKB/**
+      - chapters/**
+      - tasks/**
+      - approved/**
