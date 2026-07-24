@@ -289,3 +289,19 @@ roles:
       - sources/**
     requires:
       - project_root
+  reader-sim:
+    purpose: 读者体验模拟（Reader Simulation），产出读者模拟报告与门禁建议
+    capabilities: [reader_sim]
+    may_write:
+      - analysis/reader/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
+    requires:
+      - project_root

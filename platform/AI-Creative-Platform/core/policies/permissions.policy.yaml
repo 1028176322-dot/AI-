@@ -197,3 +197,15 @@ roles:
       - approved/**
       - tasks/**
       - sources/**
+  reader-sim:
+    allow_write:
+      - analysis/reader/**
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**

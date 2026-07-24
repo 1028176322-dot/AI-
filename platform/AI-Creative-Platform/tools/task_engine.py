@@ -174,6 +174,28 @@ def _quality_precheck(root, task_id, t):
         raise ValueError("质量评分 gate=block：%s；须修复后重新 submit 或 human_gate 放行" % "；".join(reasons))
 
 
+def _reader_precheck(root, task_id, t):
+    """强制预检：submit 前对内容型任务跑读者模拟，gate=block 则阻断提交。
+
+    仅对内容型任务（chapter_write/chapter_fix/continuity_fix/nkb_update/asset_create）
+    生效；其余任务跳过。工具缺失或评分异常时放行（不阻断主流程）。
+    """
+    tt = (t or {}).get("type")
+    if tt not in ("chapter_write", "chapter_fix", "continuity_fix", "nkb_update", "asset_create"):
+        return
+    try:
+        import reader_simulator
+    except Exception:
+        return
+    try:
+        rep = reader_simulator.simulate_task(root, task_id, proposed_by="reader-sim", write=False)
+    except Exception:
+        return
+    if (rep.get("gate") or {}).get("decision") == "block":
+        reasons = (rep.get("gate") or {}).get("reasons") or ["读者体验致命"]
+        raise ValueError("读者模拟 gate=block：%s；须修复后重新 submit 或 human_gate 放行" % "；".join(reasons))
+
+
 # ───────────────────────── 创建 ─────────────────────────
 def create_task(root, task_dict, model="unknown", author="planner-agent"):
     """创建任务。无依赖或依赖已 completed -> ready；否则 backlog。返回 (state, path)。"""
@@ -282,6 +304,7 @@ def submit(root, task_id, artifact, outputs=None, checks=None,
     if st != "running":
         raise ValueError("submit 要求 running，当前 %s" % st)
     _quality_precheck(root, task_id, data["task"])
+    _reader_precheck(root, task_id, data["task"])
     checks = checks or {}
     failed = [k for k, v in checks.items() if v not in ("pass", True)]
     if failed:

@@ -215,31 +215,43 @@ def _score_readability(project_root, target_type, target_id):
 
 
 def _score_review(project_root, target_type, target_id):
-    """消费项目四支柱审查报告（analysis/review/*.yaml）。无报告则 consumed=False。"""
+    """消费项目四支柱审查报告（analysis/review/*.yaml）。
+    缺 review 报告时回退消费读者模拟报告（analysis/reader/*.yaml），实现融合+可选消费。
+    """
     rd = os.path.join(project_root, "analysis", "review")
-    if not os.path.isdir(rd):
-        return {"name": "review", "score": 0, "fatal": False, "weight": 1.00,
-                "consumed": False, "detail": "无审查报告（analysis/review/ 不存在）"}
-    reps = [f for f in os.listdir(rd) if f.endswith(".yaml")]
-    if not reps:
-        return {"name": "review", "score": 0, "fatal": False, "weight": 1.00,
-                "consumed": False, "detail": "无审查报告"}
-    # 取最新报告
-    reps.sort(key=lambda f: os.path.getmtime(os.path.join(rd, f)), reverse=True)
-    d = _safe_load(os.path.join(rd, reps[0]))
-    if not isinstance(d, dict):
-        return {"name": "review", "score": 0, "fatal": False, "weight": 1.00,
-                "consumed": False, "detail": "审查报告解析失败"}
-    rv = d.get("review") or {}
-    es = float(rv.get("es", 0) or 0)
-    ci = float(rv.get("ci", 0) or 0)
-    reader = float(rv.get("reader_index", 0) or 0)
-    pi = float(rv.get("pi", 0) or 0)
-    score = es * 0.4 + ci * 0.3 + reader * 0.2 + pi * 0.1
-    fatal = bool(d.get("fatal") in (True, "true", "True"))
-    return {"name": "review", "score": round(score, 1), "fatal": fatal, "weight": 1.00,
-            "consumed": True,
-            "detail": "ES=%.0f CI=%.0f Reader=%.0f PI=%.0f <- %s" % (es, ci, reader, pi, reps[0])}
+    if os.path.isdir(rd):
+        reps = [f for f in os.listdir(rd) if f.endswith(".yaml")]
+        if reps:
+            reps.sort(key=lambda f: os.path.getmtime(os.path.join(rd, f)), reverse=True)
+            d = _safe_load(os.path.join(rd, reps[0]))
+            if isinstance(d, dict):
+                rv = d.get("review") or {}
+                es = float(rv.get("es", 0) or 0)
+                ci = float(rv.get("ci", 0) or 0)
+                reader = float(rv.get("reader_index", 0) or 0)
+                pi = float(rv.get("pi", 0) or 0)
+                score = es * 0.4 + ci * 0.3 + reader * 0.2 + pi * 0.1
+                fatal = bool(d.get("fatal") in (True, "true", "True"))
+                return {"name": "review", "score": round(score, 1), "fatal": fatal, "weight": 1.00,
+                        "consumed": True,
+                        "detail": "ES=%.0f CI=%.0f Reader=%.0f PI=%.0f <- %s" % (es, ci, reader, pi, reps[0])}
+    # 回退：消费读者模拟报告（仅 reader 维度；ES/CI 无相反证据占位 100）
+    rd2 = os.path.join(project_root, "analysis", "reader")
+    if os.path.isdir(rd2):
+        reps2 = [f for f in os.listdir(rd2) if f.endswith(".yaml")]
+        if reps2:
+            reps2.sort(key=lambda f: os.path.getmtime(os.path.join(rd2, f)), reverse=True)
+            d2 = _safe_load(os.path.join(rd2, reps2[0]))
+            if isinstance(d2, dict):
+                reader = float(d2.get("reader_index", 0) or 0)
+                pi = float(d2.get("pi", 0) or 0)
+                fatal = bool(d2.get("fatal") in (True, "true", "True"))
+                score = 100 * 0.4 + 100 * 0.3 + reader * 0.2 + pi * 0.1
+                return {"name": "review", "score": round(score, 1), "fatal": fatal, "weight": 1.00,
+                        "consumed": True,
+                        "detail": "reader-only 回退(ES/CI 占位100) Reader=%.0f PI=%.0f <- %s" % (reader, pi, reps2[0])}
+    return {"name": "review", "score": 0, "fatal": False, "weight": 1.00,
+            "consumed": False, "detail": "无审查报告且无读者模拟报告"}
 
 
 _SCORERS = {

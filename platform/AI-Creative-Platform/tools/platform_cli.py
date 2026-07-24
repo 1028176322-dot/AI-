@@ -720,6 +720,10 @@ def build_parser():
     gq = sub.add_parser("quality", help="质量评分：内容质量评分与门禁（score/from-task/show）")
     gq.add_argument("--project-root", required=True)
     gq.add_argument("rest", nargs=argparse.REMAINDER)
+
+    gr = sub.add_parser("reader", help="读者模拟：读者体验模拟与门禁（sim/from-task/show）")
+    gr.add_argument("--project-root", required=True)
+    gr.add_argument("rest", nargs=argparse.REMAINDER)
     return p
 
 
@@ -742,7 +746,7 @@ def main():
         cmd_init_project(args)
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
                       "init", "charter", "psrc", "genesis", "ready",
-                      "status", "task", "ver", "impact", "quality"):
+                      "status", "task", "ver", "impact", "quality", "reader"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -773,6 +777,7 @@ def _delegate_gov(cmd, args):
         "ver": "version_commit",
         "impact": "impact_analyzer",
         "quality": "quality_scorer",
+        "reader": "reader_simulator",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])

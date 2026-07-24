@@ -1,0 +1,54 @@
+# 读者模拟注册表（Reader Simulation Registry）
+# Phase 2 #3 — 启发式读者模拟引擎配置
+simulator:
+  default: heuristic          # heuristic | llm(预留)
+  llm_hook_enabled: false     # 运行期模型可用时置 true，走 LLM 增强
+
+# Persona 5 角色对 9 维的加权表（仅用于 Persona-Weighted RI 参考，不进主 Reader Index）
+# 9 维顺序：rr01_first_impression, rr02_fluency, rr03_emotion, rr04_anticipation,
+#           rr05_reward, rr06_fatigue_inv(=100-rr06), rr07_coolpoint, rr08_info, immersion
+persona_weights:
+  veteran:     [0.8, 0.9, 1.2, 1.0, 1.0, 1.0, 0.9, 1.3, 1.1]   # 老读者重设定/情绪
+  newcomer:    [1.4, 1.3, 1.0, 1.3, 1.0, 1.0, 1.0, 0.8, 1.0]   # 新读者重开篇/流畅/钩子
+  pulp:        [0.9, 0.9, 1.0, 1.0, 1.3, 1.0, 1.5, 0.8, 0.9]   # 爽文重爽点/奖励
+  plot:        [0.8, 0.9, 1.3, 1.3, 1.0, 1.0, 1.0, 1.2, 1.0]   # 剧情党重情绪/期待/信息
+  worldbuilding:[0.8, 1.0, 1.0, 0.9, 0.9, 1.0, 0.8, 1.5, 1.3]   # 设定党重信息/沉浸
+
+# 出戏词表（Immersion 扣分源）：现代词 / AI 解释词 / 作者旁白跳戏
+immersion_block_words:
+  - 手机
+  - 电脑
+  - 汽车
+  - 微信
+  - 地铁
+  - 咖啡
+  - 银行
+  - 公司
+  - 警察
+  - 法律
+  - 科学
+  - 物理
+  - 化学
+  - 实验
+  - 数据
+  - 网络
+  - 互联网
+  - 程序
+  - 代码
+  - 系统
+  - 人工智能
+  - 换句话说
+  - 简而言之
+  - 作者
+  - 读者
+  - 说实话
+immersion_penalty_per_hit: 12
+
+# 门禁阈值
+thresholds:
+  rr04_min: 20              # 期待值低于此 → Fatal B（缺失）
+  emotion_flat_max: 8       # RR03 情绪密度低于此 → Fatal B（平）
+  fatigue_extreme: 80       # RR06 原始疲劳高于此 → Fatal B（极高）
+  curve_flat_var: 4         # 情绪曲线分段方差低于此 → Fatal B（平直）
+  reader_index_floor: 60    # RI<60 → caution
+  pi_floor: 60              # PI<60 → caution

@@ -1,0 +1,24 @@
+schema_id: reader
+version: 1.0.0
+applies_to: ["analysis/reader/*.yaml"]
+requires_document_header: false
+top_level_sections:
+  - name: meta
+    required_fields: [simulator, simulated_at, project]
+  - name: target
+    required_fields: [target_type, target_id]
+  - name: signals
+    required_fields: []
+  - name: reader_index
+    required_fields: []
+  - name: pi
+    required_fields: []
+  - name: fatal
+    required_fields: []
+  - name: gate
+    required_fields: [decision]
+nested_required:
+  target: [target_type, target_id]
+  gate: [decision]
+decision_enum: [proceed, caution, block]
+forbidden_patterns: ["TODO", "FIXME", "占位", "待补"]
