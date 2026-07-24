@@ -1,0 +1,24 @@
+# Handoff Schema（跨对话标准交接文件）
+schema_version: "1.0.0"
+
+fields:
+  handoff:
+    from_role:   { required: true,  type: string }
+    to_role:     { required: true,  type: string }
+    project_id:  { required: true,  type: string }
+    chapter_id:  { required: false, type: string }
+    session_id:  { required: true,  type: string }
+  artifacts:
+    plan:          { required: false, type: string }
+    context:       { required: false, type: string }
+    draft:         { required: false, type: string }
+    review:        { required: false, type: string }
+    nkb_snapshot:  { required: false, type: string }
+  status:
+    self_check:          { required: true,  type: string }   # pass / fail
+    ready_for_next:      { required: true,  type: bool }
+  known_risks:
+    type: list
+    item: { type: string }
+
+# 新对话启动后必须先读 Handoff，不读取旧聊天记录

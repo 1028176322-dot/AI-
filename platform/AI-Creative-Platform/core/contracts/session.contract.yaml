@@ -1,0 +1,28 @@
+# Session Contract（会话初始化输入输出契约）
+contract:
+  id: session
+  version: "1.0.0"
+input:
+  required:
+    - role
+    - project_id
+  optional:
+    - user_override
+output:
+  required:
+    - session.id
+    - session.project_id
+    - session.role
+    - session.platform_version
+    - session.project_version
+    - session.policy_version
+    - session.contracts_version
+    - loaded.constitution
+    - loaded.specification
+    - loaded.project_yaml
+    - loaded.nkb
+    - loaded.role_policy
+    - loaded.workflow
+    - permissions.read
+    - permissions.write
+    - permissions.forbidden

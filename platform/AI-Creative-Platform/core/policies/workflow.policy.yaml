@@ -1,0 +1,32 @@
+# 章节状态机（编译自阶段五状态流）
+policy:
+  version: "1.0.0"
+states:
+  - Planned
+  - Draft
+  - Reviewing
+  - Fixing
+  - Regression
+  - Approved
+  - Published
+transitions:
+  - from: Planned
+    to: Draft
+    by: writer
+  - from: Draft
+    to: Reviewing
+    by: reviewer
+  - from: Reviewing
+    to: Fixing
+    by: fixer
+  - from: Fixing
+    to: Regression
+    by: fixer
+  - from: Regression
+    to: Approved
+    by: gate
+  - from: Approved
+    to: Published
+    by: gate
+role_can_approve:
+  - gate

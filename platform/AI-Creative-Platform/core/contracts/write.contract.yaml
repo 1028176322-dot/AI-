@@ -1,0 +1,21 @@
+# Write Contract（写章操作契约）
+contract:
+  id: chapter.write
+  version: "2.0.0"
+input:
+  required:
+    - project_id
+    - chapter_id
+    - plan_id
+    - context_build_id
+    - nkb_snapshot
+    - role
+  optional:
+    - draft_content
+output:
+  required:
+    - draft_path
+    - build_id
+    - self_check.constitution
+    - self_check.planning
+    - self_check.context

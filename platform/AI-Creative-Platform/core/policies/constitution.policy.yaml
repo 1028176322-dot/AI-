@@ -1,0 +1,44 @@
+# 机器可执行宪法（编译自 AI写作宪法.md）
+policy:
+  id: constitution-001
+  version: "1.2.0"
+rules:
+  - id: CONST-001
+    title: 禁止解释设定
+    severity: fatal
+    applies_to:
+      - writer
+      - fixer
+    detection: manual
+    checks:
+      - review.writing.exposition
+    on_violation: reject_output
+  - id: CONST-002
+    title: 禁止现代词混入叙事
+    severity: fatal
+    applies_to:
+      - writer
+      - fixer
+    detection: tool
+    checks:
+      - logic.exposition_modern
+    on_violation: reject_output
+  - id: CONST-003
+    title: 人物一致
+    severity: fatal
+    applies_to:
+      - writer
+      - fixer
+    requires:
+      - NKB.K2
+    on_violation: rollback
+  - id: CONST-004
+    title: 称谓关系一致
+    severity: fatal
+    applies_to:
+      - writer
+      - fixer
+    detection: tool
+    checks:
+      - logic.terminology
+    on_violation: reject_output

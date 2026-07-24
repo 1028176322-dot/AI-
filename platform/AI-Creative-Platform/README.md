@@ -188,7 +188,64 @@ clone 仓库
 
 ---
 
-## 九、迁移与 cutover
+## 九、AI 治理与执行控制（强制入口 / 上下文 / 门禁 / 留痕）
+
+原则：**不要求所有 AI「记住并遵守平台」，而把平台规范变成系统不允许绕过的执行机制**。任何 AI 都不能直接操作项目，只能通过平台提供的受控入口操作。
+
+### 1. 五道约束
+
+| 约束 | 作用 | 落地文件 |
+|---|---|---|
+| 会话引导 | 每次对话先加载正确平台和项目 | `core/session/SESSION_BOOTSTRAP.md` |
+| 角色权限 | 不同 AI 只能做自己的事 | `core/session/ROLE_REGISTRY.yaml` + `core/policies/permissions.policy.yaml` |
+| 合同 | 所有输入输出必须结构一致 | `core/contracts/*.contract.yaml` |
+| 受控工具 | AI 不能直接绕过平台改文件 | `tools/controlled_write.py` |
+| 合规门 | 不合规产物不能进入后续流程 | `core/policies/compliance.policy.yaml` + `tools/compliance_gate.py` |
+
+### 2. 两种跨对话机制
+
+| 机制 | 作用 | 落地 |
+|---|---|---|
+| 操作清单 | 记录每次 AI 操作（谁/角色/改了什么/按什么规则/什么版本） | `operations/OP-*.yaml`（Operation Manifest，由 `controlled_write` 自动生成） |
+| 交接 | 不同对话通过文件交接，不靠聊天记忆 | `handoffs/HO-*.yaml`（`tools/create_handoff.py`） |
+
+### 3. 执行链
+
+```
+用户 → AI 对话 → Session Bootstrap → Orchestrator(contract + policy + context) → 受控工具 → 项目文件
+```
+
+### 4. 角色与状态机
+
+- 角色：`writer` / `reviewer` / `fixer` / `knowledge-manager` / `system-maintainer`（权限见 `ROLE_REGISTRY.yaml`）
+- 状态机：`Planned → Draft → Reviewing → Fixing → Regression → Approved → Published`（仅 Gate 可 Approved / Published）
+
+### 5. 命令一览
+
+```bash
+platform session  --role writer --project novel-dsf                # 生成 Session Manifest
+platform perm    --role writer --target NKB/Canon.yaml             # 校验写权限
+platform cwrite  --role writer --project novel-dsf \
+                 --target chapters/drafts/CH-001.md --content-file x \
+                 --nkb-version 245 --context-hash abcd --session SES-xxx   # 受控写
+platform gate    --session sessions/SES-xxx.yaml \
+                 --operation operations/OP-xxx.yaml --role writer  # 合规门
+platform handoff --from writer --to reviewer --project novel-dsf \
+                 --chapter CH-001 --session SES-xxx                 # 跨对话交接
+platform contract --contract chapter.write --payload p.json        # 校验契约必填
+```
+
+### 6. Git 约束（文件系统之外的第二道锁）
+
+分支 `ai/writer/*` `ai/reviewer/*` `ai/fixer/*` 由 `tools/git_hooks/pre-commit` 拦截越权提交（writer 不能碰 NKB、reviewer 不能碰 chapters 等）。安装：
+
+```bash
+git config core.hooksPath platform/AI-Creative-Platform/tools/git_hooks
+```
+
+详见 `git_branching.md` 与项目根 `AGENTS.md`。
+
+## 十、迁移与 cutover
 
 本次从单项目文档重构为平台的迁移清单与切换步骤，见 **`迁移与切换.md`**。
 全局 Core 文档已从小说仓库 `docs/` 迁出；小说仓库 `docs/` 仅保留项目私有内容（治理索引 / 红线），并加 `docs/DEPRECATED.md` 指路。

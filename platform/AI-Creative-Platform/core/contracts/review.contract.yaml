@@ -1,0 +1,21 @@
+# Review Contract（审查操作契约）
+contract:
+  id: chapter.review
+  version: "2.0.0"
+input:
+  required:
+    - project_id
+    - chapter_id
+    - build_id
+    - nkb_snapshot
+    - role
+  optional:
+    - context_hash
+output:
+  required:
+    - review_id
+    - compliance_gate
+    - static_review
+    - dynamic_review
+    - review_report_path
+    - status

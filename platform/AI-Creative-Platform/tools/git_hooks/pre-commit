@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# AI-Workspace pre-commit hook：按分支强制执行 AI 权限边界（文件系统之外的第二道锁）
+# 安装：git config core.hooksPath platform/AI-Creative-Platform/tools/git_hooks
+set -e
+
+branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+staged=$(git -c core.quotepath=false diff --cached --name-only)
+
+reject() {
+  echo "PRE-COMMIT REJECTED: $1"
+  echo "当前分支: $branch"
+  echo "（这是平台 AI 治理的 Git 约束；如需提交请切换分支或调整暂存内容）"
+  exit 1
+}
+
+case "$branch" in
+  ai/writer/*)
+    echo "$staged" | grep -E '^(projects/[^/]+/)?(NKB/|approved/|core/|registry/|templates/)' \
+      && reject "writer 分支不得提交 NKB/approved/core/registry/templates" || true
+    ;;
+  ai/reviewer/*)
+    echo "$staged" | grep -E '^(projects/[^/]+/)?chapters/' \
+      && reject "reviewer 分支不得提交 chapters/ 正文修改" || true
+    ;;
+  ai/fixer/*)
+    echo "$staged" | grep -E '^(projects/[^/]+/)?(NKB/|approved/|core/|registry/|templates/)' \
+      && reject "fixer 分支不得提交 NKB/approved/core/registry/templates" || true
+    ;;
+esac
+
+# NKB 变更必须附带 Operation Manifest（可追溯）
+if echo "$staged" | grep -qE '^(projects/[^/]+/)?NKB/'; then
+  echo "$staged" | grep -qE '^(projects/[^/]+/)?operations/' \
+    || reject "NKB 变更必须附带 operations/ 下的 Operation Manifest"
+fi
+
+exit 0

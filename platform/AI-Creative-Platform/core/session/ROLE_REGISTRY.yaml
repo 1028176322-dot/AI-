@@ -1,0 +1,76 @@
+# Role Registry（角色注册表：权限即分工，不靠自觉）
+schema_version: "1.0.0"
+
+roles:
+  writer:
+    purpose: 生成和修改正文 Draft
+    may_write:
+      - chapters/drafts/**
+      - artifacts/plans/**
+      - artifacts/context/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - approved/**
+      - chapters/**   # 仅 drafts 子目录可写
+    requires:
+      - project_yaml
+      - chapter_plan
+      - final_context
+
+  reviewer:
+    purpose: 审查 Draft 并产出 Review Report
+    may_write:
+      - artifacts/reviews/**
+      - artifacts/fix-proposals/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - NKB/**
+      - approved/**
+      - chapters/**   # 不得改正文
+    requires:
+      - build_id
+      - nkb_snapshot
+
+  fixer:
+    purpose: 按 Review Report 修复 Draft
+    may_write:
+      - chapters/drafts/**
+      - artifacts/fix-logs/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - NKB/**
+      - approved/**
+    requires:
+      - review_report
+      - fix_scope
+
+  knowledge-manager:
+    purpose: 更新项目事实（NKB）
+    may_write:
+      - NKB/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - chapters/**
+      - approved/**
+    requires:
+      - approved_event
+      - source_chapter
+      - event_id
+
+  system-maintainer:
+    purpose: 修改平台规范（core/registry/templates）
+    may_write:
+      - core/**
+      - registry/**
+      - templates/**
+    may_not_write:
+      - projects/**/NKB/**
+      - projects/**/approved/**
+    requires:
+      - explicit_user_approval

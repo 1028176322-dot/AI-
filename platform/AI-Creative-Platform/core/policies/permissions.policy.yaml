@@ -1,0 +1,47 @@
+# 角色写权限（编译自 ROLE_REGISTRY.yaml，供 validate_permissions 执行）
+policy:
+  version: "1.3.0"
+roles:
+  writer:
+    allow_write:
+      - chapters/drafts/**
+      - artifacts/plans/**
+      - artifacts/context/**
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - approved/**
+  reviewer:
+    allow_write:
+      - artifacts/reviews/**
+      - artifacts/fix-proposals/**
+    deny_write:
+      - core/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+  fixer:
+    allow_write:
+      - chapters/drafts/**
+      - artifacts/fix-logs/**
+    deny_write:
+      - core/**
+      - NKB/**
+      - approved/**
+  knowledge-manager:
+    allow_write:
+      - NKB/**
+    deny_write:
+      - core/**
+      - chapters/**
+      - approved/**
+  system-maintainer:
+    allow_write:
+      - core/**
+      - registry/**
+      - templates/**
+    deny_write:
+      - projects/**/NKB/**
+      - projects/**/approved/**

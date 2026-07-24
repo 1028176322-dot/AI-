@@ -1,0 +1,34 @@
+# 合规门（Compliance Gate）：不查文学质量，只查平台合规
+policy:
+  version: "1.0.0"
+gate:
+  name: compliance-gate
+  checks:
+    - id: COMP-001
+      field: session_manifest_exists
+      expect: true
+    - id: COMP-002
+      field: role_authorized
+      expect: true
+    - id: COMP-003
+      field: contract_valid
+      expect: true
+    - id: COMP-004
+      field: platform_version_valid
+      expect: true
+    - id: COMP-005
+      field: nkb_snapshot_recorded
+      expect: true
+    - id: COMP-006
+      field: context_hash_recorded
+      expect: true
+    - id: COMP-007
+      field: operation_manifest_exists
+      expect: true
+    - id: COMP-008
+      field: forbidden_files_modified
+      expect: false
+    - id: COMP-009
+      field: handoff_complete
+      expect: true
+  on_any_fail: REJECTED_BY_PLATFORM

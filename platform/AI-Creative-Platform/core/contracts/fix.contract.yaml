@@ -1,0 +1,19 @@
+# Fix Contract（修复操作契约）
+contract:
+  id: chapter.fix
+  version: "2.0.0"
+input:
+  required:
+    - project_id
+    - chapter_id
+    - review_id
+    - fix_scope
+    - role
+  optional:
+    - draft_path
+output:
+  required:
+    - fixed_draft_path
+    - delta_review
+    - regression_review
+    - operation_manifest

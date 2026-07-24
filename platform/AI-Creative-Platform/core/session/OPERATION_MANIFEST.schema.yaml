@@ -1,0 +1,26 @@
+# Operation Manifest Schema（每次写操作必须生成）
+schema_version: "1.0.0"
+
+fields:
+  operation:
+    id:           { required: true,  type: string }   # OP-<date>-<n>
+    session_id:   { required: true,  type: string }
+    role:         { required: true,  type: string }
+    project_id:   { required: true,  type: string }
+  action:
+    type:         { required: true,  type: string }   # chapter.write / chapter.fix / nkb.update ...
+    target:       { required: true,  type: string }   # 受控路径
+  inputs:
+    review_id:        { required: false, type: string }
+    nkb_version:      { required: false, type: int }
+    context_hash:     { required: false, type: string }
+    contract_version: { required: true,  type: string }
+    policy_version:   { required: true,  type: string }
+  changes:
+    files:            { required: true,  type: list }
+    lines_changed:    { required: false, type: int }
+  result:
+    status:               { required: true,  type: string }   # success / rejected
+    regression_required:  { required: false, type: bool }
+
+# 作用：任何 AI 的改动都可追溯到 谁 / 哪个对话 / 什么角色 / 改了什么 / 按什么规则 / 什么版本

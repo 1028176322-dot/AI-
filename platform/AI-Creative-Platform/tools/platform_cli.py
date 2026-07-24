@@ -630,6 +630,45 @@ def build_parser():
     ip.add_argument("--name", required=True, help="项目目录名（如 小说B）")
     ip.add_argument("--type", required=True, help="类型模板 id（如 xuanhuan）")
     ip.add_argument("--id", help="项目 id（默认 novel-<name>）")
+
+    # ── 治理层（AI 执行控制）──
+    gs = sub.add_parser("session", help="Session Bootstrap：生成会话清单（强制入口）")
+    gs.add_argument("--role", required=True)
+    gs.add_argument("--project", required=True)
+
+    gp = sub.add_parser("perm", help="校验角色对目标路径的写权限")
+    gp.add_argument("--role", required=True)
+    gp.add_argument("--target", required=True)
+
+    gc = sub.add_parser("contract", help="校验操作 payload 是否满足契约")
+    gc.add_argument("--contract", required=True)
+    gc.add_argument("--payload", required=True)
+
+    gg = sub.add_parser("gate", help="合规门：平台合规检查（不查文学质量）")
+    gg.add_argument("--session", required=True)
+    gg.add_argument("--operation", default=None)
+    gg.add_argument("--role", default=None)
+    gg.add_argument("--handoff", default=None)
+
+    gh = sub.add_parser("handoff", help="生成跨对话交接文件")
+    gh.add_argument("--from", dest="from_role", required=True)
+    gh.add_argument("--to", dest="to_role", required=True)
+    gh.add_argument("--project", required=True)
+    gh.add_argument("--chapter", default=None)
+    gh.add_argument("--session", required=True)
+    gh.add_argument("--artifacts", nargs="*", default=[])
+    gh.add_argument("--risks", nargs="*", default=[])
+
+    gx = sub.add_parser("cwrite", help="受控写：AI 只能通过它改项目文件")
+    gx.add_argument("--role", required=True)
+    gx.add_argument("--target", required=True)
+    gx.add_argument("--project", required=True)
+    gx.add_argument("--content-file", default=None)
+    gx.add_argument("--nkb-version", default=None)
+    gx.add_argument("--context-hash", default=None)
+    gx.add_argument("--contract-version", default="2.0.0")
+    gx.add_argument("--policy-version", default="1.3.0")
+    gx.add_argument("--session", default="SES-unknown")
     return p
 
 
@@ -650,8 +689,30 @@ def main():
         cmd_list(args)
     elif args.cmd == "init-project":
         cmd_init_project(args)
+    elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite"):
+        _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
+
+
+def _delegate_gov(cmd, args):
+    """把治理子命令委托给 tools/ 下对应模块（复用其 main + argparse）。
+
+    直接沿用用户原始命令行 flag（sys.argv[2:]），避免 dest 名与模块不一致。
+    platform <cmd> --flag a  =>  <module> --flag a
+    """
+    import importlib
+    mod_map = {
+        "session": "session_bootstrap",
+        "perm": "validate_permissions",
+        "contract": "validate_contract",
+        "gate": "compliance_gate",
+        "handoff": "create_handoff",
+        "cwrite": "controlled_write",
+    }
+    sys.argv = [mod_map[cmd]] + sys.argv[2:]
+    mod = importlib.import_module(mod_map[cmd])
+    mod.main()
 
 
 if __name__ == "__main__":
