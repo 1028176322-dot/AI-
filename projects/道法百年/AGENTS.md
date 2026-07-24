@@ -18,6 +18,7 @@
 10. 未完成 `bootstrap` / `doctor` / `session` 前禁止执行任何写操作。
 11. 进入正式写作（`chapter.plan` / `chapter.write` / `review` / `fix`）前，必须确认 `lifecycle/status.yaml` 的 `lifecycle_status == ready_for_writing`（Legacy 项目 `writing` + `legacy_backfill_required: true` 视为祖父化放行）。否则编排器返回 `BLOCKED_PROJECT_NOT_READY` 并列出缺失项，**不得**调用 Writer / Planner。前期（P0–P5）由独立角色（idea-analyst / project-producer / market-reader-analyst / story-architect / world-designer / character-designer / knowledge-engineer / readiness-reviewer）负责，禁止从“补设定”滑向“写正文”。
 12. **任务系统为操作中心**：正式生产期的 AI 必须通过任务系统工作——先 `platform task route` 查可接取任务，`platform task claim` 接取（设置 owner + lease），再 `start` / `submit` / `review`。禁止「用户一句话直接调 Writer 自由写」。章节写作/审查/修复任务由 task-scheduler 调度，任务状态即文件系统（`tasks/<status>/<id>.yaml`），每次操作写 `audit/`。`project/status.yaml` 由任务流转自动驱动，AI 不得手改。
+13. **变更冲击预检**：高爆炸半径变更（角色/设定/主线事件/已发布章节）进入任务 `claim`/`start` 前，由任务系统自动跑 `platform impact`，门禁 `block` 时必须建 `human_gate` 任务人工放行，不得强行接取。分析报告落在 `analysis/impact/`，章节→实体引用索引由 `platform impact --index` 构建于 `analysis/index/`。
 
 ## 启动时序（强制）
 

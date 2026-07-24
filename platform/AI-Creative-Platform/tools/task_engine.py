@@ -130,6 +130,28 @@ def _deps_completed(root, task_id, deps):
     return True
 
 
+def _impact_precheck(root, task_id, t):
+    """强制预检：claim/start 前对内容型任务跑冲击分析，gate=block 则阻断。
+
+    仅对内容型任务（chapter_write/chapter_fix/continuity_fix/nkb_update/asset_create）
+    生效；其余任务跳过。工具缺失或分析异常时放行（不阻断主流程）。
+    """
+    tt = (t or {}).get("type")
+    if tt not in ("chapter_write", "chapter_fix", "continuity_fix", "nkb_update", "asset_create"):
+        return
+    try:
+        import impact_analyzer
+    except Exception:
+        return
+    try:
+        rep = impact_analyzer.analyze_task(root, task_id, diff_summary="pre-claim/start gate", write=False)
+    except Exception:
+        return
+    if (rep.get("gate") or {}).get("decision") == "block":
+        reasons = (rep.get("gate") or {}).get("reasons") or ["影响已发布内容"]
+        raise ValueError("冲击分析 gate=block：%s；需 human_gate 任务放行" % "；".join(reasons))
+
+
 # ───────────────────────── 创建 ─────────────────────────
 def create_task(root, task_dict, model="unknown", author="planner-agent"):
     """创建任务。无依赖或依赖已 completed -> ready；否则 backlog。返回 (state, path)。"""
@@ -208,6 +230,7 @@ def claim(root, task_id, agent, role, model="unknown", lease_min=60):
     owner = t.get("owner")
     if owner and owner != agent:
         raise ValueError("任务已被 %s 接取，不能重复 claim" % owner)
+    _impact_precheck(root, task_id, t)
     t["owner"] = agent
     t["claimed_at"] = _now()
     t["lease_expire"] = (datetime.datetime.now() + datetime.timedelta(minutes=lease_min)).isoformat(timespec="seconds")
@@ -224,6 +247,7 @@ def start(root, task_id, agent, role="unknown", model="unknown"):
     st, data = load_task(root, task_id)
     if st != "claimed":
         raise ValueError("start 要求 claimed，当前 %s" % st)
+    _impact_precheck(root, task_id, data["task"])
     _move(root, task_id, data, "running")
     audit_log.record(root, "task_start", agent=agent, role=role, model=model,
                      task_id=task_id, result="success", detail="running")

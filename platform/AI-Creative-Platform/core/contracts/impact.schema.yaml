@@ -1,0 +1,21 @@
+schema_id: impact
+version: 1.0.0
+applies_to: ["analysis/impact/*.yaml"]
+description: 变更影响分析报告契约（Impact Analyzer）
+requires_document_header: false
+top_level_sections:
+  - name: meta
+    required_fields: [analyzer, analyzed_at, project]
+  - name: change
+    required_fields: [target_type, target_id]
+  - name: affected
+    required_fields: []
+  - name: gate
+    required_fields: [decision]
+nested_required:
+  change: [target_type, target_id]
+  gate: [decision]
+severity_enum: [direct, indirect, cascade]
+decision_enum: [proceed, caution, block]
+criticality_enum: [low, medium, high]
+forbidden_patterns: ["TODO", "FIXME", "占位", "待补"]

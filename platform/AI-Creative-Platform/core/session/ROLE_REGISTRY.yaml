@@ -256,3 +256,20 @@ roles:
       - approved/**
     requires:
       - task_system
+  impact-analyzer:
+    purpose: 变更影响分析（Impact Analyzer），产出影响报告与门禁建议
+    capabilities: [impact_analysis]
+    may_write:
+      - analysis/impact/**
+      - analysis/index/**
+    may_not_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
+    requires:
+      - project_root

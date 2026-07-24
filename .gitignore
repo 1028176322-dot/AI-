@@ -16,3 +16,6 @@ Desktop.ini
 
 # ---- logs ----
 *.log
+
+# ---- local scratch / test scratch (never commit) ----
+projects/_lc_tmp/

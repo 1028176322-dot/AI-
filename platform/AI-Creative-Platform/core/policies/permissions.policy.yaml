@@ -172,3 +172,16 @@ roles:
       - chapters/**
       - tasks/**
       - approved/**
+  impact-analyzer:
+    allow_write:
+      - analysis/impact/**
+      - analysis/index/**
+    deny_write:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/**
+      - approved/**
+      - tasks/**
+      - sources/**
