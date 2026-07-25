@@ -1,7 +1,33 @@
 schema_version: 1.2.0
 project_id: novel-dsf
-records: []
-# 空 Schema 实例：由模板 xuanhuan（含 nkb-schema-extension）生成，待整合散落事实后填充。
-# 每个对象须带 Version + Updated（见 NKB.md §2.1）。
-# WorldState / Assets 由 Events 事件驱动派生（§2.2），不手填。
-# Derived 由 K2 / K5 自动派生（§2.3），不手填。
+# StoryState (D1 故事状态) — 动态，AI 知「自己写到哪了」。
+records:
+  - id: SS-001
+    name: 当前卷
+    value: 第一卷 道生
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: SS-002
+    name: 当前主线
+    value: "成长·玉佩觉醒·初探世界·进京经商·暗线铺开"
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: SS-003
+    name: 当前阶段
+    value: "卷一第四阶段·京华初启（81-100 章，进京投国师/盘店/商战/暗线收口）"
+    conflict_note: "现有正文 Ch1-9 + 大纲 Ch10-18 把进京/天上人间置于 9-18 章；大纲裁决须重排至 81-100 章，详见 CHANGELOG 进京时序冲突"
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: SS-004
+    name: 完成度
+    value: "六卷 1000 章总体规划已定（current）；第一卷 100 章规划中。现有：正文 Ch1-9 + 大纲 Ch10-18（待重排），Ch19-20 缺失。约 250-300 万字总规模。"
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲

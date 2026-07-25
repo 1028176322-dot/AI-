@@ -1,7 +1,125 @@
 schema_version: 1.2.0
 project_id: novel-dsf
-records: []
-# 空 Schema 实例：由模板 xuanhuan（含 nkb-schema-extension）生成，待整合散落事实后填充。
-# 每个对象须带 Version + Updated（见 NKB.md §2.1）。
-# WorldState / Assets 由 Events 事件驱动派生（§2.2），不手填。
-# Derived 由 K2 / K5 自动派生（§2.3），不手填。
+# Foreshadow (K6 伏笔) — 数据库，自动提醒回收。字段：伏笔ID / 埋设点 / 状态 / 最迟回收章。
+# 来源：大纲_1000章总体规划 第八节「伏笔全局回收表」+ 卷一伏笔列表。
+records:
+  - id: FB-001
+    name: 玉佩碎片埋老槐树
+    buried_at: 卷一（玉佩碎裂 Ch3 后）
+    status: 未回收
+    deadline_chapter: 850
+    recycle_plan: 卷五（洞天触发新线索）
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: FB-002
+    name: 回春/滋养药方
+    buried_at: 卷一（灌顶 Ch3）
+    status: 未回收
+    deadline_chapter: 850
+    recycle_plan: 卷五（大劫药用）
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: FB-003
+    name: 长生附注「驻世久长，然劫数亦重」
+    buried_at: 卷一（灌顶 Ch3 附注）
+    status: 未回收
+    deadline_chapter: 850
+    recycle_plan: 卷五（圆满呼应）
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: FB-004
+    name: 师父引荐信（国师玄尘子）
+    buried_at: 卷一（Ch9 发现 / Ch11 用）
+    status: 已回收
+    deadline_chapter: 100
+    recycle_plan: 卷一已收（FB-04 师父信已用）
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: FB-005
+    name: 苏墨凝救命之恩
+    buried_at: 卷一（Ch10 林地相救）
+    status: 已回收
+    deadline_chapter: 100
+    recycle_plan: 卷一已收（Ch15 相认）
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: FB-006
+    name: 四皇子名单
+    buried_at: 卷一（Ch9 听书）
+    status: 进行中
+    deadline_chapter: 650
+    recycle_plan: 卷二–卷四渐收
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: FB-007
+    name: 武者登记新政
+    buried_at: 卷一（1379 埋设）
+    status: 进行中
+    deadline_chapter: 250
+    recycle_plan: 卷二显化为约束/利器
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: FB-008
+    name: 苏墨凝被听雨阁追杀（密信）
+    buried_at: 卷一（Ch10 密信）
+    status: 进行中
+    deadline_chapter: 650
+    recycle_plan: 卷二初交锋→卷四全面对抗
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: FB-009
+    name: 沈括灭门 / 黑虎帮
+    buried_at: 卷一（1379 背景暗线）
+    status: 进行中
+    deadline_chapter: 650
+    recycle_plan: 卷三余波→卷四揭露幕后黑手
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: FB-049
+    name: 灵气火器成熟
+    buried_at: 卷五（成熟节点）
+    status: 未回收
+    deadline_chapter: 850
+    recycle_plan: 卷五成熟
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: FB-075
+    name: 狄族入侵（拓跋烈）
+    buried_at: 卷五
+    status: 未回收
+    deadline_chapter: 850
+    recycle_plan: 卷五主力会战
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: FB-080
+    name: 顾衡旧案暗线
+    buried_at: 卷四（FB-073 延伸）
+    status: 未回收
+    deadline_chapter: 850
+    recycle_plan: 卷五牵出更高层暗线
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲

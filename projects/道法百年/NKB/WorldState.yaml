@@ -1,7 +1,70 @@
 schema_version: 1.2.0
 project_id: novel-dsf
-records: []
-# 空 Schema 实例：由模板 xuanhuan（含 nkb-schema-extension）生成，待整合散落事实后填充。
-# 每个对象须带 Version + Updated（见 NKB.md §2.1）。
-# WorldState / Assets 由 Events 事件驱动派生（§2.2），不手填。
-# Derived 由 K2 / K5 自动派生（§2.3），不手填。
+# WorldState (K4 世界状态) — 实时快照，由 K5 事件派生（NKB.md §2.2，禁止直接手改）。
+# 本文件为首版 SEED：仅填「源自可信大纲/简介的稳定世界态」（非章节依赖），每条标 seeded + derived_from 事件。
+# 后续维护须经由 Events 重放派生，不得直接改此处。
+records:
+  - id: WS-001
+    name: 京城控制权
+    state: 萧咤（帝）掌盛京
+    seeded: true
+    derived_from: [EVT-015]
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: WS-002
+    name: 皇帝知主角否
+    state: 未知（玄尘子提醒「莫让圣上或任何殿下注意到你」）
+    seeded: true
+    derived_from: [EVT-008]
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: WS-003
+    name: 清虚观状态
+    state: 肖凡已下山历练（1385），观中留无为子与四师兄
+    seeded: true
+    derived_from: [EVT-006]
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: WS-004
+    name: 武者登记新政
+    state: 已颁行（知州灭门案后天下武者编册管控；卷二显化为约束/利器）
+    seeded: true
+    derived_from: [EVT-015]
+    src: 小说简介
+    confidence: outline
+    Version: 1
+    Updated: 简介
+  - id: WS-005
+    name: 听雨阁渗透
+    state: 已潜入州境，追杀苏墨凝（密信线索）；卷二初交锋→卷四全面对抗
+    seeded: true
+    derived_from: [EVT-007, EVT-020, EVT-021]
+    src: 小说简介
+    confidence: outline
+    Version: 1
+    Updated: 简介
+  - id: WS-006
+    name: 四皇子萧俊
+    state: 年幼（6 岁，1385）；未来 1405 登基
+    seeded: true
+    derived_from: [EVT-024]
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: WS-007
+    name: 商业资产态
+    state: "仙人醉（酒坊）+ 天上人间（酒楼）已营；醉仙楼被压制（国师府捧场）"
+    seeded: true
+    derived_from: [EVT-009, EVT-014]
+    conflict_note: "进京/开业节点：大纲裁决应后移至卷一 81-100 章，本态按时间线文档当前锚点 seed，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线

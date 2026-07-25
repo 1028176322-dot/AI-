@@ -1,0 +1,32 @@
+operation:
+  id: OP-20260725-001
+  session_id: sess-20260725-nkb-full
+  role: knowledge-manager
+  project_id: novel-dsf
+action:
+  type: nkb.update
+  target: NKB/
+inputs:
+  nkb_version: 1.2.0
+  contract_version: "1.4.0"
+  policy_version: "1.3.0"
+changes:
+  files:
+    - NKB/Canon.yaml
+    - NKB/Characters.yaml
+    - NKB/Terminology.yaml
+    - NKB/Graph.yaml
+    - NKB/Timeline.yaml
+    - NKB/Events.yaml
+    - NKB/WorldState.yaml
+    - NKB/Assets.yaml
+    - NKB/Foreshadow.yaml
+    - NKB/StoryState.yaml
+    - NKB/ReaderState.yaml
+    - NKB/Derived.yaml
+    - NKB/CHANGELOG.md
+  lines_changed: 0
+result:
+  status: success
+  regression_required: false
+note: "全量填充首版 seed：事实源仅限三份可信文档（小说简介/大纲_1000章/时间线与人物关系图），章节正文已排除；每条打 src+confidence:outline。详见 NKB/CHANGELOG.md（含进京时序冲突待裁决）。"

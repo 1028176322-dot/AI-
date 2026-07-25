@@ -1,7 +1,6 @@
 schema_version: 1.2.0
 project_id: novel-dsf
+# Derived (派生数据) — 关系图 / 影响图 / 幂图，由 K2 人物 / K5 事件自动派生（NKB.md §2.3），不手动编辑。
+# 首版 seed 阶段：本文件保持空，由脚本从 Characters / Events 重算生成（graph_viz 等消费）。
+# 若需生成，可运行平台派生脚本，勿手填。
 records: []
-# 空 Schema 实例：由模板 xuanhuan（含 nkb-schema-extension）生成，待整合散落事实后填充。
-# 每个对象须带 Version + Updated（见 NKB.md §2.1）。
-# WorldState / Assets 由 Events 事件驱动派生（§2.2），不手填。
-# Derived 由 K2 / K5 自动派生（§2.3），不手填。

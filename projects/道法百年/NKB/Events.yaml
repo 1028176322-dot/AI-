@@ -1,7 +1,225 @@
 schema_version: 1.2.0
 project_id: novel-dsf
-records: []
-# 空 Schema 实例：由模板 xuanhuan（含 nkb-schema-extension）生成，待整合散落事实后填充。
-# 每个对象须带 Version + Updated（见 NKB.md §2.1）。
-# WorldState / Assets 由 Events 事件驱动派生（§2.2），不手填。
-# Derived 由 K2 / K5 自动派生（§2.3），不手填。
+# Events (K5 事件) — 真相日志，驱动 K4 世界态 / K7 资源（见 NKB.md §2.2）。
+# 字段：事件ID / 名称 / 章节 / 因果 / participants(供 graph_viz)。
+# 含两类：① 时间线文档已锚定事件（Ch1-18）；② 大纲里程碑事件（Updated=大纲，尚无对应章）。
+# 事实源仅限三份可信文档。
+records:
+  - id: EVT-001
+    name: 肖凡穿越遗弃
+    chapter: "第 001 章"
+    cause: 前世国防大学轻武器研究生灵魂，入雪夜弃婴
+    effect: 肖凡人生起点，携玉佩与铜钱入清虚观
+    participants: [CHR-001, CHR-002]
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-002
+    name: 玉佩交付与前世记忆
+    chapter: "第 002 章"
+    cause: 无为子将玉佩正式交肖凡
+    effect: 肖凡触摸玉佩触发前世记忆片段，初识穿越真相
+    participants: [CHR-001, CHR-002]
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-003
+    name: 玉佩碎裂灌顶
+    chapter: "第 003 章"
+    cause: 肖凡尝试激活玉佩失败，失手摔碎
+    effect: 光球灌顶，获炼体十八式+回春药方（8 味药材）；FB-01/02/03 埋设
+    participants: [CHR-001]
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-004
+    name: 炼硝成功与感气突破
+    chapter: "第 007 章"
+    cause: 土法慢熬老墙根/旱厕硝土
+    effect: 析出灰白色硝石结晶；感气引入外界灵气；火器线起点
+    participants: [CHR-001]
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-005
+    name: 下山初见世态
+    chapter: "第 008 章"
+    cause: 林谋带肖凡下山集镇
+    effect: 目睹市井百态，购石硫黄；初识「世道如此」；科技降维动机加固
+    participants: [CHR-001, CHR-004]
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-006
+    name: 抵通州镇闻皇子动向
+    chapter: "第 009 章"
+    cause: 肖凡 15 岁下山历练五月抵通州镇
+    effect: 拼出京城格局与四皇子名单（FB-06）；发现师父引荐信（FB-04）
+    participants: [CHR-001, CHR-002]
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-007
+    name: 林地救苏墨凝
+    chapter: "第 010 章"
+    cause: 途中遇苏墨凝被追杀
+    effect: 还击震死头目，搜千两银票作启动资金；FB-05 恩情埋设
+    participants: [CHR-001, CHR-007, ORG-003]
+    conflict_note: "大纲裁决：此事件应后移至卷一 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-008
+    name: 进京访国师
+    chapter: "第 011 章"
+    cause: 持引荐信访玄尘子
+    effect: 玄尘子提醒「莫让圣上或殿下注意到你」；国师线开启
+    participants: [CHR-001, CHR-009]
+    conflict_note: "大纲裁决：进京应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-009
+    name: 仙人醉出世
+    chapter: "第 012 章"
+    cause: 盘下城南酿酒坊
+    effect: 高度酒「仙人醉」爆火，身份象征+营销；商业线起点
+    participants: [CHR-001]
+    conflict_note: "大纲裁决：盘店应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-010
+    name: 收沈遇为管事
+    chapter: "第 013 章"
+    cause: 遇奇丐沈遇（破家商人）
+    effect: 请酒收为管事，经商情报线建立
+    participants: [CHR-001, CHR-008]
+    conflict_note: "大纲裁决：收沈遇应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-011
+    name: 钱万山酒方风波
+    chapter: "第 014 章"
+    cause: 钱万山（东宫）出五千两买酒方被拒
+    effect: 派混混闹事，酒坊暂停；暗线指向东宫（大皇子萧恒）
+    participants: [CHR-010, CHR-001, CHR-012, ORG-002]
+    conflict_note: "大纲裁决：酒方风波应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-012
+    name: 与苏墨凝相认
+    chapter: "第 015 章"
+    cause: 街头暗查
+    effect: 与苏墨凝相认（救命之恩 FB-05 回收线索）
+    participants: [CHR-001, CHR-007]
+    conflict_note: "大纲裁决：相认应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-013
+    name: 夜访国师告东宫
+    chapter: "第 016 章"
+    cause: 查得钱万山背后东宫
+    effect: 玄尘子表态「他若动手我来解决」；朝堂暗线升级
+    participants: [CHR-001, CHR-009, CHR-012, ORG-002]
+    conflict_note: "大纲裁决：夜访国师应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-014
+    name: 天上人间开业
+    chapter: "第 018 章"
+    cause: 筹谋开酒楼压醉仙楼
+    effect: 国师府捧场一炮而红，醉仙楼客流锐减；FB-04 师父信已用（卷一已收）
+    participants: [CHR-001, CHR-009, ORG-007, ORG-008]
+    conflict_note: "大纲裁决：开业应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: EVT-015
+    name: 武者登记新政颁行
+    chapter: "卷一（1379 埋设 FB-07）"
+    cause: 知州灭门惨案
+    effect: 天下武者尽数编册管控；卷二显化为约束/利器
+    participants: [CHR-011]
+    src: 小说简介
+    confidence: outline
+    Version: 1
+    Updated: 简介
+  - id: EVT-016
+    name: 知州灭门惨案
+    chapter: "背景暗线（FB-09）"
+    cause: 不明（牵出黑虎帮幕后）
+    effect: 促成武者登记制；卷三余波→卷四揭露幕后黑手
+    participants: [ORG-004]
+    src: 小说简介
+    confidence: outline
+    Version: 1
+    Updated: 简介
+  - id: EVT-020
+    name: 卷二听雨阁初交锋
+    chapter: "卷二 101-250 章（大纲）"
+    cause: 武者新政冲突显化
+    effect: 天上人间压醉仙楼；苏墨凝密信真相初露；三皇子萧沛书院势力初现；FB-07/FB-08 回收
+    participants: [CHR-001, CHR-007, CHR-014, ORG-003, ORG-007, ORG-008]
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: EVT-021
+    name: 卷三国战与听雨阁全面对抗
+    chapter: "卷四 451-650 章（大纲）"
+    cause: 三皇子萧沛借听雨阁构陷大皇子、挑二皇子火并；虞国借听雨阁为内应发起国战
+    effect: 肖凡以科技+修炼双碾压参战；FB-08/FB-09/FB-06 回收；三皇子阴谋受挫未灭
+    participants: [CHR-001, CHR-014, ORG-003, ORG-005]
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: EVT-022
+    name: 卷五归元突破与驻颜启动
+    chapter: "卷五 651-850 章（大纲）"
+    cause: 七境界至归元，渡第一次大劫（灵气源地闭关）
+    effect: 驻颜启动锁青年态、开长生；狄族入侵（FB-075）；FB-01/02/03/049/080 回收；萧俊 1405 登基时肖凡 35 岁在场
+    participants: [CHR-001, CHR-015]
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: EVT-023
+    name: 卷六终极决战
+    chapter: "卷六 851-1000 章（大纲）"
+    cause: 三次大劫圆满，半步陆仙极境
+    effect: 听雨阁余孽+三皇子残余+狄族联盟最终清算；肖凡与朝廷新国师联手收官；1457/87 岁第一次返老还童
+    participants: [CHR-001, CHR-009]
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: EVT-024
+    name: 萧俊登基
+    chapter: "卷五（1405 年，大纲）"
+    cause: 皇位更迭
+    effect: 四皇子萧俊 30 岁登基为帝；新朝局自然衔接（肖凡 35 岁在场）
+    participants: [CHR-015, CHR-001]
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲

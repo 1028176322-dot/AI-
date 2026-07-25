@@ -1,7 +1,86 @@
 schema_version: 1.2.0
 project_id: novel-dsf
-records: []
-# 空 Schema 实例：由模板 xuanhuan（含 nkb-schema-extension）生成，待整合散落事实后填充。
-# 每个对象须带 Version + Updated（见 NKB.md §2.1）。
-# WorldState / Assets 由 Events 事件驱动派生（§2.2），不手填。
-# Derived 由 K2 / K5 自动派生（§2.3），不手填。
+# Canon (K1 正史) — 世界真相 / 恒定规则。AI 写任何东西不得违背。
+# 本文件为「全量填充」首版 seed，事实源仅限三份可信文档（见 src 字段），未取自任何未审核章节。
+# 字段含义见 NKB.md §1 K1。
+records:
+  - id: CAN-001
+    name: 世界名称
+    category: 世界观
+    detail: "大晟王朝（架空，仿明礼制）；都盛京。"
+    src: 小说简介
+    confidence: outline
+    Version: 1
+    Updated: 简介
+  - id: CAN-002
+    name: 时代纪元
+    category: 时间
+    detail: "永熙年号，帝萧咤；时间基准 1385 = 永熙十八年（肖凡 15 岁）。"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: CAN-003
+    name: 本世界修炼体系
+    category: 修炼
+    detail: "横练(铁皮→铜骨→金身，累积暗伤) + 内力(气感→周天→化罡，滋养暗伤)；双修互补；宗师=横练金身+内力化罡+机缘，寿命上限约 120 岁。"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: CAN-004
+    name: 玉佩功法体系
+    category: 修炼
+    detail: "炼体十八式(三段，每段六式) + 吸收外界灵气养护；返老还童每 80 载一次共 3 次(约 240 年)。与本世界体系互斥、不累计暗伤。"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: CAN-005
+    name: 根本规则·死亡
+    category: 铁律
+    detail: "死人不能复活；魂灭即真死，不可还魂。此为审查体系 Fatal A 的事实来源。"
+    src: 小说简介
+    confidence: outline
+    Version: 1
+    Updated: 简介
+  - id: CAN-006
+    name: 力量来源
+    category: 修炼
+    detail: "本世界：气/灵（内力滋养）；玉佩功法：引外界灵气（越练越充盈）。"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: CAN-007
+    name: 时间流速
+    category: 铁律
+    detail: "常态 1:1，无异常流速。"
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: CAN-008
+    name: 世界边界
+    category: 世界观
+    detail: "中土十八州 + 北狄 + 虞国；清虚观位于盛京以南约三百里群山深处。"
+    src: 小说简介
+    confidence: outline
+    Version: 1
+    Updated: 简介
+  - id: CAN-009
+    name: 禁忌与管制
+    category: 铁律
+    detail: "禁私通北狄；禁御前妄议；知州灭门惨案后天下武者尽数编册管控（武者登记制，卷一 1379 年埋设 FB-07）。"
+    src: 小说简介
+    confidence: outline
+    Version: 1
+    Updated: 简介
+  - id: CAN-010
+    name: 科技碾压线
+    category: 主线
+    detail: "黑火药→火绳枪→燧发枪→灵气火器；主角以科技降维打击江湖与庙堂。"
+    src: 小说简介
+    confidence: outline
+    Version: 1
+    Updated: 简介

@@ -1,7 +1,95 @@
 schema_version: 1.2.0
 project_id: novel-dsf
-records: []
-# 空 Schema 实例：由模板 xuanhuan（含 nkb-schema-extension）生成，待整合散落事实后填充。
-# 每个对象须带 Version + Updated（见 NKB.md §2.1）。
-# WorldState / Assets 由 Events 事件驱动派生（§2.2），不手填。
-# Derived 由 K2 / K5 自动派生（§2.3），不手填。
+# Assets (K7 资源) — 人物拥有什么，防「凭空多/少」。由 K5 事件派生（NKB.md §2.2）。
+# 本文件为首版 SEED：仅填「可信文档明确记载的肖凡持有物」，标 seeded + derived_from 事件。
+records:
+  - id: AST-001
+    name: 玉佩（碎片）
+    owner: CHR-001
+    type: 法宝
+    state: 已碎，内含完整功法，碎裂后光球灌顶
+    source_event: EVT-003
+    seeded: true
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: AST-002
+    name: 硝石
+    owner: CHR-001
+    type: 材料
+    state: 自提+土法炼制成功，藏后山山洞石板下
+    source_event: EVT-004
+    seeded: true
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: AST-003
+    name: 硫磺
+    owner: CHR-001
+    type: 材料
+    state: 集镇药铺购得（三文钱），制火药原料
+    source_event: EVT-005
+    seeded: true
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: AST-004
+    name: 仙人醉酒方
+    owner: CHR-001
+    type: 技能/配方
+    state: 高度酒配方，身份象征+饥饿营销
+    source_event: EVT-009
+    seeded: true
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: AST-005
+    name: 天上人间
+    owner: CHR-001
+    type: 产业
+    state: 酒楼，已开业，压醉仙楼
+    source_event: EVT-014
+    seeded: true
+    conflict_note: "开业节点大纲裁决应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: AST-006
+    name: 千两银票
+    owner: CHR-001
+    type: 金钱
+    state: 第 010 章搜出，作启动资金
+    source_event: EVT-007
+    seeded: true
+    conflict_note: "获取节点大纲裁决应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: AST-007
+    name: 引荐信（玄尘子）
+    owner: CHR-001
+    type: 信物
+    state: 无为子交付，致国师玄尘子；卷一已用（FB-04）
+    source_event: EVT-006
+    seeded: true
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: AST-008
+    name: 回春药方
+    owner: CHR-001
+    type: 配方
+    state: 8 味药材（茯苓/赤芍/黄精/人参/当归/何首乌/藏红花…），每八十载一次共三次
+    source_event: EVT-003
+    seeded: true
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线

@@ -1,7 +1,131 @@
 schema_version: 1.2.0
 project_id: novel-dsf
-records: []
-# 空 Schema 实例：由模板 xuanhuan（含 nkb-schema-extension）生成，待整合散落事实后填充。
-# 每个对象须带 Version + Updated（见 NKB.md §2.1）。
-# WorldState / Assets 由 Events 事件驱动派生（§2.2），不手填。
-# Derived 由 K2 / K5 自动派生（§2.3），不手填。
+# Terminology (K8 术语) — 唯一名称表。AI 永远引用此处，不擅自改名。
+# 字段：标准词 / 禁用同义 / 释义。事实源仅限三份可信文档。
+records:
+  - id: TER-001
+    name: 大晟
+    standard: 大晟
+    forbidden: [大晟王朝, 本朝]
+    note: "架空王朝，仿明礼制；正式称谓用「大晟」。"
+    src: 小说简介
+    confidence: outline
+    Version: 1
+    Updated: 简介
+  - id: TER-002
+    name: 永熙
+    standard: 永熙
+    forbidden: [永熙年, 永熙年间(混用须统一)]
+    note: "年号；1385 = 永熙十八年。"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TER-003
+    name: 清虚观
+    standard: 清虚观
+    forbidden: [清虚门, 清虚山]
+    note: "肖凡师门；位于盛京以南约三百里群山深处；主持无为子。"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TER-004
+    name: 玉佩功法
+    standard: 玉佩功法
+    forbidden: [脑中功法(可作描述但非专名)]
+    note: "随肖凡穿越的玉佩碎裂后灌顶的炼体十八式+回春药方；与外界灵气体系。"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TER-005
+    name: 炼体十八式
+    standard: 炼体十八式
+    forbidden: []
+    note: "玉佩功法第一段六式：托天/推山/转腰/压腿/开胯/摇臂；共三段每段六式，二三段曾封锁。"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TER-006
+    name: 横练境界
+    standard: "铁皮 / 铜骨 / 金身"
+    forbidden: [九品/一品(已下架)]
+    note: "本世界横练三阶；金身时普通兵刃难伤。"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TER-007
+    name: 内力境界
+    standard: "气感 / 周天 / 化罡"
+    forbidden: [九品/一品(已下架)]
+    note: "本世界内力三阶；化罡可外放真气。"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TER-008
+    name: 仙人醉
+    standard: 仙人醉
+    forbidden: [肖记酒, 高度酒(描述非专名)]
+    note: "肖凡盘下城南酿酒坊所酿高度酒；身份象征+饥饿营销爆火。"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TER-009
+    name: 天上人间
+    standard: 天上人间
+    forbidden: [好物商城, 肖记, 铺子]
+    note: "肖凡筹谋开设的酒楼，压垮醉仙楼；亦作情报舞台。"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TER-010
+    name: 听雨阁
+    standard: 听雨阁
+    forbidden: []
+    note: "境外虞国渗透势力；派遣杀手潜入州境，追杀苏墨凝。"
+    src: 小说简介
+    confidence: outline
+    Version: 1
+    Updated: 简介
+  - id: TER-011
+    name: 黑虎帮
+    standard: 黑虎帮
+    forbidden: []
+    note: "江湖势力；与沈括灭门/知州灭门暗线相关（FB-09）。"
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: TER-012
+    name: 武者登记制
+    standard: 武者登记制
+    forbidden: [武者编册(描述)]
+    note: "知州灭门惨案后颁行，天下武者尽数编册管控；卷一 1379 埋设 FB-07。"
+    src: 小说简介
+    confidence: outline
+    Version: 1
+    Updated: 简介
+  - id: TER-013
+    name: 返老还童
+    standard: 返老还童
+    forbidden: []
+    note: "玉佩功法特性：每 80 载一次共 3 次（约 240 年）；卷五驻颜启动为锁青年态，卷六 1457/87 岁为第一次返老还童重置肉身损伤。"
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲
+  - id: TER-014
+    name: 驻颜
+    standard: 驻颜
+    forbidden: []
+    note: "归元突破时锁青年态、开长生（非返老还童）；卷五触发。"
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲

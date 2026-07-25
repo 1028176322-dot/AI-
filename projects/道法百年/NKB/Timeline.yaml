@@ -1,7 +1,168 @@
 schema_version: 1.2.0
 project_id: novel-dsf
-records: []
-# 空 Schema 实例：由模板 xuanhuan（含 nkb-schema-extension）生成，待整合散落事实后填充。
-# 每个对象须带 Version + Updated（见 NKB.md §2.1）。
-# WorldState / Assets 由 Events 事件驱动派生（§2.2），不手填。
-# Derived 由 K2 / K5 自动派生（§2.3），不手填。
+# Timeline (K3 时间线) — 按章锚定的事实序列。任何时间点可查。
+# 字段：章节 / 事件 / 年份。事实源：时间线与人物关系图（第 1-18 章锚点）+ 大纲（卷级）。
+# 注意：进京/仙人醉/天上人间 在本文件按时间线文档锚于 Ch9-18；大纲裁决应移至 81-100 章（见 conflict_note，待重排）。
+records:
+  - id: TL-001
+    chapter: "第 001 章"
+    event: 肖凡出生/穿越，遗弃清虚观门口，无为子收养命名，襁褓携玉佩与铜钱
+    year: 永熙三年（1370）冬
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-002
+    chapter: "第 002 章"
+    event: 肖凡 5 岁，无为子正式交付玉佩，触摸触发前世记忆片段
+    year: 永熙八年（1375）冬
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-003
+    chapter: "第 003 章"
+    event: 肖凡 6 岁，玉佩碎裂光球灌顶，得炼体十八式+回春药方
+    year: 永熙九年（1376）夏
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-004
+    chapter: "第 004 章"
+    event: 肖凡 7 岁，梳理脑中功法总纲，意识到与本世界体系截然不同，决定保密
+    year: 永熙十年（1377）
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-005
+    chapter: "第 005 章"
+    event: 无为子讲解本世界修炼体系（横练/内力/双修/宗师），明确否定长生
+    year: 永熙十年（1377）
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-006
+    chapter: "第 006 章"
+    event: 肖凡初练炼体六式，萌生「武功再高也怕火药」，打听爆炸粉末得石硫黄
+    year: 永熙十年（1377）
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-007
+    chapter: "第 007 章"
+    event: 土法炼硝成功（灰白色结晶），感气突破引入外界灵气
+    year: 永熙十年（1377）
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-008
+    chapter: "第 008 章"
+    event: 下山集镇初见世态，于济安堂购石硫黄（三文钱）
+    year: 永熙十年（1377）
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-009
+    chapter: "第 009 章"
+    event: 肖凡 15 岁抵通州镇，听说书拼出京城格局与诸皇子动向，发现师父引荐信（致国师玄尘子）
+    year: 永熙十八年（1385）春
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-010
+    chapter: "第 010 章"
+    event: 途中遇苏墨凝被追杀，被迫还击震死头目，搜出千两银票作启动资金
+    year: 永熙十八年（1385）春
+    conflict_note: "大纲裁决：进京/离观历练节点应后移至卷一 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-011
+    chapter: "第 011 章"
+    event: 从安定门进京，持引荐信访国师玄尘子，获提醒「莫让圣上或殿下注意到你」
+    year: 永熙十八年（1385）春
+    conflict_note: "大纲裁决：进京应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-012
+    chapter: "第 012 章"
+    event: 盘下城南酿酒坊，酿出高度酒「仙人醉」，身份象征+饥饿营销火爆
+    year: 永熙十八年（1385）
+    conflict_note: "大纲裁决：盘店经商应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-013
+    chapter: "第 013 章"
+    event: 遇奇丐沈遇（破家商人），请酒收为管事
+    year: 永熙十八年（1385）
+    conflict_note: "大纲裁决：收沈遇应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-014
+    chapter: "第 014 章"
+    event: 钱万山（东宫背景）出五千两买酒方被拒，派混混闹事，酒坊暂停营业
+    year: 永熙十八年（1385）
+    conflict_note: "大纲裁决：酒方风波应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-015
+    chapter: "第 015 章"
+    event: 街头与苏墨凝相认（救命之恩）
+    year: 永熙十八年（1385）
+    conflict_note: "大纲裁决：相认应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-016
+    chapter: "第 016 章"
+    event: 夜访国师玄尘子，告知东宫背景；玄尘子表态「他若动手我来解决」
+    year: 永熙十八年（1385）
+    conflict_note: "大纲裁决：夜访国师应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-017
+    chapter: "第 017 章"
+    event: 报官清走混混，酒坊复业；筹谋开酒楼「天上人间」压垮醉仙楼
+    year: 永熙十八年（1385）
+    conflict_note: "大纲裁决：筹谋应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-018
+    chapter: "第 018 章"
+    event: 「天上人间」开业，国师府送礼捧场，一炮而红，醉仙楼客流锐减
+    year: 永熙十八年（1385）秋
+    conflict_note: "大纲裁决：天上人间开业应后移至 81-100 章，待重排"
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
+  - id: TL-100
+    chapter: "卷一 81-100 章（大纲裁决）"
+    event: "进京投国师 / 盘店酿酒 / 仙人醉出世 / 商战初燃 / 暗线收口（FB-04 师父信已用）——按大纲总架构，原 Ch9-18 的进京线须重排至此"
+    year: 永熙十八年（1385）
+    conflict_note: "与时间线人物关系图(Ch9-18)冲突：以本大纲裁决为准，旧锚点待重排"
+    src: 大纲_1000章总体规划
+    confidence: outline
+    Version: 1
+    Updated: 大纲

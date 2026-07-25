@@ -1,7 +1,172 @@
 schema_version: 1.2.0
 project_id: novel-dsf
-records: []
-# 空 Schema 实例：由模板 xuanhuan（含 nkb-schema-extension）生成，待整合散落事实后填充。
-# 每个对象须带 Version + Updated（见 NKB.md §2.1）。
-# WorldState / Assets 由 Events 事件驱动派生（§2.2），不手填。
-# Derived 由 K2 / K5 自动派生（§2.3），不手填。
+# Graph (知识图谱) — 关系 / 组织 / 地图 / 势力，以图而非文字存储。
+# 按 NKB.md §2.3：图谱由 K2 人物 / K5 事件自动派生；本文件为首版 seed（与 Characters/Events 一致），
+# 节点 id 与 Characters(CHR-xxx)/Events(EVT-xxx) 对齐，供 graph_viz 去重合并。
+# 本文件事实源仅限三份可信文档。
+# 注意：本文件用块式映射（_yaml_lite 不解析内联流映射 { }）。
+records:
+  - id: GRAPH-001
+    name: 道法百年关系图
+    nodes:
+      - id: CHR-001
+        label: 肖凡
+        type: character
+      - id: CHR-002
+        label: 无为子
+        type: character
+      - id: CHR-003
+        label: 陈守(守一)
+        type: character
+      - id: CHR-004
+        label: 林谋(问玄)
+        type: character
+      - id: CHR-005
+        label: 周猛(铁云)
+        type: character
+      - id: CHR-006
+        label: 宋明(清思)
+        type: character
+      - id: CHR-007
+        label: 苏墨凝
+        type: character
+      - id: CHR-008
+        label: 沈遇
+        type: character
+      - id: CHR-009
+        label: 玄尘子(国师)
+        type: character
+      - id: CHR-010
+        label: 钱万山
+        type: character
+      - id: CHR-011
+        label: 萧咤(帝)
+        type: character
+      - id: CHR-012
+        label: 萧恒(大皇子)
+        type: character
+      - id: CHR-013
+        label: 萧厉(二皇子)
+        type: character
+      - id: CHR-014
+        label: 萧沛(三皇子)
+        type: character
+      - id: CHR-015
+        label: 萧俊(四皇子)
+        type: character
+      - id: ORG-001
+        label: 清虚观
+        type: faction
+      - id: ORG-002
+        label: 东宫(大皇子)
+        type: faction
+      - id: ORG-003
+        label: 听雨阁
+        type: faction
+      - id: ORG-004
+        label: 黑虎帮
+        type: faction
+      - id: ORG-005
+        label: 虞国
+        type: faction
+      - id: ORG-006
+        label: 国师府
+        type: faction
+      - id: ORG-007
+        label: 天上人间
+        type: faction
+      - id: ORG-008
+        label: 醉仙楼
+        type: faction
+      - id: LOC-001
+        label: 盛京
+        type: location
+      - id: LOC-002
+        label: 通州镇
+        type: location
+    edges:
+      - source: CHR-001
+        target: CHR-002
+        kind: 师徒
+      - source: CHR-001
+        target: CHR-003
+        kind: 同门
+      - source: CHR-001
+        target: CHR-004
+        kind: 同门
+      - source: CHR-001
+        target: CHR-005
+        kind: 同门
+      - source: CHR-001
+        target: CHR-006
+        kind: 同门
+      - source: CHR-001
+        target: CHR-007
+        kind: 救命恩+相认
+      - source: CHR-001
+        target: CHR-008
+        kind: 主从(管事)
+      - source: CHR-001
+        target: CHR-009
+        kind: 引荐/师伯
+      - source: CHR-002
+        target: CHR-009
+        kind: 师兄弟
+      - source: CHR-001
+        target: ORG-001
+        kind: 隶属
+      - source: CHR-002
+        target: ORG-001
+        kind: 主持
+      - source: CHR-003
+        target: ORG-001
+        kind: 隶属
+      - source: CHR-004
+        target: ORG-001
+        kind: 隶属
+      - source: CHR-005
+        target: ORG-001
+        kind: 隶属
+      - source: CHR-006
+        target: ORG-001
+        kind: 隶属
+      - source: CHR-009
+        target: ORG-006
+        kind: 主持
+      - source: CHR-010
+        target: ORG-002
+        kind: 背景
+      - source: CHR-012
+        target: ORG-002
+        kind: 统领
+      - source: ORG-002
+        target: ORG-008
+        kind: 控制
+      - source: ORG-003
+        target: ORG-005
+        kind: 勾结
+      - source: ORG-003
+        target: CHR-007
+        kind: 追杀
+      - source: ORG-004
+        target: ORG-005
+        kind: 关联暗线
+      - source: CHR-001
+        target: ORG-007
+        kind: 创立
+      - source: ORG-007
+        target: ORG-008
+        kind: 竞争
+      - source: CHR-011
+        target: LOC-001
+        kind: 统治
+      - source: ORG-001
+        target: LOC-001
+        kind: 位于(盛京以南三百里)
+      - source: LOC-002
+        target: LOC-001
+        kind: 位于(京城以南约五十里)
+    src: 时间线与人物关系图
+    confidence: outline
+    Version: 1
+    Updated: 时间线
