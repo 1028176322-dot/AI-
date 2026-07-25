@@ -1,0 +1,26 @@
+task_template:
+  type: chapter_publish
+  version: "1.0.0"
+  required_role: publish_service
+  description: >
+    发布章节到正式正文（canonical）。仅由平台脚本 Publish Service 确定性执行
+    （非 Agent）。原子发布：快照旧版→临时文件→校验→原子替换→更新 canonical Manifest。
+    编辑≠发布：writer/fixer 只写工作副本，正式正文只经本任务落地。
+  required_inputs: [chapter_draft, review_report]
+  allowed_outputs: [published_chapter, canonical_manifest]
+  permissions:
+    read: [chapters/**, NKB/**, tasks/running/<id>/outputs/**, operations/grants/**]
+    write: [第一卷_道生/**, 第二卷_京华/**, 第三卷_江湖/**, 第四卷_国战/**, 第五卷_长生/**, 第六卷_乾坤/**, canonical_manifest.yaml, operations/grants/**]
+    forbidden: [core/**, registry/**, templates/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+    service_identity: publish_service
+  next_tasks:
+    on_pass: []
+    on_fail: []

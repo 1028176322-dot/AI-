@@ -42,7 +42,7 @@ TRANSITIONS = {
     "archive":   [],
 }
 VALID_TYPES = ["chapter_write", "chapter_review", "chapter_fix", "continuity_fix",
-               "nkb_update", "candidate_review", "plan_write", "goal_decompose",
+               "chapter_publish", "nkb_update", "candidate_review", "plan_write", "goal_decompose",
                "asset_create", "experiment", "quality_score", "impact_analysis",
                "project_design", "system_maintenance", "nkb_sync", "human_gate"]
 VALID_PRIORITY = ["critical", "high", "normal", "low"]
@@ -461,17 +461,53 @@ def review(root, task_id, decision, findings=None, reviewer="unknown",
     if decision == "pass":
         _move(root, task_id, data, "passed")
         _move(root, task_id, data, "completed")
+        pb_task_id = None
         if dep:
             dst, ddata = load_task(root, dep)
-            if dst in ("submitted", "reviewing"):
+            if dst and dst not in ("completed", "failed", "archive", "passed"):
                 ddata["task"]["review"] = {"decision": "pass", "at": _now()}
                 _move(root, dep, ddata, "passed")
                 _move(root, dep, ddata, "completed")
                 status_update.set_step(root, step="done", blocked=False, by="task-system")
                 _promote_dependents(root, dep, model, role)
+                # 内容型任务审查通过 → 建 chapter_publish 任务（闭合悬空引用），
+                # 并生成发布动态授权 grant（门禁已过，方可发布）。
+                dep_type = (ddata.get("task") or {}).get("type")
+                if dep_type in ("chapter_write", "chapter_fix", "continuity_fix"):
+                    draft = (ddata.get("task") or {}).get("artifact") \
+                        or (ddata.get("task") or {}).get("chapter_ref")
+                    if not draft:
+                        outs = (ddata.get("task") or {}).get("outputs") or {}
+                        draft = outs.get("draft") or outs.get("build")
+                    canon = resolve_canonical_target(draft, root) if draft else None
+                    pb_task_id = "%s-PUBLISH" % dep
+                    pb_task = {
+                        "task": {
+                            "id": pb_task_id,
+                            "version": 1,
+                            "project": ddata["task"].get("project"),
+                            "type": "chapter_publish",
+                            "title": "发布 %s 到正式正文" % dep,
+                            "status": "ready",
+                            "priority": "high",
+                            "created": _now(),
+                            "created_by": "task-system",
+                            "goal": ddata["task"].get("goal"),
+                            "dependencies": [dep],
+                            "inputs": {"required": [draft] if draft else []},
+                            "publish_target": canon,
+                            "expected_outputs": ["published-chapter"],
+                            "acceptance": {"criteria": ["Publish Service 原子发布成功", "Manifest 更新"]},
+                            "permissions": {"read": ["chapters/*", "NKB/*"], "write": [canon] if canon else ["第一卷_道生/*"], "forbidden": []},
+                            "agent": {"required_role": "publish_service"},
+                        }
+                    }
+                    _move(root, pb_task_id, pb_task, "ready")
+                    if canon:
+                        _grant_for_publish(root, pb_task_id, canon)
         audit_log.record(root, "task_review", agent=reviewer, role=role, model=model,
-                         task_id=task_id, result="success", detail="PASS")
-        return "completed", "原任务已完成"
+                         task_id=task_id, result="success", detail="PASS; publish=%s" % pb_task_id)
+        return "completed", ("原任务已完成; publish=%s" % pb_task_id) if pb_task_id else "原任务已完成"
     else:
         _move(root, task_id, data, "failed")
         # 建 FIX 任务
@@ -522,6 +558,25 @@ def complete(root, task_id, model="unknown", author="task-scheduler"):
     audit_log.record(root, "task_complete", agent=author, model=model,
                      task_id=task_id, result="success", detail="completed")
     # 推进下游依赖
+    _promote_dependents(root, task_id, model, author)
+    return "completed"
+
+
+def finish_service_task(root, task_id, model="unknown", author="publish_service"):
+    """服务任务（publish_service / nkb_commit_service）确定性收口。
+
+    与 complete() 的区别：服务任务不经 review 生命周期（其产出由平台脚本确定性执行），
+    因此从任意 live 态（ready/claimed/running/submitted/reviewing/passed）直接置 completed，
+    不做依赖副作用（其依赖项通常已是 terminal）。用于发布/提交后闭环。
+    """
+    st, data = load_task(root, task_id)
+    if st is None:
+        raise FileNotFoundError(task_id)
+    if st == "completed":
+        return "completed"
+    _move(root, task_id, data, "completed")
+    audit_log.record(root, "task_complete", agent=author, model=model,
+                     task_id=task_id, result="success", detail="service task finished")
     _promote_dependents(root, task_id, model, author)
     return "completed"
 
@@ -599,6 +654,44 @@ def route(root, role, capabilities):
             "title": t.get("title"),
         })
     return out
+
+
+def resolve_canonical_target(draft_rel, project_root):
+    """把工作副本草稿路径解析为 canonical 正式正文路径。
+
+    规则：
+      - 若某卷目录下已存在同名词章文件 → 沿用其卷（修订/重发布保持原位）。
+      - 否则落到第一个存在的卷目录（默认 第一卷_道生/；不存在则新建 第一卷_道生/）。
+    草稿 chapters/drafts/第001章_道生.md → 第一卷_道生/第001章_道生.md
+    """
+    import re as _re
+    fname = os.path.basename(draft_rel.replace("\\", "/"))
+    stem = os.path.splitext(fname)[0]
+    vols = []
+    if os.path.isdir(project_root):
+        for d in sorted(os.listdir(project_root)):
+            dp = os.path.join(project_root, d)
+            if os.path.isdir(dp) and _re.match(r"^第.卷_", d):
+                vols.append(d)
+                # 已存在同名词章 → 直接沿用该卷
+                if os.path.isfile(os.path.join(dp, fname)):
+                    return "%s/%s" % (d, fname)
+    if vols:
+        return "%s/%s" % (vols[0], fname)
+    return "第一卷_道生/%s" % fname
+
+
+def _grant_for_publish(root, publish_task_id, canonical_target):
+    """为 chapter_publish 任务生成动态授权 grant（task_grant 因子实体）。
+
+    仅在审查通过（Build 冻结、待发布）时由本函数生成，确保发布门禁未过则无 grant。
+    """
+    try:
+        import auth_engine as AE
+        AE.generate_grant(root, publish_task_id, "publish_service",
+                          "chapter.publish", "canonical", [canonical_target])
+    except Exception:
+        pass
 
 
 def _inputs_ready(root, t):
