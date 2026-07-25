@@ -393,6 +393,9 @@ def cmd_doctor(args):
                  lambda p: _imp("status_derive").govern(p),
                  lambda r: "健康分 %s（派生状态正常·%d 伏笔未回收）" % (
                      r["composite"]["health"], r["response"]["open_foreshadows"]), proot)
+        _run_gov("报告生成器（Report 自检 · Phase C）", "ReportGov",
+                 lambda p: _imp("report_builder").govern(p),
+                 lambda r: "健康分 %s（报告可生成）" % r["composite"]["health"], proot)
 
     _run_gov("内存治理（platform/memory/ 体检）", "MemoryGov",
              lambda pr: _imp("memory_governor").govern(pr),
@@ -783,6 +786,10 @@ def build_parser():
     gmkt.add_argument("--project-root", required=True)
     gmkt.add_argument("rest", nargs=argparse.REMAINDER)
 
+    grp = sub.add_parser("report", help="报告生成器：project-status/chapter-quality/open-foreshadow/task-progress/nkb-health/all")
+    grp.add_argument("--project-root", required=True)
+    grp.add_argument("rest", nargs=argparse.REMAINDER)
+
     gcs = sub.add_parser("compliance", help="任务系统强制层旁路检测：越权改动扫描 + 回滚（scan [--rollback]）")
     gcs.add_argument("--project-root", required=True)
     gcs.add_argument("--rollback", action="store_true", help="显式回滚越权改动（破坏性）")
@@ -837,7 +844,7 @@ def main():
                       "init", "charter", "psrc", "genesis", "ready",
                       "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "exp", "bi", "graph", "market", "compliance",
                       "index", "context", "policy", "validate", "query",
-                      "summary", "delta", "review"):
+                      "summary", "delta", "review", "report"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -887,6 +894,7 @@ def _delegate_gov(cmd, args):
         "delta": "delta_review",
         "review": "review_orchestrator",
         "audit": "audit_report",
+        "report": "report_builder",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])
