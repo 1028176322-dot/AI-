@@ -1,0 +1,31 @@
+task:
+  id: TASK-INTAKE-20260726075013-CHAPTER-REVIEW
+  version: 1
+  project: novel-dsf
+  type: chapter_review
+  title: TASK-INTAKE-20260726075013 后继 chapter_review
+  status: completed
+  priority: high
+  created: 2026-07-26T07:50:16
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260726075013
+  inputs:
+    required:
+      - chapters/drafts/第042章_铜骨初固.md
+  expected_outputs:
+    - next-output
+  acceptance:
+    criteria:
+      - 后继任务就绪
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - tasks/**
+    forbidden:
+      - core/*
+  agent:
+    required_role: reviewer
