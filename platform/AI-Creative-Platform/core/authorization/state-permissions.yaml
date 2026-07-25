@@ -1,0 +1,82 @@
+# state-permissions.yaml — 正文生命周期状态机（六因子之 workflow_state）
+#
+# 13 态章节状态机：把"任务系统状态"与"章节生产阶段"对齐为章节视角，作为
+# workflow_state 因子判定依据。任一动作必须在当前章节态被允许才能放行。
+#
+# 映射（章节态 ←→ 任务系统态）：
+#   ready          ← 任务 ready（尚未 claim）
+#   claimed        ← 任务 claimed（已认领，未 start）
+#   editing        ← chapter_write/chapter_fix 任务 running（写草稿中）
+#   submitted      ← 任务 submitted（已提交，待审查）
+#   validating     ← 质量/读者门禁跑批中（submit 内预检）
+#   reviewing      ← chapter_review 任务 running
+#   changes_requested ← review 判 fail，建 FIX 任务，原任务等待修复
+#   fixing         ← chapter_fix 任务 running
+#   regression_review ← 修复后复审（chapter_review 复跑）
+#   approved       ← review pass，原任务 completed（Build 冻结，待发布）
+#   publishing     ← chapter_publish 任务 running（原子发布执行中）
+#   published      ← chapter_publish completed，canonical 已落盘 + Manifest 更新
+#   completed      ← 全链路收口（发布后回归/归档）
+#
+# Build（approved 之前的章节草稿）一旦 approved 即冻结，任何草稿修改须新开 Revision
+# （新 chapter_fix 任务），不得直接覆盖已 approved 的 Build。
+schema_version: "1.0.0"
+
+states:
+  - ready
+  - claimed
+  - editing
+  - submitted
+  - validating
+  - reviewing
+  - changes_requested
+  - fixing
+  - regression_review
+  - approved
+  - publishing
+  - published
+  - completed
+
+transitions:
+  ready:              [claimed, completed]
+  claimed:            [editing, completed]
+  editing:            [submitted, completed]
+  submitted:          [validating, completed]
+  validating:         [reviewing, changes_requested, completed]
+  reviewing:          [approved, changes_requested, completed]
+  changes_requested:  [fixing, completed]
+  fixing:             [submitted, completed]
+  regression_review:  [approved, changes_requested, completed]
+  approved:           [publishing, completed]
+  publishing:         [published, completed]
+  published:          [completed]
+  completed:          []
+
+# 每态允许的动作（workflow_state 因子据此外判）。未列出的动作在该态一律禁止。
+state_permissions:
+  ready:             []
+  claimed:           [chapter.write_draft, artifact.write]   # 已认领尚未 start 亦允许写（与 controlled_write 的 claimed/running 一致）
+  editing:           [chapter.write_draft, artifact.write, fix.write_log]
+  submitted:         [artifact.write]
+  validating:        [artifact.write]
+  reviewing:         [review.write_report]
+  changes_requested: []
+  fixing:            [chapter.write_draft, fix.write_log, artifact.write]
+  regression_review: [review.write_report]
+  approved:          [chapter.publish, canonical.rollback]   # 仅 publish_service（service_only）
+  publishing:        [chapter.publish, canonical.rollback]
+  published:         [canonical.rollback]                     # 仅事故回滚
+  completed:         [canonical.rollback]
+
+# 章节态解析（auth_engine 用）：任务系统态 → 章节态
+task_state_to_chapter_state:
+  backlog:      ready
+  ready:        ready
+  claimed:      claimed
+  running:      editing
+  submitted:    submitted
+  reviewing:    reviewing
+  passed:       approved
+  completed:    completed
+  failed:       changes_requested
+  archive:      completed

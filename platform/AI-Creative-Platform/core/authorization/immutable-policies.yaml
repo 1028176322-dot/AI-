@@ -1,0 +1,94 @@
+# immutable-policies.yaml — 不可变授权基线与错误码（六因子之 authorization.default）
+#
+# 这是授权层的"宪法"：默认拒绝，六因子联立才放行。任何下层配置（题材模板 / 项目覆盖 /
+# 任务运行时）均不得放宽以下基线与错误码语义。
+#
+# 六因子授权公式：
+#   allow = platform_policy
+#           AND role_capability
+#           AND task_grant
+#           AND workflow_state
+#           AND resource_scope
+#           AND revision_guard
+#
+# 任一因子为 false → 拒绝，并返回对应标准化错误码（见 error_codes）。
+schema_version: "1.0.0"
+
+authorization:
+  default: deny                       # 默认拒绝：未显式授权即禁止
+  evaluation: conjunctive            # 六因子联立（AND），非任一通过
+  # 因子短路顺序（先判低成本/高确定性因子，减少噪音）：
+  factor_order:
+    - platform_policy                # 平台总开关 / 不可变基线是否生效
+    - role_capability                # 角色是否具备该动作能力
+    - resource_scope                 # 目标路径是否落在角色可写资源层
+    - workflow_state                 # 当前章节态是否允许该动作
+    - task_grant                     # 是否有关联合法任务且处于可写态（动态授权）
+    - revision_guard                 # Build 冻结 / revision 冲突防护
+
+# 标准错误码（11 个）。auth_engine 在拒绝时返回其一，供 CLI / 日志 / 测试断言。
+error_codes:
+  WRITE_TASK_REQUIRED:
+    message: 受保护内容写操作必须关联合法 Task（NO-TASK-NO-WRITE）
+    http: 403
+  ROLE_CAPABILITY_DENIED:
+    message: 角色不具备该动作的 capability（role_capability 因子失败）
+    http: 403
+  TASK_GRANT_MISSING:
+    message: 缺少动态任务授权（task_grant 因子失败：无关联任务 / 任务态不可写 / 无 grant 文件）
+    http: 403
+  TASK_STATE_WRITE_DENIED:
+    message: 任务状态不允许此写操作（任务须处于 claimed/running 等可写态）
+    http: 409
+  RESOURCE_OUT_OF_SCOPE:
+    message: 目标路径不在角色可写资源层范围内（resource_scope 因子失败）
+    http: 403
+  CANONICAL_DIRECT_WRITE_FORBIDDEN:
+    message: 正式正文（canonical）禁止直接写；只能经 Publish Service 原子发布
+    http: 403
+  BUILD_FROZEN:
+    message: Build 已 approved 冻结，直接修改须新开 Revision（新 fix 任务）
+    http: 409
+  PUBLISH_GATE_FAILED:
+    message: 发布门禁未通过（审查/回归/质量未达标，禁止发布）
+    http: 409
+  REVISION_CONFLICT:
+    message: revision 冲突：目标 revision 与 canonical 当前 revision 不一致
+    http: 409
+  SERVICE_IDENTITY_REQUIRED:
+    message: 该动作仅服务身份可发起（service_only），当前身份非服务身份
+    http: 403
+  PERMISSION_DENIED:
+    message: 授权默认拒绝（六因子未全满足，或无更具体错误码可匹配）
+    http: 403
+
+# 受保护内容前缀（与 controlled_write.PROTECTED_PREFIXES 对齐；canonical 写由本层强制服务身份）
+protected_prefixes:
+  - NKB/
+  - approved/
+  - chapters/
+  - "第一卷_道生/"
+  - "第二卷_京华/"
+  - "第三卷_江湖/"
+  - "第四卷_国战/"
+  - "第五卷_长生/"
+  - "第六卷_乾坤/"
+  - sources/
+  - txt/
+  - outline
+
+# 动态任务授权（task_grant 因子的实体化）：任务 create/claim 时生成
+# operations/grants/TASK-XXX.yaml，terminal 状态后自动失效（被标记 obsolete）。
+grants:
+  directory: operations/grants
+  file_pattern: '^TASK-[\w-]+\.yaml$'
+  lifecycle:
+    generated_on: [task_create, task_claim]
+    invalidated_on: [completed, failed, archive]   # terminal 态自动失效
+  fields:
+    task_id: 关联任务 ID
+    role: 被授权角色（或 service_identity）
+    action: 被授权动作
+    resource_layer: 被授权资源层
+    targets: 允许的具体路径（可为前缀）
+    expires_at: 失效时间（terminal 态即时失效，不依赖时钟）

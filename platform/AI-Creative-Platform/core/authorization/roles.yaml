@@ -1,0 +1,64 @@
+# roles.yaml — 授权角色与服务身份（六因子之 role_capability）
+#
+# 与 ROLE_REGISTRY.yaml 的区别：
+#   - ROLE_REGISTRY 是角色分工与 may_write 的"宽表"；
+#   - 本文件是授权层视角：每个角色声明"能发起哪些授权动作"与"可触及哪些资源层"，
+#     并显式区分 Agent 角色（service_only=false）与服务身份（service_only=true，非 Agent）。
+#
+# 关键原则（用户设计）：编辑≠发布。writer/fixer 只拿 working_copy 的写权；
+# canonical 的写/回滚只授权给 publish_service（服务身份，由平台脚本确定性执行，不经 Agent）。
+schema_version: "1.0.0"
+
+roles:
+  writer:
+    kind: agent
+    capabilities:
+      - chapter.write_draft
+      - artifact.write
+    resource_layers:
+      - working_copy
+      - review_artifacts
+
+  fixer:
+    kind: agent
+    capabilities:
+      - chapter.write_draft
+      - fix.write_log
+    resource_layers:
+      - working_copy
+      - review_artifacts
+
+  reviewer:
+    kind: agent
+    capabilities:
+      - review.write_report
+    resource_layers:
+      - review_artifacts
+
+  knowledge-manager:
+    kind: agent
+    capabilities:
+      - nkb.update
+    resource_layers:
+      - nkb_draft
+      # 过渡兼容：knowledge-manager 仍可直接写 canonical NKB（既有 seed/更新链路）；
+      # 目标态为改走 nkb_commit_service 提交。迁移完成前不阻断既有 NKB 写。
+      - nkb_canonical
+
+  # ── 服务身份（非 Agent，由平台脚本确定性执行）──
+  publish_service:
+    kind: service
+    service_only: true
+    capabilities:
+      - chapter.publish
+      - canonical.rollback
+    resource_layers:
+      - canonical
+
+  nkb_commit_service:
+    kind: service
+    service_only: true
+    capabilities:
+      - nkb.canonical.commit
+    resource_layers:
+      - nkb_canonical

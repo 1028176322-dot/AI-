@@ -1,0 +1,62 @@
+# actions.yaml — 授权动作目录（编辑≠发布，动作即最小权限单元）
+#
+# 设计原则（见 2026-07-25 用户修复设计 · 双资源层 + 六因子授权）：
+#   - 每个动作绑定一个资源层（resource_layer）与一个是否"仅服务身份可发起"（service_only）。
+#   - service_only=true 的动作只能由声明的 service_identity 发起，普通 Agent 角色一律禁止。
+#   - 正式正文（canonical）的写/回滚动作 service_only=true，由 publish_service 确定性执行；
+#     NKB canonical 提交 service_only=true，由 nkb_commit_service 执行。
+#   - 其余动作（写草稿/写审查报告）service_only=false，由对应 Agent 角色经任务授权后执行。
+schema_version: "1.0.0"
+
+actions:
+  chapter.write_draft:
+    description: 写/改章节工作副本（chapters/drafts/**），不是正式正文
+    resource_layer: working_copy
+    service_only: false
+    requires_task: true          # 必须关联合法任务（受任务系统四重封锁约束）
+
+  chapter.publish:
+    description: 将已通过审查的 Build 原子发布到 canonical 正式正文
+    resource_layer: canonical
+    service_only: true
+    service_identity: publish_service
+    requires_task: true
+    atomic: true                 # 原子发布：快照→临时→校验→原子替换→更新 Manifest
+
+  canonical.rollback:
+    description: 回滚 canonical 正式正文到历史 revision（仅发布事故）
+    resource_layer: canonical
+    service_only: true
+    service_identity: publish_service
+    requires_task: true
+
+  review.write_report:
+    description: 写审查报告 / 修复建议（artifacts/reviews、artifacts/fix-proposals）
+    resource_layer: review_artifacts
+    service_only: false
+    requires_task: true
+
+  fix.write_log:
+    description: 写修复日志（artifacts/fix-logs）
+    resource_layer: review_artifacts
+    service_only: false
+    requires_task: true
+
+  artifact.write:
+    description: 写计划/上下文类产物（artifacts/plans、artifacts/context 等）
+    resource_layer: review_artifacts
+    service_only: false
+    requires_task: true
+
+  nkb.update:
+    description: 写 NKB 候选/草稿事实（NKB/candidates、NKB/drafts）
+    resource_layer: nkb_draft
+    service_only: false
+    requires_task: true
+
+  nkb.canonical.commit:
+    description: 将已裁决的 NKB 事实提交为 canonical NKB
+    resource_layer: nkb_canonical
+    service_only: true
+    service_identity: nkb_commit_service
+    requires_task: true

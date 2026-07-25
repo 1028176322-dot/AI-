@@ -26,6 +26,7 @@ if HERE not in sys.path:
 import _gov
 import task_engine as TE
 import session_bootstrap as SB
+import auth_engine as AE
 
 
 # 受保护内容产物前缀：必须经任务系统（带 task_id）才能写
@@ -69,18 +70,14 @@ def main():
     ap.add_argument("--task-id", default=None, help="关联任务 ID（受保护内容产物必填）")
     args = ap.parse_args()
 
-    allowed, reason = _gov.check_permission(args.role, args.target)
-    if not allowed:
-        print("REJECTED: role=%s cannot write %s -> %s" % (args.role, args.target, reason))
-        sys.exit(1)
-
     ws_root = _gov.find_workspace_root()
     pdir, _ = _gov.find_project(ws_root, args.project)
     if pdir is None:
         print("ERROR: project %s not found" % args.project)
         sys.exit(2)
 
-    # ── 任务系统强制（NO-TASK-NO-WRITE / NO-CLAIM-NO-EXECUTION）──
+    # ── 任务系统强制（NO-TASK-NO-WRITE / NO-CLAIM-NO-EXECUTION / 会话约束）──
+    # 结构性检查优先（退出码 3，对应 Phase4 强制层契约），再由六因子授权做精确判定。
     if _is_protected_content(args.target):
         # Step3.3：未 bootstrap（无 Session Manifest）禁止项目工具运行
         try:
@@ -112,6 +109,21 @@ def main():
         if write_scope and not args.target.startswith("tasks/") and not _fnmatch_any(args.target, write_scope):
             print("REJECTED: target=%s 不在 task write scope %s" % (args.target, write_scope))
             sys.exit(3)
+
+    # ── 授权层（六因子）── 编辑≠发布的根治点（精确拒绝码，退出码 1）。
+    # 受管资源层（canonical/working_copy/review_artifacts/nkb_*）必须经六因子授权；
+    # ungoverned（如 core/）回落 legacy check_permission，避免回归既有路径。
+    auth_res = AE.authorize(args.role, args.target, task_id=args.task_id,
+                            project_root=pdir)
+    if auth_res["decision"] == "deny":
+        print("REJECTED(auth): role=%s target=%s -> %s : %s"
+              % (args.role, args.target, auth_res["code"], auth_res["message"]))
+        sys.exit(1)
+    if auth_res["decision"] == "ungoverned":
+        allowed, reason = _gov.check_permission(args.role, args.target)
+        if not allowed:
+            print("REJECTED: role=%s cannot write %s -> %s" % (args.role, args.target, reason))
+            sys.exit(1)
 
     full = os.path.join(pdir, args.target)
     if args.content_file:

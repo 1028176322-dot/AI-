@@ -1,0 +1,78 @@
+# resources.yaml — 双资源层定义（编辑≠发布：工作副本 vs 正式正文）
+#
+# 核心约束：canonical 层（正式章节正文）authoritative=true 且 writer_identity 限定为
+# 服务身份 publish_service；普通 Agent 角色（writer/fixer/reviewer 等）只能写非 authoritative
+# 的工作副本（working_copy）与产物层（review_artifacts）。这是"正式章节写权限断链"的根治点。
+#
+# 路径映射（沿用现有真实布局，不新建平行树）：
+#   - canonical      = 各卷目录「第X卷_xxx/」（第一卷_道生/ 等）
+#   - working_copy   = chapters/drafts/
+#   - review_artifacts = artifacts/**
+#   - nkb_draft / nkb_canonical = NKB/**
+schema_version: "1.0.0"
+
+layers:
+  working_copy:
+    description: 任务工作副本，Writer/Fixer 经任务授权可写；不是正式正文
+    authoritative: false
+    prefixes:
+      - chapters/drafts/
+    writer_identity: null          # 由角色经任务授权写入，非服务身份独占
+    mutable: true
+
+  canonical:
+    description: 正式章节正文（已发布），仅 Publish Service 可写，authoritative 真相源
+    authoritative: true
+    prefixes:
+      - 第一卷_道生/
+      - 第二卷_京华/
+      - 第三卷_江湖/
+      - 第四卷_国战/
+      - 第五卷_长生/
+      - 第六卷_乾坤/
+    # 任意"第X卷_xxx/"卷目录均属 canonical（未来新增卷自动纳入，无需改白名单）
+    prefix_pattern: '^第.卷_.+/$'
+    writer_identity: publish_service   # 唯一可被授权写入 canonical 的服务身份
+    mutable: true
+
+  review_artifacts:
+    description: 审查/修复/计划类产物（非正文），对应 artifacts/**
+    authoritative: false
+    prefixes:
+      - artifacts/reviews/
+      - artifacts/fix-proposals/
+      - artifacts/fix-logs/
+      - artifacts/plans/
+      - artifacts/context/
+    writer_identity: null
+    mutable: true
+
+  nkb_draft:
+    description: NKB 候选/草稿事实，knowledge-manager 经任务授权可写
+    authoritative: false
+    prefixes:
+      - NKB/candidates/
+      - NKB/drafts/
+    writer_identity: null
+    mutable: true
+
+  nkb_canonical:
+    description: canonical NKB 真相源，仅 nkb_commit_service 可提交
+    authoritative: true
+    prefixes:
+      - NKB/
+    excludes:
+      - NKB/candidates/
+      - NKB/drafts/
+    writer_identity: nkb_commit_service
+    mutable: true
+
+  protected_content:
+    description: 其余受保护内容产物（sources/txt/outline），维持原四重封锁
+    authoritative: false
+    prefixes:
+      - sources/
+      - txt/
+      - outline
+    writer_identity: null
+    mutable: true
