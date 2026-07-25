@@ -17,3 +17,5 @@ defaults:
     - capability.character.default@1.5.0
     - capability.dialogue.ancient@1.3.0
     - capability.battle.xuanhuan@2.1.0
+    - capability.emotion.commercial@1.2.0
+    - capability.description.ancient@1.1.0

@@ -318,6 +318,33 @@ def cmd_doctor(args):
         _print_result("PlatformDir", FAIL, "不存在：%s" % platform_root)
 
     overall_fail = False
+
+    def _imp(modname):
+        return __import__(modname)
+
+    def _run_gov(block_label, result_name, gov_fn, fmt_pass, *args):
+        """标准化健康块执行器：统一 decision→PASS/WARN/FAIL 映射、异常处理、overall_fail 聚合。
+        fmt_pass(rep) 返回 PASS 时自定义文案（保留各模块专属细节）。各能力模块 govern() 返回
+        统一契约 {gate:{decision,reasons}, composite:{health}, response:{...}}。"""
+        nonlocal overall_fail
+        _print_block(block_label)
+        try:
+            rep = gov_fn(*args)
+            gate = rep.get("gate") or {}
+            gd = gate.get("decision", "proceed")
+            health = (rep.get("composite") or {}).get("health")
+            reasons = gate.get("reasons") or []
+            if gd == "block":
+                overall_fail = True
+                _print_result(result_name, FAIL, "：".join(reasons[:3]) if reasons else "block")
+            elif gd == "caution":
+                _print_result(result_name, WARN, "软问题 %d 项（健康分 %s）" % (len(reasons), health))
+            else:
+                _print_result(result_name, PASS,
+                              fmt_pass(rep) if callable(fmt_pass) else "健康分 %s" % health)
+        except Exception as _e:
+            _print_result(result_name, WARN, "自检异常：%s" % _e)
+
     projects = list_projects(ws_root, ws)
     if not projects:
         print("\n  （workspace.yaml 未登记任何 projects）")
@@ -334,173 +361,49 @@ def cmd_doctor(args):
             if sym == FAIL:
                 overall_fail = True
 
-        _print_block("资产治理（项目内容资产体检）")
-        try:
-            import asset_manager as _am
-            arep = _am.govern(proot, write=False)
-            agd = (arep.get("gate") or {}).get("decision", "proceed")
-            if agd == "block":
-                _print_result("AssetGov", FAIL, "引用断裂：%s" % "；".join(arep["gate"]["reasons"][:3]))
-                overall_fail = True
-            elif agd == "caution":
-                _print_result("AssetGov", WARN, "软问题 %d 项（健康分 %s）" % (
-                    len(arep["gate"]["reasons"]), arep["composite"]["health"]))
-            else:
-                _print_result("AssetGov", PASS, "健康分 %s" % arep["composite"]["health"])
-        except Exception as _e:
-            _print_result("AssetGov", WARN, "自检异常：%s" % _e)
+        _run_gov("资产治理（项目内容资产体检）", "AssetGov",
+                 lambda p: _imp("asset_manager").govern(p),
+                 lambda r: "健康分 %s" % r["composite"]["health"], proot)
+        _run_gov("图谱可视化（Phase 3-5 自检）", "GraphGov",
+                 lambda p: _imp("graph_viz").govern(p),
+                 lambda r: "健康分 %s（%d 节点/%d 边）" % (
+                     r["composite"]["health"], r["response"]["nodes"], r["response"]["edges"]), proot)
+        _run_gov("市场分析（Phase 3-6 自检）", "MarketGov",
+                 lambda pr, p: _imp("market").govern(pr, p),
+                 lambda r: "健康分 %s（%d 信号）" % (
+                     r["composite"]["health"], r["response"]["signals"]), platform_root, proot)
+        _run_gov("源同步校验（txt↔md CI 检查 · Phase 审查治理）", "SyncGov",
+                 lambda p: _imp("sync_check").check_txt_md_sync(p),
+                 lambda r: "健康分 %s（%d 源章节 / %d 已导出 / %d 未导出）" % (
+                     r["composite"]["health"], r["response"]["sources"],
+                     r["response"]["checked"], len(r["response"]["missing"])), proot)
+        _run_gov("项目基线健康（Project 自检 · Phase C）", "ProjectGov",
+                 lambda p: _imp("project_health").govern(p),
+                 lambda r: "健康分 %s（%s）" % (
+                     r["composite"]["health"], r["response"].get("summary", "ok")), proot)
 
-        _print_block("图谱可视化（Phase 3-5 自检）")
-        try:
-            import graph_viz as _gv
-            gvrep = _gv.govern(proot, write=False)
-            gvgd = (gvrep.get("gate") or {}).get("decision", "proceed")
-            if gvgd == "block":
-                _print_result("GraphGov", FAIL, "图谱结构损坏：%s" % "；".join(gvrep["gate"]["reasons"][:3]))
-                overall_fail = True
-            elif gvgd == "caution":
-                _print_result("GraphGov", WARN, "软问题 %d 项（健康分 %s）" % (
-                    len(gvrep["gate"]["reasons"]), gvrep["composite"]["health"]))
-            else:
-                _print_result("GraphGov", PASS, "健康分 %s（%d 节点/%d 边）" % (
-                    gvrep["composite"]["health"], gvrep["response"]["nodes"], gvrep["response"]["edges"]))
-        except Exception as _e:
-            _print_result("GraphGov", WARN, "自检异常：%s" % _e)
-
-        _print_block("市场分析（Phase 3-6 自检）")
-        try:
-            import market as _mk
-            mkrep = _mk.govern(platform_root, proot, write=False)
-            mkgd = (mkrep.get("gate") or {}).get("decision", "proceed")
-            if mkgd == "block":
-                _print_result("MarketGov", FAIL, "市场配置损坏：%s" % "；".join(mkrep["gate"]["reasons"][:3]))
-                overall_fail = True
-            elif mkgd == "caution":
-                _print_result("MarketGov", WARN, "软问题 %d 项（健康分 %s）" % (
-                    len(mkrep["gate"]["reasons"]), mkrep["composite"]["health"]))
-            else:
-                _print_result("MarketGov", PASS, "健康分 %s（%d 信号）" % (
-                    mkrep["composite"]["health"], mkrep["response"]["signals"]))
-        except Exception as _e:
-            _print_result("MarketGov", WARN, "自检异常：%s" % _e)
-
-        _print_block("源同步校验（txt↔md CI 检查 · Phase 审查治理）")
-        try:
-            import sync_check as _sc
-            screp = _sc.check_txt_md_sync(proot)
-            scgd = (screp.get("gate") or {}).get("decision", "proceed")
-            if scgd == "block":
-                _print_result("SyncGov", FAIL, "源不同步：%s" % "；".join(screp["gate"]["reasons"][:3]))
-                overall_fail = True
-            elif scgd == "caution":
-                _print_result("SyncGov", WARN, "软问题 %d 项（健康分 %s）" % (
-                    len(screp["gate"]["reasons"]), screp["composite"]["health"]))
-            else:
-                _print_result("SyncGov", PASS, "健康分 %s（%d 源章节 / %d 已导出 / %d 未导出）" % (
-                    screp["composite"]["health"], screp["response"]["sources"],
-                    screp["response"]["checked"], len(screp["response"]["missing"])))
-        except Exception as _e:
-            _print_result("SyncGov", WARN, "自检异常：%s" % _e)
-
-    _print_block("内存治理（platform/memory/ 体检）")
-    try:
-        import memory_governor as _mg
-        rep = _mg.govern(platform_root, write=False)
-        gd = (rep.get("gate") or {}).get("decision", "proceed")
-        if gd == "block":
-            _print_result("MemoryGov", FAIL, "结构错配：%s" % "；".join(rep["gate"]["reasons"][:3]))
-            overall_fail = True
-        elif gd == "caution":
-            _print_result("MemoryGov", WARN, "软问题 %d 项（健康分 %s）" % (
-                len(rep["gate"]["reasons"]), rep["composite"]["health"]))
-        else:
-            _print_result("MemoryGov", PASS, "健康分 %s" % rep["composite"]["health"])
-    except Exception as _e:
-        _print_result("MemoryGov", WARN, "自检异常：%s" % _e)
-
-    _print_block("模型布线器（Phase 3-1 自检）")
-    try:
-        import model_router as _mr
-        mrep = _mr.govern(platform_root, write=False)
-        mgd = (mrep.get("gate") or {}).get("decision", "proceed")
-        if mgd == "block":
-            _print_result("ModelGov", FAIL, "无可用模型/配置损坏：%s" % "；".join(mrep["gate"]["reasons"][:3]))
-            overall_fail = True
-        elif mgd == "caution":
-            _print_result("ModelGov", WARN, "软问题 %d 项（健康分 %s）" % (
-                len(mrep["gate"]["reasons"]), mrep["composite"]["health"]))
-        else:
-            _print_result("ModelGov", PASS, "健康分 %s" % mrep["composite"]["health"])
-    except Exception as _e:
-        _print_result("ModelGov", WARN, "自检异常：%s" % _e)
-
-    _print_block("多项目管理（Phase 3-2 自检）")
-    try:
-        import multi_project as _mp
-        mprep = _mp.govern(platform_root, write=False)
-        mpgd = (mprep.get("gate") or {}).get("decision", "proceed")
-        if mpgd == "block":
-            _print_result("MultiProjGov", FAIL, "注册表损坏/项目路径缺失：%s" % "；".join(mprep["gate"]["reasons"][:3]))
-            overall_fail = True
-        elif mpgd == "caution":
-            _print_result("MultiProjGov", WARN, "软问题 %d 项（健康分 %s）" % (
-                len(mprep["gate"]["reasons"]), mprep["composite"]["health"]))
-        else:
-            _print_result("MultiProjGov", PASS, "健康分 %s（%d 项目）" % (
-                mprep["composite"]["health"], mprep["response"]["projects"]))
-    except Exception as _e:
-        _print_result("MultiProjGov", WARN, "自检异常：%s" % _e)
-
-    _print_block("实验系统（Phase 3-3 自检）")
-    try:
-        import experiment as _exp
-        exrep = _exp.govern(platform_root, write=False)
-        exgd = (exrep.get("gate") or {}).get("decision", "proceed")
-        if exgd == "block":
-            _print_result("ExpGov", FAIL, "实验定义损坏：%s" % "；".join(exrep["gate"]["reasons"][:3]))
-            overall_fail = True
-        elif exgd == "caution":
-            _print_result("ExpGov", WARN, "软问题 %d 项（健康分 %s）" % (
-                len(exrep["gate"]["reasons"]), exrep["composite"]["health"]))
-        else:
-            _print_result("ExpGov", PASS, "健康分 %s（%d 实验）" % (
-                exrep["composite"]["health"], exrep["response"]["experiments"]))
-    except Exception as _e:
-        _print_result("ExpGov", WARN, "自检异常：%s" % _e)
-
-    _print_block("BI 分析（Phase 3-4 自检）")
-    try:
-        import bi as _bi
-        birep = _bi.govern(platform_root, write=False)
-        bigd = (birep.get("gate") or {}).get("decision", "proceed")
-        if bigd == "block":
-            _print_result("BiGov", FAIL, "仪表盘定义损坏：%s" % "；".join(birep["gate"]["reasons"][:3]))
-            overall_fail = True
-        elif bigd == "caution":
-            _print_result("BiGov", WARN, "软问题 %d 项（健康分 %s）" % (
-                len(birep["gate"]["reasons"]), birep["composite"]["health"]))
-        else:
-            _print_result("BiGov", PASS, "健康分 %s（%d 仪表盘）" % (
-                birep["composite"]["health"], birep["response"]["dashboards"]))
-    except Exception as _e:
-        _print_result("BiGov", WARN, "自检异常：%s" % _e)
-
-    _print_block("项目模板（Phase 3-7 自检）")
-    try:
-        import project_template as _pt
-        ptrep = _pt.govern(platform_root, write=False)
-        ptgd = (ptrep.get("gate") or {}).get("decision", "proceed")
-        if ptgd == "block":
-            _print_result("TemplateGov", FAIL, "模板契约损坏：%s" % "；".join(ptrep["gate"]["reasons"][:3]))
-            overall_fail = True
-        elif ptgd == "caution":
-            _print_result("TemplateGov", WARN, "软问题 %d 项（健康分 %s）" % (
-                len(ptrep["gate"]["reasons"]), ptrep["composite"]["health"]))
-        else:
-            _print_result("TemplateGov", PASS, "健康分 %s（%d 模板 / %d 注册项目）" % (
-                ptrep["composite"]["health"], ptrep["response"]["templates"], ptrep["response"]["projects"]))
-    except Exception as _e:
-        _print_result("TemplateGov", WARN, "自检异常：%s" % _e)
+    _run_gov("内存治理（platform/memory/ 体检）", "MemoryGov",
+             lambda pr: _imp("memory_governor").govern(pr),
+             lambda r: "健康分 %s" % r["composite"]["health"], platform_root)
+    _run_gov("模型布线器（Phase 3-1 自检）", "ModelGov",
+             lambda pr: _imp("model_router").govern(pr),
+             lambda r: "健康分 %s" % r["composite"]["health"], platform_root)
+    _run_gov("多项目管理（Phase 3-2 自检）", "MultiProjGov",
+             lambda pr: _imp("multi_project").govern(pr),
+             lambda r: "健康分 %s（%d 项目）" % (
+                 r["composite"]["health"], r["response"]["projects"]), platform_root)
+    _run_gov("实验系统（Phase 3-3 自检）", "ExpGov",
+             lambda pr: _imp("experiment").govern(pr),
+             lambda r: "健康分 %s（%d 实验）" % (
+                 r["composite"]["health"], r["response"]["experiments"]), platform_root)
+    _run_gov("BI 分析（Phase 3-4 自检）", "BiGov",
+             lambda pr: _imp("bi").govern(pr),
+             lambda r: "健康分 %s（%d 仪表盘）" % (
+                 r["composite"]["health"], r["response"]["dashboards"]), platform_root)
+    _run_gov("项目模板（Phase 3-7 自检）", "TemplateGov",
+             lambda pr: _imp("project_template").govern(pr),
+             lambda r: "健康分 %s（%d 模板 / %d 注册项目）" % (
+                 r["composite"]["health"], r["response"]["templates"], r["response"]["projects"]), platform_root)
 
     _print_block("单 Agent 执行策略（Agent Compliance Gate · Phase 5）")
     try:

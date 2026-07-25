@@ -82,7 +82,7 @@ def scaffold(platform_root, ws_root, name, genre, pid=None, write=True):
 
     os.makedirs(proot)
     tver = str((tpl["profile"] or {}).get("schema_version", "0"))
-    _write_project_yaml(proot, pid, name, genre, tver)
+    _write_project_yaml(proot, pid, name, genre, tver, tpl.get("profile") or {})
 
     # 空 NKB（含模板扩展字段）
     nkb_dir = os.path.join(proot, "NKB")
@@ -108,8 +108,63 @@ def scaffold(platform_root, ws_root, name, genre, pid=None, write=True):
     return True, [], proot
 
 
-def _write_project_yaml(proot, pid, name, genre, tver):
+# 平台级基线（题材无关，genre 模板通常不覆盖；profile.defaults 可局部覆盖）
+_PLATFORM_BASE_DEFAULTS = {
+    "plugins": {
+        "planner": "planner.default@1.2.0",
+        "context": "context.runtime@2.0.0",
+        "workflow": "workflow.novel@1.4.0",
+        "review": "review.four-pillars@4.3.0",
+    },
+    "gates": {
+        "editor_score": 80,
+        "consistency_index": 0.95,
+        "reader_index": 60,
+        "payment_intent": 60,
+        "max_loop": 5,
+    },
+    "capabilities": [
+        "capability.narrative.default@2.0.0",
+        "capability.character.default@1.5.0",
+        "capability.dialogue.ancient@1.3.0",
+        "capability.battle.xuanhuan@2.1.0",
+        "capability.emotion.commercial@1.2.0",
+        "capability.description.ancient@1.1.0",
+    ],
+}
+
+
+def _cap_key(cap_str):
+    """从 capability 字符串解析映射键：capability.narrative.default@2.0.0 -> narrative。"""
+    try:
+        body = cap_str.split("capability.", 1)[1].split("@", 1)[0]
+        return body.split(".")[0]
+    except Exception:
+        return cap_str
+
+
+def _write_project_yaml(proot, pid, name, genre, tver, profile=None):
+    """写 project.yaml。题材注入：优先采用模板 profile.defaults 的 gates/capabilities/plugins，
+    缺失时回落到平台基线（_PLATFORM_BASE_DEFAULTS）。保证 genre 模板是题材设置的唯一事实源。"""
+    profile = profile or {}
+    defaults = profile.get("defaults") or {}
+    gates = dict(_PLATFORM_BASE_DEFAULTS["gates"])
+    gates.update(defaults.get("gates") or {})
+    caps = defaults.get("capabilities") or _PLATFORM_BASE_DEFAULTS["capabilities"]
+    plugins = dict(_PLATFORM_BASE_DEFAULTS["plugins"])
+    plugins.update(defaults.get("plugins") or {})
+
+    display = profile.get("display_name") or genre
+    desc = profile.get("description") or ""
+
+    cap_lines = "\n".join("  %s: %s" % (_cap_key(c), c) for c in caps)
+    gate_lines = "\n".join("  %s: %s" % (k, v) for k, v in gates.items())
+    plugin_lines = "\n".join("  %s: %s" % (k, v) for k, v in plugins.items())
+
     project_yaml = (
+        "# 由 platform init-project 从模板 %s 生成（题材注入：gates/capabilities/plugins）\n"
+        "# display_name: %s\n"
+        "# description: %s\n"
         "project:\n"
         "  id: %s\n"
         "  name: %s\n"
@@ -125,17 +180,9 @@ def _write_project_yaml(proot, pid, name, genre, tver):
         "  id: %s\n"
         "  version: %s\n\n"
         "plugins:\n"
-        "  planner: planner.default@1.2.0\n"
-        "  context: context.runtime@2.0.0\n"
-        "  workflow: workflow.novel@1.4.0\n"
-        "  review: review.four-pillars@4.3.0\n\n"
+        "%s\n\n"
         "capabilities:\n"
-        "  narrative: capability.narrative.default@2.0.0\n"
-        "  character: capability.character.default@1.5.0\n"
-        "  dialogue: capability.dialogue.ancient@1.3.0\n"
-        "  battle: capability.battle.xuanhuan@2.1.0\n"
-        "  emotion: capability.emotion.commercial@1.2.0\n"
-        "  description: capability.description.ancient@1.1.0\n\n"
+        "%s\n\n"
         "paths:\n"
         "  nkb: ./NKB\n"
         "  outline: ./outline.md\n"
@@ -144,12 +191,9 @@ def _write_project_yaml(proot, pid, name, genre, tver):
         "  overrides: ./overrides\n"
         "  memory: ./memory/project\n\n"
         "gates:\n"
-        "  editor_score: 80\n"
-        "  consistency_index: 0.95\n"
-        "  reader_index: 60\n"
-        "  payment_intent: 60\n"
-        "  max_loop: 5\n"
-    ) % (pid, name, genre, genre, tver, genre, tver)
+        "%s\n"
+    ) % (genre, display, desc, pid, name, genre, genre, tver, genre, tver,
+         plugin_lines, cap_lines, gate_lines)
     with open(os.path.join(proot, "project.yaml"), "w", encoding="utf-8") as f:
         f.write(project_yaml)
 
