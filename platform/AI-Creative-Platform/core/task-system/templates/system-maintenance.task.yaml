@@ -1,0 +1,13 @@
+task_template:
+  type: system_maintenance
+  version: "1.0.0"
+  required_role: system-maintainer
+  description: 平台/工具/政策维护（受 human 显式授权；平台自身演进豁免 pre-commit task_id）
+  required_inputs: [change_brief, impact_assessment]
+  allowed_outputs: [patch, operation_manifest]
+  permissions:
+    read: [core/**, tools/**, registry/**, policies/**]
+    write: [core/**, tools/**, registry/**, policies/**]
+    forbidden: [projects/*/NKB/**, projects/*/chapters/approved/**]
+  next_tasks:
+    on_submit: [system_verify]

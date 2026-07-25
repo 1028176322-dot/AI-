@@ -1,0 +1,13 @@
+task_template:
+  type: nkb_update
+  version: "1.0.0"
+  required_role: knowledge-manager
+  description: NKB 知识库同步（须持 approved_event；数据型任务，submit 门禁豁免 quality/reader）
+  required_inputs: [candidate_facts, approved_event]
+  allowed_outputs: [nkb_sync, operation_manifest]
+  permissions:
+    read: [NKB/**, chapters/**, sources/**]
+    write: [NKB/**, operations/**]
+    forbidden: [core/**, registry/**, templates/**, chapters/approved/**]
+  next_tasks:
+    on_submit: [nkb_publish]

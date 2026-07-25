@@ -1,0 +1,13 @@
+task_template:
+  type: plan_write
+  version: "1.0.0"
+  required_role: story-architect
+  description: 章节规划（大纲/人物/冲突/钩子落章级计划卡）
+  required_inputs: [outline, nkb_snapshot, project_status]
+  allowed_outputs: [chapter_plan, handoff]
+  permissions:
+    read: [NKB/**, sources/outline/**, chapters/approved/**]
+    write: [tasks/running/<id>/outputs/**]
+    forbidden: [core/**, registry/**, templates/**, NKB/**, chapters/approved/**]
+  next_tasks:
+    on_submit: [chapter_write]
