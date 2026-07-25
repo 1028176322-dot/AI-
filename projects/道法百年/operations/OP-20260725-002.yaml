@@ -1,0 +1,25 @@
+# Operation Manifest — 满足 AI 治理 pre-commit 约束（NKB 变更须附 operations/ 下 manifest）
+operation_id: OP-20260725-002
+role: knowledge-manager
+capability: nkb_update
+timestamp: "2026-07-25T08:16:00+08:00"
+project: novel-dsf
+intent: 按大纲裁决重排进京时序冲突
+scope:
+  - NKB/Timeline.yaml
+  - NKB/Events.yaml
+  - NKB/WorldState.yaml
+  - NKB/Assets.yaml
+  - NKB/StoryState.yaml
+  - NKB/CHANGELOG.md
+changes:
+  - 进京资本线（TL-011~018 / EVT-008~014）由时间线文档锚点 Ch11-18 重排至卷一 Ch82-89（大纲裁决）
+  - TL-009/010、EVT-006/007（抵通州镇/救苏墨凝）属下山历练段（前 60 章），不随进京重排，conflict_note 更正
+  - WorldState.WS-007、Assets.AST-005（开业）冲突解决；Assets.AST-006（千两银票）更正为下山历练获取
+  - StoryState.SS-003 冲突标注移除，SS-004 完成度同步
+  - CHANGELOG 新增「进京时序冲突已解决」段
+verification:
+  - _yaml_lite 全量解析 0 失败
+  - platform_cli doctor 全 PASS（GraphGov 63 节点/106 边 健康分100）
+  - grep 确认 NKB/*.yaml 无残留「待重排」
+confidence_policy: 所有记录 confidence=outline（仅来自可信设定文档，未取未审核章节）；章节过审后升 verified

@@ -63,8 +63,8 @@ records:
     state: "仙人醉（酒坊）+ 天上人间（酒楼）已营；醉仙楼被压制（国师府捧场）"
     seeded: true
     derived_from: [EVT-009, EVT-014]
-    conflict_note: "进京/开业节点：大纲裁决应后移至卷一 81-100 章，本态按时间线文档当前锚点 seed，待重排"
+    conflict_note: "进京/开业已按大纲裁决重排至卷一 81-100 章（跟随 EVT-009 Ch83 / EVT-014 Ch89）"
     src: 时间线与人物关系图
     confidence: outline
-    Version: 1
-    Updated: 时间线
+    Version: 2
+    Updated: 大纲(重排81-100)

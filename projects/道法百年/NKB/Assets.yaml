@@ -54,11 +54,11 @@ records:
     state: 酒楼，已开业，压醉仙楼
     source_event: EVT-014
     seeded: true
-    conflict_note: "开业节点大纲裁决应后移至 81-100 章，待重排"
+    conflict_note: "开业已按大纲裁决重排至卷一 81-100 章（Ch89，跟随 EVT-014）"
     src: 时间线与人物关系图
     confidence: outline
-    Version: 1
-    Updated: 时间线
+    Version: 2
+    Updated: 大纲(重排81-100)
   - id: AST-006
     name: 千两银票
     owner: CHR-001
@@ -66,11 +66,11 @@ records:
     state: 第 010 章搜出，作启动资金
     source_event: EVT-007
     seeded: true
-    conflict_note: "获取节点大纲裁决应后移至 81-100 章，待重排"
+    conflict_note: "下山历练阶段获取（第 010 章，前 60 章），非进京线，不随进京重排"
     src: 时间线与人物关系图
     confidence: outline
-    Version: 1
-    Updated: 时间线
+    Version: 2
+    Updated: 大纲(重排81-100)
   - id: AST-007
     name: 引荐信（玄尘子）
     owner: CHR-001

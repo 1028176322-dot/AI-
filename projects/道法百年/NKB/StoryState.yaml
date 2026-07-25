@@ -18,15 +18,14 @@ records:
     Updated: 大纲
   - id: SS-003
     name: 当前阶段
-    value: "卷一第四阶段·京华初启（81-100 章，进京投国师/盘店/商战/暗线收口）"
-    conflict_note: "现有正文 Ch1-9 + 大纲 Ch10-18 把进京/天上人间置于 9-18 章；大纲裁决须重排至 81-100 章，详见 CHANGELOG 进京时序冲突"
+    value: "卷一第四阶段·京华初启（81-100 章，进京投国师/盘店/商战/暗线收口）—— 进京线已按大纲裁决重排，详见 Timeline TL-011~018 / Events EVT-008~014"
     src: 大纲_1000章总体规划
     confidence: outline
-    Version: 1
-    Updated: 大纲
+    Version: 2
+    Updated: 大纲(重排81-100)
   - id: SS-004
     name: 完成度
-    value: "六卷 1000 章总体规划已定（current）；第一卷 100 章规划中。现有：正文 Ch1-9 + 大纲 Ch10-18（待重排），Ch19-20 缺失。约 250-300 万字总规模。"
+    value: "六卷 1000 章总体规划已定（current）；第一卷 100 章规划中。现有：正文 Ch1-9 + 下山历练 Ch10（救苏墨凝）+ 进京线已按大纲重排至 Ch82-89（原时间线文档 Ch11-18），Ch11-81 下山历练段待规划。约 250-300 万字总规模。"
     src: 大纲_1000章总体规划
     confidence: outline
     Version: 1
