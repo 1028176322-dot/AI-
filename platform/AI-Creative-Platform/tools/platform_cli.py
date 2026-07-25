@@ -389,6 +389,10 @@ def cmd_doctor(args):
                  lambda p: _imp("audit_report").govern(p),
                  lambda r: "健康分 %s（%d 记录）" % (
                      r["composite"]["health"], r["response"]["records"]), proot)
+        _run_gov("状态派生（Status 自检 · Phase C）", "StatusGov",
+                 lambda p: _imp("status_derive").govern(p),
+                 lambda r: "健康分 %s（派生状态正常·%d 伏笔未回收）" % (
+                     r["composite"]["health"], r["response"]["open_foreshadows"]), proot)
 
     _run_gov("内存治理（platform/memory/ 体检）", "MemoryGov",
              lambda pr: _imp("memory_governor").govern(pr),

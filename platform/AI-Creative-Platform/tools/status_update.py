@@ -13,6 +13,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
 import _gov
+import status_derive
 
 STAGE_ENUM = ["idea", "evaluating", "initiated", "defining", "designing",
               "preparing_knowledge", "readiness_review", "ready_for_writing",
@@ -105,7 +106,7 @@ def show(project_root):
 def main():
     ap = argparse.ArgumentParser(prog="status", description="项目状态管理")
     ap.add_argument("--project-root", required=True)
-    ap.add_argument("verb", choices=["init", "show", "set", "block"])
+    ap.add_argument("verb", choices=["init", "show", "set", "block", "derive"])
     ap.add_argument("--stage", default=None)
     ap.add_argument("--chapter", default=None)
     ap.add_argument("--title", default=None)
@@ -126,6 +127,11 @@ def main():
     elif args.verb == "block":
         set_step(args.project_root, blocked=True, reason=args.reason, by="status-updater")
         print("✓ blocked: %s" % (args.reason or ""))
+    elif args.verb == "derive":
+        # PC-3：从任务系统 + NKB 派生状态（不手填），落在 project/status.derived.yaml
+        res = status_derive.derive(args.project_root, write=True)
+        print("✓ status derived -> %s" % status_derive._path(args.project_root))
+        print(_gov.dump_block(res))
 
 
 if __name__ == "__main__":
