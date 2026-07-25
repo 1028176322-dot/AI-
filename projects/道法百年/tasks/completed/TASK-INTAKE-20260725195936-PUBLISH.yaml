@@ -1,0 +1,36 @@
+task:
+  id: TASK-INTAKE-20260725195936-PUBLISH
+  version: 1
+  project: novel-dsf
+  type: chapter_publish
+  title: 发布 TASK-INTAKE-20260725195936 到正式正文
+  status: completed
+  priority: high
+  created: 2026-07-25T20:01:26
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260725195936
+  inputs:
+    required:
+      - chapters/drafts/第025章_火器镇场.md
+  publish_target: 第一卷_道生/第025章_火器镇场.md
+  expected_outputs:
+    - published-chapter
+  acceptance:
+    criteria:
+      - Publish Service 原子发布成功
+      - Manifest 更新
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - 第一卷_道生/第025章_火器镇场.md
+    forbidden: []
+  agent:
+    required_role: publish_service
+  owner: 橘子
+  claimed_at: 2026-07-25T20:01:27
+  lease_expire: 2026-07-25T21:01:27
+  workspace: tasks\running\TASK-INTAKE-20260725195936-PUBLISH\outputs

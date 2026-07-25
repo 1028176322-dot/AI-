@@ -1,0 +1,52 @@
+task:
+  id: TASK-INTAKE-20260725195057
+  type: chapter_fix
+  project: novel-dsf
+  title: 修复第021章
+  version: 1
+  priority: high
+  chapter_ref: 第一卷_道生/第021章.md
+  agent:
+    required_role: writer
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - chapters/drafts/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  inputs:
+    required:
+      - review_report
+      - chapter_draft
+  expected_outputs:
+    - chapter_draft
+    - self_check
+    - handoff
+  acceptance:
+    criteria:
+      - 按 chapter-fix 模板契约完成
+  created: 2026-07-25T19:50:57
+  created_by: 橘子
+  urgency: normal
+  status: completed
+  owner: 橘子
+  claimed_at: 2026-07-25T19:50:57
+  lease_expire: 2026-07-25T20:50:57
+  workspace: tasks\running\TASK-INTAKE-20260725195057\outputs
+  artifact: chapters/drafts/第021章_离观启程.md
+  outputs:
+    artifact: chapters/drafts/第021章_离观启程.md
+  submission:
+    checks: null
+    at: 2026-07-25T19:50:58
+  review:
+    decision: pass
+    at: 2026-07-25T19:51:11
