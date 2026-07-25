@@ -164,7 +164,7 @@ clone 仓库
 ### 2. 命令一览
 | 命令 | 作用 |
 |------|------|
-| `python tools/platform_cli.py bootstrap` | 初始化环境：兼容检查全 PASS 才写缓存；任一项 FAIL 立即中止 |
+| `python cli/platform.py bootstrap` | 初始化环境：兼容检查全 PASS 才写缓存；任一项 FAIL 立即中止 |
 | `… doctor` | 只读诊断，逐项报告 PASS / FAIL / WARN，退出码 0 / 1 |
 | `… check [--project <id>]` | 单项目兼容性检查（requires vs 实际） |
 | `… init-project --name <目录> --type <genre>` | 脚手架新项目（空 NKB + overrides + 自动登记进 workspace.yaml） |
@@ -199,15 +199,15 @@ clone 仓库
 | 会话引导 | 每次对话先加载正确平台和项目 | `core/session/SESSION_BOOTSTRAP.md` |
 | 角色权限 | 不同 AI 只能做自己的事 | `core/session/ROLE_REGISTRY.yaml` + `core/policies/permissions.policy.yaml` |
 | 合同 | 所有输入输出必须结构一致 | `core/contracts/*.contract.yaml` |
-| 受控工具 | AI 不能直接绕过平台改文件 | `tools/controlled_write.py` |
-| 合规门 | 不合规产物不能进入后续流程 | `core/policies/compliance.policy.yaml` + `tools/compliance_gate.py` |
+| 受控工具 | AI 不能直接绕过平台改文件 | `scripts/tasks/controlled_write.py` |
+| 合规门 | 不合规产物不能进入后续流程 | `core/policies/compliance.policy.yaml` + `scripts/policies/compliance_gate.py` |
 
 ### 2. 两种跨对话机制
 
 | 机制 | 作用 | 落地 |
 |---|---|---|
 | 操作清单 | 记录每次 AI 操作（谁/角色/改了什么/按什么规则/什么版本） | `operations/OP-*.yaml`（Operation Manifest，由 `controlled_write` 自动生成） |
-| 交接 | 不同对话通过文件交接，不靠聊天记忆 | `handoffs/HO-*.yaml`（`tools/create_handoff.py`） |
+| 交接 | 不同对话通过文件交接，不靠聊天记忆 | `handoffs/HO-*.yaml`（`scripts/session/create_handoff.py`） |
 
 ### 3. 执行链
 
@@ -237,10 +237,10 @@ platform contract --contract chapter.write --payload p.json        # 校验契�
 
 ### 6. Git 约束（文件系统之外的第二道锁）
 
-分支 `ai/writer/*` `ai/reviewer/*` `ai/fixer/*` 由 `tools/git_hooks/pre-commit` 拦截越权提交（writer 不能碰 NKB、reviewer 不能碰 chapters 等）。安装：
+分支 `ai/writer/*` `ai/reviewer/*` `ai/fixer/*` 由 `scripts/_common/git_hooks/pre-commit` 拦截越权提交（writer 不能碰 NKB、reviewer 不能碰 chapters 等）。安装：
 
 ```bash
-git config core.hooksPath platform/AI-Creative-Platform/tools/git_hooks
+git config core.hooksPath platform/AI-Creative-Platform/scripts/_common/git_hooks
 ```
 
 详见 `git_branching.md` 与项目根 `AGENTS.md`。

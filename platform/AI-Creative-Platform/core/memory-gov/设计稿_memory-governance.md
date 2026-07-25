@@ -70,8 +70,8 @@ status: active | deprecated
 3. `tools/memory_governor.py`（引擎）
 4. `core/session/ROLE_REGISTRY.yaml`：加 `memory-governor`（may_write `analysis/memory/**`，may_not_write `memory/**` 本身——只读体检）
 5. `core/policies/permissions.policy.yaml`：mirror
-6. `tools/platform_cli.py`：加 `memory` 子命令
-7. `tools/platform_cli.py doctor`：接入 memory 自检（block→doctor FAIL）
+6. `cli/platform.py`：加 `memory` 子命令
+7. `cli/platform.py doctor`：接入 memory 自检（block→doctor FAIL）
 8. `registry/versions.yaml`：加 `memory_governor: 1.0.0`
 9. `projects/道法百年/AGENTS.md`：加 Rule 16 内存治理
 

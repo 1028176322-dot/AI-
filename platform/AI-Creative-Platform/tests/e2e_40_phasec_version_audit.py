@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import os as _os, sys as _sys
+_PLAT2 = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+if _PLAT2 not in _sys.path:
+    _sys.path.insert(0, _PLAT2)
+_SCR2 = _os.path.join(_PLAT2, "scripts")
+if _os.path.isdir(_SCR2):
+    for _d in _os.listdir(_SCR2):
+        _p = _os.path.join(_SCR2, _d)
+        if _os.path.isdir(_p) and _p not in _sys.path:
+            _sys.path.insert(0, _p)
+if _os.path.join(_PLAT2, "cli") not in _sys.path:
+    _sys.path.insert(0, _os.path.join(_PLAT2, "cli"))
 """e2e_40_phasec_version_audit.py — Phase C 验收（PC-2）：
   - version_commit.snapshot / list_snapshots（项目级快照 + manifest）
   - version_commit.compare_versions（两 revision 文本 diff）
@@ -126,7 +138,7 @@ def test_audit():
 
 # ── 4. doctor 接线（源码级）─────────────────────────────────
 def test_wiring():
-    cli_path = os.path.join(TOOLS, "platform_cli.py")
+    cli_path = os.path.join(_PLAT2, "cli", "platform.py")
     src = open(cli_path, encoding="utf-8").read()
     check("doctor 含 VersionGov 块", "VersionGov" in src)
     check("doctor 含 AuditGov 块", "AuditGov" in src)

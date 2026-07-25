@@ -1,3 +1,15 @@
+import os as _os, sys as _sys
+_PLAT2 = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+if _PLAT2 not in _sys.path:
+    _sys.path.insert(0, _PLAT2)
+_SCR2 = _os.path.join(_PLAT2, "scripts")
+if _os.path.isdir(_SCR2):
+    for _d in _os.listdir(_SCR2):
+        _p = _os.path.join(_SCR2, _d)
+        if _os.path.isdir(_p) and _p not in _sys.path:
+            _sys.path.insert(0, _p)
+if _os.path.join(_PLAT2, "cli") not in _sys.path:
+    _sys.path.insert(0, _os.path.join(_PLAT2, "cli"))
 """txt<->md 同步校验（SyncGov CI 检查）单元测试。"""
 import os
 import sys

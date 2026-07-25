@@ -1,4 +1,16 @@
 # -*- coding: utf-8 -*-
+import os as _os, sys as _sys
+_PLAT2 = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+if _PLAT2 not in _sys.path:
+    _sys.path.insert(0, _PLAT2)
+_SCR2 = _os.path.join(_PLAT2, "scripts")
+if _os.path.isdir(_SCR2):
+    for _d in _os.listdir(_SCR2):
+        _p = _os.path.join(_SCR2, _d)
+        if _os.path.isdir(_p) and _p not in _sys.path:
+            _sys.path.insert(0, _p)
+if _os.path.join(_PLAT2, "cli") not in _sys.path:
+    _sys.path.insert(0, _os.path.join(_PLAT2, "cli"))
 """e2e_37 — Phase A 脚本化工具链端到端验证
 
 覆盖：索引构建 / NKB 查询与投影 / Level-1 预检 / task next / task packet /
@@ -198,9 +210,9 @@ def main():
         import subprocess as _sp
         IB.build_index(PROJ)  # 写 PROJ/runtime/indexes（派生，测试后清理）
         py = sys.executable
-        cli = os.path.join(TOOLS, "platform_cli.py")
+        cli = os.path.join(_PLAT2, "cli", "platform.py")
         env = dict(os.environ)
-        env["PYTHONPATH"] = TOOLS + os.pathsep + env.get("PYTHONPATH", "")
+        env["PYTHONPATH"] = os.pathsep.join([_p for _p in sys.path if _p.startswith(_SCR2)]) + os.pathsep + env.get("PYTHONPATH", "")
         proc = _sp.run([py, cli, "doctor"], capture_output=True, text=True, env=env, cwd=PROJ_ROOT)
         out = proc.stdout + proc.stderr
         check("doctor 输出含 ScriptGov", "ScriptGov" in out, out[:400])
@@ -228,9 +240,9 @@ def _cli(project_root, args):
     （否则 task 子命令的 required --project-root 会因被 REMAINDER 吞掉而报错）。
     """
     py = sys.executable
-    cli = os.path.join(TOOLS, "platform_cli.py")
+    cli = os.path.join(_PLAT2, "cli", "platform.py")
     env = dict(os.environ)
-    env["PYTHONPATH"] = TOOLS + os.pathsep + env.get("PYTHONPATH", "")
+    env["PYTHONPATH"] = os.pathsep.join([_p for _p in sys.path if _p.startswith(_SCR2)]) + os.pathsep + env.get("PYTHONPATH", "")
     rest = list(args[1:])
     # 避免重复插入 --project-root（调用方已显式传递时）
     if any(a == "--project-root" for a in rest):

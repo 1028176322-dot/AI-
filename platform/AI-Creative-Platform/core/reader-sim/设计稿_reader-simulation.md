@@ -102,8 +102,8 @@ gate:
 - `registry/versions.yaml`：加 `reader_simulator: 1.0.0`
 - `core/session/ROLE_REGISTRY.yaml`：加 `reader-sim` 角色（capability `reader_sim`，可写 `analysis/reader/**`，禁写核心区/chapters/approved/tasks）
 - `core/policies/permissions.policy.yaml`：并行加 `reader-sim` 读写规则
-- `tools/platform_cli.py`：加 `reader` 子命令（delegate 到 `reader_simulator`）
-- `tools/task_engine.py`：`submit` 加 `_reader_precheck`（仅内容类任务 chapter_write/chapter_fix/continuity_fix/nkb_update/asset_create），gate=block 抛 `ValueError` 拒绝提交
+- `cli/platform.py`：加 `reader` 子命令（delegate 到 `reader_simulator`）
+- `scripts/tasks/task_engine.py`：`submit` 加 `_reader_precheck`（仅内容类任务 chapter_write/chapter_fix/continuity_fix/nkb_update/asset_create），gate=block 抛 `ValueError` 拒绝提交
 - `projects/道法百年/AGENTS.md`：加 Rule 15 读者模拟门禁
 
 ## 8. 与质量评分(#2)衔接

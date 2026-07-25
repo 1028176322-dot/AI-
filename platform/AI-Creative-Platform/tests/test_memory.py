@@ -1,3 +1,15 @@
+import os as _os, sys as _sys
+_PLAT2 = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+if _PLAT2 not in _sys.path:
+    _sys.path.insert(0, _PLAT2)
+_SCR2 = _os.path.join(_PLAT2, "scripts")
+if _os.path.isdir(_SCR2):
+    for _d in _os.listdir(_SCR2):
+        _p = _os.path.join(_SCR2, _d)
+        if _os.path.isdir(_p) and _p not in _sys.path:
+            _sys.path.insert(0, _p)
+if _os.path.join(_PLAT2, "cli") not in _sys.path:
+    _sys.path.insert(0, _os.path.join(_PLAT2, "cli"))
 """内存治理（Memory Governance）e2e 回归测试 · Phase 2 #4
 
 覆盖：ok(proceed) / block(SC2 level↔dir) / block(SC3 status↔位置)
@@ -161,11 +173,11 @@ class TestMemoryGov(unittest.TestCase):
                 )
             # 复用已构造的合规 memory/
             shutil.copytree(self.mem, os.path.join(plat, "memory"))
-            cli = os.path.join(TOOLS, "platform_cli.py")
+            cli = os.path.join(_PLAT2, "cli", "platform.py")
             r = subprocess.run(
                 ["C:/Users/Administrator/.workbuddy/binaries/python/versions/3.13.12/python.exe",
                  cli, "--workspace", ws, "doctor"],
-                cwd=TOOLS, capture_output=True, text=True)
+                cwd=_PLAT2, capture_output=True, text=True)
             self.assertEqual(r.returncode, 0, msg=r.stdout + r.stderr)
 
             # 引入结构错配 → doctor 应 exit 1
@@ -174,7 +186,7 @@ class TestMemoryGov(unittest.TestCase):
             r2 = subprocess.run(
                 ["C:/Users/Administrator/.workbuddy/binaries/python/versions/3.13.12/python.exe",
                  cli, "--workspace", ws, "doctor"],
-                cwd=TOOLS, capture_output=True, text=True)
+                cwd=_PLAT2, capture_output=True, text=True)
             self.assertEqual(r2.returncode, 1, msg=r2.stdout + r2.stderr)
         finally:
             shutil.rmtree(ws, ignore_errors=True)

@@ -4,7 +4,7 @@
 > 地位：**平台操作中心（Operation Center）**
 > 对应 Phase 1「必须」项：任务系统
 > 配套：task-schema.yaml / goal.schema.yaml / task-state-machine.md / task-router.md / agent-assignment.md / execution-policy.md / task-review.md
-> 工具：`tools/task_engine.py` + `tools/task_cli.py`（CLI：`platform task <verb>`）
+> 工具：`scripts/tasks/task_engine.py` + `scripts/tasks/task_cli.py`（CLI：`platform task <verb>`）
 
 ## 0. 核心转变
 

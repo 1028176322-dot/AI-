@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import os as _os, sys as _sys
+_PLAT2 = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+if _PLAT2 not in _sys.path:
+    _sys.path.insert(0, _PLAT2)
+_SCR2 = _os.path.join(_PLAT2, "scripts")
+if _os.path.isdir(_SCR2):
+    for _d in _os.listdir(_SCR2):
+        _p = _os.path.join(_SCR2, _d)
+        if _os.path.isdir(_p) and _p not in _sys.path:
+            _sys.path.insert(0, _p)
+if _os.path.join(_PLAT2, "cli") not in _sys.path:
+    _sys.path.insert(0, _os.path.join(_PLAT2, "cli"))
 """e2e_39_phasec_init_doctor.py — Phase C 验收：
   - apply-template 题材注入（profile.defaults → gates/capabilities 注入 + 平台基线回落）
   - ProjectGov 基线健康块（project_health.govern：proceed/caution/block）
@@ -139,7 +151,7 @@ def test_project_health():
 
 # ── 3. doctor 接线（源码级）─────────────────────────────────
 def test_wiring():
-    cli_path = os.path.join(TOOLS, "platform_cli.py")
+    cli_path = os.path.join(_PLAT2, "cli", "platform.py")
     src = open(cli_path, encoding="utf-8").read()
     check("doctor 含 ProjectGov 块", "ProjectGov" in src)
     check("doctor 含 _run_gov 执行器", "_run_gov" in src)

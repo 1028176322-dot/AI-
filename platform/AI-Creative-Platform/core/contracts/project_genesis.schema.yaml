@@ -2,7 +2,7 @@ schema_version: "1.0.0"
 # 项目模板契约（Phase 3-7 Project Templates）
 # applies_to: templates/<genre>/profile.yaml + templates/<genre>/nkb-schema-extension.yaml + 脚手架产物
 # 职责：定义 genre 模板结构 + 市场钩子种子 + 多项目注册约束。
-# 脚手架由 `platform init-project` 执行（引擎 tools/project_template.py）。
+# 脚手架由 `platform init-project` 执行（引擎 scripts/project/project_template.py）。
 applies_to:
   - templates/*/profile.yaml
   - templates/*/nkb-schema-extension.yaml

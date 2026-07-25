@@ -13,7 +13,7 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-# gate 在 platform/core/gates/，tools 在 platform/tools/；确保 _gov 可导入
+# gate 在 platform/core/gates/，scripts 在 platform/scripts/；确保 _gov 可导入
 _TOOLS = os.path.normpath(os.path.join(HERE, "..", "..", "tools"))
 if _TOOLS not in sys.path:
     sys.path.insert(0, _TOOLS)

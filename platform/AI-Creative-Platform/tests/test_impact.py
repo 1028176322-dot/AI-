@@ -1,8 +1,20 @@
 # -*- coding: utf-8 -*-
+import os as _os, sys as _sys
+_PLAT2 = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+if _PLAT2 not in _sys.path:
+    _sys.path.insert(0, _PLAT2)
+_SCR2 = _os.path.join(_PLAT2, "scripts")
+if _os.path.isdir(_SCR2):
+    for _d in _os.listdir(_SCR2):
+        _p = _os.path.join(_SCR2, _d)
+        if _os.path.isdir(_p) and _p not in _sys.path:
+            _sys.path.insert(0, _p)
+if _os.path.join(_PLAT2, "cli") not in _sys.path:
+    _sys.path.insert(0, _os.path.join(_PLAT2, "cli"))
 """冲击分析仪端到端验证（Phase 2 #1）。覆盖 proceed/caution/block 三态 + 索引 + 任务预检拦截 + CLI 委托。"""
 import os, sys, shutil, datetime, subprocess
 
-HERE = r"E:/AI-Workspace/platform/AI-Creative-Platform/tools"
+HERE = _os.path.dirname(_os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import impact_analyzer as IA
 import task_engine as TE
@@ -86,7 +98,7 @@ except ValueError:
 check("claim 043 放行成功", ok)
 
 # 7) CLI 委托（platform impact ...）
-pc = r"E:/AI-Workspace/platform/AI-Creative-Platform/tools/platform_cli.py"
+pc = _os.path.join(_PLAT2, "cli", "platform.py")
 out = subprocess.run([sys.executable, pc, "impact", "--project-root", ROOT, "analyze",
                       "--target-type", "nkb", "--target-id", "Characters/c1"],
                      capture_output=True, text=True)

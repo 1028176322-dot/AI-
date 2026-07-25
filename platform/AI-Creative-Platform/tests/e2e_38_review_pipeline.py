@@ -1,4 +1,16 @@
 # -*- coding: utf-8 -*-
+import os as _os, sys as _sys
+_PLAT2 = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+if _PLAT2 not in _sys.path:
+    _sys.path.insert(0, _PLAT2)
+_SCR2 = _os.path.join(_PLAT2, "scripts")
+if _os.path.isdir(_SCR2):
+    for _d in _os.listdir(_SCR2):
+        _p = _os.path.join(_SCR2, _d)
+        if _os.path.isdir(_p) and _p not in _sys.path:
+            _sys.path.insert(0, _p)
+if _os.path.join(_PLAT2, "cli") not in _sys.path:
+    _sys.path.insert(0, _os.path.join(_PLAT2, "cli"))
 """e2e_38 — Phase B 审查管线端到端验证
 
 覆盖：结构化 Review 报告 schema + 单 Agent 多阶段计划（B-1）/
@@ -40,9 +52,9 @@ def check(name, cond, detail=""):
 
 def _cli(project_root, args):
     py = sys.executable
-    cli = os.path.join(TOOLS, "platform_cli.py")
+    cli = os.path.join(_PLAT2, "cli", "platform.py")
     env = dict(os.environ)
-    env["PYTHONPATH"] = TOOLS + os.pathsep + env.get("PYTHONPATH", "")
+    env["PYTHONPATH"] = os.pathsep.join([_p for _p in sys.path if _p.startswith(_SCR2)]) + os.pathsep + env.get("PYTHONPATH", "")
     full = [py, cli] + [args[0], "--project-root", project_root] + args[1:]
     proc = subprocess.run(full, capture_output=True, text=True, env=env,
                           cwd=os.path.dirname(cli))
@@ -199,9 +211,9 @@ def main():
 
         # [8] doctor ReviewGov 块（真实工程，只读不污染）
         py = sys.executable
-        cli = os.path.join(TOOLS, "platform_cli.py")
+        cli = os.path.join(_PLAT2, "cli", "platform.py")
         env = dict(os.environ)
-        env["PYTHONPATH"] = TOOLS + os.pathsep + env.get("PYTHONPATH", "")
+        env["PYTHONPATH"] = os.pathsep.join([_p for _p in sys.path if _p.startswith(_SCR2)]) + os.pathsep + env.get("PYTHONPATH", "")
         proc = subprocess.run([py, cli, "doctor"], capture_output=True, text=True,
                               env=env, cwd=PROJ)
         doc = proc.stdout + proc.stderr

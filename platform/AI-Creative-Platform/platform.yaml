@@ -10,7 +10,7 @@
 # 路径决策（见 2026-07-25 评审）：
 #   - projects 保留在仓库根（paths.projects = ../../projects）；
 #   - schemas 仅做索引（schemas/registry.yaml 指向 core/contracts，不迁移实体）；
-#   - tools 阶段2 迁移至 cli/ + scripts/，本期仍指向 tools/。
+#   - tools 已阶段2 迁移至 cli/ + scripts/（tools/ 目录已删除）。
 schema: platform-manifest@1.0
 
 platform:
@@ -21,7 +21,7 @@ platform:
   language: zh-CN
 
 entrypoints:
-  cli: tools/platform_cli.py          # 阶段2 迁移至 cli/platform.py
+  cli: cli/platform.py                 # 阶段2 由 tools/platform_cli.py 迁移
   agents: AGENTS.md
   memory: memory/MEMORY.md
   architecture: ARCHITECTURE.md
@@ -33,7 +33,7 @@ paths:
   schemas: schemas/
   registry: registry/
   projects: ../../projects           # 项目在仓库根（Q1：保留仓库根）
-  tools: tools/                       # 阶段2 迁移至 scripts/
+  scripts: scripts/                   # 阶段2 由 tools/ 迁移而来（引擎脚本）
   migrations: migrations/             # 阶段2 创建
   runtime: runtime/                   # 平台级 runtime（阶段2 创建；项目级 runtime 在 projects/<id>/runtime）
 
@@ -51,9 +51,9 @@ schemas:
 installers:
   project:
     command: platform project create
-    implementation: tools/project_template.py   # 阶段2 迁移至 scripts/project/create_project.py
-    deployment_builder: tools/project_init.py
-    validator: tools/project_health.py
+    implementation: scripts/project/project_template.py
+    deployment_builder: scripts/project/project_init.py
+    validator: scripts/project/project_health.py
     staging_path: runtime/staging/              # 阶段2
 
 session:

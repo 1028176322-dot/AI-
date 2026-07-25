@@ -1,4 +1,16 @@
 # -*- coding: utf-8 -*-
+import os as _os, sys as _sys
+_PLAT2 = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+if _PLAT2 not in _sys.path:
+    _sys.path.insert(0, _PLAT2)
+_SCR2 = _os.path.join(_PLAT2, "scripts")
+if _os.path.isdir(_SCR2):
+    for _d in _os.listdir(_SCR2):
+        _p = _os.path.join(_SCR2, _d)
+        if _os.path.isdir(_p) and _p not in _sys.path:
+            _sys.path.insert(0, _p)
+if _os.path.join(_PLAT2, "cli") not in _sys.path:
+    _sys.path.insert(0, _os.path.join(_PLAT2, "cli"))
 """Step 4 · 端到端强制链验证（Phase 4 任务系统强制层）。
 
 目标：验证"无 Task ID 不执行 / 无 Claim 不写入 / 无 Submission 不审查 / 无 Gate 不进正式目录"
@@ -110,7 +122,7 @@ def setup_sandbox():
     git("commit", "-q", "-m", "baseline: project.yaml", cwd=PROJ)
 
     # 安装 pre-commit 钩子（提交旁路检测）
-    hook_src = os.path.join(TOOLS, "git_hooks", "pre-commit")
+    hook_src = os.path.join(_PLAT2, "scripts", "_common", "git_hooks", "pre-commit")
     hook_dst = os.path.join(PROJ, ".git", "hooks", "pre-commit")
     os.makedirs(os.path.dirname(hook_dst), exist_ok=True)
     shutil.copy(hook_src, hook_dst)
@@ -321,7 +333,7 @@ def main():
         print("\n[T8] doctor：真实项目 道法百年 平台治理无 Phase4 回归")
         real_ws = os.path.dirname(os.path.dirname(os.path.dirname(TOOLS)))  # tools->平台->platform->AI-Workspace
         try:
-            r = subprocess.run([sys.executable, os.path.join(TOOLS, "platform_cli.py"),
+            r = subprocess.run([sys.executable, os.path.join(_PLAT2, "cli", "platform.py"),
                                 "--workspace", real_ws, "doctor"],
                                capture_output=True, text=True, timeout=420)
             dout = r.stdout + r.stderr

@@ -30,7 +30,7 @@ ai/fixer/*        # 修复对话产出修复
 
 ```bash
 cd AI-Workspace
-git config core.hooksPath platform/AI-Creative-Platform/tools/git_hooks
+git config core.hooksPath platform/AI-Creative-Platform/scripts/_common/git_hooks
 ```
 
-钩子脚本：`platform/AI-Creative-Platform/tools/git_hooks/pre-commit`（纯 bash，无依赖）。
+钩子脚本：`platform/AI-Creative-Platform/scripts/_common/git_hooks/pre-commit`（纯 bash，无依赖）。

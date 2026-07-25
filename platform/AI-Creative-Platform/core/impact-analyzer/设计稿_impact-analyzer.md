@@ -149,7 +149,7 @@ platform impact --show <REPORT-ID>
 | `registry/versions.yaml` | `core:` 下加 `impact_analyzer: 1.0.0`；`contract: 1.2.0 → 1.3.0` |
 | `core/session/ROLE_REGISTRY.yaml` | 新增角色 `impact-analyzer`（capabilities: [impact_analysis]，may_write: `analysis/impact/**` + `analysis/index/**`，may_not_write: core/registry/NKB/chapters/approved/tasks） |
 | `core/policies/permissions.policy.yaml` | 新增 `impact-analyzer` allow_write/deny_write（对齐 ROLE_REGISTRY） |
-| `tools/platform_cli.py` | `build_parser` 加 `impact`（REMAINDER）；`_delegate_gov` 加 `"impact":"impact_analyzer"` |
+| `cli/platform.py` | `build_parser` 加 `impact`（REMAINDER）；`_delegate_gov` 加 `"impact":"impact_analyzer"` |
 | `projects/道法百年/AGENTS.md` | 新增规则：高爆炸半径变更（角色/设定/主线事件）前须 `platform impact --analyze`，gate=block 必须 human_gate 放行 |
 
 ---

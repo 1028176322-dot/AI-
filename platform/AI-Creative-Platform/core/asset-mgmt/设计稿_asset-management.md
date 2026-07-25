@@ -60,11 +60,11 @@ NKB      paths.nkb             = ./NKB            （*.yaml，11 组件；Assets
 ## §7 装配清单
 1. `core/contracts/asset.schema.yaml`（契约）
 2. `registry/asset.yaml`（orphan/missing/duplicate 阈值、扣分权重、引用检测开关、inbox 视为孤儿）
-3. `tools/asset_manager.py`（引擎）
+3. `scripts/platform/asset_manager.py`（引擎）
 4. `core/session/ROLE_REGISTRY.yaml`：加 `asset-manager`（may_write `analysis/asset/**`，只读内容目录）
 5. `core/policies/permissions.policy.yaml`：mirror
-6. `tools/platform_cli.py`：加 `asset` 子命令（`--project-root`，委托 asset_manager）
-7. `tools/platform_cli.py doctor`：接入 asset 自检（block → FAIL）
+6. `cli/platform.py`：加 `asset` 子命令（`--project-root`，委托 asset_manager）
+7. `cli/platform.py doctor`：接入 asset 自检（block → FAIL）
 8. `registry/versions.yaml`：加 `asset_manager: 1.0.0`
 9. `projects/道法百年/AGENTS.md`：加 Rule 17 资产管理
 

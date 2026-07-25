@@ -1,4 +1,16 @@
 # -*- coding: utf-8 -*-
+import os as _os, sys as _sys
+_PLAT2 = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+if _PLAT2 not in _sys.path:
+    _sys.path.insert(0, _PLAT2)
+_SCR2 = _os.path.join(_PLAT2, "scripts")
+if _os.path.isdir(_SCR2):
+    for _d in _os.listdir(_SCR2):
+        _p = _os.path.join(_SCR2, _d)
+        if _os.path.isdir(_p) and _p not in _sys.path:
+            _sys.path.insert(0, _p)
+if _os.path.join(_PLAT2, "cli") not in _sys.path:
+    _sys.path.insert(0, _os.path.join(_PLAT2, "cli"))
 """test_project_template.py — Phase 3-7 项目模板 e2e 测试（≥7 用例）"""
 import os
 import sys
@@ -184,10 +196,10 @@ class ProjectTemplateTest(unittest.TestCase):
                 )
             # 模板（P3-7）
             _make_template(plat)
-            cli = os.path.join(TOOLS, "platform_cli.py")
+            cli = os.path.join(_PLAT2, "cli", "platform.py")
             r = subprocess.run(
                 [PY, cli, "--workspace", ws, "doctor"],
-                cwd=TOOLS, capture_output=True, text=True)
+                cwd=_PLAT2, capture_output=True, text=True)
             self.assertEqual(r.returncode, 0, msg=r.stdout + r.stderr)
             self.assertIn("TemplateGov", r.stdout)
             self.assertIn("PASS", r.stdout)

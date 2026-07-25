@@ -1,4 +1,16 @@
 # -*- coding: utf-8 -*-
+import os as _os, sys as _sys
+_PLAT2 = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+if _PLAT2 not in _sys.path:
+    _sys.path.insert(0, _PLAT2)
+_SCR2 = _os.path.join(_PLAT2, "scripts")
+if _os.path.isdir(_SCR2):
+    for _d in _os.listdir(_SCR2):
+        _p = _os.path.join(_SCR2, _d)
+        if _os.path.isdir(_p) and _p not in _sys.path:
+            _sys.path.insert(0, _p)
+if _os.path.join(_PLAT2, "cli") not in _sys.path:
+    _sys.path.insert(0, _os.path.join(_PLAT2, "cli"))
 """Phase 5 · 单 Agent 执行策略 · 端到端一致性验证。
 
 覆盖四层：策略契约 / 项目覆盖 / AGENTS 规则 / 任务模板+ready_check /
@@ -201,7 +213,7 @@ check("agent_audit 无 spawned/delegated/parallel",
       rep["agent_audit"]["spawned_agents"] == [] and rep["agent_audit"]["delegated_tasks"] == []
       and rep["agent_audit"]["parallel_runs"] == [])
 # doctor 实际跑出 AgentGov PASS
-r = subprocess.run([sys.executable, os.path.join(TOOLS, "platform_cli.py"),
+r = subprocess.run([sys.executable, os.path.join(_PLAT2, "cli", "platform.py"),
                     "--workspace", PROJ_ROOT, "doctor"],
                    capture_output=True, text=True, timeout=420)
 doctor_ok = ("AgentGov" in r.stdout) and ("[PASS] AgentGov" in r.stdout)

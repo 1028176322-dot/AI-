@@ -7,7 +7,7 @@
 > - `core/contracts/nkb-source.schema.yaml` — 源文件质量门禁（§19）
 > - `core/contracts/nkb-candidate.schema.yaml` — 候选事实结构（§15）
 > - `tools/validate_nkb_sources.py` — 校验器（扫描 `sources/` 与 `NKB/candidates/`）
-> - 调用入口：`python tools/platform_cli.py nkb --project-root <项目根>`
+> - 调用入口：`python cli/platform.py nkb --project-root <项目根>`
 
 本规范解决以下问题：
 

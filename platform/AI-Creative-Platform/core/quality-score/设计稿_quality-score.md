@@ -161,8 +161,8 @@ scorer 注册：在 `registry/` 增 `scorers.yaml`（name → module/weight/enab
 | `registry/versions.yaml` | `core:` 下加 `quality_scorer: 1.0.0`；`contract: 1.3.0 → 1.4.0` |
 | `core/session/ROLE_REGISTRY.yaml` | 新增角色 `quality-scorer`（capabilities: [quality_score]，may_write: `analysis/quality/**`，may_not_write: core/registry/NKB/chapters/approved/tasks） |
 | `core/policies/permissions.policy.yaml` | 新增 `quality-scorer` allow_write/deny_write |
-| `tools/platform_cli.py` | `build_parser` 加 `quality`（REMAINDER）；`_delegate_gov` 加 `"quality":"quality_scorer"` |
-| `tools/task_engine.py` | `submit` 前置质量门（gate=block 拒绝 submit，提示修复 / human_gate） |
+| `cli/platform.py` | `build_parser` 加 `quality`（REMAINDER）；`_delegate_gov` 加 `"quality":"quality_scorer"` |
+| `scripts/tasks/task_engine.py` | `submit` 前置质量门（gate=block 拒绝 submit，提示修复 / human_gate） |
 | `projects/道法百年/AGENTS.md` | 新增规则：章类制品 `submit` 前须过质量门（block 必须修复或 human_gate） |
 
 ---

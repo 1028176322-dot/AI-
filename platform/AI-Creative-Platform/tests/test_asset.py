@@ -1,4 +1,16 @@
 # -*- coding: utf-8 -*-
+import os as _os, sys as _sys
+_PLAT2 = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+if _PLAT2 not in _sys.path:
+    _sys.path.insert(0, _PLAT2)
+_SCR2 = _os.path.join(_PLAT2, "scripts")
+if _os.path.isdir(_SCR2):
+    for _d in _os.listdir(_SCR2):
+        _p = _os.path.join(_SCR2, _d)
+        if _os.path.isdir(_p) and _p not in _sys.path:
+            _sys.path.insert(0, _p)
+if _os.path.join(_PLAT2, "cli") not in _sys.path:
+    _sys.path.insert(0, _os.path.join(_PLAT2, "cli"))
 """资产管理 e2e 测试（Phase 2 #5）"""
 import os
 import sys
@@ -116,7 +128,7 @@ class TestAsset(unittest.TestCase):
             with open(os.path.join(ws, "workspace.yaml"), "w", encoding="utf-8") as f:
                 f.write("workspace:\n  platform: %s\n  projects:\n    - ./proj\n"
                         % PLATFORM_ROOT)
-            import platform_cli
+            from cli import platform as platform_cli
             with self.assertRaises(SystemExit) as cm:
                 platform_cli.cmd_doctor(argparse.Namespace(workspace=ws))
             self.assertEqual(cm.exception.code, 1)

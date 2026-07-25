@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import os as _os, sys as _sys
+_PLAT2 = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+if _PLAT2 not in _sys.path:
+    _sys.path.insert(0, _PLAT2)
+_SCR2 = _os.path.join(_PLAT2, "scripts")
+if _os.path.isdir(_SCR2):
+    for _d in _os.listdir(_SCR2):
+        _p = _os.path.join(_SCR2, _d)
+        if _os.path.isdir(_p) and _p not in _sys.path:
+            _sys.path.insert(0, _p)
+if _os.path.join(_PLAT2, "cli") not in _sys.path:
+    _sys.path.insert(0, _os.path.join(_PLAT2, "cli"))
 """e2e_41_phasec_status_derive.py — Phase C 验收（PC-3）：
   - status_derive.derive：从任务系统 + NKB 派生项目状态（不手填）
   - 任务计数 / 章节前沿 / failed 阻塞检测 / NKB 组件计数 / 伏笔未回收
@@ -150,11 +162,11 @@ def test_govern():
 
 
 def test_wiring():
-    cli_path = os.path.join(TOOLS, "platform_cli.py")
+    cli_path = os.path.join(_PLAT2, "cli", "platform.py")
     src = open(cli_path, encoding="utf-8").read()
     check("doctor 含 StatusGov 块", "StatusGov" in src)
     check("doctor 含 status_derive 调用", '"status_derive").govern' in src or "status_derive" in src)
-    su_path = os.path.join(TOOLS, "status_update.py")
+    su_path = os.path.join(_PLAT2, "scripts", "tasks", "status_update.py")
     su = open(su_path, encoding="utf-8").read()
     check("status_update 接入 derive 动词", '"derive"' in su and "status_derive" in su)
 

@@ -20,7 +20,7 @@
 - 每个文件必须含 `document:` 元数据段（`id` / `type` / `title` / `status` / `version` / `updated_at` / `owner` / `project_id`）。
 - 事实类文件 `status` 必须为 `approved`；`inbox` / `research` / `outline` / `plan` 不受此限。
 - 不得在文件中使用"可能 / 也许 / 预计"等推测词而不标记计划态。
-- 校验命令：`python tools/platform_cli.py nkb --project-root .`（零 FAIL 方可进入提取流程）。
+- 校验命令：`python cli/platform.py nkb --project-root .`（零 FAIL 方可进入提取流程）。
 
 ## 当前状态
 
