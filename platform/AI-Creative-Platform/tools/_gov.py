@@ -15,6 +15,18 @@ def load_yaml(path):
         return Y.load(f.read())
 
 
+def dump_yaml(path, data):
+    """写出 YAML。优先 PyYAML，缺失则回退 _yaml_lite（与 load_yaml 互通）。"""
+    try:
+        import yaml  # PyYAML（可选）
+        with open(path, "w", encoding="utf-8") as f:
+            yaml.safe_dump(data, f, allow_unicode=True, sort_keys=False)
+        return
+    except ImportError:
+        pass
+    Y.dump_file(path, data)
+
+
 def find_platform_root():
     # tools/<this>.py -> platform/AI-Creative-Platform
     return os.path.dirname(HERE)

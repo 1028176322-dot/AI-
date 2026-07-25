@@ -182,7 +182,9 @@ def _parse_seq(tokens, i, indent):
                 value = None
                 i += 1
             result.append(value)
-        elif (": " in item or item.endswith(":")) and not item.startswith("["):
+        elif (": " in item or item.endswith(":")) and not item.startswith("[") \
+                and not (item.startswith('"') and item.endswith('"')) \
+                and not (item.startswith("'") and item.endswith("'")):
             value, i = _parse_dash_map(tokens, i, indent)
             result.append(value)
         else:
@@ -217,6 +219,116 @@ def load(text: str) -> dict:
 def load_file(path: str) -> dict:
     with open(path, "r", encoding="utf-8") as f:
         return load(f.read())
+
+
+# ── 最小化 YAML 发射器（与 load 互通的子集）──────────────────────
+def _format_key(k):
+    if not isinstance(k, str):
+        return str(k)
+    if k == "":
+        return '""'
+    if re.match(r"^-?\d+$", k) or re.match(r"^-?\d+\.\d+$", k):
+        return '"' + k + '"'
+    if k.lower() in ("true", "false", "null"):
+        return '"' + k + '"'
+    if (": " in k) or ("#" in k) or (k[0] in " \t") or (k[-1] in " \t"):
+        return '"' + k.replace("\\", "\\\\").replace('"', '\\"') + '"'
+    return k
+
+
+def _scalar_str(v):
+    if v is None:
+        return "null"
+    if isinstance(v, bool):
+        return "true" if v else "false"
+    if isinstance(v, int):
+        return str(v)
+    if isinstance(v, float):
+        return repr(v)
+    s = str(v)
+    if s == "":
+        return '""'
+    needs = False
+    if s[0] in " \t" or s[-1] in " \t":
+        needs = True
+    if (": " in s) or ("#" in s):
+        needs = True
+    if s.lower() in ("true", "false", "null", "yes", "no"):
+        needs = True
+    if re.match(r"^-?\d+$", s) or re.match(r"^-?\d+\.\d+$", s):
+        needs = True
+    if "," in s:
+        needs = True
+    if "\n" in s or "\r" in s:
+        s = s.replace("\r", " ").replace("\n", " ")
+        needs = True
+    if needs:
+        return '"' + s.replace("\\", "\\\\").replace('"', '\\"') + '"'
+    return s
+
+
+def _emit_mapping(obj, spaces, lines):
+    for k, v in obj.items():
+        ks = _format_key(k)
+        if v is None:
+            lines.append(" " * spaces + ks + ":")
+        elif isinstance(v, dict) and v:
+            lines.append(" " * spaces + ks + ":")
+            _emit_mapping(v, spaces + 2, lines)
+        elif isinstance(v, list):
+            if not v:
+                lines.append(" " * spaces + ks + ": []")
+            else:
+                lines.append(" " * spaces + ks + ":")
+                _emit_sequence(v, spaces + 2, lines)
+        else:
+            lines.append(" " * spaces + ks + ": " + _scalar_str(v))
+
+
+def _emit_sequence(lst, spaces, lines):
+    for item in lst:
+        if isinstance(item, dict) and item:
+            keys = list(item.items())
+            k0, v0 = keys[0]
+            ks0 = _format_key(k0)
+            if v0 is None:
+                lines.append(" " * spaces + "- " + ks0 + ":")
+            elif isinstance(v0, dict) and v0:
+                lines.append(" " * spaces + "- " + ks0 + ":")
+                _emit_mapping(v0, spaces + 2, lines)
+            elif isinstance(v0, list):
+                if not v0:
+                    lines.append(" " * spaces + "- " + ks0 + ": []")
+                else:
+                    lines.append(" " * spaces + "- " + ks0 + ":")
+                    _emit_sequence(v0, spaces + 2, lines)
+            else:
+                lines.append(" " * spaces + "- " + ks0 + ": " + _scalar_str(v0))
+            rest = keys[1:]
+            if rest:
+                sub = {}
+                for kk, vv in rest:
+                    sub[kk] = vv
+                _emit_mapping(sub, spaces + 2, lines)
+        else:
+            lines.append(" " * spaces + "- " + _scalar_str(item))
+
+
+def dump(data) -> str:
+    """把 dict/list 发射为 block 风格 YAML（可被本模块 load 重新解析）。"""
+    lines = []
+    if isinstance(data, dict):
+        _emit_mapping(data, 0, lines)
+    elif isinstance(data, list):
+        _emit_sequence(data, 0, lines)
+    else:
+        lines.append(_scalar_str(data))
+    return "\n".join(lines) + ("\n" if lines else "")
+
+
+def dump_file(path: str, data) -> None:
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(dump(data))
 
 
 if __name__ == "__main__":

@@ -521,6 +521,21 @@ def cmd_doctor(args):
     except Exception as _e:
         _print_result("AgentGov", WARN, "自检异常：%s" % _e)
 
+    _print_block("脚本化工具链（Phase A · ScriptGov）")
+    try:
+        import json as _json
+        idx_path = os.path.join(proot, "runtime", "indexes", "index.json")
+        if os.path.isfile(idx_path):
+            _idata = _json.load(open(idx_path, encoding="utf-8"))
+            _print_result("ScriptGov", PASS, "索引已构建：实体 %d / 章节 %d / 事件 %d" % (
+                _idata.get("counts", {}).get("entities", 0),
+                _idata.get("counts", {}).get("chapters", 0),
+                _idata.get("counts", {}).get("events", 0)))
+        else:
+            _print_result("ScriptGov", WARN, "索引未构建（运行 platform index build 以启用输入最小化）")
+    except Exception as _e:
+        _print_result("ScriptGov", WARN, "自检异常：%s" % _e)
+
     print("")
     if overall_fail:
         print("结果：存在 FAIL —— 平台/项目不兼容，请先修复后再运行。")
@@ -832,6 +847,23 @@ def build_parser():
     gcs = sub.add_parser("compliance", help="任务系统强制层旁路检测：越权改动扫描 + 回滚（scan [--rollback]）")
     gcs.add_argument("--project-root", required=True)
     gcs.add_argument("--rollback", action="store_true", help="显式回滚越权改动（破坏性）")
+
+    # ── Phase A 脚本化工具链（输入最小化）──
+    gi3 = sub.add_parser("index", help="索引构建与查询（files/entities/chapters/events/terminology/dependencies）")
+    gi3.add_argument("--project-root", default=None)
+    gi3.add_argument("rest", nargs=argparse.REMAINDER)
+    gc2 = sub.add_parser("context", help="最小上下文构建（Context Package，预算过滤 NKB）")
+    gc2.add_argument("--project-root", default=None)
+    gc2.add_argument("rest", nargs=argparse.REMAINDER)
+    gp3 = sub.add_parser("policy", help="编译最小规则包（Policy Compiler）")
+    gp3.add_argument("--project-root", default=None)
+    gp3.add_argument("rest", nargs=argparse.REMAINDER)
+    gv2 = sub.add_parser("validate", help="Level-1 脚本预检管线（schema/ids/references/terminology/...）")
+    gv2.add_argument("--project-root", default=None)
+    gv2.add_argument("rest", nargs=argparse.REMAINDER)
+    gq2 = sub.add_parser("query", help="NKB 查询/投影接口（get/state/events/foreshadow/reader-known/project）")
+    gq2.add_argument("--project-root", default=None)
+    gq2.add_argument("rest", nargs=argparse.REMAINDER)
     return p
 
 
@@ -854,7 +886,8 @@ def main():
         cmd_init_project(args)
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
                       "init", "charter", "psrc", "genesis", "ready",
-                      "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "exp", "bi", "graph", "market", "compliance"):
+                      "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "exp", "bi", "graph", "market", "compliance",
+                      "index", "context", "policy", "validate", "query"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -895,6 +928,11 @@ def _delegate_gov(cmd, args):
         "graph": "graph_viz",
         "market": "market",
         "compliance": "compliance_scan",
+        "index": "index_builder",
+        "context": "context_builder",
+        "policy": "policy_compiler",
+        "validate": "validators",
+        "query": "nkb_query",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])

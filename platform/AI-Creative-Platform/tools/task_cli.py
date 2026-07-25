@@ -32,6 +32,7 @@ import _gov
 import task_engine as TE
 import session_bootstrap as SB
 import task_intake as TI
+import task_packet as TP
 
 PLAT_ROOT = os.path.dirname(HERE)
 TEMPLATES_DIR = os.path.join(PLAT_ROOT, "core", "task-system", "templates")
@@ -165,13 +166,14 @@ def main():
     ap = argparse.ArgumentParser(prog="task", description="任务系统操作中心")
     ap.add_argument("verb", choices=["create", "goal", "promote", "claim", "start",
                                      "submit", "review", "complete", "fail", "retry",
-                                     "route", "list", "show", "intake", "run"])
+                                     "route", "list", "show", "intake", "run", "next", "packet"])
     ap.add_argument("--project-root", required=True)
     ap.add_argument("--request", help="自然语言请求（intake/run 用）")
     ap.add_argument("--project", default="novel-dsf", help="项目 id（intake/run 用）")
     ap.add_argument("--yaml", help="任务/目标 YAML 文件路径")
     ap.add_argument("--json", help="内联 JSON（task 或 goal 字典）")
     ap.add_argument("--task", help="task id")
+    ap.add_argument("--type", default=None, help="任务类型过滤（next 用）")
     ap.add_argument("--agent", default="agent-unknown")
     ap.add_argument("--role", default="unknown")
     ap.add_argument("--model", default="unknown")
@@ -249,6 +251,25 @@ def main():
                 print("    - %s" % i)
     elif v == "show":
         TE.show_task(root, args.task)
+    elif v == "next":
+        nxt = TE.next_task(root, args.role, types=([args.type] if args.type else None))
+        if not nxt:
+            print("# 无 ready 任务可接取（role=%s）" % args.role)
+            return
+        print("task_id: %s" % nxt["task_id"])
+        print("type: %s" % nxt["type"])
+        print("status: ready")
+        print("priority: %s" % nxt["priority"])
+        print("inputs_ready: %s" % nxt["inputs_ready"])
+        if nxt.get("chapter_ref"):
+            print("chapter_ref: %s" % nxt["chapter_ref"])
+    elif v == "packet":
+        try:
+            d = TP.build_packet(root, args.task)
+            print("✓ Task Packet 已生成：%s" % d)
+        except RuntimeError as e:
+            print("ERROR: %s" % e)
+            sys.exit(2)
     elif v == "intake":
         _cmd_intake(args)
     elif v == "run":

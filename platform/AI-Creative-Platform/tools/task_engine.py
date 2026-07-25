@@ -594,6 +594,57 @@ def route(root, role, capabilities):
     return out
 
 
+def _inputs_ready(root, t):
+    """轻量输入就绪校验：若任务引用章节文件，该文件须存在（md/txt 均可）。"""
+    chapter_ref = t.get("chapter_ref")
+    if not chapter_ref:
+        return True
+    for cand in (chapter_ref, chapter_ref.replace(".md", ".txt"), chapter_ref + ".md"):
+        if os.path.isfile(os.path.join(root, cand)):
+            return True
+    return False
+
+
+def next_task(root, role, capabilities=None, types=None):
+    """返回该 role 下一个可接取的 ready 任务（最高优先级），含 inputs_ready。
+
+    用于 `platform task next --role writer`：AI 只读这一个目标任务，
+    而不是扫描 tasks/backlog/ready/running/review 全池。
+    """
+    caps = set(capabilities or [])
+    typs = set(types or [])
+    d = _state_dir(root, "ready")
+    if not os.path.isdir(d):
+        return None
+    prio_order = {"high": 0, "medium": 1, "low": 2}
+    cands = []
+    for fn in sorted(os.listdir(d)):
+        if not fn.endswith(".yaml"):
+            continue
+        tid = fn[:-5]
+        _, td = load_task(root, tid)
+        t = td.get("task", {})
+        req_role = (t.get("agent") or {}).get("required_role")
+        if req_role and req_role != role:
+            continue
+        if typs and t.get("type") not in typs:
+            continue
+        if caps and t.get("type") not in caps:
+            continue
+        cands.append({
+            "task_id": tid,
+            "type": t.get("type"),
+            "priority": t.get("priority", "medium"),
+            "title": t.get("title"),
+            "chapter_ref": t.get("chapter_ref"),
+            "inputs_ready": _inputs_ready(root, t),
+        })
+    if not cands:
+        return None
+    cands.sort(key=lambda c: prio_order.get(c["priority"], 1))
+    return cands[0]
+
+
 def list_tasks(root, state=None):
     out = {}
     states = [state] if state else STATES
