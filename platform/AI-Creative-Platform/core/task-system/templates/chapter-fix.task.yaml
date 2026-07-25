@@ -7,7 +7,7 @@ task_template:
   allowed_outputs: [chapter_draft, self_check, handoff]
   permissions:
     read: [chapters/**, NKB/**, tasks/running/<id>/outputs/**]
-    write: [tasks/running/<id>/outputs/**]
+    write: [tasks/running/<id>/outputs/**, chapters/drafts/**]
     forbidden: [core/**, registry/**, templates/**, NKB/**, chapters/approved/**]
   next_tasks:
     on_submit: [chapter_review]

@@ -44,7 +44,7 @@ def _git_status(root):
     """返回改动文件列表（相对 root）：[(path, kind)]，kind ∈ {modified, untracked}。"""
     out = []
     try:
-        r = subprocess.run(["git", "-C", root, "status", "--porcelain", "-z"],
+        r = subprocess.run(["git", "-C", root, "status", "--porcelain", "-z", "-uall"],
                            capture_output=True, text=True)
     except Exception as e:
         print("WARN: git status 失败：%s" % e)
@@ -77,12 +77,19 @@ def _git_status(root):
 
 
 def _task_covers(root, path):
-    """是否存在 active 任务覆盖该受保护文件。"""
+    """是否存在任务记录覆盖该受保护文件。
+
+    - active 任务（claimed/running/submitted/reviewing/passed）：以 artifact /
+      outputs / inputs / write-scope 任一匹配即视为覆盖。
+    - completed 任务：仅以具体 artifact / outputs / inputs 匹配（最强授权证据），
+      不纳入宽泛 write-scope，避免旧任务误覆盖后续手动改动。
+    """
     tdir = os.path.join(root, "tasks")
     if not os.path.isdir(tdir):
         return False
     pl = path.replace("\\", "/")
-    for st in ACTIVE_STATES:
+    for st in list(ACTIVE_STATES) + ["completed"]:
+        is_active = st in ACTIVE_STATES
         sd = os.path.join(tdir, st)
         if not os.path.isdir(sd):
             continue
@@ -110,10 +117,11 @@ def _task_covers(root, path):
             req = (t.get("inputs") or {}).get("required") or []
             if pl in [str(x).replace("\\", "/") for x in req]:
                 return True
-            # write-scope
-            write_scope = (t.get("permissions") or {}).get("write") or []
-            if write_scope and (pl.startswith("tasks/") or CW._fnmatch_any(pl, write_scope)):
-                return True
+            # write-scope（仅 active 任务，completed 不纳入以免误覆盖后续手动改动）
+            if is_active:
+                write_scope = (t.get("permissions") or {}).get("write") or []
+                if write_scope and (pl.startswith("tasks/") or CW._fnmatch_any(pl, write_scope)):
+                    return True
     return False
 
 
