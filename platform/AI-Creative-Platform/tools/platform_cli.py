@@ -381,6 +381,14 @@ def cmd_doctor(args):
                  lambda p: _imp("project_health").govern(p),
                  lambda r: "健康分 %s（%s）" % (
                      r["composite"]["health"], r["response"].get("summary", "ok")), proot)
+        _run_gov("内容版本控制（Version 自检 · Phase C）", "VersionGov",
+                 lambda p: _imp("version_commit").govern(p),
+                 lambda r: "健康分 %s（%d 快照）" % (
+                     r["composite"]["health"], r["response"]["snapshots"]), proot)
+        _run_gov("操作审计（Audit 自检 · Phase C）", "AuditGov",
+                 lambda p: _imp("audit_report").govern(p),
+                 lambda r: "健康分 %s（%d 记录）" % (
+                     r["composite"]["health"], r["response"]["records"]), proot)
 
     _run_gov("内存治理（platform/memory/ 体检）", "MemoryGov",
              lambda pr: _imp("memory_governor").govern(pr),
@@ -741,6 +749,10 @@ def build_parser():
     ga.add_argument("--project-root", required=True)
     ga.add_argument("rest", nargs=argparse.REMAINDER)
 
+    gau = sub.add_parser("audit", help="操作审计汇总（report/govern）")
+    gau.add_argument("--project-root", required=True)
+    gau.add_argument("rest", nargs=argparse.REMAINDER)
+
     gm2 = sub.add_parser("model", help="模型布线器：任务→模型路由与降级链（resolve/validate）")
     gm2.add_argument("--platform-root", required=True)
     gm2.add_argument("rest", nargs=argparse.REMAINDER)
@@ -870,6 +882,7 @@ def _delegate_gov(cmd, args):
         "summary": "summary_builder",
         "delta": "delta_review",
         "review": "review_orchestrator",
+        "audit": "audit_report",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])
