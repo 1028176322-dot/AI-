@@ -200,14 +200,20 @@ def main():
         check("require_session 识别新 Manifest", isinstance(loaded, dict) and "session" in loaded, str(type(loaded)))
 
         # ── 6. negative：无任务 → READY=False + 阻塞 + exit 3 ──
+        # 注：真实道法百年项目存在大量 ready 任务，auto 模式会定位到真实任务，
+        # 无法复现「无任务」分支。故用绝不命中的 target 显式驱动 locate_task 的
+        # 「未匹配到任务」路径（与 auto 无 ready 同属 task_ok=False → BLOCKER 分支），
+        # 使负向断言在真实工程环境下保持确定。
         _force_remove(TASK_FILE)
-        out5, code5 = _run("bootstrap", intent="auto")
+        out5, code5 = _run("bootstrap", intent="auto", target="CH-NONEXISTENT-E2E-XYZ")
         check("无任务时 exit=3", code5 == 3, "code=%s" % code5)
         check("无任务时 READY=False", "READY=False" in out5, out5[:200])
         check("无任务时含 BLOCKER", "BLOCKER" in out5, out5[:200])
-        mdata2 = _gov.load_yaml(os.path.join(man_path,
-                              [d for d in glob.glob(os.path.join(man_path, "SESSION-*")) if os.path.isdir(d)][0],
-                              "SESSION_MANIFEST.yaml"))
+        # 取最新生成的会话清单（按 mtime 降序），避免误读 happy path 的 SESSION-001
+        _neg_sess_dirs = sorted(
+            [d for d in glob.glob(os.path.join(man_path, "SESSION-*")) if os.path.isdir(d)],
+            key=lambda p: os.path.getmtime(p), reverse=True)
+        mdata2 = _gov.load_yaml(os.path.join(_neg_sess_dirs[0], "SESSION_MANIFEST.yaml"))
         check("负向 manifest ready=False", mdata2.get("ready") is False, str(mdata2.get("ready")))
         check("负向 manifest 含 blockers", len(mdata2.get("blockers") or []) > 0, str(mdata2.get("blockers")))
 
