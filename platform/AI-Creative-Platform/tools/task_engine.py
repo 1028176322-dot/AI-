@@ -37,9 +37,8 @@ TRANSITIONS = {
 VALID_TYPES = ["chapter_write", "chapter_review", "chapter_fix", "continuity_fix",
                "nkb_update", "candidate_review", "plan_write", "goal_decompose",
                "asset_create", "experiment", "quality_score", "impact_analysis",
-               "human_gate"]
+               "project_design", "system_maintenance", "nkb_sync", "human_gate"]
 VALID_PRIORITY = ["critical", "high", "normal", "low"]
-REVIEW_OF = {"chapter_write": "chapter_review", "chapter_fix": "chapter_review"}
 
 
 def _now():
@@ -153,13 +152,14 @@ def _impact_precheck(root, task_id, t):
 
 
 def _quality_precheck(root, task_id, t):
-    """强制预检：submit 前对内容型任务跑质量评分，gate=block 则阻断提交。
+    """强制预检：submit 前对章节文本型任务跑质量评分，gate=block 则阻断提交。
 
-    仅对内容型任务（chapter_write/chapter_fix/continuity_fix/nkb_update/asset_create）
-    生效；其余任务跳过。工具缺失或评分异常时放行（不阻断主流程）。
+    仅对章节文本型任务（chapter_write/chapter_fix/continuity_fix/asset_create）
+    生效；nkb_update（数据型）与其余任务跳过——NKB 数据改动不应被章节质量门禁 block。
+    工具缺失或评分异常时放行（不阻断主流程）。
     """
     tt = (t or {}).get("type")
-    if tt not in ("chapter_write", "chapter_fix", "continuity_fix", "nkb_update", "asset_create"):
+    if tt not in ("chapter_write", "chapter_fix", "continuity_fix", "asset_create"):
         return
     try:
         import quality_scorer
@@ -175,13 +175,14 @@ def _quality_precheck(root, task_id, t):
 
 
 def _reader_precheck(root, task_id, t):
-    """强制预检：submit 前对内容型任务跑读者模拟，gate=block 则阻断提交。
+    """强制预检：submit 前对章节文本型任务跑读者模拟，gate=block 则阻断提交。
 
-    仅对内容型任务（chapter_write/chapter_fix/continuity_fix/nkb_update/asset_create）
-    生效；其余任务跳过。工具缺失或评分异常时放行（不阻断主流程）。
+    仅对章节文本型任务（chapter_write/chapter_fix/continuity_fix/asset_create）
+    生效；nkb_update（数据型）与其余任务跳过。
+    工具缺失或评分异常时放行（不阻断主流程）。
     """
     tt = (t or {}).get("type")
-    if tt not in ("chapter_write", "chapter_fix", "continuity_fix", "nkb_update", "asset_create"):
+    if tt not in ("chapter_write", "chapter_fix", "continuity_fix", "asset_create"):
         return
     try:
         import reader_simulator
@@ -261,6 +262,57 @@ def promote(root, task_id, model="unknown", author="task-scheduler"):
     return "ready", "promoted"
 
 
+def ready_check(root, task_id):
+    """Ready Check：任务进入 claimed 前的就绪校验。返回 (ok, report)。
+
+    检查：依赖完成 / 必填输入存在 / contract 解析 / role 可用 /
+    permissions 有效 / project 状态 / nkb_snapshot(approved_event) / output_path 可用。
+    """
+    st, data = load_task(root, task_id)
+    if st is None:
+        return False, {"error": "task not found"}
+    t = (data or {}).get("task", {})
+    report = {"task_id": task_id, "status": st, "checks": {}}
+    ok = True
+    # 1. 依赖完成
+    deps = t.get("dependencies") or []
+    dep_ok = _deps_completed(root, task_id, deps)
+    report["checks"]["dependencies_complete"] = dep_ok
+    ok = ok and dep_ok
+    # 2. 必填输入存在（tasks/ 开头的输入须存在于工作区）
+    inp = (t.get("inputs") or {}).get("required") or []
+    missing = [i for i in inp if isinstance(i, str) and i.startswith("tasks/")
+               and not os.path.exists(os.path.join(root, i))]
+    inp_ok = not missing
+    report["checks"]["required_inputs_exist"] = inp_ok
+    report["checks"]["missing_inputs"] = missing
+    ok = ok and inp_ok
+    # 3. contract 解析（type 必须在 VALID_TYPES）
+    tt = t.get("type")
+    report["checks"]["contract_resolved"] = tt in VALID_TYPES
+    ok = ok and report["checks"]["contract_resolved"]
+    # 4. role 可用（required_role 已声明）
+    report["checks"]["role_available"] = bool((t.get("agent") or {}).get("required_role"))
+    # 5. permissions 有效
+    perms = t.get("permissions") or {}
+    perm_ok = ("write" in perms) or ("read" in perms)
+    report["checks"]["permissions_valid"] = perm_ok
+    ok = ok and perm_ok
+    # 6. project 状态有效（占位：始终有效）
+    report["checks"]["project_state_valid"] = True
+    # 7. nkb_snapshot / approved_event（nkb_update 须持 approved_event）
+    if tt == "nkb_update":
+        req_inputs = ((t.get("inputs") or {}).get("required") or [])
+        has_ae = (t.get("approved_event") is not None) or any(
+            isinstance(i, str) and "approved_event" in i.lower() for i in req_inputs
+        )
+        report["checks"]["approved_event_present"] = has_ae
+        ok = ok and has_ae
+    # 8. output_path 可用（workspace 已建或处于 ready）
+    report["checks"]["output_path_available"] = bool(t.get("workspace")) or (st == "ready")
+    return ok, report
+
+
 def claim(root, task_id, agent, role, model="unknown", lease_min=60):
     st, data = load_task(root, task_id)
     if st is None:
@@ -328,17 +380,23 @@ def submit(root, task_id, artifact, outputs=None, checks=None,
     t["submission"] = {"checks": checks, "at": _now()}
     _move(root, task_id, data, "submitted")
     # 自动建审查任务
-    rev_type = REVIEW_OF.get(t.get("type"))
-    created_review = None
-    if rev_type:
-        rid = "%s-REVIEW" % task_id
-        review_task = {
+    # 自动后继链：submit 后按类型建后继任务（审查/同步等），状态 ready 待接取
+    NEXT_OF = {
+        "chapter_write": ("chapter_review", "reviewer"),
+        "chapter_fix": ("chapter_review", "reviewer"),
+        "nkb_update": ("nkb_sync", "knowledge-manager"),
+    }
+    next_type, next_role = NEXT_OF.get(t.get("type"), (None, None))
+    created_next = None
+    if next_type and next_type in VALID_TYPES:
+        nid = "%s-%s" % (task_id, next_type.upper().replace("_", "-"))
+        next_task = {
             "task": {
-                "id": rid,
+                "id": nid,
                 "version": 1,
                 "project": t.get("project"),
-                "type": rev_type,
-                "title": "审查 %s" % task_id,
+                "type": next_type,
+                "title": "%s 后继 %s" % (task_id, next_type),
                 "status": "ready",
                 "priority": t.get("priority", "high"),
                 "created": _now(),
@@ -346,18 +404,18 @@ def submit(root, task_id, artifact, outputs=None, checks=None,
                 "goal": t.get("goal"),
                 "dependencies": [task_id],
                 "inputs": {"required": [artifact]},
-                "expected_outputs": ["review-report"],
-                "acceptance": {"criteria": ["四支柱评分完成", "重大 finding 标注 severity"]},
-                "permissions": {"read": ["chapters/*", "NKB/*"], "write": ["artifacts/*"], "forbidden": ["core/*"]},
-                "agent": {"required_role": "reviewer"},
+                "expected_outputs": ["next-output"],
+                "acceptance": {"criteria": ["后继任务就绪"]},
+                "permissions": {"read": ["chapters/*", "NKB/*"], "write": ["tasks/**"], "forbidden": ["core/*"]},
+                "agent": {"required_role": next_role},
             }
         }
-        _move(root, rid, review_task, "ready")
-        created_review = rid
+        _move(root, nid, next_task, "ready")
+        created_next = nid
     audit_log.record(root, "task_submit", agent=agent, role=role, model=model,
                      task_id=task_id, result="success",
-                     detail="artifact=%s review=%s" % (artifact, created_review))
-    return "submitted", created_review
+                     detail="artifact=%s next=%s" % (artifact, created_next))
+    return "submitted", created_next
 
 
 def review(root, task_id, decision, findings=None, reviewer="unknown",
