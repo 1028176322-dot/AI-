@@ -785,123 +785,163 @@ canonical_manifest:
     第一卷_道生/第031章_匠人之助.md:
       path: 第一卷_道生/第031章_匠人之助.md
       status: published
-      revision: 1
+      revision: 2
       hash: 0339b66627e31613c5caa956135ce5949a7a025059b9651aba87833b1a1d8776
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:27
+      source: chapters/drafts/第031章_匠人之助.md
+      published_at: 2026-07-25T20:43:12
       versions:
         - revision: 1
           hash: 0339b66627e31613c5caa956135ce5949a7a025059b9651aba87833b1a1d8776
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:27
+        - revision: 2
+          hash: 0339b66627e31613c5caa956135ce5949a7a025059b9651aba87833b1a1d8776
+          source: chapters/drafts/第031章_匠人之助.md
+          published_at: 2026-07-25T20:43:12
     第一卷_道生/第032章_燧发雏形.md:
       path: 第一卷_道生/第032章_燧发雏形.md
       status: published
-      revision: 1
+      revision: 2
       hash: 275d82b693c143fde08fd9f46c04956adf72176a4a87b50398e1acba9a6b14c8
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:27
+      source: chapters/drafts/第032章_燧发雏形.md
+      published_at: 2026-07-25T20:44:03
       versions:
         - revision: 1
           hash: 275d82b693c143fde08fd9f46c04956adf72176a4a87b50398e1acba9a6b14c8
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:27
+        - revision: 2
+          hash: 275d82b693c143fde08fd9f46c04956adf72176a4a87b50398e1acba9a6b14c8
+          source: chapters/drafts/第032章_燧发雏形.md
+          published_at: 2026-07-25T20:44:03
     第一卷_道生/第033章_商路试水.md:
       path: 第一卷_道生/第033章_商路试水.md
       status: published
-      revision: 1
+      revision: 2
       hash: 6d435d1955ccd7405d2dc9d8d5f655b05a5cf4344fba087bc8755a75825e1f85
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:27
+      source: chapters/drafts/第033章_商路试水.md
+      published_at: 2026-07-25T20:44:10
       versions:
         - revision: 1
           hash: 6d435d1955ccd7405d2dc9d8d5f655b05a5cf4344fba087bc8755a75825e1f85
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:27
+        - revision: 2
+          hash: 6d435d1955ccd7405d2dc9d8d5f655b05a5cf4344fba087bc8755a75825e1f85
+          source: chapters/drafts/第033章_商路试水.md
+          published_at: 2026-07-25T20:44:10
     第一卷_道生/第034章_税卡风波.md:
       path: 第一卷_道生/第034章_税卡风波.md
       status: published
-      revision: 1
+      revision: 2
       hash: 8f12fce953c762110b6b2586fdcdce07314ca05caf399b749ad15ca9ada3e5da
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:27
+      source: chapters/drafts/第034章_税卡风波.md
+      published_at: 2026-07-25T20:44:17
       versions:
         - revision: 1
           hash: 8f12fce953c762110b6b2586fdcdce07314ca05caf399b749ad15ca9ada3e5da
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:27
+        - revision: 2
+          hash: 8f12fce953c762110b6b2586fdcdce07314ca05caf399b749ad15ca9ada3e5da
+          source: chapters/drafts/第034章_税卡风波.md
+          published_at: 2026-07-25T20:44:17
     第一卷_道生/第035章_听雨初遇.md:
       path: 第一卷_道生/第035章_听雨初遇.md
       status: published
-      revision: 1
+      revision: 2
       hash: 87faa4890fc02d78f36424b577159f29c6a98d1cae7d5416e1cc690bbfc8ad0a
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:27
+      source: chapters/drafts/第035章_听雨初遇.md
+      published_at: 2026-07-25T20:44:24
       versions:
         - revision: 1
           hash: 87faa4890fc02d78f36424b577159f29c6a98d1cae7d5416e1cc690bbfc8ad0a
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:27
+        - revision: 2
+          hash: 87faa4890fc02d78f36424b577159f29c6a98d1cae7d5416e1cc690bbfc8ad0a
+          source: chapters/drafts/第035章_听雨初遇.md
+          published_at: 2026-07-25T20:44:24
     第一卷_道生/第036章_暗线交织.md:
       path: 第一卷_道生/第036章_暗线交织.md
       status: published
-      revision: 1
+      revision: 2
       hash: 491a3f63466a7ec18318d4cc0a943d2b6b9284c5fa7cfeb56f722a002650c595
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:27
+      source: chapters/drafts/第036章_暗线交织.md
+      published_at: 2026-07-25T20:44:32
       versions:
         - revision: 1
           hash: 491a3f63466a7ec18318d4cc0a943d2b6b9284c5fa7cfeb56f722a002650c595
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:27
+        - revision: 2
+          hash: 491a3f63466a7ec18318d4cc0a943d2b6b9284c5fa7cfeb56f722a002650c595
+          source: chapters/drafts/第036章_暗线交织.md
+          published_at: 2026-07-25T20:44:32
     第一卷_道生/第037章_越阶小战.md:
       path: 第一卷_道生/第037章_越阶小战.md
       status: published
-      revision: 1
+      revision: 2
       hash: 539358f5333b6f0f2cc646db200df743934ca336e865ae39ac06a9aac68b45f3
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:27
+      source: chapters/drafts/第037章_越阶小战.md
+      published_at: 2026-07-25T20:44:39
       versions:
         - revision: 1
           hash: 539358f5333b6f0f2cc646db200df743934ca336e865ae39ac06a9aac68b45f3
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:27
+        - revision: 2
+          hash: 539358f5333b6f0f2cc646db200df743934ca336e865ae39ac06a9aac68b45f3
+          source: chapters/drafts/第037章_越阶小战.md
+          published_at: 2026-07-25T20:44:39
     第一卷_道生/第038章_七境再进.md:
       path: 第一卷_道生/第038章_七境再进.md
       status: published
-      revision: 1
+      revision: 2
       hash: 74d13cee30b7da6368b8ff12db9e820e3c6886fd83c5d68fed36bfd57f33a16f
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:27
+      source: chapters/drafts/第038章_七境再进.md
+      published_at: 2026-07-25T20:44:46
       versions:
         - revision: 1
           hash: 74d13cee30b7da6368b8ff12db9e820e3c6886fd83c5d68fed36bfd57f33a16f
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:27
+        - revision: 2
+          hash: 74d13cee30b7da6368b8ff12db9e820e3c6886fd83c5d68fed36bfd57f33a16f
+          source: chapters/drafts/第038章_七境再进.md
+          published_at: 2026-07-25T20:44:46
     第一卷_道生/第039章_营生立威.md:
       path: 第一卷_道生/第039章_营生立威.md
       status: published
-      revision: 1
+      revision: 2
       hash: 46d886e3b84e99669e3c57aa7412ba1932cfddb6976d9dee8728debfa01c80d6
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:27
+      source: chapters/drafts/第039章_营生立威.md
+      published_at: 2026-07-25T20:44:53
       versions:
         - revision: 1
           hash: 46d886e3b84e99669e3c57aa7412ba1932cfddb6976d9dee8728debfa01c80d6
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:27
+        - revision: 2
+          hash: 46d886e3b84e99669e3c57aa7412ba1932cfddb6976d9dee8728debfa01c80d6
+          source: chapters/drafts/第039章_营生立威.md
+          published_at: 2026-07-25T20:44:53
     第一卷_道生/第040章_格局初开.md:
       path: 第一卷_道生/第040章_格局初开.md
       status: published
-      revision: 1
+      revision: 2
       hash: e4c0666a4c918d1cc2aa2805f6aee7900455b41f8c278899591c62d5d7fd1df6
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:27
+      source: chapters/drafts/第040章_格局初开.md
+      published_at: 2026-07-25T20:45:00
       versions:
         - revision: 1
           hash: e4c0666a4c918d1cc2aa2805f6aee7900455b41f8c278899591c62d5d7fd1df6
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:27
+        - revision: 2
+          hash: e4c0666a4c918d1cc2aa2805f6aee7900455b41f8c278899591c62d5d7fd1df6
+          source: chapters/drafts/第040章_格局初开.md
+          published_at: 2026-07-25T20:45:00
     第一卷_道生/第041章_州府见闻.md:
       path: 第一卷_道生/第041章_州府见闻.md
       status: published
@@ -3174,7 +3214,6 @@ canonical_manifest:
           hash: 60974fca8e9575079ad7eea488bdd798995738eee08b00160958f346d1b324f5
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_021_v2评分卡.md:
       path: 第一卷_道生/审读_021_v2评分卡.md
       status: published
@@ -3187,7 +3226,6 @@ canonical_manifest:
           hash: ced09c8223c9cbc9ba8c665d489a573a3af37c9fae8be487722a43bda5dcec1e
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_022_v1评分卡.md:
       path: 第一卷_道生/审读_022_v1评分卡.md
       status: published
@@ -3200,7 +3238,6 @@ canonical_manifest:
           hash: e0c0f1bf8e7fb691183ffc7832eb94ab76eedb23c7dbc2eb1fe9583e2a60dcdf
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_022_v2评分卡.md:
       path: 第一卷_道生/审读_022_v2评分卡.md
       status: published
@@ -3213,7 +3250,6 @@ canonical_manifest:
           hash: 4656bacf06365d31becbd3836e079c2445ea281b4a5cf683a1b607c63597d1ec
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_023_v1评分卡.md:
       path: 第一卷_道生/审读_023_v1评分卡.md
       status: published
@@ -3226,7 +3262,6 @@ canonical_manifest:
           hash: 7aa17687b874bd3383b644f4f1fe6e012f2b570b532fd59cee82d7a876dccb52
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_023_v2评分卡.md:
       path: 第一卷_道生/审读_023_v2评分卡.md
       status: published
@@ -3239,7 +3274,6 @@ canonical_manifest:
           hash: 5aa3ab9ee90d5826a43afc582001d3439eba29fb728dde93a3106bd9037f74d8
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_024_v1评分卡.md:
       path: 第一卷_道生/审读_024_v1评分卡.md
       status: published
@@ -3252,7 +3286,6 @@ canonical_manifest:
           hash: aa49fa83c1aed543feac42f38bef926908dbf7bb02557ce3f5ec4460d8f57d12
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_024_v2评分卡.md:
       path: 第一卷_道生/审读_024_v2评分卡.md
       status: published
@@ -3265,7 +3298,6 @@ canonical_manifest:
           hash: d2a32f04b3eca000c3c4ad4f1f137c247c138898d22c99bcd9464126daff6b5c
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_025_v1评分卡.md:
       path: 第一卷_道生/审读_025_v1评分卡.md
       status: published
@@ -3278,7 +3310,6 @@ canonical_manifest:
           hash: 705a631112ef5fd3f2b567086330f2538e35e77d314cf5f796e0d85cc8772d3e
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_025_v2评分卡.md:
       path: 第一卷_道生/审读_025_v2评分卡.md
       status: published
@@ -3291,7 +3322,6 @@ canonical_manifest:
           hash: 98cbdb124499466cb67aa103c8f07f69f9346297acf096acede898747e28b91b
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_026_v1评分卡.md:
       path: 第一卷_道生/审读_026_v1评分卡.md
       status: published
@@ -3304,7 +3334,6 @@ canonical_manifest:
           hash: b80fdcaab8bf9709491fd81b5455ba48490220340a2eda06087bc2c05052ef3c
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_026_v2评分卡.md:
       path: 第一卷_道生/审读_026_v2评分卡.md
       status: published
@@ -3317,7 +3346,6 @@ canonical_manifest:
           hash: 1db942f2c07501a4ef6dd1792a327695c932326da8a41b2f93c42b90caa20763
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_027_v1评分卡.md:
       path: 第一卷_道生/审读_027_v1评分卡.md
       status: published
@@ -3330,7 +3358,6 @@ canonical_manifest:
           hash: 39db49cab3b504fcb44ec9124a91ddc598317358aa0a634af1a14ebd77616eb9
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_027_v2评分卡.md:
       path: 第一卷_道生/审读_027_v2评分卡.md
       status: published
@@ -3343,7 +3370,6 @@ canonical_manifest:
           hash: 8857b6d65c5f436940494afeb525bb69c7b99e62d686606da95aec7097ce4cdb
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_028_v1评分卡.md:
       path: 第一卷_道生/审读_028_v1评分卡.md
       status: published
@@ -3356,7 +3382,6 @@ canonical_manifest:
           hash: 82f90100a5f72f41add62ca24773d4ae6bde14894b13511f07dd93e20ea76f49
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_028_v2评分卡.md:
       path: 第一卷_道生/审读_028_v2评分卡.md
       status: published
@@ -3369,7 +3394,6 @@ canonical_manifest:
           hash: 097ee1d01a1bc600ce841ceac3328036ef0622cc905f793fd92905948e2ca413
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_029_v1评分卡.md:
       path: 第一卷_道生/审读_029_v1评分卡.md
       status: published
@@ -3382,7 +3406,6 @@ canonical_manifest:
           hash: 7923a4fee0c224618a1b2ab1b6ca5da6b59dcf371b09cde051f412689e70daa4
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_029_v2评分卡.md:
       path: 第一卷_道生/审读_029_v2评分卡.md
       status: published
@@ -3395,7 +3418,6 @@ canonical_manifest:
           hash: 265cd501945ec8c57a83708cc9e26dc91cdf811ab730ad33cedc40cd590bc382
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_030_v1评分卡.md:
       path: 第一卷_道生/审读_030_v1评分卡.md
       status: published
@@ -3408,7 +3430,6 @@ canonical_manifest:
           hash: 8674ae1014bb68437a2c1697a338f69e79b83c032db4f006bfc1759cfd943d89
           source: review-artifact
           published_at: 2026-07-25T19:58:00
-
     第一卷_道生/审读_030_v2评分卡.md:
       path: 第一卷_道生/审读_030_v2评分卡.md
       status: published
@@ -3421,4 +3442,265 @@ canonical_manifest:
           hash: 0379217f264b275b16598f1633a1a624324151c1e7e78ee2f8f7b484d3472798
           source: review-artifact
           published_at: 2026-07-25T19:58:00
+
+
+    第一卷_道生/审读_031_v1评分卡.md:
+      path: 第一卷_道生/审读_031_v1评分卡.md
+      status: published
+      revision: 1
+      hash: 534454a771ca7319c8f2296707cbda12e63c02af1c519be17d87f075a117820b
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: 534454a771ca7319c8f2296707cbda12e63c02af1c519be17d87f075a117820b
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_031_v2评分卡.md:
+      path: 第一卷_道生/审读_031_v2评分卡.md
+      status: published
+      revision: 1
+      hash: fc402ccf7644c12b12cd6c36d6ea2a42eb28eacea0313176c0385a9f843693ed
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: fc402ccf7644c12b12cd6c36d6ea2a42eb28eacea0313176c0385a9f843693ed
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_032_v1评分卡.md:
+      path: 第一卷_道生/审读_032_v1评分卡.md
+      status: published
+      revision: 1
+      hash: c335918645516cd8bceb689789ca65bd82efe10379108f6f59c4f61e335c3e7c
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: c335918645516cd8bceb689789ca65bd82efe10379108f6f59c4f61e335c3e7c
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_032_v2评分卡.md:
+      path: 第一卷_道生/审读_032_v2评分卡.md
+      status: published
+      revision: 1
+      hash: cb6b35ac099b8637dbba20f67c70e3211cae73e32a401fb28dd1e2706a5b8f19
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: cb6b35ac099b8637dbba20f67c70e3211cae73e32a401fb28dd1e2706a5b8f19
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_033_v1评分卡.md:
+      path: 第一卷_道生/审读_033_v1评分卡.md
+      status: published
+      revision: 1
+      hash: 18d18fd761e7cb053b3f3766a32ac1da6dfaca9622898a23f58aeb2a7df81c1a
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: 18d18fd761e7cb053b3f3766a32ac1da6dfaca9622898a23f58aeb2a7df81c1a
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_033_v2评分卡.md:
+      path: 第一卷_道生/审读_033_v2评分卡.md
+      status: published
+      revision: 1
+      hash: 9a6d35912f4b53b501112889c6b12f8e9026bdc9259857fcd2668c40bd0ef8e1
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: 9a6d35912f4b53b501112889c6b12f8e9026bdc9259857fcd2668c40bd0ef8e1
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_034_v1评分卡.md:
+      path: 第一卷_道生/审读_034_v1评分卡.md
+      status: published
+      revision: 1
+      hash: 9156daf7c9beffd6f70e5f81e16bf8e10628e5ae8733d73532d92a1c6ea3cee1
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: 9156daf7c9beffd6f70e5f81e16bf8e10628e5ae8733d73532d92a1c6ea3cee1
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_034_v2评分卡.md:
+      path: 第一卷_道生/审读_034_v2评分卡.md
+      status: published
+      revision: 1
+      hash: 4363e3ed20de44d60b0effd322d98ad55956908b5bdaf8aa61360b81ab67ef50
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: 4363e3ed20de44d60b0effd322d98ad55956908b5bdaf8aa61360b81ab67ef50
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_035_v1评分卡.md:
+      path: 第一卷_道生/审读_035_v1评分卡.md
+      status: published
+      revision: 1
+      hash: 93fa1b63a424808fe29c498c78f1bbcb47cd39dd127fb8416e8f1f53d112e2c0
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: 93fa1b63a424808fe29c498c78f1bbcb47cd39dd127fb8416e8f1f53d112e2c0
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_035_v2评分卡.md:
+      path: 第一卷_道生/审读_035_v2评分卡.md
+      status: published
+      revision: 1
+      hash: b9354f3641d97aa52e13a0a86b5da9555b7b96607fe5af1c94a8795c3048bac3
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: b9354f3641d97aa52e13a0a86b5da9555b7b96607fe5af1c94a8795c3048bac3
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_036_v1评分卡.md:
+      path: 第一卷_道生/审读_036_v1评分卡.md
+      status: published
+      revision: 1
+      hash: a8e2e47a132fd00060ce790bebd2c9ccbe80278780a7cea626bd2ac15b8ad504
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: a8e2e47a132fd00060ce790bebd2c9ccbe80278780a7cea626bd2ac15b8ad504
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_036_v2评分卡.md:
+      path: 第一卷_道生/审读_036_v2评分卡.md
+      status: published
+      revision: 1
+      hash: 1a47632c98bbba2cec7caaf4c113e4283f18e9d9595f775997670d1e26e4f796
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: 1a47632c98bbba2cec7caaf4c113e4283f18e9d9595f775997670d1e26e4f796
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_037_v1评分卡.md:
+      path: 第一卷_道生/审读_037_v1评分卡.md
+      status: published
+      revision: 1
+      hash: 828505195de22b86c65e78f61dc6845bf905beeefcb6c210234cf0f792e22db0
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: 828505195de22b86c65e78f61dc6845bf905beeefcb6c210234cf0f792e22db0
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_037_v2评分卡.md:
+      path: 第一卷_道生/审读_037_v2评分卡.md
+      status: published
+      revision: 1
+      hash: 959489bb0d536af8bca6e0e0ef12cf014f3df64b816d71068592142abbfbd272
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: 959489bb0d536af8bca6e0e0ef12cf014f3df64b816d71068592142abbfbd272
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_038_v1评分卡.md:
+      path: 第一卷_道生/审读_038_v1评分卡.md
+      status: published
+      revision: 1
+      hash: e303fffbfe22c0c6b2e19ad93f040247e1f65dd6b405a0bb8de8f24479e4fde5
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: e303fffbfe22c0c6b2e19ad93f040247e1f65dd6b405a0bb8de8f24479e4fde5
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_038_v2评分卡.md:
+      path: 第一卷_道生/审读_038_v2评分卡.md
+      status: published
+      revision: 1
+      hash: 9d21bfd1a07c3541f83d6b5bc604803538d9954f90583603a52ccdb42eafeaf3
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: 9d21bfd1a07c3541f83d6b5bc604803538d9954f90583603a52ccdb42eafeaf3
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_039_v1评分卡.md:
+      path: 第一卷_道生/审读_039_v1评分卡.md
+      status: published
+      revision: 1
+      hash: 51270f49071c7c348cdec7f4f9f59ee9df8224931965f3218f382cd880d21f76
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: 51270f49071c7c348cdec7f4f9f59ee9df8224931965f3218f382cd880d21f76
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_039_v2评分卡.md:
+      path: 第一卷_道生/审读_039_v2评分卡.md
+      status: published
+      revision: 1
+      hash: 79ce43162e0c296f573b076518744aa8978e0b40e6f9425ca3bc01b6542681cc
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: 79ce43162e0c296f573b076518744aa8978e0b40e6f9425ca3bc01b6542681cc
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_040_v1评分卡.md:
+      path: 第一卷_道生/审读_040_v1评分卡.md
+      status: published
+      revision: 1
+      hash: f1dec8ab7440391e0ede0dc5b3aef91eaaf45690fea949348c9700ad30c03add
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: f1dec8ab7440391e0ede0dc5b3aef91eaaf45690fea949348c9700ad30c03add
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
+
+    第一卷_道生/审读_040_v2评分卡.md:
+      path: 第一卷_道生/审读_040_v2评分卡.md
+      status: published
+      revision: 1
+      hash: fa3d038589952af2f448593ff6bbe2d42c560f38e5928b56a2a9e552480e30fd
+      source: review-artifact
+      published_at: 2026-07-25T20:45:00
+      versions:
+        - revision: 1
+          hash: fa3d038589952af2f448593ff6bbe2d42c560f38e5928b56a2a9e552480e30fd
+          source: review-artifact
+          published_at: 2026-07-25T20:45:00
 
