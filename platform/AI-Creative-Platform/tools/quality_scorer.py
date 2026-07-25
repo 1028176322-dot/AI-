@@ -323,7 +323,10 @@ def score_task(project_root, task_id, **kw):
     t = data["task"]
     target = None
     if t.get("chapter_ref"):
-        target = ("chapter", str(t["chapter_ref"]))
+        # chapter_ref 可能是完整路径（如 第一卷_道生/第021章_离观启程.md），
+        # 需归一为章节 id（如 21）以匹配 _find_chapter_file 的检索逻辑。
+        cid = _chapter_id(str(t["chapter_ref"]))
+        target = ("chapter", _chapter_key(cid))
     elif (t.get("target") or {}).get("type"):
         target = (t["target"]["type"], t["target"]["id"])
     elif t.get("type") == "nkb_update":
