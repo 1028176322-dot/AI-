@@ -1,0 +1,74 @@
+# -*- coding: utf-8 -*-
+# 单 Agent 执行策略（Single-Agent Execution Policy）
+# 把"禁止子 Agent"从提示词偏好升级为平台级执行策略，覆盖会话/任务/编排器/工具四层。
+# 加载方：session_bootstrap（推导 agent_runtime）/ task_engine.ready_check（校验 execution_policy）
+#        / agent-compliance-gate（doctor 一致性）/ sequential-planner（校验 execution_plan）。
+# 核心模型：一个会话 · 一个主 Agent · 一个运行中任务 · 多个顺序步骤 · 多个阶段角色 · 零委派 · 零后台 Agent · 零并行 Agent。
+policy:
+  id: AGENT-EXECUTION-001
+  version: "1.0.0"
+  scope: [project, platform]
+  description: 平台强制单 Agent 顺序执行模式。禁止创建、调用、派生子 Agent，禁止委派给其他 Agent，禁止启动并行 Agent，禁止嵌套会话，禁止后台派生工作单元，禁止把角色自动派生为独立 Agent。多角色工作流保留，但只能是同一主 Agent 内的阶段切换；任务可拆步骤，禁止拆 Agent。
+
+agent_execution:
+  mode: single_agent
+  subagents:
+    allowed: false
+    max_count: 0
+  delegation:
+    allowed: false
+  parallel_agents:
+    allowed: false
+  nested_sessions:
+    allowed: false
+  background_workers:
+    allowed: false
+  auto_role_derivation:
+    allowed: false
+  execution:
+    sequential_only: true
+    current_session_only: true
+  decomposition:
+    step_decomposition: allowed
+    agent_decomposition: forbidden
+  violation:
+    action: block
+    code: SUBAGENT_DISABLED
+    recovery: convert_to_sequential_plan
+
+rules:
+  - id: NO-SUBAGENT
+    statement: 禁止创建、调用、派生子 Agent（含 spawn_agent / create_agent / delegate_task / run_parallel / start_worker / launch_subtask 等任何形态）。
+    severity: fatal
+    applies_to: [project_mutation, platform_mutation, orchestration]
+  - id: NO-DELEGATION
+    statement: 禁止将任务委派给其他 Agent 实例；任务必须由当前主 Agent 顺序完成。
+    severity: fatal
+    applies_to: [orchestration, task_execution]
+  - id: NO-PARALLEL-AGENT
+    statement: 禁止启动并行 Agent；同一时刻仅允许 1 个活跃 Agent（即当前会话主 Agent）。
+    severity: fatal
+    applies_to: [orchestration, task_execution]
+  - id: NO-NESTED-SESSION
+    statement: 禁止为任务创建嵌套 Agent 会话；所有阶段角色切换发生在当前会话内。
+    severity: fatal
+    applies_to: [session, orchestration]
+  - id: NO-BACKGROUND-WORKER
+    statement: 禁止后台派生工作单元 / 异步任务 / worker 池 / fork；表面上单 Agent 但暗含多个后台执行单元亦在禁止之列。
+    severity: fatal
+    applies_to: [orchestration, runtime]
+  - id: ROLE-IS-PHASE-NOT-AGENT
+    statement: Planner / Writer / Reviewer / Fixer / Knowledge-Manager 是同一主 Agent 内的阶段角色切换，不得实例化为多个 Agent。多角色不等于多 Agent。
+    severity: fatal
+    applies_to: [orchestration]
+  - id: STEP-DECOMPOSITION-ONLY
+    statement: 允许将复杂任务拆成顺序步骤（Step），禁止将步骤拆给不同 Agent 并行执行。
+    severity: fatal
+    applies_to: [orchestration, task_execution]
+
+enforcement:
+  strict:
+    on_violation: BLOCK_AND_EXIT
+    gate: agent-compliance-gate
+  warn:
+    on_violation: LOG_AND_WARN

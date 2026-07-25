@@ -502,6 +502,25 @@ def cmd_doctor(args):
     except Exception as _e:
         _print_result("TemplateGov", WARN, "自检异常：%s" % _e)
 
+    _print_block("单 Agent 执行策略（Agent Compliance Gate · Phase 5）")
+    try:
+        _gates_dir = os.path.join(platform_root, "core", "gates")
+        if _gates_dir not in sys.path:
+            sys.path.insert(0, _gates_dir)
+        import agent_compliance_gate as _acg
+        acgrep = _acg.govern(proot, write=False)
+        acgd = (acgrep.get("gate") or {}).get("decision", "proceed")
+        if acgd == "block":
+            _print_result("AgentGov", FAIL, "单 Agent 策略违例：%s" % "；".join(acgrep["gate"]["reasons"][:3]))
+            overall_fail = True
+        elif acgd == "caution":
+            _print_result("AgentGov", WARN, "软问题 %d 项（健康分 %s）" % (
+                len(acgrep["gate"]["reasons"]), acgrep["composite"]["health"]))
+        else:
+            _print_result("AgentGov", PASS, "健康分 %s" % acgrep["composite"]["health"])
+    except Exception as _e:
+        _print_result("AgentGov", WARN, "自检异常：%s" % _e)
+
     print("")
     if overall_fail:
         print("结果：存在 FAIL —— 平台/项目不兼容，请先修复后再运行。")

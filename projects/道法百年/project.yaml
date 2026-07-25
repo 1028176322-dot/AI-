@@ -67,3 +67,50 @@ task_system:
   task_required_for: [create, modify, delete, review, publish, nkb_update]
   completion_authority: [orchestrator, gate]
   workspace_only_write: true
+
+# ─────────────────────────────────────────────────────────────
+# 单 Agent 执行策略（Single-Agent Execution）：把"禁止子 Agent"从提示词偏好
+# 升级为平台级执行策略。详见 platform/.../core/policies/agent-execution.policy.yaml
+#   agent_mode               : single = 强制单 Agent 顺序执行（显式，不继承模糊默认）
+#   concurrency              : 最多 1 活跃 Agent / 1 RUNNING 任务 / 1 并行工具调用 / 0 后台作业
+#   delegation/subagents     : 任务委派 / 子 Agent 创建 全部禁用
+#   background/async_tasks/worker_pool/fork: 后台与并行执行单元全部禁用
+#   decomposition            : 允许步骤拆解，禁止 Agent 拆解
+#   role_switching           : 角色切换通过 context_package 实现（同一 Agent 内）
+#   violation_policy         : 任何子 Agent/委派/并行触发即 block，并改写为串行计划
+#   本段为项目级显式声明，普通 Agent 不得覆盖；agent_modes 仅 single_safe 可选。
+# ─────────────────────────────────────────────────────────────
+runtime:
+  agent_mode: single
+  agent_modes:
+    active: single_safe
+    selectable: [single_safe, multi_agent]
+  concurrency:
+    max_active_agents: 1
+    max_running_tasks: 1
+    max_parallel_tool_calls: 1
+    max_background_jobs: 0
+  delegation:
+    enabled: false
+  subagents:
+    enabled: false
+  background:
+    enabled: false
+    max_jobs: 0
+  async_tasks:
+    enabled: false
+  worker_pool:
+    size: 0
+  fork:
+    enabled: false
+  decomposition:
+    step_decomposition: true
+    agent_decomposition: false
+  role_switching:
+    enabled: true
+    method: context_package
+  violation_policy:
+    on_subagent_spawn: block
+    on_delegation: block
+    on_parallel_execution: block
+    recovery: convert_to_sequential

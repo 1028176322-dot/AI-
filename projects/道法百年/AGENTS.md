@@ -1,3 +1,30 @@
+# Single-Agent Execution Policy（强制 · 最优先）
+
+本项目**强制单 Agent 顺序执行模式**。
+
+禁止：
+
+- 创建或调用子 Agent；
+- 委派任务给其他 Agent；
+- 启动并行 Agent；
+- 创建嵌套 Agent 会话；
+- 使用后台 Agent / 后台工作单元执行任务；
+- 为 Planner、Writer、Reviewer、Fixer、Knowledge-Manager 分别创建独立子 Agent；
+- 以并行方式执行多个任务。
+
+所有角色职责必须由**当前会话中的主 Agent**按任务状态顺序切换执行：
+
+    Planner 阶段 → Writer 阶段 → Reviewer 阶段 → Fixer 阶段
+
+而不是创建多个 Agent。**多角色不等于多 Agent。**
+
+当任务需要多个角色时，采用阶段角色切换（同会话内），而非生成多个 Agent 实例。
+检测到需要子 Agent 的情况时，必须改为当前 Agent 串行执行：将复杂任务拆为顺序步骤，
+每步完成后记录检查点，必要时压缩上下文，角色切换通过新的 Context Package 实现；
+长任务拆为多个串行 Task，当前 Task 完成后再执行下一 Task。
+
+平台策略文件：`../../platform/AI-Creative-Platform/core/policies/agent-execution.policy.yaml`
+
 # AI Execution Rules（强制入口）
 
 ## 请求分类强制决策树（所有请求第一步）

@@ -78,6 +78,15 @@ def main():
         },
         # ── Phase4 Step3.3：任务系统强制模式（从 project.yaml 读取）──
         "task_mode": _derive_task_mode(pdata),
+        # ── 单 Agent 执行策略（Phase5）：锁定运行时，不可变字段见 locks ──
+        "agent_runtime": _derive_agent_runtime(pdata),
+        "locks": [
+            "agent_runtime.agent_mode",
+            "agent_runtime.subagents_enabled",
+            "agent_runtime.delegation_enabled",
+            "agent_runtime.background_execution_enabled",
+            "agent_runtime.max_active_agents",
+        ],
     }
     out = os.path.join(sess_dir, "%s.yaml" % sid)
     with open(out, "w", encoding="utf-8") as f:
@@ -86,6 +95,10 @@ def main():
     print("role=%s project=%s platform=%s policy=%s contracts=%s" % (args.role, args.project, plat_ver, pol_ver, con_ver))
     print("task_mode.enforced=%s direct_execution_allowed=%s" % (
         manifest["task_mode"]["enforced"], manifest["task_mode"]["direct_execution_allowed"]))
+    _ar = manifest["agent_runtime"]
+    print("agent_runtime.mode=%s max_agents=%d subagents=%s delegation=%s bg=%s" % (
+        _ar["agent_mode"], _ar["max_active_agents"], _ar["subagents_enabled"],
+        _ar["delegation_enabled"], _ar["background_execution_enabled"]))
     print("OK")
     sys.exit(0)
 
@@ -98,6 +111,28 @@ def _derive_task_mode(pdata):
         "enforced": mode in ("strict", "warn"),
         "enforcement_mode": mode,
         "direct_execution_allowed": False,
+    }
+
+
+def _derive_agent_runtime(pdata):
+    """从 project.yaml 的 runtime 段推导单 Agent 运行时锁定（不可变）。"""
+    rt = (pdata or {}).get("runtime") or {}
+    conc = rt.get("concurrency") or {}
+
+    def _flag(section, key, default=False):
+        v = rt.get(section)
+        if isinstance(v, dict):
+            return bool(v.get(key, default))
+        return default
+
+    return {
+        "primary_agent": "current_session",
+        "agent_mode": rt.get("agent_mode", "single"),
+        "subagents_enabled": _flag("subagents", "enabled"),
+        "delegation_enabled": _flag("delegation", "enabled"),
+        "parallel_execution_enabled": False,
+        "background_execution_enabled": _flag("background", "enabled"),
+        "max_active_agents": int(conc.get("max_active_agents", 1)),
     }
 
 

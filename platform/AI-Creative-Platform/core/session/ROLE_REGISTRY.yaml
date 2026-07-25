@@ -1,6 +1,40 @@
 # Role Registry（角色注册表：权限即分工，不靠自觉）
 schema_version: "1.0.0"
 
+# 工具访问控制（单 Agent 策略 · 禁止 Agent 创建/委派/并行类工具）
+# 仅白名单任务工具可用；其余 agent-spawn / delegate / parallel / worker /
+# background 类一律禁用。平台 CLI 工具本身不派生 Agent，此处为显式声明 +
+# agent-compliance-gate 一致性校验依据（宿主 Agent 工具须由宿主运行时禁用，
+# 平台层无法物理移除，靠 AGENTS.md 强制规则 + 会话锁 + 自我约束 + 合规门禁保障）。
+tool_access:
+  access_mode: whitelist
+  allowed:
+    - task_create
+    - task_claim
+    - task_start
+    - task_read_input
+    - task_write_artifact
+    - task_submit
+    - task_review
+    - task_complete
+    - task_fail
+    - task_read
+    - controlled_write
+    - session_bootstrap
+    - doctor
+  disabled:
+    - spawn_agent
+    - create_subagent
+    - create_agent
+    - delegate_to_agent
+    - delegate_task
+    - run_agent_parallel
+    - launch_worker
+    - background_agent
+    - start_worker
+    - run_parallel
+    - fork_worker
+
 roles:
   writer:
     purpose: 生成和修改正文 Draft

@@ -9,5 +9,14 @@ task_template:
     read: [chapters/**, NKB/**, tasks/running/<id>/outputs/**]
     write: [tasks/running/<id>/outputs/**, chapters/drafts/**]
     forbidden: [core/**, registry/**, templates/**, NKB/**, chapters/approved/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+
   next_tasks:
     on_submit: [chapter_review]

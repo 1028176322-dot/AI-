@@ -310,6 +310,29 @@ def ready_check(root, task_id):
         ok = ok and has_ae
     # 8. output_path 可用（workspace 已建或处于 ready）
     report["checks"]["output_path_available"] = bool(t.get("workspace")) or (st == "ready")
+    # 9. 单 Agent 执行策略校验（agent-execution.policy.yaml + 任务 execution_policy）
+    ep = t.get("execution_policy") or {}
+    if not ep and tt:
+        # 任务未内联时从模板继承，确保模板策略被强制
+        try:
+            _plat = _gov.find_platform_root()
+            _tf = os.path.join(_plat, "core", "task-system", "templates", "%s.task.yaml" % tt)
+            if os.path.isfile(_tf):
+                _tmpl = (_gov.load_yaml(_tf) or {}).get("task_template") or {}
+                ep = _tmpl.get("execution_policy") or {}
+        except Exception:
+            ep = {}
+    _policy_ok = True
+    if ep:
+        _ma = ep.get("max_agents")
+        if _ma is not None and int(_ma) != 1:
+            _policy_ok = False
+        if ep.get("subagent_allowed") not in (False, "false"):
+            _policy_ok = False
+        if ep.get("delegation_allowed") not in (False, "false"):
+            _policy_ok = False
+    report["checks"]["single_agent_policy"] = _policy_ok
+    ok = ok and _policy_ok
     return ok, report
 
 
