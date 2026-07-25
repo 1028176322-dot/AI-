@@ -1,0 +1,25 @@
+# platform.lock.yaml — 平台实际解析版本锁定
+# 记录平台逻辑结构（platform.yaml 声明）所解析到的具体版本，供 Platform Bootstrap 校验。
+# 版本锚点来源：registry/versions.yaml。
+platform_lock:
+  generated_at: "2026-07-25T14:40:00+08:00"
+  source: registry/versions.yaml
+
+resolved:
+  core: 2.1.0
+  architecture: 4.3.0
+  contract: 1.4.0
+  workflow: 1.4.0
+  review: 4.3.0
+  context_engine: 2.0.0
+  project_schema: 1.0.0
+  task_schema: 1.0.0
+  nkb_schema: 1.2.0
+
+plugins:
+  orchestrator: orchestrator@2.1.0
+  planner: planner@2.1.0
+  context_engine: context-engine@2.0.0
+  writer: novel-writer@1.6.0
+  reviewer: novel-reviewer@1.8.0
+  reader: novel-reader@1.8.0

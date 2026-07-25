@@ -1,0 +1,44 @@
+# schemas/registry.yaml — Schema / Contract 注册表（索引）
+# Q2 决策：schemas/ 仅做索引，实体文件保留在 core/contracts/（不迁移）。
+schema_version: "1.0.0"
+source_dir: core/contracts/
+
+schemas:
+  - asset.schema.yaml
+  - audit.schema.yaml
+  - bi.schema.yaml
+  - creative-strategy.schema.yaml
+  - design-source.schema.yaml
+  - experiment.schema.yaml
+  - goal.schema.yaml
+  - graph.schema.yaml
+  - idea.schema.yaml
+  - impact.schema.yaml
+  - market.schema.yaml
+  - memory.schema.yaml
+  - model-router.schema.yaml
+  - nkb-candidate.schema.yaml
+  - nkb-genesis.schema.yaml
+  - nkb-source.schema.yaml
+  - project_genesis.schema.yaml
+  - project-brief.schema.yaml
+  - project-charter.schema.yaml
+  - project-registry.schema.yaml
+  - project-status.schema.yaml
+  - quality.schema.yaml
+  - reader.schema.yaml
+  - readiness-report.schema.yaml
+  - review-report.schema.yaml
+  - revision.schema.yaml
+  - sync_check.schema.yaml
+  - task.schema.yaml
+
+contracts:
+  - fix.contract.yaml
+  - knowledge-update.contract.yaml
+  - review.contract.yaml
+  - session.contract.yaml
+  - write.contract.yaml
+
+docs:
+  - AI契约.md

@@ -1,0 +1,115 @@
+# platform.yaml — 平台一级入口（总索引与启动清单）
+#
+# 设计原则：声明平台「需要什么」（索引 + 启动清单），不包含所有规则正文。
+# 三者互补、不可互替：
+#   - AGENTS.md   ：AI 行为入口（强制从哪里开始、禁止什么）
+#   - platform.yaml：平台机器入口（组件在哪里、应调用什么）
+#   - README.md   ：人类说明
+#
+# 版本对齐 registry/versions.yaml（core.platform=2.1.0, review=4.3.0, contract=1.4.0）。
+# 路径决策（见 2026-07-25 评审）：
+#   - projects 保留在仓库根（paths.projects = ../../projects）；
+#   - schemas 仅做索引（schemas/registry.yaml 指向 core/contracts，不迁移实体）；
+#   - tools 阶段2 迁移至 cli/ + scripts/，本期仍指向 tools/。
+schema: platform-manifest@1.0
+
+platform:
+  id: ai-creative-platform
+  name: AI创作运行平台
+  version: 2.1.0
+  architecture_version: 4.3.0
+  language: zh-CN
+
+entrypoints:
+  cli: tools/platform_cli.py          # 阶段2 迁移至 cli/platform.py
+  agents: AGENTS.md
+  memory: memory/MEMORY.md
+  architecture: ARCHITECTURE.md
+  core: core/core.yaml
+
+paths:
+  core: core/
+  templates: templates/
+  schemas: schemas/
+  registry: registry/
+  projects: ../../projects           # 项目在仓库根（Q1：保留仓库根）
+  tools: tools/                       # 阶段2 迁移至 scripts/
+  migrations: migrations/             # 阶段2 创建
+  runtime: runtime/                   # 平台级 runtime（阶段2 创建；项目级 runtime 在 projects/<id>/runtime）
+
+registries:
+  projects: registry/projects.yaml
+  templates: templates/registry.yaml
+  plugins: registry/plugins.yaml
+  capabilities: registry/capabilities.yaml
+  schemas: schemas/registry.yaml
+  versions: registry/versions.yaml
+
+schemas:
+  index: schemas/registry.yaml        # 实体文件位于 core/contracts/（Q2：仅索引，不迁移）
+
+installers:
+  project:
+    command: platform project create
+    implementation: tools/project_template.py   # 阶段2 迁移至 scripts/project/create_project.py
+    deployment_builder: tools/project_init.py
+    validator: tools/project_health.py
+    staging_path: runtime/staging/              # 阶段2
+
+session:
+  bootstrap_command: platform session bootstrap
+  close_command: platform session close
+  runtime_path: ../../projects/<project-id>/runtime/sessions/
+  require_bootstrap_validation: true
+
+runtime:
+  agent_mode: single
+  subagents_enabled: false
+  delegation_allowed: false
+  parallel_agents_allowed: false
+  max_active_agents: 1
+
+governance:
+  constitution: core/constitution/AI写作宪法.md
+  base_policy: core/policies/compliance.policy.yaml
+  runtime_policy: core/policies/agent-execution.policy.yaml
+  project_creation_policy: core/policies/workflow.policy.yaml
+
+memory:
+  index: memory/MEMORY.md
+  global: memory/global/
+  genre: memory/genre/
+  rejected: memory/rejected/
+  cross_project_isolation: true
+
+quality_gates:
+  platform_bootstrap: required
+  project_creation: required
+  project_initialization: required
+  task_execution: required
+  artifact_registration: required
+
+commands:
+  platform_bootstrap: platform bootstrap
+  project_create: platform project create
+  project_open: platform project open
+  project_doctor: platform project doctor
+  session_bootstrap: platform session bootstrap
+  validate_all: platform validate all
+
+override_policy:
+  # 不可覆盖：任何下层配置（题材模板 / 项目 / 任务运行时）均不得修改以下键。
+  immutable:
+    - runtime.agent_mode
+    - runtime.subagents_enabled
+    - runtime.delegation_allowed
+    - runtime.parallel_agents_allowed
+    - governance.authority
+    - quality_gates.task_execution
+    - quality_gates.platform_bootstrap
+  # 允许覆盖（优先级：Core Default < Genre Template < Project Override < Chapter Runtime）。
+  configurable:
+    - writing.chapter_length
+    - writing.style
+    - context.token_budget
+    - review.thresholds

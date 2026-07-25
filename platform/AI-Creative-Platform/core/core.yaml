@@ -1,0 +1,33 @@
+# core/core.yaml — 核心模块清单（索引）
+# 平台核心能力均位于 core/ 下；本文件为机器可读的模块索引，供 platform.yaml 引用。
+schema_version: "1.0.0"
+core_root: core/
+
+modules:
+  asset-mgmt:        { type: engine,  desc: 素材管理 }
+  audit:             { type: engine,  desc: 审计日志聚合 }
+  capabilities:      { type: registry, desc: 能力注册 }
+  constitution:      { type: doc,     desc: 平台宪法（AI写作宪法.md） }
+  context-engine:    { type: engine,  desc: 上下文引擎 }
+  contracts:         { type: schema,  desc: 契约/Schema 定义（*.schema.yaml / *.contract.yaml） }
+  gates:             { type: gate,    desc: 各类门禁（agent_compliance / readiness 等） }
+  impact-analyzer:   { type: engine,  desc: 影响分析 }
+  knowledge:         { type: engine,  desc: 知识/NKB 治理 }
+  memory-gov:        { type: engine,  desc: 记忆治理 }
+  observability:     { type: engine,  desc: 可观测性 }
+  orchestrator:      { type: engine,  desc: 编排器 }
+  phase3:            { type: doc,     desc: Phase3 设计稿 }
+  planning:          { type: engine,  desc: 规划 }
+  policies:          { type: policy,  desc: 运行策略（agent-execution/compliance/constitution/permissions/task-enforcement/workflow） }
+  project-lifecycle: { type: engine,  desc: 项目生命周期 }
+  project-status:    { type: engine,  desc: 项目状态 }
+  quality-score:     { type: engine,  desc: 质量评分 }
+  reader-sim:        { type: engine,  desc: 读者模拟 }
+  review:            { type: engine,  desc: 审查体系 }
+  runtime:           { type: engine,  desc: 运行时（单 Agent 策略执行） }
+  session:           { type: policy,  desc: 会话策略（SESSION_POLICY.yaml / ROLE_REGISTRY.yaml） }
+  specifications:    { type: doc,     desc: 规范文档 }
+  task-system:       { type: engine,  desc: 任务系统 }
+  tools:             { type: util,    desc: 内部工具 }
+  version-control:   { type: engine,  desc: 版本控制 }
+  workflows:         { type: engine,  desc: 工作流 }

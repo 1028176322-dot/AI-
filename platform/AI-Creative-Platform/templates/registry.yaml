@@ -1,0 +1,40 @@
+# templates/registry.yaml — 题材模板注册表
+# 索引平台支持的创作题材模板；版本对齐 registry/versions.yaml 的 templates 段。
+schema_version: "1.0.0"
+
+templates:
+  - id: xuanhuan
+    name: 玄幻
+    version: 1.3.0
+    path: xuanhuan/
+    status: active
+  - id: xuanyi
+    name: 悬疑
+    version: 1.3.0
+    path: xuanyi/
+    status: active
+  - id: dushi
+    name: 都市
+    version: 1.3.0
+    path: dushi/
+    status: active
+  - id: lianai
+    name: 恋爱
+    version: 1.3.0
+    path: lianai/
+    status: active
+  - id: kehuan
+    name: 科幻
+    version: 1.3.0
+    path: kehuan/
+    status: active
+  - id: qingxiaoshuo
+    name: 轻小说
+    version: 1.3.0
+    path: qingxiaoshuo/
+    status: active
+  - id: _legacy_profiles_md
+    name: 遗留 profiles（旧）
+    version: null
+    path: _legacy_profiles_md/
+    status: legacy

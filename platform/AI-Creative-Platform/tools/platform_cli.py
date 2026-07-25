@@ -486,6 +486,29 @@ def cmd_doctor(args):
     sys.exit(0)
 
 
+def _check_platform_manifest(platform_root):
+    """校验 platform.yaml 一级入口自洽（PC-7 平台入口）。
+
+    检查 entrypoints / registries / governance 引用的文件存在，
+    memory 子目录存在。返回 [(sym, name, detail), ...]；空列表=自洽。
+    """
+    pf = os.path.join(platform_root, "platform.yaml")
+    if not os.path.isfile(pf):
+        return [(FAIL, "platform.yaml", "平台一级入口文件缺失")]
+    meta = load_yaml(pf) or {}
+    findings = []
+    for grp in ("entrypoints", "registries", "governance"):
+        for k, rel in (meta.get(grp) or {}).items():
+            if rel and not os.path.isfile(os.path.join(platform_root, rel)):
+                findings.append((FAIL, "%s.%s" % (grp, k), "引用文件缺失：%s" % rel))
+    mem = meta.get("memory") or {}
+    for k in ("global", "genre", "rejected"):
+        rel = mem.get(k)
+        if rel and not os.path.isdir(os.path.join(platform_root, rel)):
+            findings.append((FAIL, "memory.%s" % k, "目录缺失：%s" % rel))
+    return findings
+
+
 def cmd_bootstrap(args):
     ws_root = find_workspace(args.workspace)
     ws = load_yaml(os.path.join(ws_root, "workspace.yaml"))
@@ -507,6 +530,16 @@ def cmd_bootstrap(args):
         print("\n✗ bootstrap 中止。")
         sys.exit(1)
     _print_result("Versions", PASS, "可读")
+
+    # 平台一级入口自洽校验（PC-7）：platform.yaml 引用的文件/目录必须存在
+    _print_block("平台入口校验（platform.yaml）")
+    pm = _check_platform_manifest(platform_root)
+    if pm:
+        for sym, name, detail in pm:
+            _print_result(name, sym, detail)
+        print("\n✗ bootstrap 中止：platform.yaml 自洽校验失败。")
+        sys.exit(1)
+    _print_result("PlatformManifest", PASS, "自洽（entrypoints/registries/governance/memory 全部存在）")
 
     manifest = {
         "generated": datetime.datetime.now().isoformat(timespec="seconds"),
