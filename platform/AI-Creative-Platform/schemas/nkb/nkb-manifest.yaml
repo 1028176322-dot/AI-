@@ -1,0 +1,38 @@
+schema_version: 3.2.0
+generated_by: project_installer
+description: "NKB Schema 部署清单（空结构生成依据）。项目私有 NKB 只保存本作品事实；题材术语仅作候选种子，世界观/人物/故事事实须经后续规划确认。"
+components:
+  - name: Canon
+    type: canon
+    schema_version: 3.2.0
+  - name: Characters
+    type: character
+    schema_version: 3.2.0
+  - name: Locations
+    type: location
+    schema_version: 3.2.0
+  - name: Organizations
+    type: organization
+    schema_version: 3.2.0
+  - name: Items
+    type: item
+    schema_version: 3.2.0
+  - name: Events
+    type: event
+    schema_version: 3.2.0
+  - name: Timeline
+    type: timeline
+    schema_version: 3.2.0
+  - name: Foreshadowing
+    type: foreshadow
+    schema_version: 3.2.0
+  - name: Terminology
+    type: terminology
+    schema_version: 3.2.0
+  - name: ReaderState
+    type: reader_state
+    schema_version: 3.2.0
+  - name: Derived
+    type: derived
+    schema_version: 3.2.0
+    empty: true

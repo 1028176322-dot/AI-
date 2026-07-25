@@ -1,15 +1,13 @@
-schema_version: "1.0.0"
-# 多项目注册表（Phase 3-2 Multi-Project）
-# path 相对 platform_root（本文件所在 registry/ 的上级）。
-# 新增项目用 `platform projects register` 或手工追加 entries。
+schema_version: 1.0.0
 projects:
   - id: novel-dsf
     name: 道士也玩火力覆盖
-    aliases: [daofa-bainian]   # 历史别名（文件夹 道法百年 / 书名 道士也玩火力覆盖），仅作人类可读检索，不参与 find_project 解析
+    aliases:
+      - daofa-bainian
     path: ../../projects/道法百年
     type: xuanhuan
     genre: xuanhuan
     status: active
-    created: "2026-07-24"
+    created: 2026-07-24
     overrides:
-      model_preference: null   # 项目级模型偏好（可选）；dispatch 时记录并与 router 协同
+      model_preference: null

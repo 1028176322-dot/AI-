@@ -37,3 +37,6 @@ platform/AI-Creative-Platform/runtime/staging/*
 
 # ---- task_engine 流转废弃标记（不入库） ----
 **/*.obsolete
+
+# ---- agent local auxiliary memory (not part of the repo) ----
+.workbuddy/

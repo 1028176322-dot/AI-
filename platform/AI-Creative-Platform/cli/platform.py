@@ -823,6 +823,9 @@ def build_parser():
     gpj.add_argument("--platform-root", required=True)
     gpj.add_argument("rest", nargs=argparse.REMAINDER)
 
+    gpi = sub.add_parser("project", help="项目事务式安装器：create/doctor/reconcile/upgrade（确定性部署，不复制平台内容）")
+    gpi.add_argument("rest", nargs=argparse.REMAINDER)
+
     gx2 = sub.add_parser("exp", help="实验系统：A/B 对照定义/分配/回收/判定（define/run/sample/report/validate）")
     gx2.add_argument("--platform-root", required=True)
     gx2.add_argument("rest", nargs=argparse.REMAINDER)
@@ -906,8 +909,8 @@ def main():
     elif args.cmd == "init-project":
         cmd_init_project(args)
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
-                      "init", "charter", "psrc", "genesis", "ready",
-                      "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "exp", "bi", "graph", "market", "compliance",
+        "init", "charter", "psrc", "genesis", "ready",
+        "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "project", "exp", "bi", "graph", "market", "compliance",
                       "index", "context", "policy", "validate", "query",
                       "summary", "delta", "review", "report", "audit", "terminology", "chapter"):
         _delegate_gov(args.cmd, args)
@@ -945,6 +948,7 @@ def _delegate_gov(cmd, args):
         "asset": "asset_manager",
         "model": "model_router",
         "projects": "multi_project",
+        "project": "project_installer",
         "exp": "experiment",
         "bi": "bi",
         "graph": "graph_viz",

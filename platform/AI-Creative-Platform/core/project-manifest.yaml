@@ -1,0 +1,192 @@
+schema_version: 1.0.0
+generated_by: project_installer
+description: "基础项目结构部署清单（题材无关的通用部分），与 templates/<genre>/template-manifest.yaml 和 schemas/nkb/nkb-manifest.yaml 组合成 Project Deployment Plan。"
+core_version: ">=2.1.0"
+
+# 项目目录结构与部署策略
+# strategy: generate(项目内生成) / initialize(建初始空结构) / seed(带来源地候选) / reference(版本引用不复制) / lock(锁版本写 lock) / derive(运行时重建,非权威)
+structure:
+  generate:
+    - path: project.yaml
+      owner: project
+      strategy: generate
+      overwrite: never
+    - path: project.lock.yaml
+      owner: project
+      strategy: lock
+      overwrite: never
+    - path: deployment-manifest.yaml
+      owner: project
+      strategy: generate
+      overwrite: versioned
+    - path: AGENTS.md
+      owner: platform
+      strategy: managed
+      overwrite: versioned
+    - path: config/writing.yaml
+      owner: project
+      strategy: generate
+      overwrite: never
+    - path: config/quality-gates.yaml
+      owner: project
+      strategy: generate
+      overwrite: never
+    - path: config/context-budget.yaml
+      owner: project
+      strategy: generate
+      overwrite: never
+  initialize:
+    - path: NKB/
+      owner: project
+    - path: planning/story/
+      owner: project
+    - path: planning/volumes/
+      owner: project
+    - path: planning/chapters/
+      owner: project
+    - path: planning/decisions/
+      owner: project
+    - path: tasks/backlog/
+      owner: project
+    - path: tasks/ready/
+      owner: project
+    - path: tasks/running/
+      owner: project
+    - path: tasks/review/
+      owner: project
+    - path: tasks/blocked/
+      owner: project
+    - path: tasks/completed/
+      owner: project
+    - path: artifacts/chapters/
+      owner: project
+    - path: artifacts/reviews/
+      owner: project
+    - path: artifacts/fixes/
+      owner: project
+    - path: artifacts/builds/
+      owner: project
+    - path: memory/project/decisions/
+      owner: project
+    - path: memory/project/patterns/
+      owner: project
+    - path: memory/project/rejected/
+      owner: project
+    - path: sessions/history/
+      owner: project
+    - path: operations/
+      owner: project
+    - path: checkpoints/
+      owner: project
+    - path: metrics/
+      owner: project
+    - path: overrides/
+      owner: project
+    - path: indexes/
+      owner: runtime
+    - path: runtime/context/
+      owner: runtime
+    - path: runtime/policies/
+      owner: runtime
+    - path: runtime/task-packets/
+      owner: runtime
+    - path: runtime/sessions/
+      owner: runtime
+  reference:
+    - path: ../../platform/AI-Creative-Platform/core
+      owner: platform
+    - path: ../../platform/AI-Creative-Platform/templates
+      owner: platform
+  lock:
+    - core
+    - template
+    - nkb_schema
+    - plugins
+    - capabilities
+  derive:
+    - path: indexes/
+      owner: runtime
+    - path: metrics/
+      owner: project
+    - path: runtime/context/
+      owner: runtime
+    - path: runtime/policies/
+      owner: runtime
+
+# 平台基线插件（解析到 registry/plugins.yaml 的实际版本）
+plugin_defaults:
+  planner: planner.default@1.2.0
+  context_engine: context.runtime@2.0.0
+  writer: workflow.novel@1.4.0
+  reviewer: review.four-pillars@4.3.0
+
+# capability 键 -> 注册表 plugin ref（由 templates/<genre>/template-manifest.yaml 的 capabilities 列表解析）
+capability_plugin_map:
+  narrative: capability.narrative.default@2.0.0
+  character: capability.character.default@1.5.0
+  dialogue: capability.dialogue.ancient@1.3.0
+  battle: capability.battle.xuanhuan@2.1.0
+  emotion: capability.emotion.commercial@1.2.0
+  description: capability.description.ancient@1.1.0
+
+# 初始化任务链（installer 标准，顺序执行）
+init_task_chain:
+  - id: TASK-001
+    key: project_discovery
+    title: 项目需求采集
+    role: analyst
+  - id: TASK-002
+    key: story_promise
+    title: 故事承诺与核心卖点
+    role: planner
+  - id: TASK-003
+    key: genre_audience
+    title: 题材定位与读者定位
+    role: planner
+  - id: TASK-004
+    key: worldbuilding
+    title: 世界观基础设计
+    role: worldbuilder
+  - id: TASK-005
+    key: power_system
+    title: 力量体系设计
+    role: worldbuilder
+  - id: TASK-006
+    key: character_design
+    title: 核心人物设计
+    role: character_designer
+  - id: TASK-007
+    key: outline_design
+    title: 主线与分卷规划
+    role: planner
+  - id: TASK-008
+    key: nkb_review
+    title: NKB 初始事实审查
+    role: knowledge_manager
+  - id: TASK-009
+    key: readiness_review
+    title: 项目写作就绪审查
+    role: reviewer
+
+# 初始化门禁（project_doctor 逐项检查）
+initialization_gate:
+  - directory_structure
+  - project_yaml
+  - version_lock
+  - template_dependencies
+  - nkb_schema
+  - duplicate_ids
+  - broken_references
+  - memory_isolation
+  - runtime_policy
+  - initial_tasks
+  - writable_scopes
+
+# 内存隔离（init_memory 依据）
+memory_isolation:
+  allowed:
+    - global
+    - genre:xuanhuan
+    - project:<id>
+  forbidden:
+    - other_projects

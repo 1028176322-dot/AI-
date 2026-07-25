@@ -1,0 +1,30 @@
+# 玄幻力量体系 Schema 候选种子（SEED，非正史）
+# 来源：templates/xuanhuan/seeds/power-system-schema.yaml
+# 仅提供字段骨架与示例层级，不预填任何具体境界名称（避免成为项目正史）。
+# 项目在 TASK-005 力量体系设计 中基于本骨架自定义。
+schema_version: "1.3.0"
+genre: xuanhuan
+source: template-seed:xuanhuan
+power_system:
+  fields:
+    - name: tier            # 大境界（如 炼气/筑基/金丹/元婴/化神…）
+      type: ordered_enum
+      monotonic: true       # 战力随 tier 单调递增
+      description: 主角与配角的绝对实力层级
+    - name: stage           # 大境界内小阶
+      type: int
+      description: 同 tier 内的细分进度
+    - name: combat_scaling  # 对火器/外物的相对强度
+      type: ratio
+      description: 用于约束“火器对宗师基本无效”等红线
+  rules:
+    - id: no_skip_tier
+      description: 战力不可越级跃迁（对应红线 R5 火器研发不越级）
+    - id: sect_master_immune_firearm
+      description: 高阶宗师对低阶火器基本免疫（对应红线 R4，直到卷四狙击才破）
+  example_tiers:            # 仅作占位示例，项目应替换为自有体系
+    - 炼气
+    - 筑基
+    - 金丹
+    - 元婴
+    - 化神

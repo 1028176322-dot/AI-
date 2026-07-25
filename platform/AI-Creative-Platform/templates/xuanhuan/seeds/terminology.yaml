@@ -1,0 +1,32 @@
+# 玄幻题材术语候选种子（SEED，非正史）
+# 来源：templates/xuanhuan/seeds/terminology.yaml
+# 导入方式：installer 以 seed 策略带 origin 导入项目 NKB/Terminology.yaml，
+# 每条标记 status: candidate，须经后续规划确认（TASK-008 NKB 审查）才能晋升正史。
+schema_version: "1.3.0"
+genre: xuanhuan
+source: template-seed:xuanhuan
+candidates:
+  - term: 灵气
+    gloss: 天地间可被修炼者吸纳的能量本源
+    status: candidate
+  - term: 境界
+    gloss: 修炼层级的统称，各书自定义
+    status: candidate
+  - term: 法宝
+    gloss: 蕴含灵力、可攻防或辅助的神兵器物
+    status: candidate
+  - term: 宗门
+    gloss: 修炼者聚合门派，常有层级与传承
+    status: candidate
+  - term: 渡劫
+    gloss: 突破大境界时遭遇的天道考验
+    status: candidate
+  - term: 心魔
+    gloss: 修炼途中因执念产生的精神干扰
+    status: candidate
+  - term: 秘境
+    gloss: 独立于现世的试炼或机缘空间
+    status: candidate
+  - term: 长生
+    gloss: 本作核心母题之一，突破寿元极限
+    status: candidate
