@@ -24,19 +24,12 @@ reject() {
   exit 1
 }
 
-commit_msg=$(git log -1 --pretty=%B 2>/dev/null || cat .git/COMMIT_EDITMSG 2>/dev/null || echo "")
-has_task_id=$(echo "$commit_msg" | grep -E 'task_id=|TASK-[A-Z0-9-]+' || true)
-
-# ── 1. 项目内容产物保护：进入受保护路径必须有 task_id（且存在对应 tasks/ 工作区）──
+# ── 1. 项目内容产物保护（无 Task 不执行）：受保护路径提交必须附带任务记录 ──
+# 以"任务记录随本次提交"为硬证据（不读 commit message，避免误取上一个 commit）。
 PROTECTED='^(projects/[^/]+/)?(NKB/|approved/|chapters/|第一卷_道生/|sources/|大纲_1000章总体规划\.md)'
 if echo "$staged" | grep -Eq "$PROTECTED"; then
-  if [ -z "$has_task_id" ]; then
-    reject "受保护内容路径（NKB/approved/chapters/第一卷_道生/sources）的提交必须带 task_id（commit message 含 TASK-xxx 或 task_id=）"
-  fi
-  # 校验 task 工作区存在（tasks/ 下任意状态含该 id）
-  tid=$(echo "$has_task_id" | grep -oE 'TASK-[A-Z0-9-]+' | head -1)
-  if [ -n "$tid" ] && [ ! -d "tasks" ]; then
-    reject "task_id=$tid 引用但项目无 tasks/ 工作区，任务系统未初始化"
+  if ! echo "$staged" | grep -qE "tasks/[^/]+/TASK-[A-Z0-9-]+\.yaml"; then
+    reject "受保护内容路径（NKB/approved/chapters/第一卷_道生/sources）提交必须附带任务记录 tasks/<status>/TASK-xxx.yaml（无 Task 不得修改项目内容）"
   fi
 fi
 

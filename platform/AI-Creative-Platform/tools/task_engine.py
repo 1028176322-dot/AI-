@@ -296,6 +296,7 @@ def start(root, task_id, agent, role="unknown", model="unknown"):
     # 任务工作区隔离：产物先落 tasks/running/<id>/outputs/，Gate 后再移入正式目录
     ws = os.path.join(_state_dir(root, "running"), task_id, "outputs")
     os.makedirs(ws, exist_ok=True)
+    data["task"]["status"] = "running"
     data["task"]["workspace"] = os.path.relpath(ws, root)
     with open(os.path.join(_state_dir(root, "running"), task_id + ".yaml"), "w", encoding="utf-8") as f:
         f.write(_gov.dump_block(data))

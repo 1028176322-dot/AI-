@@ -49,3 +49,21 @@ gates:
   reader_index: 60
   payment_intent: 60
   max_loop: 5
+
+# ─────────────────────────────────────────────────────────────
+# 任务系统强制层（Task Enforcement）：把任务系统从"建议流程"升级为
+# "唯一合法执行通道"。详见 platform/.../core/policies/task-enforcement.policy.yaml
+#   enabled          : 是否启用任务系统
+#   enforcement_mode : off / warn / strict。当前 strict = 无 Task ID 不执行
+#   direct_file_write: false = 禁止通用 Write/Edit 直改项目内容产物
+#   task_required_for: 以下动作类型必须先有合法 task_id
+#   completion_authority: 仅这些角色可标记任务 COMPLETED（执行者不可自验）
+#   workspace_only_write: 产物先落 tasks/<status>/<id>/outputs/，Gate 后移入正式目录
+# ─────────────────────────────────────────────────────────────
+task_system:
+  enabled: true
+  enforcement_mode: strict
+  direct_file_write: false
+  task_required_for: [create, modify, delete, review, publish, nkb_update]
+  completion_authority: [orchestrator, gate]
+  workspace_only_write: true

@@ -1,5 +1,24 @@
 # AI Execution Rules（强制入口）
 
+## 请求分类强制决策树（所有请求第一步）
+
+收到任何用户请求后，**先执行以下判定**，再决定走咨询通道还是执行通道：
+
+1. 是否涉及项目/平台产物（读取、生成、修改、删除、迁移、审查、发布、更新 NKB）？
+   - **否** → 咨询模式，可直接回答（不产生 artifact 也可）。
+   - **是** → 进入执行通道（步骤 2）。
+2. 执行通道（硬强制，违反任一步 = task-enforcement.policy.yaml 违例，severity=fatal）：
+   a. 查找有效 `task_id`（`tasks/<status>/<id>.yaml` 且 `status∈{claimed,running}`）；
+   b. 若不存在 → 先经 **Task Intake** 创建任务（`project_mutation`/`platform_mutation` 须 human 确认）；
+   c. 执行 **Ready Check**（依赖/输入/contract/role/permissions/scope/nkb_snapshot）；
+   d. **claim** 任务（生成 owner + lease），状态 `ready→claimed→running`；
+   e. 仅通过**受控写工具**（`controlled_write` / `task_write_artifact`）写，目标须在 `task.permissions.write` 内、不在 `forbidden`；
+   f. **submit** 触发 `quality`+`reader` 门禁 → `reviewing` → 独立 `review` → `passed` → `gate` → `completed`；
+   g. **AI 不得自行标记 COMPLETED**（执行者不可验收自己的任务）。
+3. 任意步骤失败 → **停止并输出结构化 Blocked Report**，不得绕道通用 Write/Edit 直接改文件。
+
+> 最终保障是**工具拒绝 + git pre-commit 拦截 + 旁路 diff 检测**，而非 AI 自觉。
+
 本项目**不是**靠 AI「记得规则」来遵守平台，而是靠系统不允许绕过。
 
 1. 本项目必须通过 **AI-Creative-Platform** 执行（平台在 `../../platform/AI-Creative-Platform`）。
