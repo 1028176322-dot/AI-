@@ -3,8 +3,9 @@ schema_version: "1.0.0"
 # path 相对 platform_root（本文件所在 registry/ 的上级）。
 # 新增项目用 `platform projects register` 或手工追加 entries。
 projects:
-  - id: daofa-bainian
+  - id: novel-dsf
     name: 道士也玩火力覆盖
+    aliases: [daofa-bainian]   # 历史别名（文件夹 道法百年 / 书名 道士也玩火力覆盖），仅作人类可读检索，不参与 find_project 解析
     path: ../../projects/道法百年
     type: xuanhuan
     genre: xuanhuan
