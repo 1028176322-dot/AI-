@@ -1,0 +1,31 @@
+# Review Report Schema（审查报告结构化契约 · Phase B）
+# 作用：把 AI 深度审查（L2）的结果标准化为机器可读格式。
+# 脚本（review_orchestrator）生成待填模板，AI 逐 finding 填写后脚本校验落盘。
+# 与审查体系.md 的关系：本 schema 是「输出格式契约」，审查规则本身仍由 checks/ 与审查体系.md 定义。
+schema:
+  id: review.report
+  version: "1.0.0"
+  description: "单 Agent 多阶段审查标准化输出；脚本准备证据包并生成空报告，AI 填 findings，脚本校验落盘"
+report:
+  required: [review_id, task_id, chapter_ref, created_at, stages, findings, verdict]
+  optional: [summary, profile, context_hash, delta_ref, regression]
+finding:
+  required: [id, category, severity, location, observation, evidence, reasoning, impact, recommended_fix]
+  severity_enum: [info, warn, fail, block]
+  category_enum: [hard_consistency, continuity, character, logic, terminology, style, pacing, worldbuilding, emotion, dialogue, narrative, conflict, reader, other]
+  severity_meaning:
+    info: "提示性，无需修复"
+    warn: "软质量问题，建议修复"
+    fail: "明显缺陷，应在 Approved 前修复"
+    block: "硬一致性失败（Fatal A 级），必须修复后才可 Approved"
+  field_meaning:
+    id: "Finding 唯一编号，格式 F-<n>"
+    category: "问题类别，见 category_enum"
+    severity: "严重度，见 severity_enum"
+    location: "定位（章节/段落/行号/句子）"
+    observation: "观察到的事实描述"
+    evidence: "支撑证据（引用原文/规则/NKB 记录）"
+    reasoning: "为何判定为问题（逻辑链）"
+    impact: "对读者/连贯性/设定的影响"
+    recommended_fix: "建议修复方向（不替作者写正文）"
+verdict_enum: [pass, pass_with_fixes, fail, blocked]

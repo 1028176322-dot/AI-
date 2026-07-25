@@ -1,0 +1,45 @@
+# 单 Agent 多阶段审查计划（L2 AI 深度审查 · Phase B）
+# 与审查体系.md 的关系：四支柱=审查视角（编辑/工程/读者/门禁），本计划=单次深度阅读的执行阶段分解。
+# 两者正交：本计划定义「AI 怎么读一章」，四支柱定义「从哪些视角打分」。
+# 模式：单 Agent 串行五阶段，禁止委派/并行（复用 Phase5 单 Agent 策略）。
+plan:
+  id: single-agent-deep-review
+  version: "1.0.0"
+  mode: single_agent_sequential
+  principle: "单 Agent 串行执行五阶段，不委派子 Agent、不并行；每阶段只读取指定裁剪的上下文，避免全量重读"
+  stages:
+    - name: immersive
+      order: 1
+      purpose: "沉浸式通读，建立整体观感与初读情绪"
+      focus: [初读流畅度, 出戏点, 第一印象, 情绪曲线初判]
+      inputs: [full_chapter_text, previous_summary]
+      outputs: [初读印象记录, 出戏点标记]
+      policy_ref: "checks/reader/immersion.md, checks/reader/first.md"
+    - name: structural
+      order: 2
+      purpose: "结构与叙事层检查"
+      focus: [故事结构, 章节节奏, 叙事POV, 信息释放, 场景切换]
+      inputs: [full_chapter_text, chapter_plan]
+      outputs: [结构类 findings]
+      policy_ref: "checks/story.md, checks/narrative.md, checks/chapter.md"
+    - name: character
+      order: 3
+      purpose: "人物塑造与一致性"
+      focus: [人设一致性OOC, 动机合理性, 关系演化, 对白辨识度]
+      inputs: [full_chapter_text, context_characters, context_relationships]
+      outputs: [人物类 findings]
+      policy_ref: "checks/character.md, checks/dialogue.md"
+    - name: continuity
+      order: 4
+      purpose: "连贯性与硬一致性（事实层）"
+      focus: [时间线, 设定一致性, 前后矛盾, 死人复活, NKB版本对齐, 实体引用]
+      inputs: [full_chapter_text, nkb_state, validators_findings, delta_review]
+      outputs: [硬一致性 findings(block级)]
+      policy_ref: "checks/consistency.md, checks/world.md"
+    - name: synthesis
+      order: 5
+      purpose: "综合定论与修复建议"
+      focus: [问题去重, 严重度定级, 修复优先级, 门禁判定预判]
+      inputs: [all_stage_findings, gate_criteria]
+      outputs: [review_report, fix_tasks]
+      policy_ref: "审查体系.md §5 门禁"

@@ -536,6 +536,26 @@ def cmd_doctor(args):
     except Exception as _e:
         _print_result("ScriptGov", WARN, "自检异常：%s" % _e)
 
+    _print_block("审查管线（Phase B · ReviewGov）")
+    try:
+        plat_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        schema_p = os.path.join(plat_root, "core", "contracts", "review-report.schema.yaml")
+        plan_p = os.path.join(plat_root, "core", "review", "review-plan.yaml")
+        if os.path.isfile(schema_p) and os.path.isfile(plan_p):
+            rv = os.path.join(proot, "runtime", "reviews")
+            n = 0
+            if os.path.isdir(rv):
+                for _d in os.listdir(rv):
+                    if _d.startswith("REVIEW-"):
+                        n += 1
+            _print_result("ReviewGov", PASS,
+                          "审查契约齐备（schema+plan）；已生成 %d 份审查证据包" % n)
+        else:
+            _print_result("ReviewGov", WARN,
+                          "审查契约缺失（review-report.schema.yaml / review-plan.yaml）")
+    except Exception as _e:
+        _print_result("ReviewGov", WARN, "自检异常：%s" % _e)
+
     print("")
     if overall_fail:
         print("结果：存在 FAIL —— 平台/项目不兼容，请先修复后再运行。")
@@ -864,6 +884,16 @@ def build_parser():
     gq2 = sub.add_parser("query", help="NKB 查询/投影接口（get/state/events/foreshadow/reader-known/project）")
     gq2.add_argument("--project-root", default=None)
     gq2.add_argument("rest", nargs=argparse.REMAINDER)
+    # ── Phase B 审查管线增强 ──
+    gs2 = sub.add_parser("summary", help="章节/卷/弧/滚动摘要落盘（AI 填字段→脚本落盘）")
+    gs2.add_argument("--project-root", default=None)
+    gs2.add_argument("rest", nargs=argparse.REMAINDER)
+    gd2 = sub.add_parser("delta", help="增量审查 Delta Review（章节 diff + 受影响实体/规则投影）")
+    gd2.add_argument("--project-root", default=None)
+    gd2.add_argument("rest", nargs=argparse.REMAINDER)
+    gr2 = sub.add_parser("review", help="单 Agent 多阶段审查编排（证据包 + 空报告模板）")
+    gr2.add_argument("--project-root", default=None)
+    gr2.add_argument("rest", nargs=argparse.REMAINDER)
     return p
 
 
@@ -887,7 +917,8 @@ def main():
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
                       "init", "charter", "psrc", "genesis", "ready",
                       "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "exp", "bi", "graph", "market", "compliance",
-                      "index", "context", "policy", "validate", "query"):
+                      "index", "context", "policy", "validate", "query",
+                      "summary", "delta", "review"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -933,6 +964,9 @@ def _delegate_gov(cmd, args):
         "policy": "policy_compiler",
         "validate": "validators",
         "query": "nkb_query",
+        "summary": "summary_builder",
+        "delta": "delta_review",
+        "review": "review_orchestrator",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])

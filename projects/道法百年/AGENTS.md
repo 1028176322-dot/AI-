@@ -97,3 +97,7 @@
 ```
 
 最终保障仍是：**权限 + Contract + 受控工具 + Gate**，而不是 AI 的自觉。
+
+25. **审查三层模型（Phase B）**：正文审查严格分三层——L1 脚本预检（`platform validate`，只输出事实 findings，不下质量结论）；L2 单 Agent 多阶段深度审查（`platform review run` 生成证据包 + 空报告模板，AI 按 immersive→structural→character→continuity→synthesis 顺序逐阶段读 `evidence/chapter.md` 并填 findings）；L3 脚本后处理（校验报告 schema、落盘、登记 Issue/修复任务）。脚本不替 AI 下质量结论，AI 不被剥夺对正文的完整阅读与推理预算（详见 `core/review/审查体系.md` 与 `core/contracts/review-report.schema.yaml`）。
+
+26. **章节摘要落盘（Phase B）**：章节结构化摘要（plot/character_changes/new_events/new_information/open_threads）由 AI 在产出契约里填写，经 `platform summary build --chapter CHx --data-file F` 落盘 `summaries/chapters/`；卷/弧聚合与全局滚动摘要由 `platform summary aggregate/rollup` 生成。脚本只落盘与聚合，不反向从正文抽取语义。摘要与 NKB 同属事实源（入库，不 gitignore）。增量修改走 `platform delta review --from F --to T`（局部 diff + 受影响实体/规则投影，对应审查体系 §7.9 Delta Review）。
