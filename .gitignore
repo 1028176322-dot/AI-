@@ -34,3 +34,6 @@ platform/AI-Creative-Platform/runtime/logs/*
 platform/AI-Creative-Platform/runtime/reports/*
 platform/AI-Creative-Platform/runtime/staging/*
 !**/.gitkeep
+
+# ---- task_engine 流转废弃标记（不入库） ----
+**/*.obsolete
