@@ -1,0 +1,36 @@
+task:
+  id: TASK-FIX-CH019-20260725-PUBLISH
+  version: 1
+  project: novel-dsf
+  type: chapter_publish
+  title: 发布 TASK-FIX-CH019-20260725 到正式正文
+  status: completed
+  priority: high
+  created: 2026-07-25T18:15:10
+  created_by: task-system
+  goal: 将第019章审查结论经平台四重封锁闭环发布为 canonical r2
+  dependencies:
+    - TASK-FIX-CH019-20260725
+  inputs:
+    required:
+      - chapters/drafts/第019章_别观之备.md
+  publish_target: 第一卷_道生/第019章_别观之备.md
+  expected_outputs:
+    - published-chapter
+  acceptance:
+    criteria:
+      - Publish Service 原子发布成功
+      - Manifest 更新
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - 第一卷_道生/第019章_别观之备.md
+    forbidden: []
+  agent:
+    required_role: publish_service
+  owner: publish_service
+  claimed_at: 2026-07-25T18:15:10
+  lease_expire: 2026-07-25T19:15:10
+  workspace: tasks\running\TASK-FIX-CH019-20260725-PUBLISH\outputs

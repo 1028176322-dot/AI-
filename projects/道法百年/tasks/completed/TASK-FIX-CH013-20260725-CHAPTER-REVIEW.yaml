@@ -1,19 +1,19 @@
 task:
-  id: TASK-FIX-CH2-20-REVIEW-20260725-CHAPTER-REVIEW
+  id: TASK-FIX-CH013-20260725-CHAPTER-REVIEW
   version: 1
   project: novel-dsf
   type: chapter_review
-  title: TASK-FIX-CH2-20-REVIEW-20260725 后继 chapter_review
-  status: ready
+  title: TASK-FIX-CH013-20260725 后继 chapter_review
+  status: completed
   priority: high
-  created: 2026-07-25T16:18:20
+  created: 2026-07-25T18:15:00
   created_by: task-system
-  goal: 落地第2-20章审查中真正需改正文的硬性改动，并经 quality/reader 门禁验证
+  goal: 将第013章审查结论经平台四重封锁闭环发布为 canonical r2
   dependencies:
-    - TASK-FIX-CH2-20-REVIEW-20260725
+    - TASK-FIX-CH013-20260725
   inputs:
     required:
-      - BUILD-review-fix-ch2-20
+      - chapters/drafts/第013章_后山试枪.md
   expected_outputs:
     - next-output
   acceptance:

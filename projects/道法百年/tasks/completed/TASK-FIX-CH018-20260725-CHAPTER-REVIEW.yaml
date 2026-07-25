@@ -1,0 +1,31 @@
+task:
+  id: TASK-FIX-CH018-20260725-CHAPTER-REVIEW
+  version: 1
+  project: novel-dsf
+  type: chapter_review
+  title: TASK-FIX-CH018-20260725 后继 chapter_review
+  status: completed
+  priority: high
+  created: 2026-07-25T18:15:08
+  created_by: task-system
+  goal: 将第018章审查结论经平台四重封锁闭环发布为 canonical r2
+  dependencies:
+    - TASK-FIX-CH018-20260725
+  inputs:
+    required:
+      - chapters/drafts/第018章_州城试炼.md
+  expected_outputs:
+    - next-output
+  acceptance:
+    criteria:
+      - 后继任务就绪
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - tasks/**
+    forbidden:
+      - core/*
+  agent:
+    required_role: reviewer

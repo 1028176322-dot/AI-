@@ -1,0 +1,25 @@
+task:
+  id: TASK-FIX-CH001-20260725
+  type: chapter_fix
+  project: novel-dsf
+  title: "第001章《遗弃》审查待改项落地（雪地足迹暗线/微爽点/三重钩子）走平台闭环"
+  version: 1
+  priority: high
+  # 编辑≠发布：fixer 只写工作副本（chapters/drafts），发布由 Publish Service 经授权落 canonical
+  chapter_ref: "chapters/drafts/第001章_遗弃.md"
+  agent:
+    required_role: fixer
+  permissions:
+    read: ["NKB/**", "第一卷_道生/**", "outline/**", "chapters/drafts/**"]
+    write: ["chapters/drafts/**", "tasks/**"]
+    forbidden: ["core/**", "registry/**", "templates/**", "第一卷_道生/**", "第二卷_京华/**", "第三卷_江湖/**", "第四卷_国战/**", "第五卷_长生/**", "第六卷_乾坤/**"]
+  inputs:
+    required: ["review-cards"]
+  expected_outputs: ["fixed-draft"]
+  publish_target: "第一卷_道生/第001章_遗弃.md"
+  acceptance:
+    criteria:
+      - "第001章 三处微改已在 drafts 工作副本落地（雪地第二行足迹暗线/红绳微爽点/结尾三重钩子）"
+      - "经 quality/reader 门禁验证（v1 评分卡 proceed）"
+      - "review pass 后由 Publish Service 原子发布到 canonical r2"
+  goal: "将第001章审查中已确认的正文微改纳入工作副本，并经平台四重封锁闭环发布"

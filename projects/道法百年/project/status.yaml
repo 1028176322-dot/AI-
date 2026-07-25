@@ -1,0 +1,24 @@
+project:
+  id: novel-dsf
+lifecycle:
+  stage: writing
+phases:
+  idea: completed
+  initiation: completed
+  design: completed
+  nkb_genesis: completed
+  readiness: completed
+  writing: active
+  publishing: pending
+current:
+  volume:
+    id: null
+    name: null
+  chapter:
+    current: null
+    title: null
+    workflow_current_step: done
+  blocked: false
+  blocked_reason: null
+updated_by: task-system
+updated: 2026-07-25T18:15:12

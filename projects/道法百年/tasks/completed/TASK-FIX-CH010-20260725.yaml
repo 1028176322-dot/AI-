@@ -1,0 +1,56 @@
+task:
+  id: TASK-FIX-CH010-20260725
+  type: chapter_fix
+  project: novel-dsf
+  title: 第010章《炼体有成》审查闭环（平台 fix->review->publish）
+  version: 1
+  priority: high
+  chapter_ref: chapters/drafts/第010章_炼体有成.md
+  agent:
+    required_role: fixer
+  permissions:
+    read:
+      - NKB/**
+      - 第一卷_道生/**
+      - outline/**
+      - chapters/drafts/**
+    write:
+      - chapters/drafts/**
+      - tasks/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - 第一卷_道生/**
+      - 第二卷_京华/**
+      - 第三卷_江湖/**
+      - 第四卷_国战/**
+      - 第五卷_长生/**
+      - 第六卷_乾坤/**
+  inputs:
+    required:
+      - review-cards
+  expected_outputs:
+    - fixed-draft
+  publish_target: 第一卷_道生/第010章_炼体有成.md
+  acceptance:
+    criteria:
+      - v1 评分卡 proceed 继承
+      - review pass 后经 Publish Service 落 canonical r2
+  goal: 将第010章审查结论经平台四重封锁闭环发布为 canonical r2
+  created: 2026-07-25T18:14:54
+  created_by: orange
+  urgency: normal
+  status: completed
+  owner: orange
+  claimed_at: 2026-07-25T18:14:54
+  lease_expire: 2026-07-25T19:14:54
+  workspace: tasks\running\TASK-FIX-CH010-20260725\outputs
+  artifact: chapters/drafts/第010章_炼体有成.md
+  outputs: null
+  submission:
+    checks: null
+    at: 2026-07-25T18:14:55
+  review:
+    decision: pass
+    at: 2026-07-25T18:14:55
