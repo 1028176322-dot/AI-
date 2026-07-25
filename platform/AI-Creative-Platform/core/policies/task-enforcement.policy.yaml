@@ -1,0 +1,48 @@
+# -*- coding: utf-8 -*-
+# 任务执行强制政策（Task Enforcement Policy）
+#
+# 本政策把"任务系统"从软约束（AI 自觉）升级为【唯一合法执行通道】。
+# 加载方：session_bootstrap / controlled_write / pre-commit / compliance_gate。
+# enforcement_mode 由项目 project.yaml 的 task_system.enforcement_mode 决定
+# （off / warn / strict），strict 下任一 rule 违例 = 拒绝写并退出。
+policy:
+  id: TASK-ENFORCEMENT-001
+  version: "1.0.0"
+  scope: [project, platform]
+  description: >-
+    所有项目写操作必须经由合法 Task。无 Task ID 不写、无 Claim 不执行、
+    无 Contract 不提交、无 Gate 不标记完成。配套强制层：受控写工具 + git pre-commit
+    + 旁路 diff 检测，构成"对话旁路 / 文件旁路 / 状态旁路 / 提交旁路"四重封锁。
+
+rules:
+  - id: NO-TASK-NO-WRITE
+    statement: >-
+      所有项目写操作（create / modify / delete / review / publish / nkb_update）
+      必须关联一个有效 task_id（tasks/<status>/<id>.yaml，且 status∈{claimed,running}）。
+    severity: fatal
+    applies_to: [project_mutation, platform_mutation]
+
+  - id: NO-CLAIM-NO-EXECUTION
+    statement: >-
+      Task 未被当前 session/agent 成功 claim 且状态不是 RUNNING 时，禁止写任何产物。
+    severity: fatal
+
+  - id: NO-CONTRACT-NO-SUBMISSION
+    statement: >-
+      Task 类型未匹配到合法 Contract（type->contract 解析成功）时禁止 submit。
+    severity: fatal
+
+  - id: NO-GATE-NO-COMPLETE
+    statement: >-
+      未经独立 Review + Gate（passed）不得标记 COMPLETED；执行者不得验收自己的任务。
+    severity: fatal
+
+enforcement:
+  strict:
+    on_violation: REJECT_WRITE_AND_EXIT
+    git_hook: true
+    controlled_write: true
+  warn:
+    on_violation: LOG_AND_WARN
+  off:
+    on_violation: ALLOW

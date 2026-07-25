@@ -293,8 +293,15 @@ def start(root, task_id, agent, role="unknown", model="unknown"):
         raise ValueError("start 要求 claimed，当前 %s" % st)
     _impact_precheck(root, task_id, data["task"])
     _move(root, task_id, data, "running")
+    # 任务工作区隔离：产物先落 tasks/running/<id>/outputs/，Gate 后再移入正式目录
+    ws = os.path.join(_state_dir(root, "running"), task_id, "outputs")
+    os.makedirs(ws, exist_ok=True)
+    data["task"]["workspace"] = os.path.relpath(ws, root)
+    with open(os.path.join(_state_dir(root, "running"), task_id + ".yaml"), "w", encoding="utf-8") as f:
+        f.write(_gov.dump_block(data))
     audit_log.record(root, "task_start", agent=agent, role=role, model=model,
-                     task_id=task_id, result="success", detail="running")
+                     task_id=task_id, result="success",
+                     detail="running; workspace=%s" % data["task"]["workspace"])
     return "running"
 
 

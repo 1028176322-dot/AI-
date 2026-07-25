@@ -1,11 +1,50 @@
 # -*- coding: utf-8 -*-
-"""controlled_write: 受控写工具。AI 只能通过它改项目文件；越权直接拒绝并生成 Operation Manifest。"""
+"""controlled_write: 受控写工具（任务绑定版）。
+
+强制链（task-enforcement.policy.yaml）：所有项目内容产物写操作必须关联有效 Task。
+写前校验：role 权限 + task 存在 + status∈{claimed,running} + role 匹配
+          + target∈write scope + ∉ forbidden。越权直接 REJECTED 并生成 Operation Manifest。
+AI 绕过本工具用通用 Write/Edit 直改项目内容产物，会被 git pre-commit 拦截。
+"""
 import os
 import sys
 import argparse
 import datetime
 import glob
+import fnmatch
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+if HERE not in sys.path:
+    sys.path.insert(0, HERE)
 import _gov
+import task_engine as TE
+
+
+# 受保护内容产物前缀：必须经任务系统（带 task_id）才能写
+PROTECTED_PREFIXES = ("NKB/", "approved/", "chapters/", "第一卷_道生/",
+                      "sources/", "txt/", "outline")
+# 豁免：平台自身演进 / Operation Manifest / 治理文档（非内容产物）
+EXEMPT_MARKERS = ("platform/", "operations/", "AGENTS.md", "README.md",
+                  "design", "spec", "CHANGELOG.md", "project.yaml")
+
+
+def _is_protected_content(target):
+    t = target.replace("\\", "/")
+    for ex in EXEMPT_MARKERS:
+        if ex in t:
+            return False
+    for p in PROTECTED_PREFIXES:
+        if t.startswith(p):
+            return True
+    return False
+
+
+def _fnmatch_any(path, patterns):
+    for p in (patterns or []):
+        pp = p.rstrip("/")
+        if fnmatch.fnmatch(path, pp) or fnmatch.fnmatch(path, pp + "/*"):
+            return True
+    return False
 
 
 def main():
@@ -19,6 +58,7 @@ def main():
     ap.add_argument("--contract-version", default="2.0.0")
     ap.add_argument("--policy-version", default="1.3.0")
     ap.add_argument("--session", default="SES-unknown")
+    ap.add_argument("--task-id", default=None, help="关联任务 ID（受保护内容产物必填）")
     args = ap.parse_args()
 
     allowed, reason = _gov.check_permission(args.role, args.target)
@@ -31,6 +71,33 @@ def main():
     if pdir is None:
         print("ERROR: project %s not found" % args.project)
         sys.exit(2)
+
+    # ── 任务系统强制（NO-TASK-NO-WRITE / NO-CLAIM-NO-EXECUTION）──
+    if _is_protected_content(args.target):
+        if not args.task_id:
+            print("REJECTED: target=%s 是受保护内容产物，必须经任务系统（缺 --task-id）" % args.target)
+            sys.exit(3)
+        st, data = TE.load_task(pdir, args.task_id)
+        if not data:
+            print("REJECTED: task_id=%s 不存在" % args.task_id)
+            sys.exit(3)
+        if st not in ("claimed", "running"):
+            print("REJECTED: task %s 状态=%s（需 claimed/running），禁止写" % (args.task_id, st))
+            sys.exit(3)
+        t = (data.get("task") or {})
+        req = (t.get("agent") or {}).get("required_role")
+        if req and args.role != req and args.role != "task-scheduler":
+            print("REJECTED: task %s 需角色 %s，当前 %s" % (args.task_id, req, args.role))
+            sys.exit(3)
+        perms = t.get("permissions") or {}
+        forbidden = perms.get("forbidden") or []
+        write_scope = perms.get("write") or []
+        if forbidden and _fnmatch_any(args.target, forbidden):
+            print("REJECTED: target=%s 命中 task forbidden 列表" % args.target)
+            sys.exit(3)
+        if write_scope and not args.target.startswith("tasks/") and not _fnmatch_any(args.target, write_scope):
+            print("REJECTED: target=%s 不在 task write scope %s" % (args.target, write_scope))
+            sys.exit(3)
 
     full = os.path.join(pdir, args.target)
     if args.content_file:
@@ -57,6 +124,7 @@ def main():
             "session_id": args.session,
             "role": args.role,
             "project_id": args.project,
+            "task_id": args.task_id,
         },
         "action": {
             "type": "chapter.write" if args.target.startswith("chapters/drafts") else "generic.write",

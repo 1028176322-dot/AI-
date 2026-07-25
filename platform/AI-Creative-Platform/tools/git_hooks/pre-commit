@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
-# AI-Workspace pre-commit hook：按分支强制执行 AI 权限边界（文件系统之外的第二道锁）
+# AI-Workspace pre-commit hook：任务强制层 + 权限边界（文件系统之外的第二道锁）
 # 安装：git config core.hooksPath platform/AI-Creative-Platform/tools/git_hooks
+#
+# 强制链（对齐 task-enforcement.policy.yaml / project.yaml.task_system.enforcement_mode=strict）：
+#   无 Task ID 不执行 / 无 Claim 不写入 / 无 Submission 不审查 / 无 Gate 不进正式目录
+#
+# 本钩子拦截两类旁路：
+#   1) 提交路径越权：项目内容产物（NKB/approved/chapters/第一卷_道生/sources/outline）
+#      未经任务系统（commit message 无 task_id= 且无非 tasks/ 工作区）被直接提交。
+#   2) 权限边界：writer/reviewer/fixer 分支越权提交受保护目录。
+#
+# 豁免：platform/ 平台自身演进（由 system-maintainer 直接提交，元循环不自我发 task_id）；
+#      operations/ Operation Manifest 本身；*.md 设计/治理文档（非内容产物）。
 set -e
 
 branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
@@ -9,10 +20,27 @@ staged=$(git -c core.quotepath=false diff --cached --name-only)
 reject() {
   echo "PRE-COMMIT REJECTED: $1"
   echo "当前分支: $branch"
-  echo "（这是平台 AI 治理的 Git 约束；如需提交请切换分支或调整暂存内容）"
+  echo "（这是平台 AI 治理的 Git 约束；如需提交请经任务系统或调整暂存内容）"
   exit 1
 }
 
+commit_msg=$(git log -1 --pretty=%B 2>/dev/null || cat .git/COMMIT_EDITMSG 2>/dev/null || echo "")
+has_task_id=$(echo "$commit_msg" | grep -E 'task_id=|TASK-[A-Z0-9-]+' || true)
+
+# ── 1. 项目内容产物保护：进入受保护路径必须有 task_id（且存在对应 tasks/ 工作区）──
+PROTECTED='^(projects/[^/]+/)?(NKB/|approved/|chapters/|第一卷_道生/|sources/|大纲_1000章总体规划\.md)'
+if echo "$staged" | grep -Eq "$PROTECTED"; then
+  if [ -z "$has_task_id" ]; then
+    reject "受保护内容路径（NKB/approved/chapters/第一卷_道生/sources）的提交必须带 task_id（commit message 含 TASK-xxx 或 task_id=）"
+  fi
+  # 校验 task 工作区存在（tasks/ 下任意状态含该 id）
+  tid=$(echo "$has_task_id" | grep -oE 'TASK-[A-Z0-9-]+' | head -1)
+  if [ -n "$tid" ] && [ ! -d "tasks" ]; then
+    reject "task_id=$tid 引用但项目无 tasks/ 工作区，任务系统未初始化"
+  fi
+fi
+
+# ── 2. 分支权限边界（沿用既有规则）──
 case "$branch" in
   ai/writer/*)
     echo "$staged" | grep -E '^(projects/[^/]+/)?(NKB/|approved/|core/|registry/|templates/)' \
@@ -28,7 +56,7 @@ case "$branch" in
     ;;
 esac
 
-# NKB 变更必须附带 Operation Manifest（可追溯）
+# ── 3. NKB 变更必须附带 Operation Manifest（可追溯）──
 if echo "$staged" | grep -qE '^(projects/[^/]+/)?NKB/'; then
   echo "$staged" | grep -qE '^(projects/[^/]+/)?operations/' \
     || reject "NKB 变更必须附带 operations/ 下的 Operation Manifest"
