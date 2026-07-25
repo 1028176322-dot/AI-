@@ -127,10 +127,14 @@ def _collect_terminology(proot):
     comps = _load_nkb(proot)
     out = []
     for r in comps.get("Terminology", []):
-        dep = r.get("deprecated") or r.get("aliases") or []
-        if isinstance(dep, str):
-            dep = [dep]
-        for token in dep:
+        forb = r.get("forbidden")
+        if forb is None:
+            forb = r.get("deprecated") or r.get("aliases")
+        if isinstance(forb, str):
+            forb = [forb]
+        if not isinstance(forb, list):
+            forb = []
+        for token in forb:
             if token:
                 out.append({"token": str(token), "canonical": r.get("name")})
     return out

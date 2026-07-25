@@ -396,6 +396,10 @@ def cmd_doctor(args):
         _run_gov("报告生成器（Report 自检 · Phase C）", "ReportGov",
                  lambda p: _imp("report_builder").govern(p),
                  lambda r: "健康分 %s（报告可生成）" % r["composite"]["health"], proot)
+        _run_gov("术语表（Terminology 自检 · Phase C）", "TermGov",
+                 lambda p: _imp("terminology_check").govern(p),
+                 lambda r: "健康分 %s（%d 记录·%d 禁用同义）" % (
+                     r["composite"]["health"], r["response"]["records"], r["response"]["forbidden"]), proot)
 
     _run_gov("内存治理（platform/memory/ 体检）", "MemoryGov",
              lambda pr: _imp("memory_governor").govern(pr),
@@ -790,6 +794,12 @@ def build_parser():
     grp.add_argument("--project-root", required=True)
     grp.add_argument("rest", nargs=argparse.REMAINDER)
 
+    gterm = sub.add_parser("terminology", help="术语全量词表检查（接入 NKB Terminology）：scan(单文件/全稿件) + govern")
+    gterm.add_argument("--project-root", default=None)
+    gterm.add_argument("--file", default=None)
+    gterm.add_argument("--json", action="store_true")
+    gterm.add_argument("rest", nargs=argparse.REMAINDER)
+
     gcs = sub.add_parser("compliance", help="任务系统强制层旁路检测：越权改动扫描 + 回滚（scan [--rollback]）")
     gcs.add_argument("--project-root", required=True)
     gcs.add_argument("--rollback", action="store_true", help="显式回滚越权改动（破坏性）")
@@ -844,7 +854,7 @@ def main():
                       "init", "charter", "psrc", "genesis", "ready",
                       "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "exp", "bi", "graph", "market", "compliance",
                       "index", "context", "policy", "validate", "query",
-                      "summary", "delta", "review", "report"):
+                      "summary", "delta", "review", "report", "audit", "terminology"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -895,6 +905,7 @@ def _delegate_gov(cmd, args):
         "review": "review_orchestrator",
         "audit": "audit_report",
         "report": "report_builder",
+        "terminology": "terminology_check",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])
