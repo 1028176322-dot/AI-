@@ -18,6 +18,7 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 import _gov
 import task_engine as TE
+import session_bootstrap as SB
 
 
 # 受保护内容产物前缀：必须经任务系统（带 task_id）才能写
@@ -74,6 +75,12 @@ def main():
 
     # ── 任务系统强制（NO-TASK-NO-WRITE / NO-CLAIM-NO-EXECUTION）──
     if _is_protected_content(args.target):
+        # Step3.3：未 bootstrap（无 Session Manifest）禁止项目工具运行
+        try:
+            SB.require_session(pdir)
+        except RuntimeError as e:
+            print("REJECTED: %s" % e)
+            sys.exit(3)
         if not args.task_id:
             print("REJECTED: target=%s 是受保护内容产物，必须经任务系统（缺 --task-id）" % args.target)
             sys.exit(3)

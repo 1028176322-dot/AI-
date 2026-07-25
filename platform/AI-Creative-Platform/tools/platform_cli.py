@@ -809,6 +809,10 @@ def build_parser():
     gmkt.add_argument("--platform-root", required=True)
     gmkt.add_argument("--project-root", required=True)
     gmkt.add_argument("rest", nargs=argparse.REMAINDER)
+
+    gcs = sub.add_parser("compliance", help="任务系统强制层旁路检测：越权改动扫描 + 回滚（scan [--rollback]）")
+    gcs.add_argument("--project-root", required=True)
+    gcs.add_argument("--rollback", action="store_true", help="显式回滚越权改动（破坏性）")
     return p
 
 
@@ -831,7 +835,7 @@ def main():
         cmd_init_project(args)
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
                       "init", "charter", "psrc", "genesis", "ready",
-                      "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "exp", "bi", "graph", "market"):
+                      "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "exp", "bi", "graph", "market", "compliance"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -871,6 +875,7 @@ def _delegate_gov(cmd, args):
         "bi": "bi",
         "graph": "graph_viz",
         "market": "market",
+        "compliance": "compliance_scan",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])

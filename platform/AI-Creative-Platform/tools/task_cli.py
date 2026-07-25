@@ -28,6 +28,11 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 import _gov
 import task_engine as TE
+import session_bootstrap as SB
+
+# 变更类动词（需先 bootstrap 会话）；只读动词豁免
+_MUTATION_VERBS = {"create", "goal", "promote", "claim", "start",
+                   "submit", "review", "complete", "fail", "retry"}
 
 
 def main():
@@ -54,6 +59,14 @@ def main():
 
     root = args.project_root
     v = args.verb
+
+    # Step3.3：变更类动词需先 bootstrap 会话
+    if v in _MUTATION_VERBS:
+        try:
+            SB.require_session(root)
+        except RuntimeError as e:
+            print("REJECTED: %s" % e)
+            sys.exit(3)
 
     if v == "create":
         data = _load_arg(args, ap)

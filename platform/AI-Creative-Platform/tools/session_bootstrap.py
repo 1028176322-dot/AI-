@@ -76,14 +76,59 @@ def main():
             "write": roles[args.role].get("may_write", []),
             "forbidden": roles[args.role].get("may_not_write", []),
         },
+        # ── Phase4 Step3.3：任务系统强制模式（从 project.yaml 读取）──
+        "task_mode": _derive_task_mode(pdata),
     }
     out = os.path.join(sess_dir, "%s.yaml" % sid)
     with open(out, "w", encoding="utf-8") as f:
         f.write(_gov.dump_block(manifest))
     print("SESSION MANIFEST: %s" % out)
     print("role=%s project=%s platform=%s policy=%s contracts=%s" % (args.role, args.project, plat_ver, pol_ver, con_ver))
+    print("task_mode.enforced=%s direct_execution_allowed=%s" % (
+        manifest["task_mode"]["enforced"], manifest["task_mode"]["direct_execution_allowed"]))
     print("OK")
     sys.exit(0)
+
+
+def _derive_task_mode(pdata):
+    """从 project.yaml 的 task_system 段推导任务强制模式。"""
+    ts = (pdata or {}).get("task_system") or {}
+    mode = ts.get("enforcement_mode", "off")
+    return {
+        "enforced": mode in ("strict", "warn"),
+        "enforcement_mode": mode,
+        "direct_execution_allowed": False,
+    }
+
+
+def load_session(project_root):
+    """返回项目最新一份 Session Manifest dict；无则返回 None。"""
+    sdir = os.path.join(project_root, "sessions")
+    if not os.path.isdir(sdir):
+        return None
+    files = sorted(glob.glob(os.path.join(sdir, "SES-*.yaml")), reverse=True)
+    for f in files:
+        try:
+            d = _gov.load_yaml(f)
+        except Exception:
+            continue
+        if isinstance(d, dict) and "session" in d:
+            return d
+    return None
+
+
+def require_session(project_root, agent=None):
+    """未 bootstrap（无 Session Manifest）时禁止项目工具运行。
+
+    返回 manifest；若不存在则抛 RuntimeError（调用方转 REJECTED）。
+    """
+    d = load_session(project_root)
+    if not d:
+        raise RuntimeError(
+            "NO_ACTIVE_SESSION: 项目 %s 无 Session Manifest（sessions/SES-*.yaml）。"
+            "请先运行 `platform session --role <role> --project <project>` 建立会话，"
+            "再执行项目写/变更类工具。" % project_root)
+    return d
 
 
 if __name__ == "__main__":
