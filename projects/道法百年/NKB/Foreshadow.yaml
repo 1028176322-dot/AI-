@@ -35,34 +35,35 @@ records:
     Updated: 大纲
   - id: FB-004
     name: 师父引荐信（国师玄尘子）
-    buried_at: 卷一（Ch9 发现 / Ch11 用）
+    buried_at: 卷一（Ch19 师父赠信 / Ch83 访国师兑现）
     status: 已回收
     deadline_chapter: 100
     recycle_plan: 卷一已收（FB-04 师父信已用）
+    conflict_note: "原错锚『Ch9 发现』（压缩大纲时代），经稿件核验更正：引荐信由师父于第019章_别观之备赠予，第083章访国师兑现。"
     src: 大纲_1000章总体规划
     confidence: outline
-    Version: 1
-    Updated: 大纲
+    Version: 2
+    Updated: NKB回填(下山段错锚校正)
   - id: FB-005
     name: 苏墨凝救命之恩
-    buried_at: 卷一（Ch10 林地相救）
+    buried_at: 卷一（Ch82 林地相救）
     status: 已回收
     deadline_chapter: 100
-    recycle_plan: 卷一已收（Ch15 相认）
+    recycle_plan: 卷一已收（Ch82 救苏墨凝后相认；原错锚 Ch10，经稿件核验更正）
     src: 大纲_1000章总体规划
     confidence: outline
-    Version: 1
-    Updated: 大纲
+    Version: 2
+    Updated: NKB回填(下山段错锚校正)
   - id: FB-006
     name: 四皇子名单
-    buried_at: 卷一（Ch9 听书）
+    buried_at: 卷一（通州镇弧 Ch22-40 听书拼皇子；原错锚 Ch9，经稿件核验更正）
     status: 进行中
     deadline_chapter: 650
     recycle_plan: 卷二–卷四渐收
     src: 大纲_1000章总体规划
     confidence: outline
-    Version: 1
-    Updated: 大纲
+    Version: 2
+    Updated: NKB回填(下山段错锚校正)
   - id: FB-007
     name: 武者登记新政
     buried_at: 卷一（1379 埋设）
@@ -75,14 +76,14 @@ records:
     Updated: 大纲
   - id: FB-008
     name: 苏墨凝被听雨阁追杀（密信）
-    buried_at: 卷一（Ch10 密信）
+    buried_at: 卷一（Ch82 密信；原错锚 Ch10，经稿件核验更正）
     status: 进行中
     deadline_chapter: 650
     recycle_plan: 卷二初交锋→卷四全面对抗
     src: 大纲_1000章总体规划
     confidence: outline
-    Version: 1
-    Updated: 大纲
+    Version: 2
+    Updated: NKB回填(下山段错锚校正)
   - id: FB-009
     name: 沈括灭门 / 黑虎帮
     buried_at: 卷一（1379 背景暗线）

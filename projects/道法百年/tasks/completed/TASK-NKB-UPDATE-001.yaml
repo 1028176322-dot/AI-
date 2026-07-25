@@ -1,0 +1,41 @@
+task:
+  id: TASK-NKB-UPDATE-001
+  version: 1
+  project: novel-dsf
+  type: nkb_update
+  title: NKB 下山段错锚回填（legacy re-import）
+  status: completed
+  priority: high
+  created: 2026-07-25T10:21:59
+  created_by: legacy-importer
+  goal: 校正 TL-009/010/WS-003/EVT/FB/SS 章号错锚，附 OP-20260725-003 manifest
+  dependencies: []
+  inputs:
+    required:
+      - legacy artifacts of 0469273
+  expected_outputs:
+    - nkb-sync
+  acceptance:
+    criteria:
+      - legacy re-import
+      - artifacts verified
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+      - 第一卷_道生/*
+    write:
+      - tasks/**
+      - analysis/review/**
+    forbidden:
+      - core/*
+  agent:
+    required_role: knowledge-manager
+  legacy: true
+  legacy_note: re-import of commit 0469273 artifacts via task system (Phase4 Step2)
+  urgency: normal
+  owner: legacy-importer
+  claimed_at: 2026-07-25T10:21:59
+  lease_expire: 2026-07-25T11:21:59
+  workspace: tasks\running\TASK-NKB-UPDATE-001\outputs
+  legacy_force_complete: 质量评分 gate=block：存在结构性致命问题（logic/contract fatal）；须修复后重新 submit 或 human_gate 放行

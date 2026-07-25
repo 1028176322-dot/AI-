@@ -58,25 +58,26 @@ records:
     Updated: 时间线
   - id: EVT-006
     name: 抵通州镇闻皇子动向
-    chapter: "第 009 章"
+    chapter: "第 022 章"
     cause: 肖凡 15 岁下山历练五月抵通州镇
     effect: 拼出京城格局与四皇子名单（FB-06）；发现师父引荐信（FB-04）
     participants: [CHR-001, CHR-002]
+    conflict_note: "原错锚第009章（压缩大纲时代），经稿件核验更正：抵通州镇实际第022章（第022章_通州落脚）。"
     src: 时间线与人物关系图
     confidence: outline
-    Version: 1
-    Updated: 时间线
+    Version: 2
+    Updated: NKB回填(下山段错锚校正)
   - id: EVT-007
     name: 林地救苏墨凝
-    chapter: "第 010 章"
+    chapter: "第 082 章"
     cause: 途中遇苏墨凝被追杀
     effect: 还击震死头目，搜千两银票作启动资金；FB-05 恩情埋设
     participants: [CHR-001, CHR-007, ORG-003]
-    conflict_note: "下山历练阶段（第 010 章，前 60 章），非进京线，不随进京重排至 81-100 章"
+    conflict_note: "下山历练阶段（前 60 章），非进京线。原错锚第010章（压缩大纲时代），经稿件核验更正：苏墨凝被救实际第082章（第082章_救苏墨凝）。"
     src: 时间线与人物关系图
     confidence: outline
-    Version: 1
-    Updated: 时间线
+    Version: 2
+    Updated: NKB回填(下山段错锚校正)
   - id: EVT-008
     name: 进京访国师
     chapter: "第 082 章"

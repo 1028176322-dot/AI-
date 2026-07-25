@@ -1,0 +1,27 @@
+# Operation Manifest — 满足 AI 治理 pre-commit 约束（NKB 变更须附 operations/ 下 manifest）
+operation_id: OP-20260725-003
+role: knowledge-manager
+capability: nkb_update
+timestamp: "2026-07-25T08:42:00+08:00"
+project: novel-dsf
+intent: 第一卷 Ch1-20 审查后回填 NKB 下山历练段章号错锚
+scope:
+  - NKB/Timeline.yaml
+  - NKB/Events.yaml
+  - NKB/WorldState.yaml
+  - NKB/Foreshadow.yaml
+  - NKB/StoryState.yaml
+  - NKB/CHANGELOG.md
+changes:
+  - 根因：压缩大纲时代将「抵通州镇/救苏墨凝/引荐信/四皇子听书」锚于 Ch9-10，与扩写稿失同步；Ch1-20 审查据此误判 Ch14-17 Fatal A，经稿件核验确认为 NKB 错锚（非章缺陷），四卡 verdict 已更正 proceed
+  - Timeline TL-009 第009章→第022章（抵通州镇；听书/皇子名单在通州镇弧 Ch22-40，引荐信交付见 Ch19）；TL-010 第010章→第082章（救苏墨凝，IDX_CHARACTER 已明确旧第010章为误记）
+  - Events EVT-006 第009章→第022章、EVT-007 第010章→第082章
+  - WorldState WS-003 state 加「Ch21 离观/Ch22 抵通州镇后」限定，derived_from 增 EVT-007
+  - Foreshadow FB-004(Ch19 赠信/Ch83 兑现)、FB-005(Ch82)、FB-006(通州镇弧 Ch22-40)、FB-008(Ch82) 同步校正
+  - StoryState SS-004 完成度描述同步（原『下山历练 Ch10(救苏墨凝)』→ 实际 Ch21/22/82）
+  - CHANGELOG 新增「下山历练段锚点回填」段
+verification:
+  - pyyaml 全量解析 5 个 NKB 改动文件 0 失败（Timeline/WorldState/Events/Foreshadow/StoryState）
+  - grep 确认 NKB/ 不再残留「第 009 章/第 010 章」错误锚点（仅保留于 conflict_note 历史说明）
+  - 8 张受影响评分卡（Ch9/10-13/18-20）问题清单状态由「待回填/待办」同步为「已回填」
+confidence_policy: 锚点章号经稿件（第021/022/082/019 章 md 源）核验；记录 confidence 维持 outline（承载章 Ch21-82 尚未过审），待相关章过审后升 verified
