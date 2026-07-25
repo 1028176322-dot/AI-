@@ -384,6 +384,24 @@ def cmd_doctor(args):
         except Exception as _e:
             _print_result("MarketGov", WARN, "自检异常：%s" % _e)
 
+        _print_block("源同步校验（txt↔md CI 检查 · Phase 审查治理）")
+        try:
+            import sync_check as _sc
+            screp = _sc.check_txt_md_sync(proot)
+            scgd = (screp.get("gate") or {}).get("decision", "proceed")
+            if scgd == "block":
+                _print_result("SyncGov", FAIL, "源不同步：%s" % "；".join(screp["gate"]["reasons"][:3]))
+                overall_fail = True
+            elif scgd == "caution":
+                _print_result("SyncGov", WARN, "软问题 %d 项（健康分 %s）" % (
+                    len(screp["gate"]["reasons"]), screp["composite"]["health"]))
+            else:
+                _print_result("SyncGov", PASS, "健康分 %s（%d 源章节 / %d 已导出 / %d 未导出）" % (
+                    screp["composite"]["health"], screp["response"]["sources"],
+                    screp["response"]["checked"], len(screp["response"]["missing"])))
+        except Exception as _e:
+            _print_result("SyncGov", WARN, "自检异常：%s" % _e)
+
     _print_block("内存治理（platform/memory/ 体检）")
     try:
         import memory_governor as _mg

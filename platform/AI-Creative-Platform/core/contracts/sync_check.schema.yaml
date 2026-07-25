@@ -1,0 +1,21 @@
+# sync_check.schema.yaml
+# txt<->md 源同步校验（CI 检查）契约
+applies_to:
+  - "projects/*/第一卷_*/第*章*.md"
+  - "projects/*/txt/*/第*章*.txt"
+
+purpose: >
+  平台机检（reader_simulator / quality_scorer）以 txt/ 导出物为输入；本契约要求
+  源章节 md 与其 txt 导出物保持同步，防止“改了 md 忘了重导出”导致机检失真。
+
+check:
+  engine: "tools/sync_check.py::check_txt_md_sync"
+  decision:
+    proceed: 所有已导出 txt 与源 md 一致
+    caution: 存在 txt 与 md 不一致（divergent / drift）—— CI 软警告（WARN），不阻断提交
+  threshold_similarity: 0.97
+
+notes:
+  - 未导出 txt 的章节仅作 info 记录，不触发 caution（从未导出 ≠ 过期失真）
+  - 细微用词漂移（如前生/前世单字替换）计入 drift，同样告警
+  - 本检查不主动 block：源不同步不破坏平台运行能力，但会使依赖 txt 的机检失真
