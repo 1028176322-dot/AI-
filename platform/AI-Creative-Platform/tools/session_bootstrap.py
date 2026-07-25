@@ -137,12 +137,29 @@ def _derive_agent_runtime(pdata):
 
 
 def load_session(project_root):
-    """返回项目最新一份 Session Manifest dict；无则返回 None。"""
+    """返回项目最新一份 Session Manifest dict；无则返回 None。
+
+    兼容两种位置（单一事实源 = runtime/sessions/<id>/SESSION_MANIFEST.yaml，
+    PC-6 起；旧 sessions/SES-*.yaml 仍被识别，保证既有写门禁不破坏）：
+      - projects/<id>/runtime/sessions/<id>/SESSION_MANIFEST.yaml  （优先，按 mtime）
+      - projects/<id>/sessions/SES-*.yaml                          （回落）
+    """
+    cands = []
+    rsdir = os.path.join(project_root, "runtime", "sessions")
+    if os.path.isdir(rsdir):
+        for sid in os.listdir(rsdir):
+            mp = os.path.join(rsdir, sid, "SESSION_MANIFEST.yaml")
+            if os.path.isfile(mp):
+                cands.append(mp)
     sdir = os.path.join(project_root, "sessions")
-    if not os.path.isdir(sdir):
+    if os.path.isdir(sdir):
+        for f in glob.glob(os.path.join(sdir, "SES-*.yaml")):
+            cands.append(f)
+    if not cands:
         return None
-    files = sorted(glob.glob(os.path.join(sdir, "SES-*.yaml")), reverse=True)
-    for f in files:
+    # 按修改时间取最新
+    cands.sort(key=lambda p: os.path.getmtime(p), reverse=True)
+    for f in cands:
         try:
             d = _gov.load_yaml(f)
         except Exception:
@@ -160,8 +177,8 @@ def require_session(project_root, agent=None):
     d = load_session(project_root)
     if not d:
         raise RuntimeError(
-            "NO_ACTIVE_SESSION: 项目 %s 无 Session Manifest（sessions/SES-*.yaml）。"
-            "请先运行 `platform session --role <role> --project <project>` 建立会话，"
+            "NO_ACTIVE_SESSION: 项目 %s 无 Session Manifest（runtime/sessions/<id>/SESSION_MANIFEST.yaml 或 sessions/SES-*.yaml）。"
+            "请先运行 `platform session bootstrap --project <project>` 建立会话，"
             "再执行项目写/变更类工具。" % project_root)
     return d
 

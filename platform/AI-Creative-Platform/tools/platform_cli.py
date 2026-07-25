@@ -659,9 +659,18 @@ def build_parser():
     ip.add_argument("--id", help="项目 id（默认 novel-<name>）")
 
     # ── 治理层（AI 执行控制）──
-    gs = sub.add_parser("session", help="Session Bootstrap：生成会话清单（强制入口）")
-    gs.add_argument("--role", required=True)
-    gs.add_argument("--project", required=True)
+    gs = sub.add_parser("session", help="会话启动协议：bootstrap/verify/status/close（强制入口）")
+    gs.add_argument("verb", choices=["bootstrap", "verify", "status", "close"])
+    gs.add_argument("--project", default=None)
+    gs.add_argument("--intent", default="auto")
+    gs.add_argument("--target", default=None)
+    gs.add_argument("--role", default=None)
+    gs.add_argument("--workspace", default=None)
+    gs.add_argument("--session", default=None)
+    gs.add_argument("--stage", default=None)
+    gs.add_argument("--next", default=None)
+    gs.add_argument("--artifacts", nargs="*", default=[])
+    gs.add_argument("--issues", nargs="*", default=[])
 
     gp = sub.add_parser("perm", help="校验角色对目标路径的写权限")
     gp.add_argument("--role", required=True)
@@ -868,7 +877,7 @@ def _delegate_gov(cmd, args):
     """
     import importlib
     mod_map = {
-        "session": "session_bootstrap",
+        "session": "session",
         "perm": "validate_permissions",
         "contract": "validate_contract",
         "gate": "compliance_gate",
