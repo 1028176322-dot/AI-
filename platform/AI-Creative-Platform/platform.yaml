@@ -75,6 +75,18 @@ governance:
   runtime_policy: core/policies/agent-execution.policy.yaml
   project_creation_policy: core/policies/workflow.policy.yaml
 
+# 编辑≠发布：六因子授权 + Publish Service（根治「正式章节写权限断链」）
+#   core_dir           : 授权模型五 YAML（actions/resources/roles/state-permissions/immutable-policies）
+#   publish_service    : Publish Service 确定性脚本（唯一可写 canonical 的服务身份）
+#   manifest           : 项目根 canonical_manifest.yaml（正式正文真相源索引）
+#   default_decision   : 默认拒绝（六因子联立才放行）
+authorization:
+  core_dir: core/authorization/
+  publish_service: scripts/publish/publish_chapter.py
+  manifest: canonical_manifest.yaml
+  immutable_baseline: core/authorization/immutable-policies.yaml
+  default_decision: deny
+
 memory:
   index: memory/MEMORY.md
   global: memory/global/

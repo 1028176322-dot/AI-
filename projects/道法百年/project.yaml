@@ -69,6 +69,20 @@ task_system:
   workspace_only_write: true
 
 # ─────────────────────────────────────────────────────────────
+# 编辑≠发布（Publish 链路）：writer/fixer 只写工作副本（chapters/drafts），
+# canonical 正式正文只能经 Publish Service 原子发布（非 Agent 直写）。
+#   canonical_manifest : 项目根真相源索引（path/status/revision/hash/source/versions）
+#   working_copy       : 任务工作副本根（受任务授权可写）
+#   publish_service    : 唯一可写 canonical 的服务身份
+#   canonical_layers   : canonical 卷目录（writer_identity 限定为 publish_service）
+# ─────────────────────────────────────────────────────────────
+publish:
+  canonical_manifest: canonical_manifest.yaml
+  working_copy: chapters/drafts/
+  publish_service: publish_service
+  canonical_layers: [第一卷_道生, 第二卷_京华, 第三卷_江湖, 第四卷_国战, 第五卷_长生, 第六卷_乾坤]
+
+# ─────────────────────────────────────────────────────────────
 # 单 Agent 执行策略（Single-Agent Execution）：把"禁止子 Agent"从提示词偏好
 # 升级为平台级执行策略。详见 platform/.../core/policies/agent-execution.policy.yaml
 #   agent_mode               : single = 强制单 Agent 顺序执行（显式，不继承模糊默认）

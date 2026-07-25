@@ -871,6 +871,10 @@ def build_parser():
     gq2 = sub.add_parser("query", help="NKB 查询/投影接口（get/state/events/foreshadow/reader-known/project）")
     gq2.add_argument("--project-root", default=None)
     gq2.add_argument("rest", nargs=argparse.REMAINDER)
+    # ── 编辑≠发布：Publish Service 与 canonical 诊断 ──
+    gch2 = sub.add_parser("chapter", help="章节发布与生命周期（publish/workflow/canonical-writes/rollback）")
+    gch2.add_argument("--project-root", default=None)
+    gch2.add_argument("rest", nargs=argparse.REMAINDER)
     # ── Phase B 审查管线增强 ──
     gs2 = sub.add_parser("summary", help="章节/卷/弧/滚动摘要落盘（AI 填字段→脚本落盘）")
     gs2.add_argument("--project-root", default=None)
@@ -905,7 +909,7 @@ def main():
                       "init", "charter", "psrc", "genesis", "ready",
                       "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "exp", "bi", "graph", "market", "compliance",
                       "index", "context", "policy", "validate", "query",
-                      "summary", "delta", "review", "report", "audit", "terminology"):
+                      "summary", "delta", "review", "report", "audit", "terminology", "chapter"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -957,6 +961,7 @@ def _delegate_gov(cmd, args):
         "audit": "audit_report",
         "report": "report_builder",
         "terminology": "terminology_check",
+        "chapter": "chapter_cli",
     }
     sys.argv = [mod_map[cmd]] + sys.argv[2:]
     mod = importlib.import_module(mod_map[cmd])

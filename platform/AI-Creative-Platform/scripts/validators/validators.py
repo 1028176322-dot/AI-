@@ -32,6 +32,7 @@ if os.path.isdir(_SCRIPTS):
             sys.path.insert(0, _p)
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
+import _gov  # 平台根解析（find_platform_root / find_workspace_root）
 
 try:
     import yaml as _pyyaml
@@ -262,11 +263,156 @@ def _check_artifact(args):
     return _emit(allf)
 
 
+def _auth_dir():
+    return os.path.join(_gov.find_platform_root(), "core", "authorization")
+
+
+def _check_authorization(args):
+    """校验 core/authorization 五 YAML 的内部一致性（编辑≠发布基线）。"""
+    d = _auth_dir()
+    import _yaml_lite
+    def L(n):
+        p = os.path.join(d, n)
+        return _yaml_lite.load_file(p) if os.path.isfile(p) else {}
+    acts = (L("actions.yaml") or {}).get("actions", {})
+    res = (L("resources.yaml") or {}).get("layers", {})
+    roles = (L("roles.yaml") or {}).get("roles", {})
+    st = L("state-permissions.yaml") or {}
+    imm_full = L("immutable-policies.yaml") or {}
+    imm = imm_full.get("authorization") or {}
+    findings = []
+    layers = set(res.keys())
+    # 动作资源层存在
+    for an, a in acts.items():
+        rl = a.get("resource_layer")
+        if rl not in layers:
+            findings.append({"check": "authorization", "severity": "fail",
+                             "detail": "动作 %s 的 resource_layer %s 未定义" % (an, rl)})
+    # 角色 capability / resource_layers 存在
+    for rn, r in roles.items():
+        for cap in (r.get("capabilities") or []):
+            if cap not in acts:
+                findings.append({"check": "authorization", "severity": "fail",
+                                 "detail": "角色 %s 的 capability %s 未定义" % (rn, cap)})
+        for rl in (r.get("resource_layers") or []):
+            if rl not in layers:
+                findings.append({"check": "authorization", "severity": "fail",
+                                 "detail": "角色 %s 的 resource_layer %s 未定义" % (rn, rl)})
+    # 默认拒绝基线
+    if imm.get("default") != "deny":
+        findings.append({"check": "authorization", "severity": "fail",
+                         "detail": "immutable-policies.authorization.default != deny（基线被破坏）"})
+    # 11 个标准错误码齐全（error_codes 在 immutable-policies.yaml 顶层，不在 authorization 块内）
+    required_codes = {"WRITE_TASK_REQUIRED", "ROLE_CAPABILITY_DENIED", "TASK_GRANT_MISSING",
+                      "TASK_STATE_WRITE_DENIED", "RESOURCE_OUT_OF_SCOPE", "CANONICAL_DIRECT_WRITE_FORBIDDEN",
+                      "BUILD_FROZEN", "PUBLISH_GATE_FAILED", "REVISION_CONFLICT",
+                      "SERVICE_IDENTITY_REQUIRED", "PERMISSION_DENIED"}
+    have = set((imm_full.get("error_codes") or {}).keys())
+    missing = required_codes - have
+    if missing:
+        findings.append({"check": "authorization", "severity": "fail",
+                         "detail": "缺标准错误码: %s" % sorted(missing)})
+    # canonical 层 writer_identity 必须为 publish_service（编辑≠发布）
+    cw = (res.get("canonical") or {}).get("writer_identity")
+    if cw != "publish_service":
+        findings.append({"check": "authorization", "severity": "fail",
+                         "detail": "canonical 层 writer_identity=%s（应为 publish_service）" % cw})
+    if not findings:
+        findings = [{"check": "authorization", "severity": "info", "detail": "授权基线一致（编辑≠发布）"}]
+    return _emit(findings)
+
+
+def _check_chapter_workflow(args):
+    """校验 13 态状态机一致性 + service_only 动作仅出现在发布相关态。"""
+    d = _auth_dir()
+    import _yaml_lite
+    st = _yaml_lite.load_file(os.path.join(d, "state-permissions.yaml")) or {}
+    findings = []
+    states = st.get("states") or []
+    defined = set(states)
+    trans = st.get("transitions") or {}
+    sp = st.get("state_permissions") or {}
+    # 所有 state 都被 transitions 与 state_permissions 引用
+    for s in states:
+        if s not in trans:
+            findings.append({"check": "chapter_workflow", "severity": "warn", "detail": "态 %s 无 transitions" % s})
+        if s not in sp:
+            findings.append({"check": "chapter_workflow", "severity": "warn", "detail": "态 %s 无 state_permissions" % s})
+    # transitions 只引用已定义态
+    for s, nxt in trans.items():
+        for n in (nxt or []):
+            if n not in defined:
+                findings.append({"check": "chapter_workflow", "severity": "fail",
+                                 "detail": "transitions[%s] 引用未定义态 %s" % (s, n)})
+    # service_only 动作（chapter.publish / canonical.rollback）只出现在 approved/publishing/published/completed
+    import _yaml_lite as _Y
+    acts = _Y.load_file(os.path.join(d, "actions.yaml")) or {}
+    acts = acts.get("actions", {})
+    svc_actions = [an for an, a in acts.items() if a.get("service_only")]
+    allowed_states = {"approved", "publishing", "published", "completed"}
+    for an in svc_actions:
+        for s, allowed in sp.items():
+            if an in (allowed or []) and s not in allowed_states:
+                findings.append({"check": "chapter_workflow", "severity": "fail",
+                                 "detail": "service_only 动作 %s 出现在非发布态 %s" % (an, s)})
+    # task_state_to_chapter_state 覆盖全部任务态
+    mapping = st.get("task_state_to_chapter_state") or {}
+    for ts in ("backlog", "ready", "claimed", "running", "submitted", "reviewing",
+               "passed", "completed", "failed", "archive"):
+        if ts not in mapping:
+            findings.append({"check": "chapter_workflow", "severity": "warn",
+                             "detail": "task_state_to_chapter_state 缺映射: %s" % ts})
+    if not findings:
+        findings = [{"check": "chapter_workflow", "severity": "info", "detail": "13 态状态机一致"}]
+    return _emit(findings)
+
+
+def _check_canonical_writes(args):
+    """审计 canonical 正式正文：是否全部经 Publish Service 落盘、有无篡改。"""
+    root = args.project_root
+    if not root or not os.path.isdir(root):
+        return _emit([{"check": "canonical_writes", "severity": "fail", "detail": "缺 --project-root 或目录不存在"}])
+    sys.path.insert(0, os.path.join(_gov.find_platform_root(), "scripts", "publish"))
+    import manifest as MF
+    import re
+    files = []
+    for dn in sorted(os.listdir(root)):
+        dp = os.path.join(root, dn)
+        if not os.path.isdir(dp) or not re.match(r"^第.卷_", dn):
+            continue
+        for fn in sorted(os.listdir(dp)):
+            if fn.endswith(".md") or fn.endswith(".txt"):
+                files.append("%s/%s" % (dn, fn))
+    entries = MF.list_entries(root)
+    findings = []
+    for f in files:
+        e = entries.get(f)
+        af = os.path.join(root, f)
+        cur = MF.hash_content(open(af, "r", encoding="utf-8").read()) if os.path.isfile(af) else None
+        if not e:
+            findings.append({"check": "canonical_writes", "severity": "fail",
+                             "detail": "canonical %s 不在 manifest（疑似未经验 Publish Service 直写）" % f})
+        elif cur != e.get("hash"):
+            findings.append({"check": "canonical_writes", "severity": "fail",
+                             "detail": "canonical %s hash 不一致（疑似篡改）" % f})
+        else:
+            findings.append({"check": "canonical_writes", "severity": "info",
+                             "detail": "canonical %s 经 Publish Service 落盘 r%d" % (f, e.get("revision"))})
+    for k in entries:
+        if k not in files and not os.path.isfile(os.path.join(root, k)):
+            findings.append({"check": "canonical_writes", "severity": "warn",
+                             "detail": "manifest 记录 %s 但文件缺失" % k})
+    if not findings:
+        findings = [{"check": "canonical_writes", "severity": "info", "detail": "无 canonical 文件"}]
+    return _emit(findings)
+
+
 def main():
     ap = argparse.ArgumentParser(prog="validate", description="Level-1 脚本预检")
     sub = ap.add_subparsers(dest="check")
     for name in ("schema", "frontmatter", "chapter_length", "terminology",
-                 "ids", "references", "task_compliance", "runtime_policy", "artifact"):
+                 "ids", "references", "task_compliance", "runtime_policy", "artifact",
+                 "authorization", "chapter-workflow", "canonical-writes"):
         sp = sub.add_parser(name)
         sp.add_argument("--file", default=None)
         sp.add_argument("--project-root", default=None)
@@ -274,6 +420,9 @@ def main():
         sp.add_argument("--min", type=int, default=None)
         sp.add_argument("--max", type=int, default=None)
         sp.add_argument("--task", default=None)
+    # all：聚合（平台相关 + 项目相关）
+    spa = sub.add_parser("all")
+    spa.add_argument("--project-root", default=None)
     args = ap.parse_args()
     dispatch = {
         "schema": _check_schema, "frontmatter": _check_frontmatter,
@@ -281,7 +430,18 @@ def main():
         "ids": _check_ids, "references": _check_references,
         "task_compliance": _check_task_compliance, "runtime_policy": _check_runtime_policy,
         "artifact": _check_artifact,
+        "authorization": _check_authorization, "chapter-workflow": _check_chapter_workflow,
+        "canonical-writes": _check_canonical_writes,
     }
+    if args.check == "all":
+        out = []
+        for fn in (_check_authorization, _check_chapter_workflow, _check_canonical_writes,
+                   _check_ids, _check_references, _check_runtime_policy):
+            try:
+                out += fn(args)
+            except Exception as e:
+                out.append({"check": "all", "severity": "fail", "detail": "%s 异常: %s" % (fn.__name__, e)})
+        return _emit(out)
     fn = dispatch.get(args.check)
     if not fn:
         ap.print_help()
