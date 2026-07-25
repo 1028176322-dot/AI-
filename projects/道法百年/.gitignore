@@ -5,3 +5,9 @@ __pycache__/
 # 临时/中间产物
 参考资料/xmind_temp/
 *.bak
+
+# 平台任务中和遗留（改名 .obsolete 的噪声，不入版本库）
+*.obsolete
+
+# 一次性运维驱动脚本（重跑可复现，不追踪）
+ops_*.py
