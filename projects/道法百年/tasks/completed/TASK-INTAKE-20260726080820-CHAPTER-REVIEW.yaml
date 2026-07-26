@@ -1,0 +1,31 @@
+task:
+  id: TASK-INTAKE-20260726080820-CHAPTER-REVIEW
+  version: 1
+  project: novel-dsf
+  type: chapter_review
+  title: TASK-INTAKE-20260726080820 后继 chapter_review
+  status: completed
+  priority: high
+  created: 2026-07-26T08:08:24
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260726080820
+  inputs:
+    required:
+      - chapters/drafts/第060章_盛京在望.md
+  expected_outputs:
+    - next-output
+  acceptance:
+    criteria:
+      - 后继任务就绪
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - tasks/**
+    forbidden:
+      - core/*
+  agent:
+    required_role: reviewer

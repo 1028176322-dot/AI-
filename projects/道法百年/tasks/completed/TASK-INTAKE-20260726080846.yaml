@@ -1,0 +1,51 @@
+task:
+  id: TASK-INTAKE-20260726080846
+  type: chapter_fix
+  project: novel-dsf
+  title: 修复第053章_听雨密信
+  version: 1
+  priority: high
+  chapter_ref: 第一卷_道生/第053章.md
+  agent:
+    required_role: writer
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - chapters/drafts/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  inputs:
+    required:
+      - review_report
+      - chapter_draft
+  expected_outputs:
+    - chapter_draft
+    - self_check
+    - handoff
+  acceptance:
+    criteria:
+      - 按 chapter-fix 模板契约完成
+  created: 2026-07-26T08:08:46
+  created_by: agent-unknown
+  urgency: normal
+  status: completed
+  owner: agent-unknown
+  claimed_at: 2026-07-26T08:08:46
+  lease_expire: 2026-07-26T09:08:46
+  workspace: tasks\running\TASK-INTAKE-20260726080846\outputs
+  artifact: chapters/drafts/第053章_听雨密信.md
+  outputs: null
+  submission:
+    checks: null
+    at: 2026-07-26T08:08:49
+  review:
+    decision: pass
+    at: 2026-07-26T08:08:50
