@@ -1,0 +1,36 @@
+task:
+  id: TASK-INTAKE-20260726085912-PUBLISH
+  version: 1
+  project: novel-dsf
+  type: chapter_publish
+  title: 发布 TASK-INTAKE-20260726085912 到正式正文
+  status: completed
+  priority: high
+  created: 2026-07-26T08:59:15
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260726085912
+  inputs:
+    required:
+      - chapters/drafts/第073章_武籍实操.md
+  publish_target: 第一卷_道生/第073章_武籍实操.md
+  expected_outputs:
+    - published-chapter
+  acceptance:
+    criteria:
+      - Publish Service 原子发布成功
+      - Manifest 更新
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - 第一卷_道生/第073章_武籍实操.md
+    forbidden: []
+  agent:
+    required_role: publish_service
+  owner: publish_service
+  claimed_at: 2026-07-26T08:59:34
+  lease_expire: 2026-07-26T09:59:34
+  workspace: tasks\running\TASK-INTAKE-20260726085912-PUBLISH\outputs

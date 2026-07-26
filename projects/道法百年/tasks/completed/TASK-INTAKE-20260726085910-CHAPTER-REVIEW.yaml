@@ -1,0 +1,31 @@
+task:
+  id: TASK-INTAKE-20260726085910-CHAPTER-REVIEW
+  version: 1
+  project: novel-dsf
+  type: chapter_review
+  title: TASK-INTAKE-20260726085910 后继 chapter_review
+  status: completed
+  priority: high
+  created: 2026-07-26T08:59:12
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260726085910
+  inputs:
+    required:
+      - chapters/drafts/第072章_近郊探城.md
+  expected_outputs:
+    - next-output
+  acceptance:
+    criteria:
+      - 后继任务就绪
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - tasks/**
+    forbidden:
+      - core/*
+  agent:
+    required_role: reviewer
