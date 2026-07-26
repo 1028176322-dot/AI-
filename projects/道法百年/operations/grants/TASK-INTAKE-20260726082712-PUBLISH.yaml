@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260726082712-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第一卷_道生/第065章_听雨再交锋.md
+  generated_at: 2026-07-26T08:27:13
+  status: active

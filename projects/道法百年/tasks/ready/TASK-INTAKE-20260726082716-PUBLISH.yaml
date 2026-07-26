@@ -1,0 +1,32 @@
+task:
+  id: TASK-INTAKE-20260726082716-PUBLISH
+  version: 1
+  project: novel-dsf
+  type: chapter_publish
+  title: 发布 TASK-INTAKE-20260726082716 到正式正文
+  status: ready
+  priority: high
+  created: 2026-07-26T08:27:16
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260726082716
+  inputs:
+    required:
+      - chapters/drafts/第069章_青溪求援.md
+  publish_target: 第一卷_道生/第069章_青溪求援.md
+  expected_outputs:
+    - published-chapter
+  acceptance:
+    criteria:
+      - Publish Service 原子发布成功
+      - Manifest 更新
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - 第一卷_道生/第069章_青溪求援.md
+    forbidden: []
+  agent:
+    required_role: publish_service

@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260726082713-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第一卷_道生/第066章_班底护货.md
+  generated_at: 2026-07-26T08:27:14
+  status: active
