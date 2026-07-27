@@ -1,0 +1,20 @@
+goal:
+  id: GOAL-REQ-20260727173404595995-9B9381
+  title: 审查第080章正文《进京前夜·下》
+  project: novel-dsf
+  source: ai_conversation
+  request_id: REQ-20260727173404595995-9B9381
+  success:
+    - all requested chapters have governed tasks
+    - all writing tasks enter review before publish
+  task_ids:
+    - REQ-20260727173404595995-9B9381-REVIEW-CH080
+  interpretation:
+    action: review_only
+    selection: explicit_chapter
+    chapters:
+      - 80
+    assumptions: []
+  status: active
+  created: 2026-07-27T17:34:04
+  created_by: agent-unknown

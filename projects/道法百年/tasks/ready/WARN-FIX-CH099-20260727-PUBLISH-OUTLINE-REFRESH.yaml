@@ -1,0 +1,67 @@
+task:
+  id: WARN-FIX-CH099-20260727-PUBLISH-OUTLINE-REFRESH
+  version: 1
+  project: novel-dsf
+  type: outline_refresh
+  title: WARN-FIX-CH099-20260727-PUBLISH 审批后继 outline_refresh
+  status: ready
+  priority: high
+  created: 2026-07-27T17:49:19
+  created_by: task-system
+  goal: null
+  chapter_ref: null
+  conversation_request_id: null
+  dependencies:
+    - WARN-FIX-CH099-20260727-PUBLISH
+  inputs:
+    required:
+      - published_chapter
+      - canonical_manifest
+      - chapter_plan
+      - chapter_handoff
+      - nkb_snapshot
+      - planning_policy
+    values:
+      source_task: WARN-FIX-CH099-20260727-PUBLISH
+      source_artifact: 第一卷_道生/第099章_决战前夜.md
+      published_chapter: 第一卷_道生/第099章_决战前夜.md
+      canonical_manifest: canonical_manifest.yaml
+  expected_outputs:
+    - revised_chapter_map
+    - revised_future_plans
+    - refresh_report
+    - handoff
+  acceptance:
+    criteria:
+      - 按 outline_refresh 模板完成
+  permissions:
+    read:
+      - chapters/approved/**
+      - canonical_manifest.yaml
+      - NKB/**
+      - handoffs/**
+      - sources/outline/**
+      - runtime/outline/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - sources/outline/maps/**
+      - sources/outline/chapters/**
+      - analysis/outline/**
+      - lifecycle/outline/**
+    forbidden:
+      - chapters/**
+      - NKB/**
+      - core/**
+      - registry/**
+      - templates/**
+      - sources/outline/series/**
+  agent:
+    required_role: story-architect
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current

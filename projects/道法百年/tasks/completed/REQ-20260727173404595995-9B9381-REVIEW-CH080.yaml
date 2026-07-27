@@ -1,0 +1,55 @@
+task:
+  id: REQ-20260727173404595995-9B9381-REVIEW-CH080
+  type: chapter_review
+  project: novel-dsf
+  title: 审查 chapters/drafts/第080章_进京前夜·下.md
+  version: 1
+  priority: high
+  chapter_ref: chapters/drafts/第080章_进京前夜·下.md
+  dependencies: []
+  agent:
+    required_role: reviewer
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - analysis/review/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  inputs:
+    required:
+      - chapter_draft
+      - review_spec
+    values:
+      conversation_request: 审查第080章正文《进京前夜·下》
+      conversation_request_id: REQ-20260727173404595995-9B9381
+      chapter_number: 80
+      chapter_draft: chapters/drafts/第080章_进京前夜·下.md
+  expected_outputs:
+    - review_report
+    - findings
+  acceptance:
+    criteria:
+      - Task Packet 输入完整
+      - 所有产物由受控路径写入
+      - 写作后必须审查，审查通过后才可建立发布任务
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  conversation_request_id: REQ-20260727173404595995-9B9381
+  created: 2026-07-27T17:34:04
+  created_by: agent-unknown
+  urgency: normal
+  status: completed

@@ -1,0 +1,63 @@
+task:
+  id: WARN-FIX-CH097-20260727
+  version: 1
+  project: novel-dsf
+  type: chapter_fix
+  title: 修复第097章（#231 软项）
+  status: completed
+  priority: high
+  chapter_ref: chapters/drafts/第097章_听雨暗杀京.md
+  agent:
+    required_role: writer
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - chapters/drafts/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  inputs:
+    required:
+      - review_report
+      - chapter_draft
+    values:
+      chapter_draft: chapters/drafts/第097章_听雨暗杀京.md
+      review_report: chapters/drafts/第097章_听雨暗杀京.md
+  expected_outputs:
+    - chapter_draft
+    - self_check
+    - handoff
+  acceptance:
+    criteria:
+      - 按 chapter_fix 模板完成
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  created: 2026-07-27T17:49:15
+  created_by: warn-writer
+  urgency: normal
+  owner: warn-writer
+  claimed_at: 2026-07-27T17:49:15
+  lease_expire: 2026-07-27T18:49:15
+  workspace: tasks\running\WARN-FIX-CH097-20260727\outputs
+  artifact: chapters/drafts/第097章_听雨暗杀京.md
+  outputs:
+    chapter_draft: chapters/drafts/第097章_听雨暗杀京.md
+  submission:
+    checks: null
+    at: 2026-07-27T17:49:16
+  review:
+    decision: pass
+    at: 2026-07-27T17:49:17

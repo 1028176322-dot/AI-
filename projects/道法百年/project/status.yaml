@@ -18,7 +18,7 @@ current:
     current: null
     title: null
     workflow_current_step: done
-  blocked: true
-  blocked_reason: task failed: intake classification mismatch: platform maintenance was mapped to project_design
+  blocked: false
+  blocked_reason: null
 updated_by: task-system
-updated: 2026-07-27T15:18:55
+updated: 2026-07-27T17:49:21

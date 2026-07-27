@@ -1,0 +1,63 @@
+task:
+  id: WARN-FIX-CH178-20260727-CHAPTER-REVIEW
+  version: 1
+  project: novel-dsf
+  type: chapter_review
+  title: WARN-FIX-CH178-20260727 后继 chapter_review
+  status: completed
+  priority: high
+  created: 2026-07-27T17:49:20
+  created_by: task-system
+  goal: null
+  chapter_ref: chapters/drafts/第178章_武籍反制终.md
+  conversation_request_id: null
+  dependencies:
+    - WARN-FIX-CH178-20260727
+  inputs:
+    required:
+      - chapter_draft
+      - review_spec
+    values:
+      source_task: WARN-FIX-CH178-20260727
+      source_artifact: chapters/drafts/第178章_武籍反制终.md
+      chapter_draft: chapters/drafts/第178章_武籍反制终.md
+  expected_outputs:
+    - review_report
+    - findings
+  acceptance:
+    criteria:
+      - 按 chapter_review 模板完成
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - analysis/review/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  agent:
+    required_role: reviewer
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  owner: warn-reviewer
+  claimed_at: 2026-07-27T17:49:20
+  lease_expire: 2026-07-27T18:49:20
+  workspace: tasks\running\WARN-FIX-CH178-20260727-CHAPTER-REVIEW\outputs
+  artifact: chapters/drafts/第178章_武籍反制终.md
+  outputs:
+    review_report: chapters/drafts/第178章_武籍反制终.md
+  submission:
+    checks: null
+    at: 2026-07-27T17:49:20

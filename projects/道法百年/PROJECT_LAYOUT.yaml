@@ -1,0 +1,167 @@
+schema: project-layout@2.0.0
+layout_version: 2.0.0
+created_at: 2026-07-27T18:48:25
+genre: xuanhuan
+strict: true
+existing_project_migration_required: false
+task_system:
+  enforcement_mode: strict
+  no_task_no_write: true
+  session_required: true
+review:
+  reader_panel_required: true
+  feedback_to_writing_required: true
+  human_feedback_supported: true
+  human_feedback_required_at:
+    - pilot
+    - volume_end
+    - paid_boundary
+    - major_revision
+learning:
+  reference_candidates_project_scoped: true
+  raw_text_copy_forbidden: true
+  genre_global_promotion_governed: true
+storage:
+  raw_reference_books: sources/references/inbox/
+  reference_manifests: sources/references/manifests/
+  learning_candidates: learning/candidates/
+  design_intake: sources/design/_intake/
+  design_candidates: sources/design/_candidates/
+  design_analysis: analysis/design/
+  design_lifecycle: lifecycle/design/
+  outline_intake: sources/outline/_intake/
+  outline_series: sources/outline/series/
+  outline_volumes: sources/outline/volumes/
+  outline_arcs: sources/outline/arcs/
+  outline_maps: sources/outline/maps/
+  outline_chapter_plans: sources/outline/chapters/
+  outline_analysis: analysis/outline/
+  writing_strategy_analysis: analysis/writing-strategy/
+  writing_strategies: runtime/writing-strategies/
+  outline_operations: operations/outline/
+  project_learning: memory/project/
+  writing_drafts: chapters/drafts/
+  approved_chapters: chapters/approved/
+  plans: artifacts/plans/
+  contexts: artifacts/context/
+  reviews: artifacts/reviews/
+  fix_logs: artifacts/fix-logs/
+  generated_runtime: runtime/
+  task_records: tasks/
+  conversation_requests: tasks/goals/
+  operation_manifests: operations/
+  audit_records: audit/
+  summaries: summaries/
+  version_snapshots: versions/snapshots/
+required_directories:
+  - NKB
+  - sources/references/inbox
+  - sources/references/manifests
+  - sources/research/market
+  - sources/design/story
+  - sources/design/world
+  - sources/design/characters
+  - sources/design/_intake
+  - sources/design/_candidates
+  - sources/design/factions
+  - sources/design/locations
+  - sources/design/items
+  - sources/design/abilities
+  - sources/design/conflicts
+  - sources/design/arcs
+  - sources/design/foreshadow
+  - sources/outline
+  - sources/outline/_intake
+  - sources/outline/series
+  - sources/outline/volumes
+  - sources/outline/arcs
+  - sources/outline/maps
+  - sources/outline/chapters
+  - chapters/drafts
+  - chapters/approved
+  - artifacts/plans
+  - artifacts/context
+  - artifacts/reviews
+  - artifacts/fix-proposals
+  - artifacts/fix-logs
+  - artifacts/builds
+  - analysis/quality
+  - analysis/reader
+  - analysis/impact
+  - analysis/learning
+  - analysis/design
+  - analysis/outline
+  - analysis/writing-strategy
+  - summaries/chapters
+  - summaries/volumes
+  - summaries/arcs
+  - memory/project/reference-learning
+  - memory/project/review-feedback
+  - learning/candidates
+  - runtime/sessions
+  - runtime/task-packets
+  - runtime/context
+  - runtime/reviews
+  - runtime/reader-panels
+  - runtime/indexes
+  - runtime/learning
+  - runtime/design
+  - runtime/outline
+  - runtime/outline/templates
+  - runtime/writing-strategies
+  - runtime/policies
+  - tasks/backlog
+  - tasks/ready
+  - tasks/claimed
+  - tasks/running
+  - tasks/submitted
+  - tasks/reviewing
+  - tasks/passed
+  - tasks/completed
+  - tasks/failed
+  - tasks/archive
+  - tasks/goals
+  - operations
+  - audit
+  - versions/snapshots
+  - publish/staging
+  - overrides
+  - metrics
+  - lifecycle
+  - lifecycle/design
+  - lifecycle/outline
+  - operations/design
+  - operations/outline
+  - project
+allowed_top_level:
+  - .gitignore
+  - AGENTS.md
+  - NKB
+  - PROJECT_LAYOUT.yaml
+  - analysis
+  - artifacts
+  - audit
+  - canonical_manifest.yaml
+  - chapters
+  - handoffs
+  - learning
+  - lifecycle
+  - memory
+  - metrics
+  - operations
+  - overrides
+  - project
+  - project.yaml
+  - publish
+  - runtime
+  - sources
+  - summaries
+  - tasks
+  - versions
+  - txt
+  - .workbuddy
+exceptions:
+  - "txt/: 滞后导出稿(.txt)，与 md 权威源存在 SyncGov 债 #223 漂移；登记为例外，不参与严格布局统计，待平台升级稳定后由 SyncGov 重生成。"
+  - "chapters/drafts/: 存放未过平台最新版审核的 6 卷工作稿；待平台升级后走正式审核再升 chapters/approved/。"
+  - ".workbuddy/: 平台/agent 项目级技能与状态存储目录（基础设施），非用户内容，登记为例外。"
+note: 本项目由 legacy 状态按新立项严格流程原地迁移生成；既有 19KB AGENTS.md 为项目治理索引，保留未覆盖。

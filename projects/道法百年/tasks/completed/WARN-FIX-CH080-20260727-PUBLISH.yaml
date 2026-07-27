@@ -1,0 +1,43 @@
+task:
+  id: WARN-FIX-CH080-20260727-PUBLISH
+  version: 1
+  project: novel-dsf
+  type: chapter_publish
+  title: 发布 WARN-FIX-CH080-20260727 到正式正文
+  status: completed
+  priority: high
+  created: 2026-07-27T17:49:09
+  created_by: task-system
+  goal: null
+  dependencies:
+    - WARN-FIX-CH080-20260727
+  inputs:
+    required:
+      - chapters/drafts/第080章_进京前夜·下.md
+    values:
+      chapter_draft: chapters/drafts/第080章_进京前夜·下.md
+      review_report: chapters/drafts/第080章_进京前夜·下.md
+  publish_target: 第一卷_道生/第080章_进京前夜·下.md
+  expected_outputs:
+    - published-chapter
+  acceptance:
+    criteria:
+      - Publish Service 原子发布成功
+      - Manifest 更新
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - 第一卷_道生/第080章_进京前夜·下.md
+    forbidden: []
+  agent:
+    required_role: publish_service
+  owner: publish_service
+  claimed_at: 2026-07-27T17:49:09
+  lease_expire: 2026-07-27T18:49:09
+  workspace: tasks\running\WARN-FIX-CH080-20260727-PUBLISH\outputs
+  outputs:
+    published_chapter: 第一卷_道生/第080章_进京前夜·下.md
+    canonical_manifest: canonical_manifest.yaml
+  artifact: 第一卷_道生/第080章_进京前夜·下.md
