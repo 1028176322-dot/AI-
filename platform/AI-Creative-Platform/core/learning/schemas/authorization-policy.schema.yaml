@@ -1,0 +1,113 @@
+schema:
+  id: style.authorization-policy
+  version: "1.0.0"
+  description: 统一授权策略；authorize() 按 operation 走各自检查（纲要 §2.8）。
+fields:
+  - name: policy_id
+    type: string
+    required: true
+  - name: version
+    type: string
+    required: true
+  - name: operations
+    type: list
+    required: true
+    description: 元素 {operation, checks[]}，见下
+  - name: roles
+    type: list
+    required: true
+    description: 元素 {role, permissions[]}
+  - name: subagent_policy
+    type: enum
+    required: true
+    enum: [denied, allowed]
+    description: 风格任务默认 denied；执行层另由 harness/工具网关强制
+  - name: lease_seconds
+    type: integer
+    required: true
+  - name: completion_authority
+    type: string
+    required: true
+    description: 可将任务标记为完成的权利角色
+common_checks:
+  - session_ready
+  - subagent_policy_denied
+operation_checks:
+  - operation: create
+    checks:
+      - session_ready
+      - creator_can_assign_role
+      - template_valid
+  - operation: claim
+    checks:
+      - session_ready
+      - actor_matches_executor
+      - claimable_state
+  - operation: run
+    checks:
+      - lease_owner
+      - role_match
+      - runnable_state
+      - subagent_policy_denied
+  - operation: complete
+    checks:
+      - completion_authority
+      - lease_owner
+      - completable_state
+      - outputs_valid
+  - operation: resume
+    checks:
+      - lease_owner
+      - role_match
+      - resumable_state
+      - outputs_consistent
+  - operation: candidate_create
+    checks:
+      - lease_owner
+      - candidate_path_permission
+  - operation: apply
+    checks:
+      - lease_owner
+      - APPLY_READY
+      - source_hash_equal
+      - target_hash_equal
+      - path_permission
+  - operation: rollback
+    checks:
+      - lease_owner
+      - ROLLBACK_READY
+      - applied_hash_equal
+      - backup_hash_present
+  - operation: publish
+    checks:
+      - lease_owner
+      - PUBLISH_READY
+      - dependency_binding
+      - source_hash_equal
+      - target_hash_equal
+  - operation: diagnose
+    checks:
+      - lease_owner
+      - candidate_path_permission
+  - operation: extract
+    checks:
+      - lease_owner
+      - candidate_path_permission
+  - operation: review
+    checks:
+      - lease_owner
+      - reviewer_role
+      - subagent_policy_denied
+      - candidate_path_permission
+  - operation: style_revise
+    checks:
+      - lease_owner
+      - candidate_path_permission
+  - operation: manifest_build
+    checks:
+      - lease_owner
+      - candidate_path_permission
+  - operation: quality_review
+    checks:
+      - lease_owner
+      - candidate_path_permission

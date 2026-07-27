@@ -1,0 +1,52 @@
+schema:
+  id: style.chapter-rollback-result
+  version: "1.0.0"
+  description: 风格候选回滚结果（chapter-rollback-revision，独立受控回滚写权，纲要 §2.7）。
+fields:
+  - name: chapter_id
+    type: string
+    required: true
+  - name: revision_cycle_id
+    type: string
+    required: true
+    description: 共享修订周期键
+  - name: producer_task_id
+    type: string
+    required: true
+    description: 执行回滚的任务 id（chapter-rollback-revision）
+  - name: task_id
+    type: string
+    required: true
+  - name: operation
+    type: enum
+    required: true
+    enum: [rollback]
+  - name: pre_apply_artifact_ref
+    type: string
+    required: true
+    description: 应用前草稿快照引用（回滚目标）
+  - name: pre_apply_sha256
+    type: string
+    required: true
+  - name: applied_draft_sha256
+    type: string
+    required: true
+    description: 应用后草稿哈希（用于冲突比对）
+  - name: rollback_task_id
+    type: string
+    required: true
+  - name: state_before
+    type: enum
+    required: true
+    enum: [FINAL_FAILED, ROLLBACK_READY]
+  - name: state_after
+    type: enum
+    required: true
+    enum: [ROLLED_BACK, ROLLBACK_CONFLICT, BLOCKED]
+  - name: conflict_detected
+    type: boolean
+    required: true
+    description: CAS 发现草稿在 apply 后又被改动时为 true -> ROLLBACK_CONFLICT -> BLOCKED
+  - name: created_at
+    type: timestamp
+    required: true

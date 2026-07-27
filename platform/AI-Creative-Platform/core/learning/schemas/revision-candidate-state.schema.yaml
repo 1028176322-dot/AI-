@@ -1,0 +1,229 @@
+schema:
+  id: style.revision-candidate-state
+  version: "1.0.0"
+  description: 修订周期统一状态机；所有转换经 transition_state() CAS + 追加事件日志（纲要 §2.9）。
+states:
+  - DRAFT_STABLE
+  - STRUCTURE_STABLE
+  - MANIFEST_BUILDING
+  - MANIFEST_READY
+  - MANIFEST_CONFLICT
+  - DIAGNOSED
+  - DIAGNOSED_CLEAN
+  - DIAGNOSED_WARNING
+  - CANDIDATE_CREATED
+  - FIDELITY_PASSED
+  - FIDELITY_FAILED
+  - QUALITY_PASSED
+  - QUALITY_FAILED
+  - APPLY_READY
+  - APPLIED
+  - FINAL_CHECK_READY
+  - FINAL_PASSED
+  - FINAL_FAILED
+  - PUBLISH_READY
+  - PUBLISHED
+  - RETRY_READY
+  - HUMAN_REVIEW
+  - BLOCKED
+  - ROLLED_BACK
+  - ROLLBACK_READY
+  - ROLLBACK_CONFLICT
+  - CHAPTER_FIX_REQUIRED
+  - STALE
+  - RESOLVED
+  - REJECTED
+initial: DRAFT_STABLE
+transitions:
+  - from: DRAFT_STABLE
+    to: STRUCTURE_STABLE
+    via: structure-stability-gate
+  - from: STRUCTURE_STABLE
+    to: MANIFEST_BUILDING
+    via: protected-manifest-build
+  - from: MANIFEST_BUILDING
+    to: MANIFEST_READY
+    via: protected-manifest-build
+    condition: build_ok
+  - from: MANIFEST_BUILDING
+    to: MANIFEST_CONFLICT
+    via: protected-manifest-build
+    condition: conflict
+  - from: MANIFEST_READY
+    to: DIAGNOSED
+    via: ai-diagnose
+  - from: MANIFEST_CONFLICT
+    to: HUMAN_REVIEW
+    via: review
+  - from: HUMAN_REVIEW
+    to: RESOLVED
+    via: review
+    condition: resolved
+  - from: RESOLVED
+    to: MANIFEST_BUILDING
+    via: protected-manifest-build
+    condition: rebuild
+  - from: HUMAN_REVIEW
+    to: REJECTED
+    via: review
+    condition: rejected
+  - from: REJECTED
+    to: BLOCKED
+    via: system
+  - from: DIAGNOSED
+    to: CANDIDATE_CREATED
+    via: style-revise
+    condition: has_issues
+  - from: DIAGNOSED
+    to: DIAGNOSED_WARNING
+    via: ai-diagnose
+    condition: only_warnings
+  - from: DIAGNOSED
+    to: DIAGNOSED_CLEAN
+    via: ai-diagnose
+    condition: no_issues
+  - from: DIAGNOSED_WARNING
+    to: HUMAN_REVIEW
+    via: review
+  - from: HUMAN_REVIEW
+    to: CANDIDATE_CREATED
+    via: style-revise
+    condition: revision_requested
+  - from: HUMAN_REVIEW
+    to: FINAL_CHECK_READY
+    via: system
+    condition: revision_skipped
+  - from: DIAGNOSED_CLEAN
+    to: FINAL_CHECK_READY
+    via: final-regression
+    condition: mode=baseline
+  - from: CANDIDATE_CREATED
+    to: FIDELITY_PASSED
+    via: fidelity-review
+    condition: pass
+  - from: CANDIDATE_CREATED
+    to: FIDELITY_FAILED
+    via: fidelity-review
+    condition: fail
+  - from: FIDELITY_FAILED
+    to: RETRY_READY
+    via: system
+  - from: RETRY_READY
+    to: CANDIDATE_CREATED
+    via: style-revise
+    condition: regenerate
+  - from: FIDELITY_FAILED
+    to: BLOCKED
+    via: system
+    condition: exhausted
+  - from: FIDELITY_PASSED
+    to: QUALITY_PASSED
+    via: style-quality-review
+    condition: pass
+  - from: FIDELITY_PASSED
+    to: QUALITY_FAILED
+    via: style-quality-review
+    condition: fail
+  - from: QUALITY_FAILED
+    to: HUMAN_REVIEW
+    via: review
+  - from: HUMAN_REVIEW
+    to: APPLY_READY
+    via: system
+    condition: quality_waived
+  - from: QUALITY_FAILED
+    to: BLOCKED
+    via: system
+  - from: QUALITY_PASSED
+    to: APPLY_READY
+    via: system
+  - from: APPLY_READY
+    to: APPLIED
+    via: chapter-apply-revision
+    condition: cas_ok
+  - from: APPLIED
+    to: FINAL_CHECK_READY
+    via: final-regression
+    condition: mode=post_apply
+  - from: FINAL_CHECK_READY
+    to: FINAL_PASSED
+    via: final-regression
+    condition: pass
+  - from: FINAL_CHECK_READY
+    to: FINAL_FAILED
+    via: final-regression
+    condition: fail_baseline
+  - from: FINAL_CHECK_READY
+    to: CHAPTER_FIX_REQUIRED
+    via: final-regression
+    condition: fail_baseline
+  - from: FINAL_CHECK_READY
+    to: ROLLBACK_READY
+    via: final-regression
+    condition: fail_post_apply
+  - from: FINAL_FAILED
+    to: ROLLBACK_READY
+    via: system
+    condition: post_apply
+  - from: FINAL_FAILED
+    to: CHAPTER_FIX_REQUIRED
+    via: system
+    condition: baseline
+  - from: ROLLBACK_READY
+    to: ROLLED_BACK
+    via: chapter-rollback-revision
+    condition: cas_ok
+  - from: ROLLBACK_READY
+    to: ROLLBACK_CONFLICT
+    via: chapter-rollback-revision
+    condition: draft_changed
+  - from: ROLLBACK_CONFLICT
+    to: BLOCKED
+    via: system
+  - from: FINAL_PASSED
+    to: PUBLISH_READY
+    via: system
+  - from: PUBLISH_READY
+    to: PUBLISHED
+    via: chapter-publish
+    condition: all_bindings_ok
+  - from: CHAPTER_FIX_REQUIRED
+    to: STRUCTURE_STABLE
+    via: chapter_fix
+    condition: re_stabilize
+  - from: STALE
+    to: DIAGNOSED
+    via: ai-diagnose
+    condition: re_diagnose
+  - from: CANDIDATE_CREATED
+    to: STALE
+    via: dependency_change
+    condition: hash_or_dep_changed
+  - from: FIDELITY_PASSED
+    to: STALE
+    via: dependency_change
+    condition: hash_or_dep_changed
+  - from: QUALITY_PASSED
+    to: STALE
+    via: dependency_change
+    condition: hash_or_dep_changed
+  - from: APPLY_READY
+    to: STALE
+    via: dependency_change
+    condition: hash_or_dep_changed
+  - from: APPLIED
+    to: STALE
+    via: dependency_change
+    condition: hash_or_dep_changed
+  - from: FINAL_CHECK_READY
+    to: STALE
+    via: dependency_change
+    condition: hash_or_dep_changed
+  - from: FINAL_PASSED
+    to: STALE
+    via: dependency_change
+    condition: hash_or_dep_changed
+  - from: PUBLISH_READY
+    to: STALE
+    via: dependency_change
+    condition: hash_or_dep_changed

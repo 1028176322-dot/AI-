@@ -1,0 +1,42 @@
+schema:
+  id: style.quality-report
+  version: "1.0.0"
+  description: 风格质量门禁报告（style-quality-review，按 quality-policy 判定，纲要 §2.7/§6）。
+fields:
+  - name: chapter_id
+    type: string
+    required: true
+  - name: revision_cycle_id
+    type: string
+    required: true
+    description: 共享修订周期键
+  - name: producer_task_id
+    type: string
+    required: true
+    description: 生成此报告的审查任务 id（style-quality-review）
+  - name: task_id
+    type: string
+    required: true
+  - name: scene_type
+    type: string
+    required: true
+    description: 当前章节主场景类型
+  - name: quality_policy_version
+    type: string
+    required: true
+    description: 必须匹配 quality-policy.schema 的版本
+  - name: metrics
+    type: list
+    required: true
+    description: 元素 {name, comparator, value, warning_threshold, failure_threshold, sample_size, passed}
+  - name: overall
+    type: enum
+    required: true
+    enum: [QUALITY_PASSED, QUALITY_FAILED, QUALITY_WAIVED]
+  - name: human_override
+    type: boolean
+    required: false
+    description: 人工豁免（须 hard_gate=false 且策略允许）
+  - name: created_at
+    type: timestamp
+    required: true

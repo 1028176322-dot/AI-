@@ -1,0 +1,85 @@
+schema:
+  id: style.capability-token
+  version: "1.0.0"
+  description: 受控写能力令牌；多资源、单使用、签名（纲要 §2.8）。资源组合按 operation 经 oneOf 约束。
+fields:
+  - name: capability_id
+    type: string
+    required: true
+  - name: task_id
+    type: string
+    required: true
+  - name: session_id
+    type: string
+    required: true
+  - name: actor_id
+    type: string
+    required: true
+  - name: operation
+    type: enum
+    required: true
+    enum: [apply, rollback, publish, chapter_write, candidate_create]
+  - name: resources
+    type: list
+    required: true
+    description: 资源列表，结构与 operation 绑定（见 oneOf）
+  - name: policy_sha256
+    type: string
+    required: true
+  - name: issued_at
+    type: timestamp
+    required: true
+  - name: expires_at
+    type: timestamp
+    required: true
+  - name: nonce
+    type: string
+    required: true
+    description: 防重放
+  - name: single_use
+    type: boolean
+    required: true
+    default: true
+    description: 消费即失效
+  - name: signature
+    type: string
+    required: true
+    description: HMAC-SHA256 签名，密钥仅 Broker 持有
+oneOf:
+  - operation: apply
+    resources:
+      - role: source
+        canonical_path: chapters/drafts/<chapter_id>.md
+        expected_sha256: required
+      - role: target
+        canonical_path: chapters/drafts/<chapter_id>.md
+        expected_sha256: required
+      - role: candidate_or_backup
+        canonical_path: analysis/style/<chapter_id>/<revision_cycle_id>/revision-candidate.md
+        expected_sha256: required
+  - operation: rollback
+    resources:
+      - role: source
+        canonical_path: analysis/style/<chapter_id>/<revision_cycle_id>/pre_apply_backup.md
+        expected_sha256: required
+      - role: target
+        canonical_path: chapters/drafts/<chapter_id>.md
+        expected_sha256: required
+  - operation: publish
+    resources:
+      - role: source
+        canonical_path: chapters/drafts/<chapter_id>.md
+        expected_sha256: required
+      - role: target
+        canonical_path: chapters/approved/<chapter_id>.md
+        expected_sha256: required
+  - operation: chapter_write
+    resources:
+      - role: target
+        canonical_path: chapters/drafts/<chapter_id>.md
+        expected_sha256: absent
+  - operation: candidate_create
+    resources:
+      - role: target
+        canonical_path: analysis/style/<chapter_id>/<revision_cycle_id>/revision-candidate.md
+        expected_sha256: absent

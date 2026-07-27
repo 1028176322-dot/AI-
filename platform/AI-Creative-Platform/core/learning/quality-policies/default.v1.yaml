@@ -1,0 +1,296 @@
+schema:
+  id: style.quality-policy-instance
+  version: "1.0.0"
+  description: 默认版本化质量门禁实例（style-quality-review 据此判定，纲要 §6）。
+policy_id: default
+quality_policy_version: "1.0.0"
+effective_from: 1764000000
+thresholds:
+  - scene_type: battle
+    metric: rhythm_distance
+    comparator: lt
+    unit: chars
+    warning_threshold: 40
+    failure_threshold: 60
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: battle
+    metric: pov_consistency
+    comparator: gte
+    unit: ratio
+    warning_threshold: 0.7
+    failure_threshold: 0.5
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: true
+    human_override_allowed: false
+  - scene_type: battle
+    metric: redundancy
+    comparator: lt
+    unit: ratio
+    warning_threshold: 0.06
+    failure_threshold: 0.12
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: battle
+    metric: scene_style_match
+    comparator: gte
+    unit: ratio
+    warning_threshold: 0.35
+    failure_threshold: 0.2
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: dialogue
+    metric: rhythm_distance
+    comparator: lt
+    unit: chars
+    warning_threshold: 40
+    failure_threshold: 60
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: dialogue
+    metric: pov_consistency
+    comparator: gte
+    unit: ratio
+    warning_threshold: 0.7
+    failure_threshold: 0.5
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: true
+    human_override_allowed: false
+  - scene_type: dialogue
+    metric: redundancy
+    comparator: lt
+    unit: ratio
+    warning_threshold: 0.06
+    failure_threshold: 0.12
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: dialogue
+    metric: scene_style_match
+    comparator: gte
+    unit: ratio
+    warning_threshold: 0.35
+    failure_threshold: 0.2
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: exploration
+    metric: rhythm_distance
+    comparator: lt
+    unit: chars
+    warning_threshold: 40
+    failure_threshold: 60
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: exploration
+    metric: pov_consistency
+    comparator: gte
+    unit: ratio
+    warning_threshold: 0.7
+    failure_threshold: 0.5
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: true
+    human_override_allowed: false
+  - scene_type: exploration
+    metric: redundancy
+    comparator: lt
+    unit: ratio
+    warning_threshold: 0.06
+    failure_threshold: 0.12
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: exploration
+    metric: scene_style_match
+    comparator: gte
+    unit: ratio
+    warning_threshold: 0.35
+    failure_threshold: 0.2
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: daily
+    metric: rhythm_distance
+    comparator: lt
+    unit: chars
+    warning_threshold: 40
+    failure_threshold: 60
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: daily
+    metric: pov_consistency
+    comparator: gte
+    unit: ratio
+    warning_threshold: 0.7
+    failure_threshold: 0.5
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: true
+    human_override_allowed: false
+  - scene_type: daily
+    metric: redundancy
+    comparator: lt
+    unit: ratio
+    warning_threshold: 0.06
+    failure_threshold: 0.12
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: daily
+    metric: scene_style_match
+    comparator: gte
+    unit: ratio
+    warning_threshold: 0.35
+    failure_threshold: 0.2
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: emotion
+    metric: rhythm_distance
+    comparator: lt
+    unit: chars
+    warning_threshold: 40
+    failure_threshold: 60
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: emotion
+    metric: pov_consistency
+    comparator: gte
+    unit: ratio
+    warning_threshold: 0.7
+    failure_threshold: 0.5
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: true
+    human_override_allowed: false
+  - scene_type: emotion
+    metric: redundancy
+    comparator: lt
+    unit: ratio
+    warning_threshold: 0.06
+    failure_threshold: 0.12
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: emotion
+    metric: scene_style_match
+    comparator: gte
+    unit: ratio
+    warning_threshold: 0.35
+    failure_threshold: 0.2
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: exposition
+    metric: rhythm_distance
+    comparator: lt
+    unit: chars
+    warning_threshold: 40
+    failure_threshold: 60
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: exposition
+    metric: pov_consistency
+    comparator: gte
+    unit: ratio
+    warning_threshold: 0.7
+    failure_threshold: 0.5
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: true
+    human_override_allowed: false
+  - scene_type: exposition
+    metric: redundancy
+    comparator: lt
+    unit: ratio
+    warning_threshold: 0.06
+    failure_threshold: 0.12
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true
+  - scene_type: exposition
+    metric: scene_style_match
+    comparator: gte
+    unit: ratio
+    warning_threshold: 0.35
+    failure_threshold: 0.2
+    minimum_sample_size: 3
+    aggregation: mean
+    missing_data_policy: warn
+    calibration_dataset_ref: ""
+    hard_gate: false
+    human_override_allowed: true

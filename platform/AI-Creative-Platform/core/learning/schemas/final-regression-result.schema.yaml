@@ -1,0 +1,74 @@
+schema:
+  id: style.final-regression-result
+  version: "1.0.0"
+  description: 最终回归结果（final-regression，只读；FINAL_PASSED 仅由此任务产出，纲要 §2.7/§2.9）。
+fields:
+  - name: chapter_id
+    type: string
+    required: true
+  - name: revision_cycle_id
+    type: string
+    required: true
+    description: 共享修订周期键
+  - name: producer_task_id
+    type: string
+    required: true
+    description: 生成此结果的任务 id（final-regression）
+  - name: task_id
+    type: string
+    required: true
+  - name: final_regression_mode
+    type: enum
+    required: true
+    enum: [baseline, post_apply]
+    description: baseline=无修订路径检查 current_draft；post_apply=应用后比对 pre_apply+applied
+  - name: input_refs
+    type: object
+    required: true
+    description: baseline: current_draft 引用；post_apply: pre_apply_artifact + applied_draft 引用
+  - name: checks
+    type: list
+    required: true
+    description: baseline=[nkb, outline, protected_manifest, chapter_review]；post_apply=[fidelity, quality, nkb, outline, protected_manifest]
+  - name: chapter_review_report_sha256
+    type: string
+    required: true
+    description: baseline 模式所依据的章节审查报告哈希
+  - name: failures
+    type: list
+    required: true
+    description: 失败项列表（空=通过）
+  - name: result
+    type: enum
+    required: true
+    enum: [FINAL_PASSED, FINAL_FAILED]
+  - name: draft_sha256
+    type: string
+    required: true
+  - name: nkb_revision
+    type: string
+    required: true
+  - name: nkb_snapshot_sha256
+    type: string
+    required: true
+  - name: outline_sha256
+    type: string
+    required: true
+  - name: protected_manifest_sha256
+    type: string
+    required: true
+  - name: style_guidance_sha256
+    type: string
+    required: true
+  - name: final_regression_config_version
+    type: string
+    required: true
+  - name: model_id
+    type: string
+    required: false
+  - name: prompt_hash
+    type: string
+    required: false
+  - name: created_at
+    type: timestamp
+    required: true
