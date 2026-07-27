@@ -1,0 +1,51 @@
+task:
+  id: TASK-INTAKE-20260727111059
+  type: chapter_fix
+  project: novel-dsf
+  title: 修复第131章《醉仙压价战》
+  version: 1
+  priority: high
+  chapter_ref: 第一卷_道生/第131章.md
+  agent:
+    required_role: writer
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - chapters/drafts/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  inputs:
+    required:
+      - review_report
+      - chapter_draft
+  expected_outputs:
+    - chapter_draft
+    - self_check
+    - handoff
+  acceptance:
+    criteria:
+      - 按 chapter-fix 模板契约完成
+  created: 2026-07-27T11:10:59
+  created_by: agent-unknown
+  urgency: normal
+  status: completed
+  owner: agent-unknown
+  claimed_at: 2026-07-27T11:10:59
+  lease_expire: 2026-07-27T12:10:59
+  workspace: tasks\running\TASK-INTAKE-20260727111059\outputs
+  artifact: chapters/drafts/第131章_醉仙压价战.md
+  outputs: null
+  submission:
+    checks: null
+    at: 2026-07-27T11:11:01
+  review:
+    decision: pass
+    at: 2026-07-27T11:11:01

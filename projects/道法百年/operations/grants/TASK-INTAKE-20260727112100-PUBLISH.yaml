@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727112100-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第134章_以技破武初.md
+  generated_at: 2026-07-27T11:21:03
+  status: active

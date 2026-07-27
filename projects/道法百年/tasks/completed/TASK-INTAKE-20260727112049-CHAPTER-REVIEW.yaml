@@ -1,0 +1,31 @@
+task:
+  id: TASK-INTAKE-20260727112049-CHAPTER-REVIEW
+  version: 1
+  project: novel-dsf
+  type: chapter_review
+  title: TASK-INTAKE-20260727112049 后继 chapter_review
+  status: completed
+  priority: high
+  created: 2026-07-27T11:20:51
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260727112049
+  inputs:
+    required:
+      - chapters/drafts/第131章_醉仙压价战.md
+  expected_outputs:
+    - next-output
+  acceptance:
+    criteria:
+      - 后继任务就绪
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - tasks/**
+    forbidden:
+      - core/*
+  agent:
+    required_role: reviewer

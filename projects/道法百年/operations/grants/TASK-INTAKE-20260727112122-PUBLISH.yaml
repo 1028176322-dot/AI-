@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727112122-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第140章_商战渐定.md
+  generated_at: 2026-07-27T11:21:25
+  status: active

@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727112118-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第139章_国师暗援.md
+  generated_at: 2026-07-27T11:21:21
+  status: active

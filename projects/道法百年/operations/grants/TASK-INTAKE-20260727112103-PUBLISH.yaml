@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727112103-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第135章_武籍反制升级.md
+  generated_at: 2026-07-27T11:21:06
+  status: active

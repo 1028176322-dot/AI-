@@ -1,0 +1,32 @@
+task:
+  id: TASK-INTAKE-20260727112118-PUBLISH
+  version: 1
+  project: novel-dsf
+  type: chapter_publish
+  title: 发布 TASK-INTAKE-20260727112118 到正式正文
+  status: ready
+  priority: high
+  created: 2026-07-27T11:21:21
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260727112118
+  inputs:
+    required:
+      - chapters/drafts/第139章_国师暗援.md
+  publish_target: 第二卷_京华/第139章_国师暗援.md
+  expected_outputs:
+    - published-chapter
+  acceptance:
+    criteria:
+      - Publish Service 原子发布成功
+      - Manifest 更新
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - 第二卷_京华/第139章_国师暗援.md
+    forbidden: []
+  agent:
+    required_role: publish_service
