@@ -1,4 +1,4 @@
-schema_version: 1.2.0
+schema_version: 1.3.0
 project_id: novel-dsf
 # Foreshadow (K6 伏笔) — 数据库，自动提醒回收。字段：伏笔ID / 埋设点 / 状态 / 最迟回收章。
 # 来源：大纲_1000章总体规划 第八节「伏笔全局回收表」+ 卷一伏笔列表。

@@ -1,4 +1,4 @@
-schema_version: 1.2.0
+schema_version: 1.3.0
 project_id: novel-dsf
 # Terminology (K8 术语) — 唯一名称表。AI 永远引用此处，不擅自改名。
 # 字段：标准词 / 禁用同义 / 释义。事实源仅限三份可信文档。

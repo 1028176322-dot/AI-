@@ -1,4 +1,4 @@
-schema_version: 1.2.0
+schema_version: 1.3.0
 project_id: novel-dsf
 # Canon (K1 正史) — 世界真相 / 恒定规则。AI 写任何东西不得违背。
 # 本文件为「全量填充」首版 seed，事实源仅限三份可信文档（见 src 字段），未取自任何未审核章节。

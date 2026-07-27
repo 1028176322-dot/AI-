@@ -1,4 +1,4 @@
-schema_version: 1.2.0
+schema_version: 1.3.0
 project_id: novel-dsf
 # Derived (派生数据) — 关系图 / 影响图 / 幂图，由 K2 人物 / K5 事件自动派生（NKB.md §2.3），不手动编辑。
 # 首版 seed 阶段：本文件保持空，由脚本从 Characters / Events 重算生成（graph_viz 等消费）。

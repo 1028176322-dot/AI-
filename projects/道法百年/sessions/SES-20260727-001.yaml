@@ -1,0 +1,75 @@
+session:
+  id: SES-20260727-001
+  project_id: novel-dsf
+  role: system-maintainer
+  platform_version: 2.1.0
+  project_version: 1.3.0
+  policy_version: 1.3.0
+  contracts_version: 1.4.0
+  created: 2026-07-27T21:00:48
+  loaded:
+    constitution: true
+    specification: true
+    project_yaml: true
+    nkb: true
+    role_policy: true
+    workflow: true
+permissions:
+  read:
+    - .gitattributes
+    - workspace.yaml
+    - platform.yaml
+    - platform.lock.yaml
+    - cli/**
+    - core/**
+    - scripts/**
+    - registry/**
+    - schemas/**
+    - templates/**
+    - tests/**
+    - memory/晋升机制.md
+    - README.md
+    - ARCHITECTURE.md
+    - platform.bat
+    - platform.sh
+    - NKB/**
+    - outline/**
+    - chapters/**
+  write:
+    - .gitattributes
+    - workspace.yaml
+    - platform.yaml
+    - platform.lock.yaml
+    - cli/**
+    - core/**
+    - scripts/**
+    - registry/**
+    - schemas/**
+    - templates/**
+    - tests/**
+    - memory/晋升机制.md
+    - README.md
+    - ARCHITECTURE.md
+    - platform.bat
+    - platform.sh
+  forbidden:
+    - projects/**/NKB/**
+    - projects/**/approved/**
+task_mode:
+  enforced: true
+  enforcement_mode: strict
+  direct_execution_allowed: false
+agent_runtime:
+  primary_agent: current_session
+  agent_mode: single
+  subagents_enabled: false
+  delegation_enabled: false
+  parallel_execution_enabled: false
+  background_execution_enabled: false
+  max_active_agents: 1
+locks:
+  - agent_runtime.agent_mode
+  - agent_runtime.subagents_enabled
+  - agent_runtime.delegation_enabled
+  - agent_runtime.background_execution_enabled
+  - agent_runtime.max_active_agents

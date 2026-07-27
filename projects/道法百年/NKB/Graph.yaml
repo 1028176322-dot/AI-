@@ -1,4 +1,4 @@
-schema_version: 1.2.0
+schema_version: 1.3.0
 project_id: novel-dsf
 # Graph (知识图谱) — 关系 / 组织 / 地图 / 势力，以图而非文字存储。
 # 按 NKB.md §2.3：图谱由 K2 人物 / K5 事件自动派生；本文件为首版 seed（与 Characters/Events 一致），

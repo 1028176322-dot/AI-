@@ -1,4 +1,4 @@
-schema_version: 1.2.0
+schema_version: 1.3.0
 project_id: novel-dsf
 # Assets (K7 资源) — 人物拥有什么，防「凭空多/少」。由 K5 事件派生（NKB.md §2.2）。
 # 本文件为首版 SEED：仅填「可信文档明确记载的肖凡持有物」，标 seeded + derived_from 事件。
