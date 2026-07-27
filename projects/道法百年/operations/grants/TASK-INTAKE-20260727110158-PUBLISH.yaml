@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727110158-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第128章_钱借新政.md
+  generated_at: 2026-07-27T11:02:01
+  status: active

@@ -1,0 +1,51 @@
+task:
+  id: TASK-INTAKE-20260727104513
+  type: chapter_fix
+  project: novel-dsf
+  title: 修复第128章《钱借新政》
+  version: 1
+  priority: high
+  chapter_ref: 第一卷_道生/第128章.md
+  agent:
+    required_role: writer
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - chapters/drafts/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  inputs:
+    required:
+      - review_report
+      - chapter_draft
+  expected_outputs:
+    - chapter_draft
+    - self_check
+    - handoff
+  acceptance:
+    criteria:
+      - 按 chapter-fix 模板契约完成
+  created: 2026-07-27T10:45:13
+  created_by: agent-unknown
+  urgency: normal
+  status: completed
+  owner: agent-unknown
+  claimed_at: 2026-07-27T10:45:13
+  lease_expire: 2026-07-27T11:45:13
+  workspace: tasks\running\TASK-INTAKE-20260727104513\outputs
+  artifact: chapters/drafts/第128章_钱借新政.md
+  outputs: null
+  submission:
+    checks: null
+    at: 2026-07-27T10:45:15
+  review:
+    decision: pass
+    at: 2026-07-27T10:45:15
