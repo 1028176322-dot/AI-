@@ -1,0 +1,62 @@
+project:
+  id: novel-dushijishi
+  title: 都市纪事
+  type: novel
+  language: zh-CN
+  lifecycle: planning
+platform:
+  core: 2.1.0
+  template:
+    id: dushi
+    version: 1.3.0
+  nkb_schema: 1.3.0
+requires:
+  platform: >=2.1.0
+  nkb_schema: 1.3.0
+  contracts: >=1.4.0
+  templates:
+    dushi: >=1.3.0
+runtime:
+  agent_mode: single
+  subagents_enabled: false
+  delegation_allowed: false
+  parallel_agents_allowed: false
+  max_active_agents: 1
+paths:
+  nkb: NKB/
+  planning: planning/
+  tasks: tasks/
+  artifacts: artifacts/
+  memory: memory/project/
+  sessions: sessions/
+  overrides: overrides/
+  runtime: runtime/
+authority:
+  facts: NKB/
+  project_decisions: planning/decisions/
+  task_state: tasks/
+  canonical_builds: artifacts/builds/
+memory:
+  allowed:
+    - global
+    - genre:dushi
+    - project:novel-dushijishi
+  forbidden:
+    - other_projects
+plugins:
+  planner: planner.default@1.2.0
+  context_engine: context.runtime@2.0.0
+  writer: workflow.novel@1.4.0
+  reviewer: review.four-pillars@4.3.0
+capabilities:
+  narrative.default: capability.narrative.default@2.0.0
+  character.default: capability.character.default@1.5.0
+  dialogue.ancient: capability.dialogue.ancient@1.3.0
+  emotion.commercial: capability.emotion.commercial@1.2.0
+  description.ancient: capability.description.ancient@1.1.0
+quality_gates:
+  initialization: required
+  planning: required
+  script_precheck: required
+  ai_semantic_review: required
+  regression_review: required

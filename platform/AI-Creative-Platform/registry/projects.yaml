@@ -11,3 +11,12 @@ projects:
     created: 2026-07-24
     overrides:
       model_preference: null
+  - id: novel-dushijishi
+    name: 都市纪事
+    path: ../../projects/dushi-jishi
+    type: dushi
+    genre: dushi
+    status: active
+    created: 2026-07-27
+    overrides:
+      model_preference: null

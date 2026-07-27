@@ -1,0 +1,7 @@
+# User-provided copyrighted reference originals
+sources/references/inbox/*
+!sources/references/inbox/README.md
+
+# Regenerable runtime caches
+runtime/indexes/
+runtime/context/

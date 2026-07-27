@@ -1,0 +1,12 @@
+task:
+  id: TASK-009
+  key: readiness_review
+  title: 项目写作就绪审查
+  role: reviewer
+  status: backlog
+  created_by: project_installer
+  template: project-design
+  description: 项目写作就绪审查（安装初始化任务，由任务系统顺序调度）
+  blocked_by:
+    - TASK-008
+  next: []

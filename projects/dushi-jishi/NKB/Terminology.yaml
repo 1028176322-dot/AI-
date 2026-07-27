@@ -1,0 +1,5 @@
+# NKB 组件：Terminology（seed 候选导入）
+schema_version: 1.3.0
+project_id: novel-dushijishi
+records:
+# 以上为题材候选种子，须经 TASK-008 NKB 审查确认后晋升正史。

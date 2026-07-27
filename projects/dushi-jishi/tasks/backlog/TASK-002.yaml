@@ -1,0 +1,13 @@
+task:
+  id: TASK-002
+  key: story_promise
+  title: 故事承诺与核心卖点
+  role: planner
+  status: backlog
+  created_by: project_installer
+  template: project-design
+  description: 故事承诺与核心卖点（安装初始化任务，由任务系统顺序调度）
+  blocked_by:
+    - TASK-001
+  next:
+    - TASK-003

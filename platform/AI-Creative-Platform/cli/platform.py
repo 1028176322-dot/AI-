@@ -268,7 +268,9 @@ def check_nkb(project_root, data, req):
 
 
 def check_template(platform_root, data, req):
-    genre = (data.get("template") or {}).get("id")
+    # 兼容两种位置：顶层 template.id（旧约定）或 platform.template.id（installer 生成）
+    tpl = data.get("template") or (data.get("platform") or {}).get("template") or {}
+    genre = tpl.get("id")
     if not genre:
         return False, "project.yaml 缺少 template.id"
     p = os.path.join(platform_root, "templates", genre, "profile.yaml")

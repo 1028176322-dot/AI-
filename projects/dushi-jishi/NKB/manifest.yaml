@@ -1,0 +1,19 @@
+schema_version: 1.3.0
+project_id: novel-dushijishi
+generated_by: project_installer
+components:
+  - Canon
+  - Characters
+  - Locations
+  - Organizations
+  - Timeline
+  - WorldState
+  - Events
+  - Foreshadow
+  - Assets
+  - Terminology
+  - StoryState
+  - ReaderState
+  - Graph
+  - Derived
+note: 组件清单索引；具体事实各组件独立 yaml。

@@ -1,0 +1,13 @@
+task:
+  id: TASK-008
+  key: nkb_review
+  title: NKB 初始事实审查
+  role: knowledge_manager
+  status: backlog
+  created_by: project_installer
+  template: project-design
+  description: NKB 初始事实审查（安装初始化任务，由任务系统顺序调度）
+  blocked_by:
+    - TASK-007
+  next:
+    - TASK-009

@@ -1,0 +1,19 @@
+schema_version: 1.0.0
+generated_by: project_installer
+generated_at: 2026-07-27T21:22:35
+project_id: novel-dushijishi
+resolved:
+  core: 2.1.0
+  template: dushi@1.3.0
+  nkb_schema: 1.3.0
+  plugins:
+    planner: planner.default@1.2.0
+    context_engine: context.runtime@2.0.0
+    writer: workflow.novel@1.4.0
+    reviewer: review.four-pillars@4.3.0
+  capabilities:
+    - capability.narrative.default@2.0.0
+    - capability.character.default@1.5.0
+    - capability.dialogue.ancient@1.3.0
+    - capability.emotion.commercial@1.2.0
+    - capability.description.ancient@1.1.0

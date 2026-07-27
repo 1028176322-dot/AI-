@@ -1,0 +1,13 @@
+task:
+  id: TASK-007
+  key: outline_design
+  title: 主线与分卷规划
+  role: planner
+  status: backlog
+  created_by: project_installer
+  template: project-design
+  description: 主线与分卷规划（安装初始化任务，由任务系统顺序调度）
+  blocked_by:
+    - TASK-006
+  next:
+    - TASK-008
