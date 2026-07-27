@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727120333-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第154章_听雨初交锋.md
+  generated_at: 2026-07-27T12:03:36
+  status: active

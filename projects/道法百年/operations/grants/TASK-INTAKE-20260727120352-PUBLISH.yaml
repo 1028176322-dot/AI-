@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727120352-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第159章_新政升级令.md
+  generated_at: 2026-07-27T12:03:55
+  status: active

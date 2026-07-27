@@ -1,0 +1,31 @@
+task:
+  id: TASK-INTAKE-20260727115418-CHAPTER-REVIEW
+  version: 1
+  project: novel-dsf
+  type: chapter_review
+  title: TASK-INTAKE-20260727115418 后继 chapter_review
+  status: completed
+  priority: high
+  created: 2026-07-27T11:54:21
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260727115418
+  inputs:
+    required:
+      - chapters/drafts/第157章_三皇子暗手.md
+  expected_outputs:
+    - next-output
+  acceptance:
+    criteria:
+      - 后继任务就绪
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - tasks/**
+    forbidden:
+      - core/*
+  agent:
+    required_role: reviewer

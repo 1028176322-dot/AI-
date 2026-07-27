@@ -1,0 +1,31 @@
+task:
+  id: TASK-INTAKE-20260727120322-CHAPTER-REVIEW
+  version: 1
+  project: novel-dsf
+  type: chapter_review
+  title: TASK-INTAKE-20260727120322 后继 chapter_review
+  status: completed
+  priority: high
+  created: 2026-07-27T12:03:25
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260727120322
+  inputs:
+    required:
+      - chapters/drafts/第151章_朝争初显.md
+  expected_outputs:
+    - next-output
+  acceptance:
+    criteria:
+      - 后继任务就绪
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - tasks/**
+    forbidden:
+      - core/*
+  agent:
+    required_role: reviewer
