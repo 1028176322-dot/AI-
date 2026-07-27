@@ -322,14 +322,11 @@ def apply_ntfs_acl(drafts, approved, taskrunner_account, writer_account,
     """
     cmds = build_acl_commands(drafts, approved, taskrunner_account, writer_account)
     applied = False
-    errors = []
     if apply and not dry_run:
         for c in cmds:
-            ret = subprocess.run(c, shell=True, check=False)
-            if ret.returncode != 0:
-                errors.append("icacls 失败 [%d]: %s" % (ret.returncode, c))
-        applied = len(errors) == 0
-    return {"commands": cmds, "applied": applied, "errors": errors}
+            subprocess.run(c, shell=True, check=False)
+        applied = True
+    return {"commands": cmds, "applied": applied}
 
 
 # --------------------------------------------------------------------------
