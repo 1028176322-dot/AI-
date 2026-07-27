@@ -56,12 +56,16 @@ REQUIRED_DIRS = [
     "analysis/design",
     "analysis/outline",
     "analysis/writing-strategy",
+    "analysis/style",
     "summaries/chapters",
     "summaries/volumes",
     "summaries/arcs",
     "memory/project/reference-learning",
     "memory/project/review-feedback",
+    "memory/project/style-library",
     "learning/candidates",
+    "learning/candidates/style-profiles",
+    "learning/candidates/style-archetypes",
     "runtime/sessions",
     "runtime/task-packets",
     "runtime/context",
@@ -137,6 +141,11 @@ STORAGE = {
     "audit_records": "audit/",
     "summaries": "summaries/",
     "version_snapshots": "versions/snapshots/",
+    "style_profiles": "learning/candidates/style-profiles/",
+    "style_archetypes": "learning/candidates/style-archetypes/",
+    "style_analysis": "analysis/style/",
+    "style_library": "memory/project/style-library/",
+    "style_guidance": "runtime/learning/style-guidance.yaml",
 }
 
 

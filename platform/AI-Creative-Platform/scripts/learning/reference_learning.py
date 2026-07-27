@@ -164,11 +164,17 @@ def _metrics(text):
 
 
 def _candidate(rule_id, target, principle, metric, value, check, action,
-               source_id, source_hash, genre, confidence):
+               source_id, source_hash, genre, confidence,
+               scope_content_type="both", scope_scene_types=None):
+    """生成风格规则候选（§2.3 规范 scope）。"""
     return {
         "rule_id": rule_id,
         "target": target,
-        "scope": "genre_candidate",
+        "scope": {
+            "content_type": scope_content_type,        # narration | dialogue | both
+            "scene_types": scope_scene_types or [],     # 空=全场景
+            "character_ids": [],                        # 空=不适用
+        },
         "genre": genre,
         "principle": principle,
         "evidence": {
@@ -303,6 +309,17 @@ def batch(input_dir, genre, output_dir):
 def promote_project(summary_path, project_root, approved=False):
     if not approved:
         raise ValueError("项目级启用需要 --approved；参考规律不得无门禁改写正式规则")
+    # 可选门禁：若 authorize 模块可用则通过授权校验
+    try:
+        from logs.authorize import authorize, TaskContext
+        ctx = TaskContext(actor_role="architect",
+                          session_ready=True,
+                          subagent_policy="denied")
+        ok, reason = authorize("promote", ctx)
+        if not ok:
+            raise PermissionError("门禁拒绝 promote: %s" % reason)
+    except ImportError:
+        pass  # 非刚性阻断：authorize 模块不可用时跳过
     summary = _gov.load_yaml(summary_path) or {}
     if not summary.get("writing_candidates") and not summary.get("review_candidates"):
         raise ValueError("学习摘要没有候选规则")
