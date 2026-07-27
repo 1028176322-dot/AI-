@@ -1,0 +1,33 @@
+inspiration_brief:
+  schema: design-expansion@1.0.0
+  project_id: novel-dushijishi
+  title: 都市纪事
+  genre: dushi
+  raw_direction: 启动新都市小说《都市纪事》的设计阶段。锁定事实：书名《都市纪事》；题材=都市(dushi)；规划总章节数=1000；采用严格治理(strict)与单Agent执行。偏好：希望故事具备强读者黏性与清晰的长期爽点节奏；希望主角成长线与都市现实质感并重。核心创意方向（主角设定、世界观基调、核心卖点、核心读者体验、明确禁区）由作者在 design review 与 design approval 阶段补充并裁决；平台先按平衡模式(balanced)生成十二个设计域的初始候选，高影响决定进入作者决策包。
+  locked_facts:
+    - 启动新都市小说《都市纪事》的设计阶段
+    - 锁定事实：书名《都市纪事》
+    - 题材=都市(dushi)
+    - 规划总章节数=1000
+    - 采用严格治理(strict)与单Agent执行
+    - 核心创意方向（主角设定、世界观基调、核心卖点、核心读者体验、明确禁区）由作者在 design review 与 design approval 阶段补充并裁决
+    - 平台先按平衡模式(balanced)生成十二个设计域的初始候选，高影响决定进入作者决策包
+  preferences:
+    - 偏好：希望故事具备强读者黏性与清晰的长期爽点节奏
+    - 希望主角成长线与都市现实质感并重
+  forbidden: []
+  open_questions:
+    - 故事持续向读者兑现的核心体验是什么？
+    - 主角最不可妥协的价值观与最大恐惧是什么？
+    - 第一卷结束时必须发生哪项不可逆变化？
+    - 核心真相与终局方向分别是什么？
+  autonomy_mode: balanced
+  constraints:
+    total_chapters: 1000
+    outline_detail_policy: full_chapter_map_plus_full_detailed_chapter_plans
+  reference_profiles: []
+  source:
+    type: user_conversation
+    captured_at: 2026-07-27T22:21:11
+    approval_status: user_direction
+  status: structured
