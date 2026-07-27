@@ -1,0 +1,23 @@
+task_template:
+  type: final-regression
+  version: "1.0.0"
+  required_role: reviewer
+  description: 最终回归审查（只读）；双模式 baseline / post_apply
+  required_inputs: [chapter_draft, nkb_snapshot, protected_manifest, outline]
+  allowed_outputs: [regression_result]
+  permissions:
+    read: [chapters/drafts/**, NKB/**, analysis/style/**, outlines/**]
+    write: [analysis/style/**]
+    forbidden: [core/**, registry/**, templates/**, chapters/drafts/**, chapters/approved/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_pass: [chapter_publish]
+    on_fail_baseline: [chapter-fix]
+    on_fail_post_apply: [chapter-rollback-revision]

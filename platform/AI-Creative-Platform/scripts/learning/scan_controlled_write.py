@@ -89,7 +89,8 @@ def main(argv=None):
         for m in ("diagnosis.py", "style_extract.py", "rule_review.py",
                   "style_revise.py", "manifest_build.py", "quality_review.py",
                   "final_regression.py", "chapter_apply.py", "chapter_rollback.py",
-                  "chapter_publish.py")
+                  "chapter_publish.py", "style_rule_promote.py", "style_hitrate.py",
+                  "author_learning.py")
     ]
     allow = {broker, os.path.normpath(__file__)} | set(analysis_writers)
     v = scan_dirs(dirs, allow_files=allow)

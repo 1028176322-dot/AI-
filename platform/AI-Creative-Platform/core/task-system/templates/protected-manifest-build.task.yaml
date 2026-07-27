@@ -1,0 +1,22 @@
+task_template:
+  type: protected-manifest-build
+  version: "1.0.0"
+  required_role: writer
+  description: 生成受保护保真基线（protected-manifest）；唯一生产者，写 analysis/style/
+  required_inputs: [chapter_draft, nkb_snapshot, outline]
+  allowed_outputs: [protected_manifest, conflict_report]
+  permissions:
+    read: [NKB/**, outlines/**, chapters/drafts/**]
+    write: [analysis/style/**]
+    forbidden: [core/**, registry/**, templates/**, chapters/drafts/**, chapters/approved/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_complete: [ai-diagnose]
+    on_conflict: [style-rule-review]

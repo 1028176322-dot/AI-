@@ -1,0 +1,21 @@
+task_template:
+  type: style-rule-promote
+  version: "1.0.0"
+  required_role: operator
+  description: 风格规则晋升链激活（§2.10）；APPROVED → ACTIVE
+  required_inputs: [approval_credential]
+  allowed_outputs: [promotion_result]
+  permissions:
+    read: [analysis/style/**, memory/project/style-library/**, runtime/learning/**]
+    write: [analysis/style/**, memory/project/style-library/**]
+    forbidden: [core/**, registry/**, templates/**, chapters/**, NKB/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_active: []
