@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727103245-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第113章_国师问政.md
+  generated_at: 2026-07-27T10:32:48
+  status: active

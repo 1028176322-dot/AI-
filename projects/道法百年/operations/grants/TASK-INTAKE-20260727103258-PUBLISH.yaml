@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727103258-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第117章_密信归档.md
+  generated_at: 2026-07-27T10:33:01
+  status: active

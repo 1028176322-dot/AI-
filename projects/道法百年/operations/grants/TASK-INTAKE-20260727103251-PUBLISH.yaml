@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727103251-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第115章_班底会议.md
+  generated_at: 2026-07-27T10:32:54
+  status: active
