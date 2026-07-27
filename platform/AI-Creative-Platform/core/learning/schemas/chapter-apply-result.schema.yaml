@@ -1,0 +1,50 @@
+schema:
+  id: style.chapter-apply-result
+  version: "1.0.0"
+  description: 风格候选应用到草稿的结果（chapter-apply-revision，受控 CAS 写，纲要 §2.4/§2.9）。
+fields:
+  - name: chapter_id
+    type: string
+    required: true
+  - name: revision_cycle_id
+    type: string
+    required: true
+    description: 共享修订周期键
+  - name: producer_task_id
+    type: string
+    required: true
+    description: 执行应用的任务 id（chapter-apply-revision）
+  - name: task_id
+    type: string
+    required: true
+  - name: operation
+    type: enum
+    required: true
+    enum: [apply]
+  - name: pre_apply_artifact_ref
+    type: string
+    required: true
+    description: 应用前草稿快照引用（供回滚）
+  - name: pre_apply_sha256
+    type: string
+    required: true
+  - name: candidate_sha256
+    type: string
+    required: true
+  - name: applied_draft_sha256
+    type: string
+    required: true
+  - name: state_before
+    type: string
+    required: true
+  - name: state_after
+    type: enum
+    required: true
+    enum: [APPLIED]
+  - name: cas_verified
+    type: boolean
+    required: true
+    description: 写前比对 expected_sha256 == 当前草稿哈希
+  - name: created_at
+    type: timestamp
+    required: true

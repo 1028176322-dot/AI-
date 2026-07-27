@@ -1,0 +1,49 @@
+schema:
+  id: style.archetype
+  version: "1.0.0"
+  description: 多来源合并的通用风格原型；单一来源不得占主导（纲要 §2.2）。
+fields:
+  - name: archetype_id
+    type: string
+    required: true
+  - name: genre
+    type: string
+    required: true
+  - name: scene_types
+    type: list
+    required: true
+    description: 适用场景类型列表
+  - name: merged_from
+    type: list
+    required: true
+    description: 参与合并的 source_id 列表
+  - name: contribution_vectors
+    type: object
+    required: true
+    description: 各来源独立贡献向量 source_id -> vector，支持单源撤回重算
+  - name: consolidated_parameters
+    type: object
+    required: true
+    description: 合并后的风格参数（视角/距离/感官/比喻机制/留白/禁用模式等）
+  - name: rule_count
+    type: integer
+    required: true
+  - name: minimum_independent_sources
+    type: integer
+    required: true
+    description: 固定 3
+  - name: recommended_independent_sources
+    type: integer
+    required: true
+    description: 固定 5
+  - name: max_single_source_weight
+    type: number
+    required: true
+    description: 固定 0.4，单来源权重上限
+  - name: built_at
+    type: timestamp
+    required: true
+  - name: source_set_hash
+    type: string
+    required: true
+    description: 来源集合哈希，用于审批与撤回级联

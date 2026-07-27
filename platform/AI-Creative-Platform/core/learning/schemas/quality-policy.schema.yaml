@@ -1,0 +1,64 @@
+schema:
+  id: style.quality-policy
+  version: "1.0.0"
+  description: 风格质量门禁版本化阈值（style-quality-review 据此判定，纲要 §6）。
+fields:
+  - name: policy_id
+    type: string
+    required: true
+  - name: quality_policy_version
+    type: string
+    required: true
+    description: 版本号，报告须匹配此版本
+  - name: thresholds
+    type: list
+    required: true
+    description: 元素见下
+  - name: effective_from
+    type: timestamp
+    required: true
+threshold_item:
+  - name: scene_type
+    type: string
+    required: true
+    enum: [battle, dialogue, exploration, daily, emotion, exposition]
+  - name: metric
+    type: string
+    required: true
+    enum: [rhythm_distance, pov_consistency, redundancy, scene_style_match]
+  - name: comparator
+    type: enum
+    required: true
+    enum: [lt, lte, gt, gte, range]
+    description: 不同指标方向不同（rhythm_distance 越低越好 / pov_consistency 越高越好）
+  - name: unit
+    type: string
+    required: true
+  - name: warning_threshold
+    type: number
+    required: true
+  - name: failure_threshold
+    type: number
+    required: true
+  - name: minimum_sample_size
+    type: integer
+    required: true
+    description: 样本不足按 missing_data_policy 处理，避免短场景不可信评分
+  - name: aggregation
+    type: enum
+    required: true
+    enum: [mean, max, percentile]
+  - name: missing_data_policy
+    type: enum
+    required: true
+    enum: [fail, warn, skip]
+  - name: calibration_dataset_ref
+    type: string
+    required: false
+  - name: hard_gate
+    type: boolean
+    required: true
+    description: POV 越界/事实变化等治理硬门禁必须为 true 且 human_override_allowed=false
+  - name: human_override_allowed
+    type: boolean
+    required: true

@@ -1,0 +1,41 @@
+schema:
+  id: style.revision-result
+  version: "1.0.0"
+  description: 章节正文候选修订结果（style-revise，只写 analysis/style，纲要 §2.4/§2.7）。
+fields:
+  - name: chapter_id
+    type: string
+    required: true
+  - name: revision_cycle_id
+    type: string
+    required: true
+    description: 共享修订周期键
+  - name: producer_task_id
+    type: string
+    required: true
+    description: 生成此候选的任务 id（style-revise）
+  - name: revision_candidate_ref
+    type: string
+    required: true
+    description: 候选稿路径 analysis/style/<chapter_id>/<revision_cycle_id>/revision-candidate.md
+  - name: source_draft_sha256
+    type: string
+    required: true
+    description: 原草稿哈希（候选绑定，草稿变化候选失效）
+  - name: candidate_sha256
+    type: string
+    required: true
+  - name: changes
+    type: list
+    required: true
+    description: 元素 {span_id, before, after, reason}
+  - name: applied_style_rules
+    type: list
+    required: false
+    description: 本次修订采用的风格规则 id
+  - name: protected_manifest_sha256
+    type: string
+    required: true
+  - name: created_at
+    type: timestamp
+    required: true

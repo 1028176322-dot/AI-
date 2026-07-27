@@ -1,0 +1,78 @@
+schema:
+  id: style.profile
+  version: "1.0.0"
+  description: 单部参考小说的风格统计画像；绝不包含原文（纲要 §2.2）。
+fields:
+  - name: source_id
+    type: string
+    required: true
+    description: 来源唯一标识
+  - name: source_title
+    type: string
+    required: true
+  - name: source_author
+    type: string
+    required: true
+  - name: source_hash
+    type: string
+    required: true
+    description: 原文 SHA-256，仅作去重与授权校验，不存原文
+  - name: genre
+    type: string
+    required: true
+  - name: chapter_count
+    type: integer
+    required: true
+  - name: word_count
+    type: integer
+    required: true
+  - name: chapter_length
+    type: object
+    required: true
+    description: 章节字数分布 median/p25/p75
+  - name: paragraph_length
+    type: object
+    required: true
+    description: 段落长度 median/p90
+  - name: sentence_length
+    type: object
+    required: true
+    description: 句长 mean/p90
+  - name: dialogue_ratio
+    type: number
+    required: true
+    description: 引号内字符占比
+  - name: hook
+    type: object
+    required: true
+    description: opening_density 开篇钩子密度 / chapter_end_hook_rate 章末钩子率
+  - name: emotion_curve
+    type: object
+    required: true
+    description: points[8] 情绪密度点 / variance 方差
+  - name: info_density
+    type: number
+    required: true
+    description: INFO 词命中密度
+  - name: raw_text_stored
+    type: boolean
+    required: true
+    description: 必须为 false（版权护栏）
+  - name: copyright_policy
+    type: string
+    required: true
+    description: 固定 statistics_and_principles_only
+  - name: source_digest
+    type: string
+    required: true
+    description: 不可还原指纹（HMAC 派生，纲要 §2.2）
+  - name: minhash_signature
+    type: string
+    required: true
+    description: MinHash 签名
+  - name: extracted_at
+    type: timestamp
+    required: true
+  - name: validator_version
+    type: string
+    required: true

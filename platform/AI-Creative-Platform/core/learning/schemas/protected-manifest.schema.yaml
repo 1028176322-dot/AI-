@@ -1,0 +1,57 @@
+schema:
+  id: style.protected-manifest
+  version: "1.0.0"
+  description: 修订不可变保真基线；由 protected-manifest-build 任务唯一生成（纲要 §2.5）。
+fields:
+  - name: chapter_id
+    type: string
+    required: true
+  - name: revision_cycle_id
+    type: string
+    required: true
+    description: 共享修订周期键；目录 analysis/style/<chapter_id>/<revision_cycle_id>/
+  - name: producer_task_id
+    type: string
+    required: true
+    description: 生成此 manifest 的任务 id（protected-manifest-build）
+  - name: source_draft_sha256
+    type: string
+    required: true
+    description: 被保护草稿哈希
+  - name: nkb_revision
+    type: string
+    required: true
+  - name: nkb_snapshot_sha256
+    type: string
+    required: true
+  - name: outline_sha256
+    type: string
+    required: true
+  - name: builder_version
+    type: string
+    required: true
+  - name: model_id
+    type: string
+    required: false
+  - name: prompt_hash
+    type: string
+    required: false
+  - name: created_at
+    type: timestamp
+    required: true
+  - name: hard_preserve
+    type: object
+    required: true
+    description: 人名/地名/年代/数字/关键事实/关键伏笔/道具归属与状态，每条带 span_id + text
+  - name: functional_preserve
+    type: object
+    required: true
+    description: 场景钩子/必要观察/叙事功能/本章新增事实与伏笔，每条带 span_id + text
+  - name: soft_preserve
+    type: object
+    required: true
+    description: 可替换感官锚点与表现方式，每条带 span_id + text
+  - name: conflict_policy
+    type: object
+    required: true
+    description: NKB 与草稿冲突以 NKB 为准；章纲与 NKB 冲突进入 MANIFEST_CONFLICT

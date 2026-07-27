@@ -1,0 +1,71 @@
+schema:
+  id: style.card
+  version: "1.0.0"
+  description: 五层风格卡 L0-L4；只保存项目/风格参数，治理硬规则经引用不复制（纲要 §2.1）。
+fields:
+  - name: card_id
+    type: string
+    required: true
+  - name: layer
+    type: enum
+    required: true
+    enum: [L0, L1, L2, L3, L4]
+    description: L0 项目总风格 / L1 题材 / L2 场景 / L3 角色语言 / L4 作者个人
+  - name: scope
+    type: object
+    required: true
+    description: content_type(narration|dialogue) / scene_types[] / character_ids[] / span_selector
+  - name: project_constraints
+    type: object
+    required: false
+    description: 用户/项目明确批准的约束（仅 L0/L1 使用）
+  - name: style_preferences
+    type: list
+    required: false
+    description: 风格偏好（参考学习产生，非硬约束）
+  - name: style_targets
+    type: list
+    required: false
+    description: 统计目标区间
+  - name: governance_policy_ref
+    type: string
+    required: true
+    description: 引用平台治理策略（不复制治理规则）
+  - name: governance_policy_sha256
+    type: string
+    required: true
+  - name: hard_constraints
+    type: list
+    required: false
+    description: 仅平台代码/L0 项目硬边界可写，参考学习不得生成
+  - name: scoped_constraints
+    type: list
+    required: false
+    description: 已弃用；作用域改由每条规则的 scope 字段表达
+  - name: soft_preferences
+    type: list
+    required: false
+    description: 可调整倾向，参与命中率控制（纲要 §2.6）
+  - name: targets
+    type: list
+    required: false
+    description: 目标区间，非强制值
+  - name: conflict_policy
+    type: object
+    required: true
+    description: 冲突时确定性选择 + suppressed_rules(未采用规则及原因)
+  - name: effective_priority
+    type: string
+    required: true
+    description: 运行时优先级（NKB/保护清单 > L0 > 任务硬约束 > L3 > L2 > L4 > L1），按字段与作用域细分
+  - name: applicable_scenes
+    type: list
+    required: false
+  - name: character_ids
+    type: list
+    required: false
+    description: L3 角色卡必填
+  - name: author_id
+    type: string
+    required: false
+    description: L4 作者卡必填

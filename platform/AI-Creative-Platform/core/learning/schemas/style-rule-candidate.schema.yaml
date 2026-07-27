@@ -1,0 +1,99 @@
+schema:
+  id: style.rule-candidate
+  version: "1.0.0"
+  description: 从参考小说提取的风格规则候选；参考学习只产 style_preferences/style_targets/candidate_project_constraints，绝不自动成为治理硬规则（纲要 §2.3/§2.10）。
+fields:
+  - name: candidate_id
+    type: string
+    required: true
+  - name: candidate_sha256
+    type: string
+    required: true
+  - name: source_set_hash
+    type: string
+    required: true
+  - name: rule_id
+    type: string
+    required: true
+  - name: scope
+    type: object
+    required: true
+    description: content_type / scene_types[] / character_ids[] / span_selector
+  - name: rule_type
+    type: enum
+    required: true
+    enum: [style_preference, style_target, candidate_project_constraint]
+    description: 提取器仅允许这三类，禁止生成 hard_constraints
+  - name: value
+    type: object
+    required: true
+  - name: confidence
+    type: number
+    required: true
+    description: 可计算来源（跨章节/跨来源/重复一致/统计/人工），禁止采用模型自报
+  - name: evidence_count
+    type: integer
+    required: true
+  - name: eligible_scenes
+    type: list
+    required: false
+  - name: source_count
+    type: integer
+    required: true
+    description: 独立来源数，>= minimum_independent_sources
+  - name: max_single_source_weight
+    type: number
+    required: true
+    description: 固定 0.4
+  - name: minimum_independent_sources
+    type: integer
+    required: true
+    description: 固定 3
+  - name: recommended_independent_sources
+    type: integer
+    required: true
+    description: 固定 5
+  - name: extractor_version
+    type: string
+    required: true
+  - name: model_id
+    type: string
+    required: false
+  - name: prompt_hash
+    type: string
+    required: true
+  - name: schema_version
+    type: string
+    required: true
+  - name: review_status
+    type: enum
+    required: true
+    enum: [EXTRACTED, REVIEW_PENDING, APPROVED, REJECTED, PROMOTION_ELIGIBLE, PROMOTED, ACTIVE, SUSPENDED, REVOKED]
+  - name: approved_rule_ids
+    type: list
+    required: false
+  - name: rejected_rule_ids
+    type: list
+    required: false
+  - name: reviewer_id
+    type: string
+    required: false
+  - name: reviewer_role
+    type: string
+    required: false
+  - name: review_task_id
+    type: string
+    required: false
+  - name: session_id
+    type: string
+    required: false
+  - name: approved_at
+    type: timestamp
+    required: false
+  - name: example_rules
+    type: list
+    required: false
+    description: 元素 {text, example_origin}；example_origin 必须标注，禁用参考原句
+  - name: created_at
+    type: timestamp
+    required: true

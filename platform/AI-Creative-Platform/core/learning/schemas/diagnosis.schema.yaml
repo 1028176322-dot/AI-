@@ -1,0 +1,44 @@
+schema:
+  id: style.diagnosis
+  version: "1.0.0"
+  description: 风格风险诊断输出（ai-diagnose，只读不改正文，纲要 §2.7）。
+fields:
+  - name: chapter_id
+    type: string
+    required: true
+  - name: revision_cycle_id
+    type: string
+    required: true
+    description: 共享修订周期键
+  - name: producer_task_id
+    type: string
+    required: true
+    description: 生成此诊断的任务 id（ai-diagnose）
+  - name: task_id
+    type: string
+    required: true
+  - name: diagnosed_at
+    type: timestamp
+    required: true
+  - name: has_issues
+    type: boolean
+    required: true
+  - name: issue_list
+    type: list
+    required: true
+    description: 元素 {category, span_id, description, severity}
+  - name: only_warnings
+    type: boolean
+    required: true
+    description: 仅有警告、无明确可修问题
+  - name: recommended_action
+    type: enum
+    required: true
+    enum: [revise, skip, human_review]
+  - name: source_draft_sha256
+    type: string
+    required: true
+    description: 诊断所基于的草稿哈希（与 manifest 绑定一致）
+  - name: protected_manifest_sha256
+    type: string
+    required: true

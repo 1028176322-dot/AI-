@@ -1,0 +1,52 @@
+schema:
+  id: style.task-event
+  version: "1.0.0"
+  description: 不可变任务事件日志；审批真实性与写操作审计依赖此（纲要 §2.10/§4）。
+fields:
+  - name: event_id
+    type: string
+    required: true
+  - name: seq
+    type: integer
+    required: true
+    description: 单调序号，全局递增
+  - name: previous_event_hash
+    type: string
+    required: true
+    description: 前一事件哈希，形成哈希链
+  - name: event_type
+    type: string
+    required: true
+    description: create/claim/run/complete/apply/rollback/publish/authorize_fail/blocked
+  - name: actor_id
+    type: string
+    required: true
+    description: 经认证的执行者身份（不可自报）
+  - name: task_id
+    type: string
+    required: true
+  - name: operation
+    type: string
+    required: false
+  - name: resource_refs
+    type: list
+    required: false
+    description: 受影响资源路径
+  - name: capability_id
+    type: string
+    required: false
+  - name: result
+    type: string
+    required: true
+    enum: [ok, denied, conflict, blocked]
+  - name: timestamp
+    type: timestamp
+    required: true
+  - name: signature
+    type: string
+    required: true
+    description: HMAC/签名，密钥仅可信日志 Broker 持有
+  - name: chain_head_anchor_ref
+    type: string
+    required: false
+    description: 链头哈希外部锚定引用（定期签名锚定项目外）
