@@ -1,0 +1,51 @@
+task:
+  id: TASK-INTAKE-20260727094735
+  type: chapter_fix
+  project: novel-dsf
+  title: 修复第110章《听雨暗桩》
+  version: 1
+  priority: high
+  chapter_ref: 第一卷_道生/第110章.md
+  agent:
+    required_role: writer
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - chapters/drafts/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  inputs:
+    required:
+      - review_report
+      - chapter_draft
+  expected_outputs:
+    - chapter_draft
+    - self_check
+    - handoff
+  acceptance:
+    criteria:
+      - 按 chapter-fix 模板契约完成
+  created: 2026-07-27T09:47:35
+  created_by: agent-unknown
+  urgency: normal
+  status: completed
+  owner: agent-unknown
+  claimed_at: 2026-07-27T09:47:35
+  lease_expire: 2026-07-27T10:47:35
+  workspace: tasks\running\TASK-INTAKE-20260727094735\outputs
+  artifact: chapters/drafts/第110章_听雨暗桩.md
+  outputs: null
+  submission:
+    checks: null
+    at: 2026-07-27T09:47:37
+  review:
+    decision: pass
+    at: 2026-07-27T09:47:37
