@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727122235-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第169章_听雨网收.md
+  generated_at: 2026-07-27T12:22:37
+  status: active

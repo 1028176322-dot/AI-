@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727122215-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第163章_化罡将启.md
+  generated_at: 2026-07-27T12:22:18
+  status: active

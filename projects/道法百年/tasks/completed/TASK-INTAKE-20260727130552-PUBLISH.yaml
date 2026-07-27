@@ -1,0 +1,36 @@
+task:
+  id: TASK-INTAKE-20260727130552-PUBLISH
+  version: 1
+  project: novel-dsf
+  type: chapter_publish
+  title: 发布 TASK-INTAKE-20260727130552 到正式正文
+  status: completed
+  priority: high
+  created: 2026-07-27T13:05:55
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260727130552
+  inputs:
+    required:
+      - chapters/drafts/第166章_以技破武三.md
+  publish_target: 第二卷_京华/第166章_以技破武三.md
+  expected_outputs:
+    - published-chapter
+  acceptance:
+    criteria:
+      - Publish Service 原子发布成功
+      - Manifest 更新
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - 第二卷_京华/第166章_以技破武三.md
+    forbidden: []
+  agent:
+    required_role: publish_service
+  owner: publish_service
+  claimed_at: 2026-07-27T13:14:16
+  lease_expire: 2026-07-27T14:14:16
+  workspace: tasks\running\TASK-INTAKE-20260727130552-PUBLISH\outputs

@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727122209-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第161章_听雨再动.md
+  generated_at: 2026-07-27T12:22:11
+  status: active

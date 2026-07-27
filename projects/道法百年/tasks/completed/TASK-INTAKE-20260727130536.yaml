@@ -1,0 +1,51 @@
+task:
+  id: TASK-INTAKE-20260727130536
+  type: chapter_fix
+  project: novel-dsf
+  title: 修复第162章《内卫府介入》
+  version: 1
+  priority: high
+  chapter_ref: 第一卷_道生/第162章.md
+  agent:
+    required_role: writer
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - chapters/drafts/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  inputs:
+    required:
+      - review_report
+      - chapter_draft
+  expected_outputs:
+    - chapter_draft
+    - self_check
+    - handoff
+  acceptance:
+    criteria:
+      - 按 chapter-fix 模板契约完成
+  created: 2026-07-27T13:05:36
+  created_by: agent-unknown
+  urgency: normal
+  status: completed
+  owner: agent-unknown
+  claimed_at: 2026-07-27T13:05:37
+  lease_expire: 2026-07-27T14:05:37
+  workspace: tasks\running\TASK-INTAKE-20260727130536\outputs
+  artifact: chapters/drafts/第162章_内卫府介入.md
+  outputs: null
+  submission:
+    checks: null
+    at: 2026-07-27T13:05:39
+  review:
+    decision: pass
+    at: 2026-07-27T13:05:39

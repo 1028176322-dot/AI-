@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727122218-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第164章_情报网织.md
+  generated_at: 2026-07-27T12:22:21
+  status: active
