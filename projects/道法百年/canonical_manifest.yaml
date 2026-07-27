@@ -3233,123 +3233,163 @@ canonical_manifest:
     第二卷_京华/第171章_三皇子总布局.md:
       path: 第二卷_京华/第171章_三皇子总布局.md
       status: published
-      revision: 1
-      hash: f97fdda1650bba6a565d9a889abcafc17d744aabfdca9328b0f6ca5915e76e9e
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:29
+      revision: 2
+      hash: 47dd8621a6cd6df3eab1246a4097f56a281a7fea0b2db8ee608ae602f3e9b202
+      source: chapters/drafts/第171章_三皇子总布局.md
+      published_at: 2026-07-27T15:26:57
       versions:
         - revision: 1
           hash: f97fdda1650bba6a565d9a889abcafc17d744aabfdca9328b0f6ca5915e76e9e
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:29
+        - revision: 2
+          hash: 47dd8621a6cd6df3eab1246a4097f56a281a7fea0b2db8ee608ae602f3e9b202
+          source: chapters/drafts/第171章_三皇子总布局.md
+          published_at: 2026-07-27T15:26:57
     第二卷_京华/第172章_四皇子萧俊危.md:
       path: 第二卷_京华/第172章_四皇子萧俊危.md
       status: published
-      revision: 1
-      hash: 7a31bb3380b5c61b3a377b3cc74df85216c2f6c202f21929b7e35e8c30d40776
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:29
+      revision: 2
+      hash: fcfdaef82d7b8ac49b5b8b2fd72b7ac6881e7f4df0aed188fd1b646766022d0c
+      source: chapters/drafts/第172章_四皇子萧俊危.md
+      published_at: 2026-07-27T15:26:57
       versions:
         - revision: 1
           hash: 7a31bb3380b5c61b3a377b3cc74df85216c2f6c202f21929b7e35e8c30d40776
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:29
+        - revision: 2
+          hash: fcfdaef82d7b8ac49b5b8b2fd72b7ac6881e7f4df0aed188fd1b646766022d0c
+          source: chapters/drafts/第172章_四皇子萧俊危.md
+          published_at: 2026-07-27T15:26:57
     第二卷_京华/第173章_密信呈国师.md:
       path: 第二卷_京华/第173章_密信呈国师.md
       status: published
-      revision: 1
-      hash: 27a60106564ea7c96b3b932a147be830f222221fc3bd0b9f0a220f622678744f
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:29
+      revision: 2
+      hash: bc1e5176fe01c8bf999f2cf32634855bf1e41ac6fdee38f700d0d6726aa443ac
+      source: chapters/drafts/第173章_密信呈国师.md
+      published_at: 2026-07-27T15:26:58
       versions:
         - revision: 1
           hash: 27a60106564ea7c96b3b932a147be830f222221fc3bd0b9f0a220f622678744f
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:29
+        - revision: 2
+          hash: bc1e5176fe01c8bf999f2cf32634855bf1e41ac6fdee38f700d0d6726aa443ac
+          source: chapters/drafts/第173章_密信呈国师.md
+          published_at: 2026-07-27T15:26:58
     第二卷_京华/第174章_听雨总坛破.md:
       path: 第二卷_京华/第174章_听雨总坛破.md
       status: published
-      revision: 1
-      hash: 8210472e42411443b300ccf04b6fe2a975d92d526be704480b7db395e946bfaf
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:29
+      revision: 2
+      hash: b6f8ba0a3405f551344e85dc124e399c38cfebeafb5ea198996e33d11311b0be
+      source: chapters/drafts/第174章_听雨总坛破.md
+      published_at: 2026-07-27T15:26:58
       versions:
         - revision: 1
           hash: 8210472e42411443b300ccf04b6fe2a975d92d526be704480b7db395e946bfaf
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:29
+        - revision: 2
+          hash: b6f8ba0a3405f551344e85dc124e399c38cfebeafb5ea198996e33d11311b0be
+          source: chapters/drafts/第174章_听雨总坛破.md
+          published_at: 2026-07-27T15:26:58
     第二卷_京华/第175章_以技破武四.md:
       path: 第二卷_京华/第175章_以技破武四.md
       status: published
-      revision: 1
-      hash: 893c6ec7a2d12f3ee887a066b2f78ad2bf365d0c0a53c82e747e554936d55163
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:29
+      revision: 2
+      hash: db435c5228288585231304a77b25aa6ac65fe912999c5ebe41c7d2212699b9a0
+      source: chapters/drafts/第175章_以技破武四.md
+      published_at: 2026-07-27T15:26:59
       versions:
         - revision: 1
           hash: 893c6ec7a2d12f3ee887a066b2f78ad2bf365d0c0a53c82e747e554936d55163
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:29
+        - revision: 2
+          hash: db435c5228288585231304a77b25aa6ac65fe912999c5ebe41c7d2212699b9a0
+          source: chapters/drafts/第175章_以技破武四.md
+          published_at: 2026-07-27T15:26:59
     第二卷_京华/第176章_朝争升级.md:
       path: 第二卷_京华/第176章_朝争升级.md
       status: published
-      revision: 1
-      hash: 009c0c3b4da960cce37b85988a456f1b17a9780b18789a93c1f18fb48f296822
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:30
+      revision: 2
+      hash: 90e2e5fef0e2152d01e3377581cc0c0073e8a14a51b4f0e6fee3ccf5f3cc8073
+      source: chapters/drafts/第176章_朝争升级.md
+      published_at: 2026-07-27T15:26:59
       versions:
         - revision: 1
           hash: 009c0c3b4da960cce37b85988a456f1b17a9780b18789a93c1f18fb48f296822
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:30
+        - revision: 2
+          hash: 90e2e5fef0e2152d01e3377581cc0c0073e8a14a51b4f0e6fee3ccf5f3cc8073
+          source: chapters/drafts/第176章_朝争升级.md
+          published_at: 2026-07-27T15:26:59
     第二卷_京华/第177章_天上人间定鼎.md:
       path: 第二卷_京华/第177章_天上人间定鼎.md
       status: published
-      revision: 1
-      hash: e2984e45611ea4b47268c47620552f4e311543dd12acba4fceb2d29f04752215
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:30
+      revision: 2
+      hash: a7ce09233b13e5b572e5d61e496e9c26cde8d57a753b7e0a35072fedd0e61e02
+      source: chapters/drafts/第177章_天上人间定鼎.md
+      published_at: 2026-07-27T15:27:00
       versions:
         - revision: 1
           hash: e2984e45611ea4b47268c47620552f4e311543dd12acba4fceb2d29f04752215
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:30
+        - revision: 2
+          hash: a7ce09233b13e5b572e5d61e496e9c26cde8d57a753b7e0a35072fedd0e61e02
+          source: chapters/drafts/第177章_天上人间定鼎.md
+          published_at: 2026-07-27T15:27:00
     第二卷_京华/第178章_武籍反制终.md:
       path: 第二卷_京华/第178章_武籍反制终.md
       status: published
-      revision: 1
-      hash: 962f74f5835ca5199123b0a60802bc7db0fceec5936cd18699f705a4b1c97bbe
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:30
+      revision: 2
+      hash: 17e38a9751fa9056176a20410c171aa56192c8be33d556e1defc8e0653f2b9d8
+      source: chapters/drafts/第178章_武籍反制终.md
+      published_at: 2026-07-27T15:27:00
       versions:
         - revision: 1
           hash: 962f74f5835ca5199123b0a60802bc7db0fceec5936cd18699f705a4b1c97bbe
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:30
+        - revision: 2
+          hash: 17e38a9751fa9056176a20410c171aa56192c8be33d556e1defc8e0653f2b9d8
+          source: chapters/drafts/第178章_武籍反制终.md
+          published_at: 2026-07-27T15:27:00
     第二卷_京华/第179章_听雨初交锋终.md:
       path: 第二卷_京华/第179章_听雨初交锋终.md
       status: published
-      revision: 1
-      hash: bdbec7ef85387308e8854641b2e64eec59a125e50583ec3db0345d4080f0e473
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:30
+      revision: 2
+      hash: 34d87cfd8fec6fd115f8673a85f15f502769f03d24255a0c1d8cf2a2d24c7e60
+      source: chapters/drafts/第179章_听雨初交锋终.md
+      published_at: 2026-07-27T15:27:01
       versions:
         - revision: 1
           hash: bdbec7ef85387308e8854641b2e64eec59a125e50583ec3db0345d4080f0e473
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:30
+        - revision: 2
+          hash: 34d87cfd8fec6fd115f8673a85f15f502769f03d24255a0c1d8cf2a2d24c7e60
+          source: chapters/drafts/第179章_听雨初交锋终.md
+          published_at: 2026-07-27T15:27:01
     第二卷_京华/第180章_听雨收束.md:
       path: 第二卷_京华/第180章_听雨收束.md
       status: published
-      revision: 1
+      revision: 2
       hash: 85b59ffc6bc137d93f3a4e4cb2e456cad82497fb5bb6655bd4d21f4d1a788eeb
-      source: legacy-pre-manifest
-      published_at: 2026-07-25T17:19:30
+      source: chapters/drafts/第180章_听雨收束.md
+      published_at: 2026-07-27T15:27:01
       versions:
         - revision: 1
           hash: 85b59ffc6bc137d93f3a4e4cb2e456cad82497fb5bb6655bd4d21f4d1a788eeb
           source: legacy-pre-manifest
           published_at: 2026-07-25T17:19:30
+        - revision: 2
+          hash: 85b59ffc6bc137d93f3a4e4cb2e456cad82497fb5bb6655bd4d21f4d1a788eeb
+          source: chapters/drafts/第180章_听雨收束.md
+          published_at: 2026-07-27T15:27:01
     第二卷_京华/第181章_朝争总爆.md:
       path: 第二卷_京华/第181章_朝争总爆.md
       status: published
@@ -7190,7 +7230,6 @@ canonical_manifest:
           hash: 4a96573a47e8105d62bdc32329dc089389ef8116d2ea8e40739dbf5164749722
           source: review-artifact
           published_at: 2026-07-27T13:00:00
-
     第二卷_京华/审读_161_v1评分卡.md:
       path: 第二卷_京华/审读_161_v1评分卡.md
       status: published
@@ -7203,7 +7242,6 @@ canonical_manifest:
           hash: c832426a80dd2326a07ee857e208fb70ab76f3e6b11aafd96e5116549ba13cb5
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_161_v2评分卡.md:
       path: 第二卷_京华/审读_161_v2评分卡.md
       status: published
@@ -7216,7 +7254,6 @@ canonical_manifest:
           hash: b25099e895f89a4e54f9a461f24f0b04d3d384b3f88fcc319a847808e4e39971
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_162_v1评分卡.md:
       path: 第二卷_京华/审读_162_v1评分卡.md
       status: published
@@ -7229,7 +7266,6 @@ canonical_manifest:
           hash: 46f861901bc9c7dd92ce0684cbfc916e01bbb48f88726e9ce5fb56fc70bf8e3c
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_162_v2评分卡.md:
       path: 第二卷_京华/审读_162_v2评分卡.md
       status: published
@@ -7242,7 +7278,6 @@ canonical_manifest:
           hash: a89a21d7f3ec5b923cb73b7868411a6f555437ab8654e405b84e300ccaa38cf3
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_163_v1评分卡.md:
       path: 第二卷_京华/审读_163_v1评分卡.md
       status: published
@@ -7255,7 +7290,6 @@ canonical_manifest:
           hash: 69b41d08d73ac09ea56ec20cc03397af75ac86a09fa7148eeb0488239f3e6f28
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_163_v2评分卡.md:
       path: 第二卷_京华/审读_163_v2评分卡.md
       status: published
@@ -7268,7 +7302,6 @@ canonical_manifest:
           hash: 5a77a0d1c8e4bad28f44918e39d7e86480c1fce08a4d7ae8348a7bef41d7bbb1
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_164_v1评分卡.md:
       path: 第二卷_京华/审读_164_v1评分卡.md
       status: published
@@ -7281,7 +7314,6 @@ canonical_manifest:
           hash: 2dbf4fa5f4beef98389414f01b8ca26458d0942fac2b9a236919140d4f5532e3
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_164_v2评分卡.md:
       path: 第二卷_京华/审读_164_v2评分卡.md
       status: published
@@ -7294,7 +7326,6 @@ canonical_manifest:
           hash: e4aea94634d54256715c0922d45f6660e59190c9a56df33dd5fac944889540d7
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_165_v1评分卡.md:
       path: 第二卷_京华/审读_165_v1评分卡.md
       status: published
@@ -7307,7 +7338,6 @@ canonical_manifest:
           hash: b1fe2b9e3e376818c650311dfeaea64bedc1012aaa7f29ffe43e617b8433b96c
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_165_v2评分卡.md:
       path: 第二卷_京华/审读_165_v2评分卡.md
       status: published
@@ -7320,7 +7350,6 @@ canonical_manifest:
           hash: 248d44e8dc41ec850be6a31064c405198e91d4dc18a96c0f3de7750010b69953
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_166_v1评分卡.md:
       path: 第二卷_京华/审读_166_v1评分卡.md
       status: published
@@ -7333,7 +7362,6 @@ canonical_manifest:
           hash: 07b1131e919b990fffea6a4b5b604a10a00ecf4c9bab9e2189aafa5d13a1354f
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_166_v2评分卡.md:
       path: 第二卷_京华/审读_166_v2评分卡.md
       status: published
@@ -7346,7 +7374,6 @@ canonical_manifest:
           hash: ed5409d3c72281e829fb47241d33cb8d0e59ab9fa55d020bd2cc95e63b10476a
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_167_v1评分卡.md:
       path: 第二卷_京华/审读_167_v1评分卡.md
       status: published
@@ -7359,7 +7386,6 @@ canonical_manifest:
           hash: 41abdf9a7f03e0b66067c78f5daa4a76a037b40d9b10742124b81374ac689393
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_167_v2评分卡.md:
       path: 第二卷_京华/审读_167_v2评分卡.md
       status: published
@@ -7372,7 +7398,6 @@ canonical_manifest:
           hash: c534fa97ab74a4e5f2d89bb1a11b03b8a4631f3f23ab1157c33d5b7d39397e97
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_168_v1评分卡.md:
       path: 第二卷_京华/审读_168_v1评分卡.md
       status: published
@@ -7385,7 +7410,6 @@ canonical_manifest:
           hash: 9abb28e5133c3223bc19bb602cc0c520fbd8941566f645f27374d90d3d3e88b1
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_168_v2评分卡.md:
       path: 第二卷_京华/审读_168_v2评分卡.md
       status: published
@@ -7398,7 +7422,6 @@ canonical_manifest:
           hash: 897dd421f5027ecee27cf11301a15e831094cf8c3fa45346c5b4d6ad755350ee
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_169_v1评分卡.md:
       path: 第二卷_京华/审读_169_v1评分卡.md
       status: published
@@ -7411,7 +7434,6 @@ canonical_manifest:
           hash: 76c3fcd081660c7b2d08aa122200bf9fdbd80824b7c8fa346d22c4fb7ca4583d
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_169_v2评分卡.md:
       path: 第二卷_京华/审读_169_v2评分卡.md
       status: published
@@ -7424,7 +7446,6 @@ canonical_manifest:
           hash: ecc28a3b11ddc157116d5e490831904df70a034f76cfb650cdfcc1f5702f1860
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_170_v1评分卡.md:
       path: 第二卷_京华/审读_170_v1评分卡.md
       status: published
@@ -7437,7 +7458,6 @@ canonical_manifest:
           hash: 14bcc5b4349b7d1e3d7a08c94614466cc8306a584da0a8dd01534a96b3ab91d0
           source: review-artifact
           published_at: 2026-07-27T13:10:00
-
     第二卷_京华/审读_170_v2评分卡.md:
       path: 第二卷_京华/审读_170_v2评分卡.md
       status: published
@@ -7450,4 +7470,264 @@ canonical_manifest:
           hash: 2965ea028dfdaca7737e7383762159cfe5993e99d44d7ace04420222bb69f68d
           source: review-artifact
           published_at: 2026-07-27T13:10:00
+
+    第二卷_京华/审读_171_v1评分卡.md:
+      path: 第二卷_京华/审读_171_v1评分卡.md
+      status: published
+      revision: 1
+      hash: 6a6662287c2ce798214ebf3b90485f6183867cac378529f80ec902f9dedeecb7
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: 6a6662287c2ce798214ebf3b90485f6183867cac378529f80ec902f9dedeecb7
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_171_v2评分卡.md:
+      path: 第二卷_京华/审读_171_v2评分卡.md
+      status: published
+      revision: 1
+      hash: bb4e461483c008bd93ff29bb5317e7961c36f8f7d589aed4bca6251523fe19ad
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: bb4e461483c008bd93ff29bb5317e7961c36f8f7d589aed4bca6251523fe19ad
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_172_v1评分卡.md:
+      path: 第二卷_京华/审读_172_v1评分卡.md
+      status: published
+      revision: 1
+      hash: 44223ab1da5818add4b7029c16f2d5d42caa2eb55d6702239ee0b406f1c6ccf3
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: 44223ab1da5818add4b7029c16f2d5d42caa2eb55d6702239ee0b406f1c6ccf3
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_172_v2评分卡.md:
+      path: 第二卷_京华/审读_172_v2评分卡.md
+      status: published
+      revision: 1
+      hash: de39a1147318df3b33cddc2d36d52643f1f3e241fe088409eb1b32dc1de4513c
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: de39a1147318df3b33cddc2d36d52643f1f3e241fe088409eb1b32dc1de4513c
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_173_v1评分卡.md:
+      path: 第二卷_京华/审读_173_v1评分卡.md
+      status: published
+      revision: 1
+      hash: 14293997ad69b7d0065309f5711e83a44d060ef9798eb52f32e6547307e43374
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: 14293997ad69b7d0065309f5711e83a44d060ef9798eb52f32e6547307e43374
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_173_v2评分卡.md:
+      path: 第二卷_京华/审读_173_v2评分卡.md
+      status: published
+      revision: 1
+      hash: f964c3853a025f837e29a48edc493e9e6072a3b9e090020e2cdbeeca942a21fb
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: f964c3853a025f837e29a48edc493e9e6072a3b9e090020e2cdbeeca942a21fb
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_174_v1评分卡.md:
+      path: 第二卷_京华/审读_174_v1评分卡.md
+      status: published
+      revision: 1
+      hash: d40bde66d997ed33e356364c67a752830ff8ae0d7db390cd195d57e4d4992187
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: d40bde66d997ed33e356364c67a752830ff8ae0d7db390cd195d57e4d4992187
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_174_v2评分卡.md:
+      path: 第二卷_京华/审读_174_v2评分卡.md
+      status: published
+      revision: 1
+      hash: 95c304f9c4b74804cdb00f87b58eea0fc7921e85500775733d92bade07be1796
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: 95c304f9c4b74804cdb00f87b58eea0fc7921e85500775733d92bade07be1796
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_175_v1评分卡.md:
+      path: 第二卷_京华/审读_175_v1评分卡.md
+      status: published
+      revision: 1
+      hash: ec39e4e7a1a8f1d9e85359d92a501689da1b8fbb226b4ad551b5b0aaa84555db
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: ec39e4e7a1a8f1d9e85359d92a501689da1b8fbb226b4ad551b5b0aaa84555db
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_175_v2评分卡.md:
+      path: 第二卷_京华/审读_175_v2评分卡.md
+      status: published
+      revision: 1
+      hash: c06e3081385682e2eabd0d905be2d49daaae95343bdf61405e5d15c37f11d26b
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: c06e3081385682e2eabd0d905be2d49daaae95343bdf61405e5d15c37f11d26b
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_176_v1评分卡.md:
+      path: 第二卷_京华/审读_176_v1评分卡.md
+      status: published
+      revision: 1
+      hash: cf57793ee16db9122d59cc2d53d0e86b84478eb675459950f451560d96282f1c
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: cf57793ee16db9122d59cc2d53d0e86b84478eb675459950f451560d96282f1c
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_176_v2评分卡.md:
+      path: 第二卷_京华/审读_176_v2评分卡.md
+      status: published
+      revision: 1
+      hash: ca5aec7cb9fbf3d5e42e6496502c2672b6bb7d35806a07f746a4fae13337e47a
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: ca5aec7cb9fbf3d5e42e6496502c2672b6bb7d35806a07f746a4fae13337e47a
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_177_v1评分卡.md:
+      path: 第二卷_京华/审读_177_v1评分卡.md
+      status: published
+      revision: 1
+      hash: 9bbf165873a96e55de7a5afd9b52c9ed4aaa5827062cf08504a1ecb86c5a4071
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: 9bbf165873a96e55de7a5afd9b52c9ed4aaa5827062cf08504a1ecb86c5a4071
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_177_v2评分卡.md:
+      path: 第二卷_京华/审读_177_v2评分卡.md
+      status: published
+      revision: 1
+      hash: b70f14b445218c4b528973e5b2c2a2257ba12505e21776b549f63d83c289986a
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: b70f14b445218c4b528973e5b2c2a2257ba12505e21776b549f63d83c289986a
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_178_v1评分卡.md:
+      path: 第二卷_京华/审读_178_v1评分卡.md
+      status: published
+      revision: 1
+      hash: 67ff51221e1bd0711b411fc68eb4ab0b3efe9751721d22569955e32f39c7aff9
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: 67ff51221e1bd0711b411fc68eb4ab0b3efe9751721d22569955e32f39c7aff9
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_178_v2评分卡.md:
+      path: 第二卷_京华/审读_178_v2评分卡.md
+      status: published
+      revision: 1
+      hash: 42cb1715fb3f6b8be404369dd3784646147a471483f7a7198e9ffd776f08d9bf
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: 42cb1715fb3f6b8be404369dd3784646147a471483f7a7198e9ffd776f08d9bf
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_179_v1评分卡.md:
+      path: 第二卷_京华/审读_179_v1评分卡.md
+      status: published
+      revision: 1
+      hash: 3b01508c126cca10ae670e3c6edb42de8a71fb7d34966336176e9e37281e1698
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: 3b01508c126cca10ae670e3c6edb42de8a71fb7d34966336176e9e37281e1698
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_179_v2评分卡.md:
+      path: 第二卷_京华/审读_179_v2评分卡.md
+      status: published
+      revision: 1
+      hash: 55d6c9038b368b3e76003693dcb96075f420d8bf1ec891c248f8069f805c28e2
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: 55d6c9038b368b3e76003693dcb96075f420d8bf1ec891c248f8069f805c28e2
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_180_v1评分卡.md:
+      path: 第二卷_京华/审读_180_v1评分卡.md
+      status: published
+      revision: 1
+      hash: fea5e3916c9ef7a7c1ca02ec39545ff7398f291cf32fcaaea99ce2ce528b368b
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: fea5e3916c9ef7a7c1ca02ec39545ff7398f291cf32fcaaea99ce2ce528b368b
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
+
+    第二卷_京华/审读_180_v2评分卡.md:
+      path: 第二卷_京华/审读_180_v2评分卡.md
+      status: published
+      revision: 1
+      hash: 8465e7c88b08f99ea19b8ec206bb814e2521fece910ff26fd80f333872034cf2
+      source: review-artifact
+      published_at: 2026-07-27T14:30:00
+      versions:
+        - revision: 1
+          hash: 8465e7c88b08f99ea19b8ec206bb814e2521fece910ff26fd80f333872034cf2
+          source: review-artifact
+          published_at: 2026-07-27T14:30:00
 

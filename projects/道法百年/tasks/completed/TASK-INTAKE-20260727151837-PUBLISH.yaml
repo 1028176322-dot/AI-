@@ -1,0 +1,36 @@
+task:
+  id: TASK-INTAKE-20260727151837-PUBLISH
+  version: 1
+  project: novel-dsf
+  type: chapter_publish
+  title: 发布 TASK-INTAKE-20260727151837 到正式正文
+  status: completed
+  priority: high
+  created: 2026-07-27T15:18:41
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260727151837
+  inputs:
+    required:
+      - chapters/drafts/第177章_天上人间定鼎.md
+  publish_target: 第二卷_京华/第177章_天上人间定鼎.md
+  expected_outputs:
+    - published-chapter
+  acceptance:
+    criteria:
+      - Publish Service 原子发布成功
+      - Manifest 更新
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - 第二卷_京华/第177章_天上人间定鼎.md
+    forbidden: []
+  agent:
+    required_role: publish_service
+  owner: publish_service
+  claimed_at: 2026-07-27T15:27:00
+  lease_expire: 2026-07-27T16:27:00
+  workspace: tasks\running\TASK-INTAKE-20260727151837-PUBLISH\outputs
