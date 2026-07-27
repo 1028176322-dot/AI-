@@ -1,0 +1,21 @@
+task_template:
+  type: style-revise
+  version: "1.0.0"
+  required_role: writer
+  description: 候选修订生产者；写 revision-candidate 到 analysis/style/，绝不写 chapters/
+  required_inputs: [chapter_draft, diagnosis_report, applied_style_rules, protected_manifest]
+  allowed_outputs: [revision_candidate, revision_result]
+  permissions:
+    read: [chapters/drafts/**, NKB/**, analysis/style/**, memory/project/style-library/**]
+    write: [analysis/style/**]
+    forbidden: [core/**, registry/**, templates/**, chapters/drafts/**, chapters/approved/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_complete: [fidelity-review]

@@ -1,0 +1,22 @@
+task_template:
+  type: chapter-rollback-revision
+  version: "1.0.0"
+  required_role: writer
+  description: 受控回滚草稿到 pre_apply 版本；CAS 冲突检测
+  required_inputs: [current_draft, pre_apply_backup, rollback_readiness]
+  allowed_outputs: [rollback_result]
+  permissions:
+    read: [chapters/drafts/**, analysis/style/**]
+    write: [chapters/drafts/**]
+    forbidden: [core/**, registry/**, templates/**, chapters/approved/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_rolled_back: []
+    on_conflict: [style-rule-review]

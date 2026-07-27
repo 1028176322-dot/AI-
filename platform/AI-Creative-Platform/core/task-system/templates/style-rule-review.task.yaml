@@ -1,0 +1,22 @@
+task_template:
+  type: style-rule-review
+  version: "1.0.0"
+  required_role: reviewer
+  description: 风格规则候选审查（§2.10）；人工审批 style-rule-candidate
+  required_inputs: [style_rule_candidate]
+  allowed_outputs: [approval_credential, rejection_report]
+  permissions:
+    read: [memory/project/style-library/**, analysis/style/**]
+    write: [analysis/style/**]
+    forbidden: [core/**, registry/**, templates/**, chapters/**, NKB/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_approve: [style-rule-promote]
+    on_reject: []
