@@ -1,0 +1,32 @@
+task:
+  id: TASK-INTAKE-20260727114329-PUBLISH
+  version: 1
+  project: novel-dsf
+  type: chapter_publish
+  title: 发布 TASK-INTAKE-20260727114329 到正式正文
+  status: ready
+  priority: high
+  created: 2026-07-27T11:43:32
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260727114329
+  inputs:
+    required:
+      - chapters/drafts/第144章_四皇子线动.md
+  publish_target: 第二卷_京华/第144章_四皇子线动.md
+  expected_outputs:
+    - published-chapter
+  acceptance:
+    criteria:
+      - Publish Service 原子发布成功
+      - Manifest 更新
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - 第二卷_京华/第144章_四皇子线动.md
+    forbidden: []
+  agent:
+    required_role: publish_service

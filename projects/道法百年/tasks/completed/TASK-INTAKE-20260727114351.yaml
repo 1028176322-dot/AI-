@@ -1,0 +1,51 @@
+task:
+  id: TASK-INTAKE-20260727114351
+  type: chapter_fix
+  project: novel-dsf
+  title: 修复第150章《京华鼎定》
+  version: 1
+  priority: high
+  chapter_ref: 第一卷_道生/第150章.md
+  agent:
+    required_role: writer
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - chapters/drafts/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  inputs:
+    required:
+      - review_report
+      - chapter_draft
+  expected_outputs:
+    - chapter_draft
+    - self_check
+    - handoff
+  acceptance:
+    criteria:
+      - 按 chapter-fix 模板契约完成
+  created: 2026-07-27T11:43:51
+  created_by: agent-unknown
+  urgency: normal
+  status: completed
+  owner: agent-unknown
+  claimed_at: 2026-07-27T11:43:51
+  lease_expire: 2026-07-27T12:43:51
+  workspace: tasks\running\TASK-INTAKE-20260727114351\outputs
+  artifact: chapters/drafts/第150章_京华鼎定.md
+  outputs: null
+  submission:
+    checks: null
+    at: 2026-07-27T11:43:53
+  review:
+    decision: pass
+    at: 2026-07-27T11:43:54

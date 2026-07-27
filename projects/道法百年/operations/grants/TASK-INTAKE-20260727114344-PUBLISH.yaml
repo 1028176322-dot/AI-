@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727114344-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第148章_金身验效.md
+  generated_at: 2026-07-27T11:43:47
+  status: active

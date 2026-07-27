@@ -1,0 +1,31 @@
+task:
+  id: TASK-INTAKE-20260727113316-CHAPTER-REVIEW
+  version: 1
+  project: novel-dsf
+  type: chapter_review
+  title: TASK-INTAKE-20260727113316 后继 chapter_review
+  status: completed
+  priority: high
+  created: 2026-07-27T11:33:18
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260727113316
+  inputs:
+    required:
+      - chapters/drafts/第142章_听雨渗透网.md
+  expected_outputs:
+    - next-output
+  acceptance:
+    criteria:
+      - 后继任务就绪
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - tasks/**
+    forbidden:
+      - core/*
+  agent:
+    required_role: reviewer

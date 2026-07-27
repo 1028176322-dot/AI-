@@ -1,0 +1,9 @@
+grant:
+  task_id: TASK-INTAKE-20260727114329-PUBLISH
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - 第二卷_京华/第144章_四皇子线动.md
+  generated_at: 2026-07-27T11:43:32
+  status: active
