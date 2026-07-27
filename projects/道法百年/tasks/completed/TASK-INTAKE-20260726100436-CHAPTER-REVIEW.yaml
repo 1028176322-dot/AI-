@@ -1,0 +1,31 @@
+task:
+  id: TASK-INTAKE-20260726100436-CHAPTER-REVIEW
+  version: 1
+  project: novel-dsf
+  type: chapter_review
+  title: TASK-INTAKE-20260726100436 后继 chapter_review
+  status: completed
+  priority: high
+  created: 2026-07-26T10:04:38
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260726100436
+  inputs:
+    required:
+      - chapters/drafts/第099章_决战前夜.md
+  expected_outputs:
+    - next-output
+  acceptance:
+    criteria:
+      - 后继任务就绪
+  permissions:
+    read:
+      - chapters/*
+      - NKB/*
+    write:
+      - tasks/**
+    forbidden:
+      - core/*
+  agent:
+    required_role: reviewer
