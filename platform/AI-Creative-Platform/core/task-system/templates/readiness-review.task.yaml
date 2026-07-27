@@ -1,0 +1,23 @@
+task_template:
+  type: readiness_review
+  version: "1.0.0"
+  required_role: readiness-reviewer
+  description: NKB Genesis 后执行六维开写验收和第一卷可写性复核。
+  required_inputs: [nkb_manifest, nkb_validation_report, genesis_operation]
+  allowed_outputs: [readiness_report, readiness_approval, findings]
+  permissions:
+    read: [project.yaml, lifecycle/**, sources/**, NKB/**, analysis/design/**]
+    write: [tasks/running/<id>/outputs/**, lifecycle/readiness/**]
+    forbidden: [chapters/**, core/**, registry/**, templates/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_submit: []
+    on_pass: [chapter_plan]
+    on_fail: [project_design]

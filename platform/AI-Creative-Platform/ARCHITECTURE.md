@@ -38,7 +38,7 @@
 | 支撑 | Context Engine | 组装**运行时上下文**（过滤/优先级/压缩/冲突解决＋ Token Budget；Workflow 统一读取） | `AI上下文引擎.md` |
 | L4 | Workflow（执行） | 按规划卡 + 运行时上下文写正文（双对话四阶段）＋ Build 产物包（§3.1·可复现） | `流程体系_小说创作.md`（红线 `写作规则.md`） |
 | 运行时 | 能力层（Capability） | 6 Engine（Character/Narrative/Dialogue/Battle/Emotion/Description），经**能力编排器**调度（Workflow 只发指令），不依赖单一模型 | `AI能力层.md` |
-| L5 | Review（审查） | 四支柱检测 + 五阶段回归闭环 ＋ Delta Review ＋ 静态/动态评测分轨（§7.10） | `审查体系.md` ＋ `checks/` ＋ `profiles/` ＋ `tools/` |
+| L5 | Review（审查） | 四支柱检测 + 五阶段回归闭环 ＋ Delta Review ＋ 静态/动态评测分轨（§7.10） | `审查体系.md` ＋ `checks/` ＋ `profiles/` ＋ `scripts/review/` |
 | L6 | 反馈（经验反补） | Feedback → Knowledge Update（落 NKB 事件驱态）/ System Update（落规则·流程·脚本·Prompt） | `审查体系.md` §7.6 ／ `流程体系_小说创作.md` §2＋§6 |
 | 外壳 | Orchestrator（配器） | 调度全部、自动停止 ＋ Plugin（模块可替换·带版本） | `AI编排器.md` |
 
@@ -102,13 +102,14 @@
 - `AI执行运行时.md`：本轮新增跨切面 **执行运行时** 平面（检查点/缓存/恢复/重试/回滚）。
 - `checks/`：L5 检查项库（13 模块 + 读者子目录 + 量化指标）。
 - `profiles/`：L5 模块权重（按类型切换）。
-- `tools/`：L5 脚本落地（ID/WBU/CI/NH/重复4类/AI腔/SFS 计算，待建）。
+- `scripts/`：治理、上下文、任务、审查、发布与质量计算的可复用实现；统一由 `cli/platform.py` 调用。
 
 ---
 
 ## 演进标记
 
 - **v4.3（流程闭环）**：L5 引入五阶段回归闭环 + 状态机 + 三层元闭环。
+- **v4.4（学习闭环）**：参考原著结构学习 → 项目候选 → 审批启用 → 写作上下文注入；审查 findings → 项目反馈账本 → 写作约束与回归检查；十二镜头 Reader Panel 与真人反馈校准；新项目目录契约与全文件任务治理。
 - **五层补全**：新增 L1 宪法 + L2 规范（过程 + 结果双驱动）。
 - **操作系统化（上版）**：新增 NKB 小说知识库（唯一事实源，11 组件＋三准则）＋ L3 规划者 ＋ Context Builder（标准背景）＋ 编排器（调度 / 自动停止）；原 L3/L4/L5 流程/审查/反补 顺延为 L4/L5/L6。
 - **运行平台化（本轮）**：① Context Engine 四能力（过滤/优先级/压缩/冲突解决）替代朴素拼接；② 新增能力层（Character/Narrative/Dialogue/Battle/Emotion/Description 六 Engine，由 Workflow 组合调用，不依赖单一模型）；③ Review 增 Delta Review（局部修改快审，按需全量）；④ NKB 加 Version ＋ 事件驱动态（World State 由 Event 派生，可回放）；⑤ 编排器加 Plugin（模块可替换）；⑥ Workflow 增 Artifact（正文＋规划＋上下文＋审查＋修复日志）；⑦ L6 反馈拆为 Feedback→Knowledge Update→System Update。

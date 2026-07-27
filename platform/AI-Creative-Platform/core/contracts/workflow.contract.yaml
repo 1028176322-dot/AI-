@@ -1,0 +1,10 @@
+contract:
+  id: workflow.novel
+  version: "1.0.0"
+input:
+  required: [task_id, plan_id, context_id, nkb_snapshot]
+  optional: [resume_checkpoint]
+output:
+  required: [build_id, draft_path, self_check, candidate_facts, handoff]
+  invariants: [working_copy_only, operation_manifest_required]
+

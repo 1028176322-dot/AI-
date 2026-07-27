@@ -1,0 +1,23 @@
+schema_id: design-review
+version: 1.0.0
+applies_to:
+  - analysis/design/DESIGN_REVIEW.yaml
+required_lenses:
+  - consistency
+  - writeability
+  - character_drive
+  - reader_value
+  - long_form_capacity
+  - originality
+lens_required:
+  - score
+  - observation
+  - evidence
+  - issues
+  - recommendations
+  - confidence
+thresholds:
+  minimum_lens_score: 75
+  minimum_confidence: 0.65
+  fatal_findings: 0
+gate_enum: [block, revise, proceed]

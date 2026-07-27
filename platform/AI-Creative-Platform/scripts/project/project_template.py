@@ -29,6 +29,7 @@ if HERE not in sys.path:
 import _yaml_lite
 import _gov
 import multi_project
+import project_layout
 
 PASS = "PASS"
 FAIL = "FAIL"
@@ -37,9 +38,11 @@ WARN = "WARN"
 _ID_RE = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
 
 # 基础 11 NKB 组件（与既有 init-project 保持一致）
-_BASE_NKB_COMPONENTS = ["Canon", "Characters", "Timeline", "WorldState", "Events",
-                        "Foreshadow", "Assets", "Terminology", "StoryState",
-                        "ReaderState", "Graph"]
+_BASE_NKB_COMPONENTS = [
+    "Canon", "Characters", "Locations", "Organizations", "Timeline",
+    "WorldState", "Events", "Foreshadow", "Assets", "Terminology",
+    "StoryState", "ReaderState", "Graph", "Derived",
+]
 
 
 # ── 模板读取 ────────────────────────────────────────────────
@@ -104,6 +107,9 @@ def scaffold(platform_root, ws_root, name, genre, pid=None, write=True):
 
     # 市场钩子（P3-6）
     seed_market_hook(proot, genre)
+    # New projects use the strict v2 directory and storage contract. Existing
+    # projects are never migrated implicitly.
+    project_layout.scaffold_layout(proot, genre)
 
     # overrides / metrics / artifacts / memory / lifecycle
     for d in ("overrides", "metrics", "artifacts", "memory/project", "lifecycle"):
@@ -179,7 +185,7 @@ def _write_project_yaml(proot, pid, name, genre, tver, profile=None):
         "  status: active\n\n"
         "requires:\n"
         "  platform: \">=2.1.0\"\n"
-        "  nkb_schema: \">=1.2.0\"\n"
+        "  nkb_schema: \">=1.3.0\"\n"
         "  contracts: \">=1.0.0\"\n"
         "  templates:\n"
         "    %s: \">=%s\"\n\n"
@@ -192,11 +198,27 @@ def _write_project_yaml(proot, pid, name, genre, tver, profile=None):
         "%s\n\n"
         "paths:\n"
         "  nkb: ./NKB\n"
-        "  outline: ./outline.md\n"
-        "  chapters: ./txt\n"
+        "  outline: ./sources/outline\n"
+        "  chapters: ./chapters\n"
         "  artifacts: ./artifacts\n"
         "  overrides: ./overrides\n"
-        "  memory: ./memory/project\n\n"
+        "  memory: ./memory/project\n"
+        "  references: ./sources/references\n"
+        "  learning: ./learning/candidates\n\n"
+        "project_layout:\n"
+        "  version: 2.0.0\n"
+        "  strict: true\n\n"
+        "task_system:\n"
+        "  enforcement_mode: strict\n"
+        "  no_task_no_write: true\n\n"
+        "review:\n"
+        "  reader_panel_required: true\n"
+        "  feedback_to_writing_required: true\n"
+        "  human_feedback_required_at: [pilot, volume_end, paid_boundary, major_revision]\n\n"
+        "learning:\n"
+        "  reference_root: ./sources/references\n"
+        "  candidates: ./learning/candidates\n"
+        "  project_memory: ./memory/project\n\n"
         "gates:\n"
         "%s\n"
     ) % (genre, display, desc, pid, name, genre, genre, tver, genre, tver,
@@ -206,18 +228,34 @@ def _write_project_yaml(proot, pid, name, genre, tver, profile=None):
 
 
 def _write_nkb(nkb_dir, pid, components):
-    idx_lines = ["# NKB 索引（schema_version 1.2.0）", "schema_version: 1.2.0",
+    idx_lines = ["# NKB 索引（schema_version 1.3.0）", "schema_version: 1.3.0",
                  "project_id: %s" % pid, "", "components:"]
     for c in components:
         fname = "%s.yaml" % c
         with open(os.path.join(nkb_dir, fname), "w", encoding="utf-8") as f:
-            f.write("schema_version: 1.2.0\nproject_id: %s\nrecords: []\n" % pid)
+            f.write("schema_version: 1.3.0\nproject_id: %s\nrecords: []\n" % pid)
         idx_lines.append("  - %s" % fname)
     with open(os.path.join(nkb_dir, "NKB.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(idx_lines) + "\n")
-    # 空 Derived
-    with open(os.path.join(nkb_dir, "Derived.yaml"), "w", encoding="utf-8") as f:
-        f.write("schema_version: 1.2.0\nproject_id: %s\nrecords: []\n" % pid)
+    _gov.dump_yaml(os.path.join(nkb_dir, "manifest.yaml"), {
+        "nkb": {
+            "project_id": pid,
+            "schema_version": "1.3.0",
+            "snapshot_id": "",
+            "status": "empty",
+            "authoritative": False,
+            "story_time": "story_start",
+        },
+        "components": {
+            name: {"file": "%s.yaml" % name, "version": 0}
+            for name in components
+        },
+        "integrity": {
+            "unresolved_conflicts": 0,
+            "broken_references": 0,
+            "pending_candidates": 0,
+        },
+    })
 
 
 def seed_market_hook(proot, genre):
@@ -322,7 +360,7 @@ def govern(platform_root, write=False):
     else:
         for g in sorted(os.listdir(tpl_root)):
             # 跳过下划线前缀的内部/遗留目录（如 _legacy_profiles_md）
-            if g.startswith("_"):
+            if g.startswith("_") or not os.path.isdir(os.path.join(tpl_root, g)):
                 continue
             gp = os.path.join(tpl_root, g, "profile.yaml")
             if os.path.isfile(gp):

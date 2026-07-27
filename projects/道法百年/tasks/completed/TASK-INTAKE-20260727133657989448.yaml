@@ -1,0 +1,86 @@
+task:
+  id: TASK-INTAKE-20260727133657989448
+  type: system_maintenance
+  project: novel-dsf
+  title: 修改平台，新增新项目对话灵感结构化、AI分域设计补全、设计缺口矩阵、多轮设计审查、分级审批与NKB Genesis自动编
+  version: 1
+  priority: high
+  chapter_ref: null
+  agent:
+    required_role: system-maintainer
+  permissions:
+    read:
+      - .gitattributes
+      - workspace.yaml
+      - AGENTS.md
+      - platform.yaml
+      - platform.lock.yaml
+      - cli/**
+      - core/**
+      - scripts/**
+      - registry/**
+      - schemas/**
+      - templates/**
+      - tests/**
+      - memory/晋升机制.md
+      - README.md
+      - ARCHITECTURE.md
+      - platform.bat
+      - platform.sh
+      - tasks/running/<id>/outputs/**
+    write:
+      - .gitattributes
+      - workspace.yaml
+      - platform.yaml
+      - platform.lock.yaml
+      - cli/**
+      - core/**
+      - scripts/**
+      - registry/**
+      - schemas/**
+      - templates/**
+      - tests/**
+      - memory/晋升机制.md
+      - README.md
+      - ARCHITECTURE.md
+      - platform.bat
+      - platform.sh
+      - tasks/running/<id>/outputs/**
+    forbidden:
+      - projects/*/NKB/**
+      - projects/*/chapters/approved/**
+  inputs:
+    required:
+      - change_brief
+      - explicit_user_approval
+    values:
+      change_brief: 修改平台，新增新项目对话灵感结构化、AI分域设计补全、设计缺口矩阵、多轮设计审查、分级审批与NKB Genesis自动编排闭环，并完成全平台回归
+      explicit_user_approval: true
+      confirmation_source: user_request
+  expected_outputs:
+    - patch
+    - validation_report
+    - operation_manifest
+  acceptance:
+    criteria:
+      - 按 system-maintenance 模板契约完成
+  created: 2026-07-27T13:36:57
+  created_by: codex-root
+  urgency: normal
+  status: completed
+  owner: codex-root
+  claimed_at: 2026-07-27T13:37:06
+  lease_expire: 2026-07-27T14:37:06
+  workspace: tasks\running\TASK-INTAKE-20260727133657989448\outputs
+  artifact: tasks/running/TASK-INTAKE-20260727133657989448/outputs/platform-patch-summary.md
+  outputs:
+    patch: tasks/running/TASK-INTAKE-20260727133657989448/outputs/platform-patch-summary.md
+    validation_report: tasks/running/TASK-INTAKE-20260727133657989448/outputs/validation-report.yaml
+    operation_manifest: tasks/running/TASK-INTAKE-20260727133657989448/outputs/operation-manifest.yaml
+  submission:
+    checks:
+      regression: pass
+    at: 2026-07-27T14:02:08
+  review:
+    decision: pass
+    at: 2026-07-27T14:02:59

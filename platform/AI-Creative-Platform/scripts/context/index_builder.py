@@ -45,11 +45,18 @@ except Exception:
         return _yaml_lite.load_file(path)
     _BACKEND = "yaml_lite"
 
-_CHAPTER_RE = re.compile(r"第\s*(\d+)\s*章")
+_CHAPTER_RE = re.compile(r"(?:第\s*(\d+)\s*章|CH[-_ ]*0*(\d+))", re.I)
 _EXCLUDE_DIRS = {".git", "runtime", "tasks", "analysis", "audit", "NKB", "memory",
                  "sources", "overrides", "artifacts", "operations", "handoffs",
                  "sessions", ".cache", "templates", "node_modules", "__pycache__"}
 _EXCLUDE_KW = ("审读", "评分卡", "大纲", "批注", "修复", "目录", "总纲", "摘要", "索引")
+
+
+def _chapter_number(match):
+    """Return a chapter number from either 第N章 or strict CH-NNN names."""
+    if not match:
+        return None
+    return int(match.group(1) or match.group(2))
 
 
 def _read_project(project_root):
@@ -110,7 +117,7 @@ def scan_chapters(project_root):
             m = _CHAPTER_RE.search(fn)
             if not m:
                 continue
-            num = int(m.group(1))
+            num = _chapter_number(m)
             full = os.path.normpath(os.path.join(dirpath, fn))
             rev = _parse_version_suffix(fn)
             # 状态：在 approved 目录视为 approved，否则 exported(draft)
@@ -180,7 +187,7 @@ def build_index(project_root, out_dir=None):
                     "id": r.get("id"),
                     "name": r.get("name"),
                     "chapter": ch,
-                    "chapter_num": int(cm.group(1)) if cm else None,
+                    "chapter_num": _chapter_number(cm),
                     "participants": r.get("participants") or [],
                 })
             continue

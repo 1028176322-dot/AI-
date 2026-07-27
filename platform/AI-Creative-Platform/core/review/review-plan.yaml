@@ -18,10 +18,10 @@ plan:
     - name: structural
       order: 2
       purpose: "结构与叙事层检查"
-      focus: [故事结构, 章节节奏, 叙事POV, 信息释放, 场景切换]
-      inputs: [full_chapter_text, chapter_plan]
-      outputs: [结构类 findings]
-      policy_ref: "checks/story.md, checks/narrative.md, checks/chapter.md"
+      focus: [故事结构, 章节节奏, 叙事POV, 信息释放, 场景切换, 手法与场景适配, 环境因果, 开头承接, 结尾桥接, 跨章反模板]
+      inputs: [full_chapter_text, chapter_plan, writing_strategy, writing_strategy_evidence, recent_chapter_boundaries]
+      outputs: [结构与手法类 findings]
+      policy_ref: "checks/story.md, checks/narrative.md, checks/chapter.md, checks/craft-adaptation.md"
     - name: character
       order: 3
       purpose: "人物塑造与一致性"
@@ -36,8 +36,15 @@ plan:
       inputs: [full_chapter_text, nkb_state, validators_findings, delta_review]
       outputs: [硬一致性 findings(block级)]
       policy_ref: "checks/consistency.md, checks/world.md"
-    - name: synthesis
+    - name: reader_panel
       order: 5
+      purpose: "以十二个读者观察镜头顺序复核真实阅读影响；AI 预测与真人反馈分开记录"
+      focus: [首读进入, 新读者理解, 类型预期, 情节逻辑, 人物共情, 世界沉浸, 节奏疲劳, 文字清晰, 情绪兑现, 追读留存, 付费价值, 边界可达]
+      inputs: [full_chapter_text, reader_panel_brief]
+      outputs: [reader_panel_report, dropoff_risk]
+      policy_ref: "checks/reader/README.md, contracts/reader-panel.schema.yaml"
+    - name: synthesis
+      order: 6
       purpose: "综合定论与修复建议"
       focus: [问题去重, 严重度定级, 修复优先级, 门禁判定预判]
       inputs: [all_stage_findings, gate_criteria]

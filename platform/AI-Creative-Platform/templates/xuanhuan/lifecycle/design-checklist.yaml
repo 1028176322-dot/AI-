@@ -24,10 +24,14 @@ checklist:
     - 关键关系人物
     - 组织领导者
   structure:
-    - sources/outline/series/（全书方向）
-    - sources/outline/volumes/（第一卷完整结构）
-    - sources/outline/chapters/（前 10–30 章细纲）
-    - 前三章详细规划
+    - sources/outline/series/（全书总纲）
+    - sources/outline/volumes/（全部卷纲，覆盖总章节数）
+    - sources/outline/arcs/（全部剧情弧，覆盖总章节数）
+    - sources/outline/maps/chapter-map.yaml（每章唯一功能）
+    - sources/outline/chapters/（全书每章完整场景级详细章纲）
+    - 每章 narrative_strategy / opening_design / ending_design
+    - 每场景 type / environment_function / technique
+    - platform outline validate 通过
   conflicts:
     - internal / interpersonal / organizational / systemic / existential 五类来源
   growth:

@@ -1,0 +1,31 @@
+task_template:
+  type: reference_learn
+  version: "1.0.0"
+  required_role: learning-curator
+  description: Extract non-verbatim structural signals from user-authorized reference novels.
+  required_inputs: [reference_source, learning_scope, explicit_user_approval]
+  allowed_outputs: [reference_profile, learning_summary, learning_candidates]
+  permissions:
+    read:
+      - sources/references/inbox/**
+      - registry/learning.yaml
+      - tasks/running/<id>/outputs/**
+    write:
+      - sources/references/manifests/**
+      - learning/candidates/**
+      - runtime/learning/**
+      - memory/project/reference-learning/**
+      - analysis/learning/**
+      - tasks/running/<id>/outputs/**
+    forbidden:
+      - NKB/**
+      - chapters/approved/**
+      - platform/memory/**
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+  next_tasks:
+    on_submit: [candidate_review]
+

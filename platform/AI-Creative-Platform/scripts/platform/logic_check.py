@@ -592,7 +592,8 @@ def find_cross_dup(lines, cur_path, window=5):
         if fp == os.path.abspath(cur_path):
             continue
         try:
-            olines = open(fp, encoding="utf-8").read().splitlines()
+            with open(fp, encoding="utf-8") as stream:
+                olines = stream.read().splitlines()
         except Exception:
             continue
         for i in range(len(olines) - window + 1):

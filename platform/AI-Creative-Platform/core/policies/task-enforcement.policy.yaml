@@ -7,7 +7,7 @@
 # （off / warn / strict），strict 下任一 rule 违例 = 拒绝写并退出。
 policy:
   id: TASK-ENFORCEMENT-001
-  version: "1.0.0"
+  version: "1.1.0"
   scope: [project, platform]
   description: >-
     所有项目写操作必须经由合法 Task。无 Task ID 不写、无 Claim 不执行、
@@ -35,6 +35,20 @@ rules:
   - id: NO-GATE-NO-COMPLETE
     statement: >-
       未经独立 Review + Gate（passed）不得标记 COMPLETED；执行者不得验收自己的任务。
+    severity: fatal
+
+  - id: PLATFORM-CHANGE-REQUIRES-SYSTEM-TASK
+    statement: >-
+      Any staged platform/AI-Creative-Platform change must include a governed
+      type=system_maintenance task record. Direct edits by another AI are still
+      violations even when the resulting files are technically valid.
+    severity: fatal
+
+  - id: STRICT-PROJECT-ALL-FILES-GOVERNED
+    statement: >-
+      A project containing PROJECT_LAYOUT.yaml requires an active task for every
+      content, configuration, learning, analysis, or generated-file mutation.
+      Only task, audit, and operation evidence records are self-managed.
     severity: fatal
 
 enforcement:

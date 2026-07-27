@@ -1,0 +1,96 @@
+schema_id: writing-strategy
+version: 1.0.0
+description: 根据章纲、场景类型、环境功能和前后章结构生成写作手法编排，并以证据校验正文是否执行。
+
+techniques:
+  - action_causality
+  - spatial_clarity
+  - sensory_grounding
+  - environmental_pressure
+  - dialogue_subtext
+  - power_shift_dialogue
+  - clue_progression
+  - fair_clue_placement
+  - hypothesis_revision
+  - free_indirect_thought
+  - embodied_emotion
+  - decision_pressure
+  - resource_consequence
+  - process_compression
+  - contrast_reveal
+  - delayed_naming
+  - controlled_ellipsis
+  - rhythmic_acceleration
+  - rhythmic_deceleration
+  - aftermath_resonance
+  - symbolic_echo
+  - limited_pov_filter
+  - temporal_compression
+  - scene_counterpoint
+  - concrete_detail_selection
+
+scene_type_compatibility:
+  action: [action_causality, spatial_clarity, environmental_pressure, rhythmic_acceleration, limited_pov_filter]
+  dialogue: [dialogue_subtext, power_shift_dialogue, decision_pressure, embodied_emotion, limited_pov_filter]
+  investigation: [clue_progression, fair_clue_placement, hypothesis_revision, delayed_naming, limited_pov_filter, environmental_pressure]
+  exploration: [sensory_grounding, environmental_pressure, spatial_clarity, concrete_detail_selection, delayed_naming]
+  emotional: [free_indirect_thought, embodied_emotion, decision_pressure, rhythmic_deceleration, aftermath_resonance]
+  business: [resource_consequence, process_compression, dialogue_subtext, power_shift_dialogue, concrete_detail_selection]
+  training: [action_causality, resource_consequence, process_compression, rhythmic_acceleration, embodied_emotion]
+  revelation: [contrast_reveal, delayed_naming, limited_pov_filter, fair_clue_placement, aftermath_resonance]
+  transition: [temporal_compression, controlled_ellipsis, scene_counterpoint, aftermath_resonance, symbolic_echo]
+
+composition_plan:
+  required:
+    - chapter_id
+    - chapter_plan
+    - narrative_strategy
+    - opening_execution
+    - scene_routes
+    - ending_execution
+    - variation_context
+    - gate
+  scene_route_required:
+    - scene_id
+    - scene_type
+    - environment_function
+    - dominant_technique
+    - supporting_techniques
+    - capabilities
+    - execution_order
+    - rationale
+
+execution_evidence:
+  required:
+    - chapter_id
+    - chapter_plan
+    - strategy_plan
+    - draft
+    - checks
+    - computed
+    - gate
+  required_checks:
+    - plan_following
+    - technique_fit
+    - environment_causality
+    - opening_alignment
+    - ending_alignment
+    - cross_chapter_variation
+    - no_generic_template
+  check_required: [decision, evidence]
+  decision_enum: [pending, pass, block]
+  gate_rule: 所有检查为 pass、证据非空、首尾近章相似度不过阈值，才允许提交正文。
+
+anti_template:
+  recent_chapter_window: 10
+  maximum_boundary_similarity: 0.75
+  maximum_consecutive_same_opening_mode: 2
+  maximum_consecutive_same_ending_mode: 2
+  compare:
+    - opening entry mode
+    - first scene type
+    - dominant technique
+    - scene type sequence
+    - ending closure mode
+    - normalized first 300 characters
+    - normalized last 300 characters

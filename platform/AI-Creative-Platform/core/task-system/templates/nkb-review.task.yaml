@@ -1,0 +1,22 @@
+task_template:
+  type: nkb_sync
+  version: "1.0.0"
+  required_role: knowledge-manager
+  description: NKB 更新后的结构、一致性与来源复核；不直接改写 canonical NKB。
+  required_inputs: [nkb_change, operation_manifest]
+  allowed_outputs: [nkb_review_report, findings, nkb_snapshot_after]
+  permissions:
+    read: [NKB/**, operations/**, tasks/**, sources/**]
+    write: [tasks/running/<id>/outputs/**, analysis/nkb-review/**]
+    forbidden: [core/**, registry/**, templates/**, chapters/approved/**, NKB/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_pass: []
+    on_fail: [nkb_update]

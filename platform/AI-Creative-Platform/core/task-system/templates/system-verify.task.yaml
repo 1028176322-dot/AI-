@@ -1,0 +1,22 @@
+task_template:
+  type: system_verify
+  version: "1.0.0"
+  required_role: system-maintainer
+  description: 平台维护后的独立验证阶段；只写验证报告，不修改平台实现。
+  required_inputs: [patch, validation_report, operation_manifest]
+  allowed_outputs: [validation_report, findings]
+  permissions:
+    read: [AGENTS.md, platform.yaml, platform.lock.yaml, cli/**, core/**, scripts/**, registry/**, schemas/**, templates/**, tests/**, README.md, ARCHITECTURE.md, platform.bat, platform.sh]
+    write: [tasks/running/<id>/outputs/**, analysis/platform-review/**]
+    forbidden: [projects/*/NKB/**, projects/*/chapters/approved/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_pass: []
+    on_fail: [system_maintenance]

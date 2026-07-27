@@ -36,6 +36,8 @@ import _gov
 import index_builder as IB
 import context_builder as CB
 import validators as V
+import reader_panel
+import project_layout
 
 PLAT_ROOT = os.path.dirname(os.path.dirname(HERE))
 PLAN_PATH = os.path.join(PLAT_ROOT, "core", "review", "review-plan.yaml")
@@ -129,6 +131,9 @@ def run_review(project_root, task_id):
             f.write("(章节文件未定位: %s)\n" % chapter_ref)
 
     # 4) 五阶段计划（注入实际 inputs 路径）
+    panel_path, panel_brief = reader_panel.prepare_panel(
+        project_root, task_id, chapter_ref, chapter_path)
+
     plan = _gov.load_yaml(PLAN_PATH) or {}
     stages = plan.get("plan", {}).get("stages", [])
     for s in stages:
@@ -159,6 +164,8 @@ def run_review(project_root, task_id):
         "stages": [s.get("name") for s in stages],
         "findings": [],  # AI 逐条填充，每条含 finding_req 字段
         "finding_template": {k: None for k in finding_req},
+        "reader_panel_report": os.path.relpath(
+            panel_path, project_root).replace("\\", "/"),
         "verdict": None,  # pass / pass_with_fixes / fail / blocked
     }
     _gov.dump_yaml(os.path.join(base, "report.yaml"), report)
@@ -204,15 +211,75 @@ def _render_brief(task_id, chapter_ref, stages, l1, base):
     lines.append("3. 阶段 continuity 发现的硬一致性问题 severity 标 `block`（Fatal A 级）。")
     lines.append("4. 全部阶段完成后，给 `verdict`：pass / pass_with_fixes / fail / blocked。")
     lines.append("5. 脚本不替你下质量结论——仅你基于正文与证据判断。")
+    lines.append("6. 逐一完成 `runtime/reader-panels/PANEL-%s/report.yaml` 的全部读者镜头；AI 面板不得冒充真人反馈。" % task_id)
     return "\n".join(lines) + "\n"
+
+
+def validate_report(project_root, task_id):
+    base = os.path.join(project_root, "runtime", "reviews", "REVIEW-%s" % task_id)
+    report_path = os.path.join(base, "report.yaml")
+    if not os.path.isfile(report_path):
+        return False, ["审查报告不存在: %s" % report_path]
+    report = _gov.load_yaml(report_path) or {}
+    schema = _gov.load_yaml(SCHEMA_PATH) or {}
+    errors = []
+    required = ((schema.get("report") or {}).get("required") or [])
+    for field in required:
+        if report.get(field) in (None, ""):
+            errors.append("缺少报告字段: %s" % field)
+    verdicts = schema.get("verdict_enum") or []
+    if report.get("verdict") not in verdicts:
+        errors.append("verdict 非法: %s" % report.get("verdict"))
+    finding_spec = schema.get("finding") or {}
+    finding_required = finding_spec.get("required") or []
+    severity_enum = finding_spec.get("severity_enum") or []
+    category_enum = finding_spec.get("category_enum") or []
+    findings = report.get("findings") or []
+    for index, finding in enumerate(findings, 1):
+        if not isinstance(finding, dict):
+            errors.append("finding #%d 不是对象" % index)
+            continue
+        for field in finding_required:
+            if finding.get(field) in (None, ""):
+                errors.append("finding #%d 缺字段: %s" % (index, field))
+        if finding.get("severity") not in severity_enum:
+            errors.append("finding #%d severity 非法: %s" %
+                          (index, finding.get("severity")))
+        if finding.get("category") not in category_enum:
+            errors.append("finding #%d category 非法: %s" %
+                          (index, finding.get("category")))
+    hard = [f for f in findings if isinstance(f, dict)
+            and f.get("severity") in ("fail", "block")]
+    if hard and report.get("verdict") == "pass":
+        errors.append("存在 fail/block finding 时 verdict 不能为 pass")
+    if project_layout.is_strict(project_root) or report.get("reader_panel_report"):
+        panel_ref = report.get("reader_panel_report") or (
+            "runtime/reader-panels/PANEL-%s/report.yaml" % task_id)
+        panel_path = panel_ref if os.path.isabs(panel_ref) else os.path.join(
+            project_root, panel_ref.replace("/", os.sep))
+        if not os.path.isfile(panel_path):
+            errors.append("reader panel missing: %s" % panel_ref)
+        else:
+            panel_ok, panel_errors, _ = reader_panel.validate_panel(panel_path)
+            if not panel_ok:
+                errors.extend("reader panel: %s" % item for item in panel_errors)
+    return not errors, errors
 
 
 def main():
     ap = argparse.ArgumentParser(prog="review", description="单 Agent 多阶段审查编排")
-    ap.add_argument("action", nargs="?", default="run", choices=["run"])
+    ap.add_argument("action", nargs="?", default="run", choices=["run", "validate"])
     ap.add_argument("--project-root", required=True)
     ap.add_argument("--task", required=True)
     args = ap.parse_args()
+    if args.action == "validate":
+        ok, errors = validate_report(args.project_root, args.task)
+        if ok:
+            print("PASS: 审查报告契约与 verdict 一致")
+            return
+        for error in errors:
+            print("FAIL: %s" % error)
+        sys.exit(1)
     try:
         brief = run_review(args.project_root, args.task)
         print("✓ 审查证据包已生成，简报：%s" % brief)

@@ -1,0 +1,31 @@
+schema_version: "1.0.0"
+
+reference_learning:
+  supported_extensions: [.txt, .md]
+  extraction_mode: statistics_and_principles_only
+  raw_excerpt_copy: forbidden
+  candidate_targets: [writing, review, both]
+  activation_scope: current_project_experiment
+  project_activation_requires:
+    - governed_task
+    - explicit_user_approval
+  promotion:
+    source_count_is_not_project_validation: true
+    genre_requires_independent_projects: 3
+    global_requires_independent_genres: 2
+    required_status: validated
+
+review_feedback:
+  recurring_min_occurrences: 2
+  recurring_min_chapters: 2
+  outputs:
+    ledger: memory/project/review-feedback/feedback-ledger.yaml
+    writing_guidance: runtime/learning/writing-guidance.yaml
+    review_regression: runtime/learning/review-regression.yaml
+
+reader_learning:
+  ai_panel_is_prediction: true
+  human_feedback_is_observation: true
+  human_calibration_min_participants: 3
+  never_merge_identity: true
+  required_milestones: [pilot, volume_end, paid_boundary, major_revision]

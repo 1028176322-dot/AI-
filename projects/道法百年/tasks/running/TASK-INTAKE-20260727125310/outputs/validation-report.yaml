@@ -1,0 +1,26 @@
+validation_report:
+  task_id: TASK-INTAKE-20260727125310
+  decision: pass
+  checked_at: 2026-07-27T13:27:00+08:00
+  checks:
+    platform_bootstrap:
+      result: pass
+      detail: platform manifest, registries, contracts and project compatibility passed
+    platform_selfcheck:
+      result: pass
+      detail: errors=0 warnings=0
+    legacy_project_validate_all:
+      result: pass_with_warnings
+      detail: existing 道法百年 project preserved; 18 legacy missing ORG/LOC references remain warnings
+    task_enforcement_chain:
+      result: pass
+      detail: 19/19 passed; bypass rate 0
+    strict_conversation_nkb_publish_chain:
+      result: pass
+      detail: conversation -> write -> reader review -> NKB sync -> publish -> next
+    full_regression:
+      result: pass
+      detail: 29/29 independent test scripts passed in single-agent sequential mode
+  residuals:
+    - Existing projects are not auto-migrated to NKB 1.3.0 by design.
+    - The legacy 道法百年 NKB still reports 18 missing organization/location references as warnings.

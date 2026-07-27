@@ -48,6 +48,16 @@ def _is_protected_content(target):
     return False
 
 
+def _requires_task(project_root, target):
+    """Apply the strict all-files rule only to newly scaffolded projects."""
+    if not os.path.isfile(os.path.join(project_root, "PROJECT_LAYOUT.yaml")):
+        return _is_protected_content(target)
+    normalized = target.replace("\\", "/")
+    # The task engine and audit layer must be able to maintain their own
+    # evidence records; all other new-project files require an active task.
+    return not normalized.startswith(("tasks/", "audit/", "operations/"))
+
+
 def _fnmatch_any(path, patterns):
     for p in (patterns or []):
         pp = p.rstrip("/")
@@ -78,7 +88,7 @@ def main():
 
     # ── 任务系统强制（NO-TASK-NO-WRITE / NO-CLAIM-NO-EXECUTION / 会话约束）──
     # 结构性检查优先（退出码 3，对应 Phase4 强制层契约），再由六因子授权做精确判定。
-    if _is_protected_content(args.target):
+    if _requires_task(pdir, args.target):
         # Step3.3：未 bootstrap（无 Session Manifest）禁止项目工具运行
         try:
             SB.require_session(pdir)

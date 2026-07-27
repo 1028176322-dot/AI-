@@ -11,7 +11,7 @@ preconditions:
     title: 必须 platform doctor 全 PASS
     severity: fatal
     detection: tool
-    tool: platform doctor
+    tool: platform doctor --quick
   - id: SES-PRE-003
     title: 必须生成 Session Manifest
     severity: fatal

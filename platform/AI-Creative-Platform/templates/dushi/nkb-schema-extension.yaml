@@ -5,4 +5,4 @@ extends: [K7 Assets, K4 WorldState]
 add_fields:
   K7_assets: 强化 金钱 / 房产 / 职位
   K4_world_state: 强化 社会关系网
-note: 基础 11 组件见 core/review/NKB.md；本文件仅列题材增量。
+note: canonical 14 组件见 schemas/nkb/nkb-manifest.yaml；本文件仅列题材增量。

@@ -44,6 +44,7 @@ if os.path.isdir(_SCRIPTS):
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
 import _gov  # noqa: E402
+import nkb_validator  # noqa: E402
 
 PASS, FAIL, WARN = "PASS", "FAIL", "WARN"
 
@@ -236,6 +237,19 @@ def main():
             sys.exit(2)
         for p in _scan_yaml(cand_dir):
             check_candidate_file(p, cand_schema, issues)
+
+    # Canonical NKB is validated as well. Source/candidate validity alone must
+    # never make an empty or structurally useless canonical store look healthy.
+    if args.project_root and os.path.isdir(
+            os.path.join(args.project_root, "NKB")):
+        canonical = nkb_validator.validate_project(args.project_root)
+        for finding in canonical.get("findings") or []:
+            sev = FAIL if finding.get("severity") == "fail" else WARN
+            issues.append((
+                sev,
+                "NKB/%s" % (finding.get("component") or ""),
+                "%s: %s" % (finding.get("code"), finding.get("detail")),
+            ))
 
     if not sources_dir and not cand_dir:
         sys.stderr.write("ERROR: 未指定 --sources / --candidates / --project-root\n")

@@ -56,7 +56,8 @@ def _cli(project_root, args):
     env = dict(os.environ)
     env["PYTHONPATH"] = os.pathsep.join([_p for _p in sys.path if _p.startswith(_SCR2)]) + os.pathsep + env.get("PYTHONPATH", "")
     full = [py, cli] + [args[0], "--project-root", project_root] + args[1:]
-    proc = subprocess.run(full, capture_output=True, text=True, env=env,
+    proc = subprocess.run(full, capture_output=True, text=True,
+                          encoding="utf-8", errors="replace", env=env,
                           cwd=os.path.dirname(cli))
     return proc.stdout + proc.stderr
 
@@ -130,8 +131,8 @@ def main():
         stages = plan.get("plan", {}).get("stages", [])
         names = [s.get("name") for s in stages]
         check("plan 解析 + 五阶段顺序",
-              len(stages) == 5 and names == ["immersive", "structural", "character",
-                                              "continuity", "synthesis"], "got=%s" % names)
+              len(stages) == 6 and names == ["immersive", "structural", "character",
+                                              "continuity", "reader_panel", "synthesis"], "got=%s" % names)
 
         # [3] B-2 summary build（AI 填字段→脚本落盘）
         data_path = os.path.join(tmp, "sum-data.yaml")
@@ -202,7 +203,8 @@ def main():
         if os.path.isfile(rep):
             rd = Y.load_file(rep)
             check("report 含 stages(5) + 空 findings + finding_template",
-                  len(rd.get("stages", [])) == 5 and rd.get("findings") == []
+                  len(rd.get("stages", [])) == 6 and rd.get("findings") == []
+                  and rd.get("reader_panel_report")
                   and "id" in (rd.get("finding_template") or {}), "got=%s" % list(rd.keys()))
 
         # [7] 验证 review 委托可用（run 已验证）；额外验证 summary/delta 委托命令形态
@@ -215,6 +217,7 @@ def main():
         env = dict(os.environ)
         env["PYTHONPATH"] = os.pathsep.join([_p for _p in sys.path if _p.startswith(_SCR2)]) + os.pathsep + env.get("PYTHONPATH", "")
         proc = subprocess.run([py, cli, "doctor"], capture_output=True, text=True,
+                              encoding="utf-8", errors="replace",
                               env=env, cwd=PROJ)
         doc = proc.stdout + proc.stderr
         check("doctor 含 ReviewGov 块且 PASS", "ReviewGov" in doc and "PASS" in doc,

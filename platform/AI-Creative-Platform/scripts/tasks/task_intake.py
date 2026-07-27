@@ -34,6 +34,29 @@ CONSULT_KW = ["什么是", "是什么", "为什么", "如何", "怎么", "解释
               "能否", "可以吗", "？", "?"]
 
 
+# UTF-8 canonical vocabulary. These definitions intentionally override legacy
+# mojibake constants above so Chinese requests cannot silently bypass intake.
+MUTATION_VERBS = [
+    "写", "改", "修改", "生成", "创建", "新建", "更新", "删除", "重写",
+    "补充", "调整", "重构", "润色", "扩写", "续写", "填充", "回滚",
+    "学习", "提取", "归纳", "晋升", "反补", "反哺", "回流",
+]
+PLATFORM_KW = [
+    "平台", "钩子", "脚本", "工具", "政策", "策略", "治理", "目录规范",
+    "自主学习", "policy", "pre-commit", "task_system", "受控写",
+    "session", "bootstrap", "task-enforcement",
+]
+PROJECT_KW = [
+    "章节", "NKB", "人物", "设定", "大纲", "世界观", "冲突", "情节",
+    "角色", "审查", "评分卡", "正文", "参考小说", "参考原著", "读者反馈",
+    "新项目", "新小说", "开新书", "章节数",
+]
+CONSULT_KW = [
+    "什么是", "为什么", "如何", "怎么", "解释", "讲讲", "区别",
+    "能否", "可以吗", "？", "?",
+]
+
+
 def classify(req):
     has_mut = any(v in req for v in MUTATION_VERBS)
     has_plat = any(k in req for k in PLATFORM_KW)

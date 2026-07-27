@@ -41,8 +41,9 @@ ACTIVE_STATES = ("claimed", "running", "submitted", "reviewing", "passed")
 def _is_git_repo(root):
     try:
         r = subprocess.run(["git", "-C", root, "rev-parse", "--is-inside-work-tree"],
-                           capture_output=True, text=True)
-        return r.returncode == 0 and r.stdout.strip() == "true"
+                           capture_output=True, text=True, encoding="utf-8",
+                           errors="replace")
+        return r.returncode == 0 and (r.stdout or "").strip() == "true"
     except Exception:
         return False
 
@@ -51,15 +52,34 @@ def _git_status(root):
     """返回改动文件列表（相对 root）：[(path, kind)]，kind ∈ {modified, untracked}。"""
     out = []
     try:
-        r = subprocess.run(["git", "-C", root, "status", "--porcelain", "-z", "-uall"],
-                           capture_output=True, text=True)
+        top_result = subprocess.run(
+            ["git", "-C", root, "rev-parse", "--show-toplevel"],
+            capture_output=True, text=True, encoding="utf-8", errors="replace")
+        repo_top = (top_result.stdout or "").strip()
+        r = subprocess.run(["git", "-c", "core.quotepath=false", "-C", root,
+                            "status", "--porcelain", "-z", "-uall"],
+                           capture_output=True, text=True, encoding="utf-8",
+                           errors="replace")
     except Exception as e:
         print("WARN: git status 失败：%s" % e)
         return out
     if r.returncode != 0:
         return out
     # -z 格式：每个条目以 NUL 分隔，形如 "XY path\0" 或 "R  old\0new\0"
-    entries = [e for e in r.stdout.split("\0") if e]
+    project_prefix = os.path.relpath(root, repo_top).replace("\\", "/")
+    if project_prefix == ".":
+        project_prefix = ""
+
+    def project_relative(path):
+        normalized = path.replace("\\", "/")
+        if not project_prefix:
+            return normalized
+        prefix = project_prefix.rstrip("/") + "/"
+        if not normalized.startswith(prefix):
+            return None
+        return normalized[len(prefix):]
+
+    entries = [e for e in (r.stdout or "").split("\0") if e]
     i = 0
     while i < len(entries):
         line = entries[i]
@@ -69,7 +89,9 @@ def _git_status(root):
         x, y = line[0], line[1]
         path = line[3:]
         if x == "?" and y == "?":
-            out.append((path, "untracked"))
+            rel = project_relative(path)
+            if rel is not None:
+                out.append((rel, "untracked"))
             continue
         # 重命名/复制：下一条目是 new path
         if x == "R" or x == "C":
@@ -79,8 +101,19 @@ def _git_status(root):
         if x != " " and x != "?" or y != " ":
             # 任何索引/工作树改动都算 modified（排除纯未改）
             if not (x == " " and y == " "):
-                out.append((path, "modified"))
+                rel = project_relative(path)
+                if rel is not None:
+                    out.append((rel, "modified"))
     return out
+
+
+def _requires_task(root, path):
+    """Strict v2 projects govern every generated file, not just prose."""
+    if not os.path.isfile(os.path.join(root, "PROJECT_LAYOUT.yaml")):
+        return CW._is_protected_content(path)
+    normalized = path.replace("\\", "/")
+    governance_prefixes = ("tasks/", "audit/", "operations/")
+    return not normalized.startswith(governance_prefixes)
 
 
 def _task_covers(root, path):
@@ -149,7 +182,7 @@ def scan(root, rollback=False):
     violations = []
     for path, kind in changes:
         pl = path.replace("\\", "/")
-        if not CW._is_protected_content(pl):
+        if not _requires_task(root, pl):
             continue
         if _task_covers(root, pl):
             continue

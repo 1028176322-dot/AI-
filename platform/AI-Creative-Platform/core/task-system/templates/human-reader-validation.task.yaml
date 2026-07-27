@@ -1,0 +1,26 @@
+task_template:
+  type: human_gate
+  version: "1.0.0"
+  required_role: learning-curator
+  description: Ingest consented real-reader observations and calibrate AI reader predictions.
+  required_inputs: [human_reader_feedback, reader_panel_report]
+  allowed_outputs: [human_reader_report, reader_calibration, milestone_decision]
+  permissions:
+    read:
+      - runtime/reader-panels/**
+      - analysis/reader/**
+      - tasks/**
+    write:
+      - runtime/reader-panels/**
+      - analysis/reader/**
+      - tasks/running/<id>/outputs/**
+    forbidden:
+      - NKB/**
+      - chapters/**
+      - platform/memory/**
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+

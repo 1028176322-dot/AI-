@@ -5,6 +5,20 @@
 
 本平台不是又一层 Layer，而是把已有系统按「**全局 Core / 类型 Template / 项目 Project**」三层彻底分离，并补齐四大工程落点，使新建小说从「复制旧项目再清理」变为「选择模板并实例化」。
 
+新项目只需先在对话中提供已有的大方向和整书章节数；缺少的普通细节由 AI 补全：
+
+```text
+platform design prepare --project-root <项目目录> --brief "<创作方向与全书1000章>" --total-chapters 1000 --mode balanced
+```
+
+平台会生成灵感简报、自主权限、设计缺口矩阵，以及总纲、卷纲、剧情弧、
+全书章节地图和全章节详细章纲生成计划。AI 可按批次执行，但每章细化标准相同。
+每章还会生成适配情节、环境和场景类型的写作手法编排。AI 候选必须通过结构校验、六视角审查、
+集中审批和 `design gate`，之后才能进入 NKB Genesis。详细规则见
+`core/project-lifecycle/AI自主设计与NKB生成规范.md` 与
+`core/project-lifecycle/五级大纲生成与滚动规划规范.md` 和
+`core/project-lifecycle/自适应写作手法与章节首尾规范.md`。
+
 ---
 
 ## 〇、工作空间（Workspace）—— 跨设备入口
@@ -89,8 +103,11 @@ AI-Workspace/                             # 工作空间根（克隆仓库入口
 │       │   │   ├── capability-routing.yaml / terminology-seed.yaml / nkb-schema-extension.yaml
 │       ├── memory/                       # 可复用经验（三级 + rejected）
 │       │   ├── global/  genre/  rejected/  晋升机制.md
-│       ├── tools/                        # 平台工程化 CLI（bootstrap/doctor/check/init-project）
-│       │   ├── platform_cli.py  _yaml_lite.py  platform.bat  platform.sh
+│       ├── cli/                          # 统一 CLI 入口
+│       │   └── platform.py
+│       ├── scripts/                      # 可复用治理、任务、审查与发布脚本
+│       │   ├── platform/  tasks/  context/  validators/  chapter/  publish/
+│       ├── platform.bat  platform.sh     # Windows / POSIX 启动包装器
 │       ├── ARCHITECTURE.md  README.md  迁移与切换.md
 └── projects/                             # 项目集合（每个小说一个目录）
     └── 道法百年/                          # 项目实例：project.yaml + NKB + overrides + ...
@@ -157,8 +174,9 @@ AI-Workspace/                             # 工作空间根（克隆仓库入口
 ```
 clone 仓库
   → platform bootstrap   # 检查 Platform/Plugin/NKB/Contracts/Template → 生成 .cache/manifest.json
-  → platform doctor      # 只读诊断，退出码反映健康度（FAIL=1）
-  → platform run         # 编排器启动（未来；当前由对话调用）
+  → platform doctor --quick  # 会话前快速检查平台与执行治理
+  → platform task ...    # 通过任务状态机执行规划、写作、审查、发布或维护
+  → platform doctor      # 发布前完整只读体检（FAIL=1）
 ```
 
 ### 2. 命令一览
@@ -166,12 +184,16 @@ clone 仓库
 |------|------|
 | `python cli/platform.py bootstrap` | 初始化环境：兼容检查全 PASS 才写缓存；任一项 FAIL 立即中止 |
 | `… doctor` | 只读诊断，逐项报告 PASS / FAIL / WARN，退出码 0 / 1 |
+| `… doctor --quick` | 会话启动快速检查；跳过项目内容型深度体检 |
+| `… selfcheck` | 检查清单、Schema、Contract、Plugin、模板、CLI、源码与钩子完整性 |
+| `… task …` | 创建、运行、提交、审查与恢复受控任务 |
+| `python tests/run_all.py` | 串行执行隔离的全量回归测试 |
 | `… check [--project <id>]` | 单项目兼容性检查（requires vs 实际） |
 | `… init-project --name <目录> --type <genre>` | 脚手架新项目（空 NKB + overrides + 自动登记进 workspace.yaml） |
 | `… version` | 打印 Platform / Core / Templates / Plugins 版本目录 |
 | `… list` | 列出 workspace 登记的项目 |
 
-> Windows 可直接用 `tools/platform.bat <cmd>`，\*nix 用 `tools/platform.sh <cmd>`。
+> Windows 可直接用 `platform.bat <cmd>`，\*nix 用 `platform.sh <cmd>`。
 
 ### 3. 兼容性检查（启动第一件事）
 每个项目 `project.yaml` 声明 `requires:`（platform / nkb_schema / contracts / templates）。
@@ -183,7 +205,7 @@ clone 仓库
 - **Plugin** PASS：`plugins` + `capabilities` 引用的 `name@version` 全部在 `registry` 注册
 
 ### 4. 零依赖
-`platform_cli.py` 优先用 PyYAML；未安装时 fallback 到同目录 `_yaml_lite.py`（零依赖 YAML 子集解析器），
+`cli/platform.py` 优先用 PyYAML；未安装时 fallback 到 `scripts/_common/yaml_lite.py`（零依赖 YAML 子集解析器），
 保证「克隆即运行」无需 `pip install`。
 
 ---
@@ -244,6 +266,17 @@ git config core.hooksPath platform/AI-Creative-Platform/scripts/_common/git_hook
 ```
 
 详见 `git_branching.md` 与项目根 `AGENTS.md`。
+
+### 自主学习与严格新项目
+
+- AI 对话中的“写 10 章”“审查第 3—8 章”统一交给 `platform task dispatch --request "..."`；平台会记录解释假设，生成 Goal、逐章 Task 和 Task Packet。`task run --request`、`task intake --request` 遇到章节范围时也会自动转入该入口。
+- `platform learn analyze|batch` 从授权参考小说提取结构画像和候选，不复制原文；项目启用必须执行 `promote-project --approved`。
+- `platform feedback ingest` 将审查 findings 反补为下轮写作约束和回归检查，内容上下文自动注入。
+- `platform reader-panel prepare|validate|ingest-human` 覆盖十二个读者观察镜头；AI 预测与真人反馈分别存证。
+- 新项目自动生成 `PROJECT_LAYOUT.yaml` 并启用严格目录；旧项目不自动迁移。
+- 平台修改必须附带 `system_maintenance` 任务；严格新项目的所有生成文件修改都必须有 active Task。
+
+完整说明见 `core/learning/自主学习与反馈闭环.md`。
 
 ## 十、迁移与 cutover
 

@@ -1,0 +1,13 @@
+schema: system-verify-findings@1.0.0
+task_id: TASK-INTAKE-20260727105838-SYSTEM-VERIFY
+decision: pass
+blocking_findings: []
+non_blocking_findings:
+  - id: LEGACY-SYNC-WARN
+    scope: existing_project
+    observation: Doctor reports one pre-existing SyncGov soft warning.
+    impact: Does not affect the platform implementation or new-project contract.
+  - id: LEGACY-VERSION-WARN
+    scope: existing_project
+    observation: Doctor reports one pre-existing VersionGov soft warning.
+    impact: Does not affect the platform implementation or new-project contract.

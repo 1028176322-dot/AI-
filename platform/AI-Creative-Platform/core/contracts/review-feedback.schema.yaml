@@ -1,0 +1,12 @@
+schema:
+  id: review.feedback
+  version: "1.0.0"
+  description: Closed-loop aggregation of review findings into writing guardrails.
+ledger:
+  required: [schema, updated_at, records]
+entry:
+  required: [id, category, occurrences, chapters, tasks, writing_guardrail, review_regression_check, status]
+  status_enum: [observed, recurring, promotion_candidate, resolved]
+guidance:
+  required: [schema, generated_at, guardrails]
+  rule: Only recurring evidence may become a project promotion candidate.

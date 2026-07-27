@@ -1,5 +1,5 @@
 schema_id: nkb-genesis
-version: 1.0.0
+version: 1.1.0
 applies_to: ["NKB/manifest.yaml (genesis 产物)"]
 description: NKB 创世快照契约（P4 知识准备）
 requires_document_header: false
@@ -13,6 +13,8 @@ top_level_sections:
 required_components:
   - Canon
   - Characters
+  - Locations
+  - Organizations
   - Timeline
   - WorldState
   - Events

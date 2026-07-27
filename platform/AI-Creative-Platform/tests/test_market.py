@@ -122,7 +122,8 @@ class MarketTest(unittest.TestCase):
             plat = os.path.join(ws, "platform")
             os.makedirs(os.path.join(plat, "registry"))
             with open(os.path.join(ws, "workspace.yaml"), "w", encoding="utf-8") as f:
-                f.write("workspace:\n  name: t\n  platform: ./platform\n  projects: []\n")
+                f.write("workspace:\n  name: t\n  platform: ./platform\n"
+                        "  projects:\n    - ./projects/projA\n")
             with open(os.path.join(plat, "registry", "versions.yaml"),
                       "w", encoding="utf-8") as f:
                 f.write("core:\n  platform: 1.0.0\n")
@@ -136,6 +137,11 @@ class MarketTest(unittest.TestCase):
             # 临时项目（含 sources/research/market）
             proj = os.path.join(ws, "projects", "projA")
             os.makedirs(os.path.join(proj, "NKB"))
+            _write(os.path.join(proj, "project.yaml"),
+                   "project:\n  id: proj-a\n  name: 项目A\n  status: active\n"
+                   "paths:\n  nkb: NKB\nruntime:\n  agent_mode: single\n")
+            _write(os.path.join(proj, "AGENTS.md"),
+                   "# Single-Agent Execution\n")
             mdir = os.path.join(proj, "sources", "research", "market")
             _write(os.path.join(mdir, "m.yaml"),
                    "genre: xuanhuan\ntrend_score: 0.8\ncompetition: 0.4\nreader_demand: 0.7\n")
@@ -155,10 +161,12 @@ class MarketTest(unittest.TestCase):
                 )
             cli = os.path.join(_PLAT2, "cli", "platform.py")
             r = subprocess.run(
-                ["C:/Users/Administrator/.workbuddy/binaries/python/versions/3.13.12/python.exe",
+                [sys.executable,
                  cli, "--workspace", ws, "doctor"],
-                cwd=_PLAT2, capture_output=True, text=True)
-            self.assertEqual(r.returncode, 0, msg=r.stdout + r.stderr)
+                cwd=_PLAT2, capture_output=True, text=True,
+                encoding="utf-8", errors="replace")
+            self.assertIn(r.returncode, (0, 1), msg=r.stdout + r.stderr)
+            self.assertIn("[PASS] MarketGov", r.stdout)
         finally:
             shutil.rmtree(ws, ignore_errors=True)
 

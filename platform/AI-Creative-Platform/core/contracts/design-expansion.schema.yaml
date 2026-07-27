@@ -1,0 +1,89 @@
+schema_id: design-expansion
+version: 1.0.0
+description: Free-form inspiration to governed AI design expansion artifacts.
+
+inspiration_brief:
+  required:
+    - project_id
+    - title
+    - genre
+    - raw_direction
+    - locked_facts
+    - preferences
+    - forbidden
+    - open_questions
+    - autonomy_mode
+    - source
+  autonomy_mode_enum: [conservative, balanced, autonomous]
+
+autonomy_policy:
+  required:
+    - mode
+    - delegated_domains
+    - author_decision_domains
+    - impact_requires_author
+    - default_candidate_status
+  impact_enum: [low, medium, high, fatal]
+
+design_gap_matrix:
+  required: [project_id, generated_at, domains, blocking_gaps, gate]
+  domain_status_enum: [missing, partial, ready]
+  gate_enum: [block, caution, proceed]
+
+design_candidate:
+  required:
+    - id
+    - project_id
+    - domain
+    - target_document_type
+    - target_path
+    - proposal
+    - rationale
+    - basis
+    - confidence
+    - authority_class
+    - impact
+    - requires_user_decision
+    - dependencies
+    - potential_conflicts
+    - originality
+    - status
+  authority_class_enum:
+    - user_locked
+    - ai_proposed
+    - delegated_approved
+    - author_approved
+    - derived
+  impact_enum: [low, medium, high, fatal]
+  status_enum: [draft, pending_review, pending_author, approved, rejected, promoted]
+  originality_required: [reference_methods_only, copied_expression, copied_proper_nouns]
+
+design_review:
+  required: [project_id, reviewed_at, lenses, fatal_findings, gate]
+  required_lenses:
+    - consistency
+    - writeability
+    - character_drive
+    - reader_value
+    - long_form_capacity
+    - originality
+  lens_required:
+    - score
+    - observation
+    - evidence
+    - issues
+    - recommendations
+    - confidence
+  minimum_score: 75
+  gate_enum: [block, revise, proceed]
+
+approval_packet:
+  required:
+    - project_id
+    - autonomy_mode
+    - delegated_approvals
+    - author_decisions
+    - rejected_candidates
+    - unresolved_conflicts
+    - gate
+  gate_enum: [block, awaiting_author, proceed]

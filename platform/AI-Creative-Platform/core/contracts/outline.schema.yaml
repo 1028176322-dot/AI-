@@ -1,0 +1,285 @@
+schema_id: outline-governance
+version: 2.0.0
+applies_to: ["sources/outline/**"]
+description: 总章节数驱动的五级大纲契约；总纲、卷纲、剧情弧、章节地图、章节规划卡共同构成可写规划。
+
+common:
+  document_required: [id, type, title, status, version, updated_at, owner, project_id]
+  document_types:
+    - series_outline
+    - volume_outline
+    - arc_outline
+    - chapter_map
+    - chapter_plan
+  source_statuses:
+    - draft
+    - candidate
+    - approved
+    - approved_for_writing
+    - executed
+    - superseded
+
+planning_policy:
+  required_fields:
+    - project_id
+    - total_chapters
+    - allowed_chapter_variance
+    - target_volume_size
+    - target_arc_size
+    - detailed_window
+    - all_chapters_detailed_required
+    - generation_batch_size
+    - max_consecutive_transition_chapters
+    - rolling_refresh
+
+outline_types:
+  series_outline:
+    section: series
+    required_fields:
+      - id
+      - total_chapters
+      - premise
+      - story_promise
+      - protagonist
+      - central_conflict
+      - ending_direction
+      - major_truths
+      - major_arcs
+      - growth_tracks
+      - global_milestones
+      - pacing_policy
+      - forbidden_directions
+
+  volume_outline:
+    section: volume
+    required_fields:
+      - id
+      - number
+      - chapter_range
+      - purpose
+      - objective
+      - start_state
+      - end_state
+      - main_characters
+      - main_locations
+      - central_conflict
+      - antagonist_pressure
+      - milestones
+      - midpoint_turn
+      - lowest_point
+      - climax
+      - aftermath
+      - reader_promises
+      - questions_opened
+      - questions_answered
+      - foreshadow_plan
+      - growth_deltas
+      - next_volume_entry
+
+  arc_outline:
+    section: arc
+    required_fields:
+      - id
+      - volume_id
+      - chapter_range
+      - objective
+      - conflict_engine
+      - start_state
+      - end_state
+      - causal_chain
+      - milestones
+      - character_decisions
+      - reader_experience
+      - payoff
+      - handoff
+
+  chapter_map:
+    section: chapter_map
+    required_fields: [project_id, total_chapters, entries]
+    entry_required_fields:
+      - chapter_id
+      - number
+      - volume_id
+      - arc_id
+      - role
+      - purpose
+      - primary_conflict
+      - progress
+      - reader_value
+      - planned_change
+      - end_hook
+      - status
+    role_enum:
+      - opening
+      - setup
+      - escalation
+      - discovery
+      - decision
+      - reversal
+      - payoff
+      - climax
+      - aftermath
+      - transition
+
+  chapter_plan:
+    sections:
+      plan:
+        required_fields:
+          - id
+          - chapter_id
+          - number
+          - volume_id
+          - arc_id
+          - status
+          - role
+          - word_budget
+      starting_state:
+        required_fields:
+          - time
+          - location
+          - protagonist_state
+          - reader_knows
+          - reader_does_not_know
+      objectives:
+        required_fields: [plot, character, reader, arc_progress]
+      conflict:
+        required_fields: [desire, opposition, stakes, dilemma, escalation]
+      scenes:
+        minimum: 1
+        item_required_fields:
+          - id
+          - type
+          - purpose
+          - location
+          - participants
+          - entry_condition
+          - beats
+          - turn
+          - exit_state
+          - environment_function
+          - technique
+        type_enum:
+          - action
+          - dialogue
+          - investigation
+          - exploration
+          - emotional
+          - business
+          - training
+          - revelation
+          - transition
+        technique_required_fields:
+          - dominant
+          - supporting
+          - rhythm
+          - sensory_focus
+          - information_method
+          - rationale
+      causal_chain:
+        required_fields: [prerequisites, causes, decision, consequences]
+      reader_experience:
+        required_fields:
+          - opening_question
+          - anticipation
+          - payoff
+          - surprise
+          - fairness_evidence
+          - emotional_curve
+      information_plan:
+        required_fields:
+          - reveal
+          - conceal
+          - misinformation
+          - character_knowledge_changes
+      foreshadow:
+        required_fields: [plant, reinforce, payoff]
+      expected_deltas:
+        required_fields: [character, relationship, assets, world_state, reader_state]
+      constraints:
+        required_fields: [must_happen, must_not_happen, continuity, ooc_guardrails]
+      ending:
+        required_fields: [hook_type, hook, next_chapter_promise]
+      flexibility:
+        required_fields: [fixed, adjustable, fallback]
+      narrative_strategy:
+        required_fields:
+          - chapter_form
+          - pov
+          - time_structure
+          - dominant_technique
+          - supporting_techniques
+          - prose_rhythm
+          - information_density
+          - dialogue_ratio
+          - sensory_focus
+          - rationale
+      opening_design:
+        required_fields:
+          - previous_plan_id
+          - continuity_anchor
+          - entry_mode
+          - first_scene_action
+          - opening_question
+          - reader_orientation
+          - prohibited_patterns
+      ending_design:
+        required_fields:
+          - next_plan_id
+          - closure_mode
+          - resolved_in_chapter
+          - irreversible_change
+          - emotional_aftertaste
+          - retention_driver
+          - final_image
+          - next_chapter_bridge
+
+opening_entry_modes:
+  - action_in_progress
+  - consequence
+  - decision
+  - dialogue_conflict
+  - discovery
+  - environmental_anomaly
+  - emotional_aftershock
+  - time_jump
+  - spatial_arrival
+  - failed_attempt
+  - reversal
+  - quiet_tension
+
+ending_closure_modes:
+  - danger
+  - revelation
+  - decision
+  - consequence
+  - payoff
+  - emotional_afterglow
+  - relationship_shift
+  - cognitive_reversal
+  - new_goal
+  - world_state_change
+  - quiet_anomaly
+  - action_commitment
+
+gates:
+  coverage:
+    - volume ranges cover every chapter exactly once
+    - arc ranges cover every chapter exactly once
+    - chapter map contains every chapter exactly once
+  writeability:
+    - target chapter has approved_for_writing chapter plan
+    - causal chain, conflict, reader payoff, state delta and ending promise are complete
+  anti_filler:
+    - no chapter may omit plot progress, reader value, planned change or end hook
+    - transition chapters may not exceed policy maximum consecutively
+    - identical purpose/conflict/progress/reader-value fingerprints may not repeat three times
+  rolling_detail:
+    - every chapter has a map entry
+    - every chapter has a complete chapter plan before Genesis
+    - generation may run in bounded batches but detail requirements never decrease
+    - approved chapter outcomes must refresh future plans instead of rewriting history
+  adaptive_craft:
+    - every chapter and scene declares a justified technique composition
+    - opening entry mode must fit the continuity anchor and first scene
+    - ending closure mode must follow actual chapter change and bridge the next plan
+    - the same opening or ending mode may not repeat for three consecutive chapters

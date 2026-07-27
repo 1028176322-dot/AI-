@@ -8,7 +8,11 @@ schemas:
   - audit.schema.yaml
   - bi.schema.yaml
   - creative-strategy.schema.yaml
+  - conversation-request.schema.yaml
+  - chapter-knowledge-delta.schema.yaml
   - design-source.schema.yaml
+  - design-expansion.schema.yaml
+  - design-review.schema.yaml
   - experiment.schema.yaml
   - goal.schema.yaml
   - graph.schema.yaml
@@ -18,8 +22,11 @@ schemas:
   - memory.schema.yaml
   - model-router.schema.yaml
   - nkb-candidate.schema.yaml
+  - nkb-components.schema.yaml
   - nkb-genesis.schema.yaml
   - nkb-source.schema.yaml
+  - outline.schema.yaml
+  - writing-strategy.schema.yaml
   - project_genesis.schema.yaml
   - project-brief.schema.yaml
   - project-charter.schema.yaml
@@ -28,16 +35,25 @@ schemas:
   - quality.schema.yaml
   - reader.schema.yaml
   - readiness-report.schema.yaml
+  - reference-learning.schema.yaml
+  - review-feedback.schema.yaml
+  - reader-panel.schema.yaml
   - review-report.schema.yaml
   - revision.schema.yaml
   - sync_check.schema.yaml
   - task.schema.yaml
+  - project-layout.schema.yaml
 
 contracts:
+  - capability.contract.yaml
+  - context.contract.yaml
   - fix.contract.yaml
   - knowledge-update.contract.yaml
+  - orchestrator.contract.yaml
+  - planner.contract.yaml
   - review.contract.yaml
   - session.contract.yaml
+  - workflow.contract.yaml
   - write.contract.yaml
 
 docs:

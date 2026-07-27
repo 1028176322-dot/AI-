@@ -1,6 +1,12 @@
 # 类型模板 · 悬疑 · 规划默认值（L3 规划者加载）
 schema_version: 1.3.0
 genre: xuanyi
+application_mode: adaptive_preferences
+template_policy:
+  advisory_only: true
+  derive_from: [chapter_role, scene_type, environment_function, character_state, reader_promise]
+  forbid_forced_full_curve: true
+  forbid_three_chapter_boundary_reuse: true
 story_beat_emphasis:
   hook: 异常事件
   inciting: 发现线索/尸体

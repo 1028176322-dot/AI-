@@ -40,6 +40,9 @@ import task_engine as TE
 import session_bootstrap as SB
 import task_intake as TI
 import task_packet as TP
+import task_templates as TT
+import conversation_dispatch as CD
+import outline_governance
 
 PLAT_ROOT = os.path.dirname(os.path.dirname(HERE))
 TEMPLATES_DIR = os.path.join(PLAT_ROOT, "core", "task-system", "templates")
@@ -51,31 +54,55 @@ _MUTATION_VERBS = {"create", "goal", "promote", "claim", "start",
 
 
 def _load_template(name):
-    p = os.path.join(TEMPLATES_DIR, name + ".task.yaml")
-    if not os.path.isfile(p):
-        return None
-    d = _gov.load_yaml(p) or {}
-    return d.get("task_template") or d.get("template")
+    return TT.load(name)
 
 
 def _map_request(req):
     """自然语言请求 -> (template_name, task_type, chapter_ref_or_None)。"""
     m = re.search(r"第\s*(\d+)\s*章", req)
     ch = ("%03d" % int(m.group(1))) if m else None
+    is_reference_learning = (
+        any(k in req for k in ["参考小说", "参考原著", "原著", "样本小说", "reference"])
+        and any(k in req for k in ["学习", "提取", "归纳", "learn"])
+    )
+    is_feedback_learning = (
+        any(k in req for k in ["审查", "review", "读者反馈"])
+        and any(k in req for k in ["反补", "反哺", "回流", "反馈写作"])
+    )
     is_review = any(k in req for k in ["审查", "评", "审", "review"])
     is_fix = any(k in req for k in ["修", "修复", "润色", "fix", "改"])
+    total_chapters = outline_governance.extract_total_chapters(req)
+    is_project_design = (
+        any(k in req for k in [
+            "新项目", "新小说", "开新书", "灵感", "项目设计",
+            "故事构思", "创作设定"])
+        and (any(k in req for k in [
+            "设定", "人物", "世界观", "题材", "大纲", "故事",
+            "主角", "方向", "灵感"]) or total_chapters is not None))
     is_nkb = any(k in req for k in ["NKB", "知识库", "设定", "人物", "世界观"])
     is_platform = any(k in req for k in ["平台", "工具", "脚本", "policy", "钩子", "pre-commit"])
+    is_platform_change = (
+        is_platform and any(k in req for k in [
+            "修改", "优化", "新增", "升级", "修复", "重构", "接入",
+            "实现", "改造"]))
+    if is_reference_learning:
+        return "reference-learn", "reference_learn", None
+    if is_feedback_learning:
+        return "feedback-integrate", "feedback_integrate", None
+    if is_platform_change:
+        return "system-maintenance", "system_maintenance", None
+    if is_project_design and not ch:
+        return "project-design", "project_design", None
     if ch and is_review:
         return "chapter-review", "chapter_review", "第一卷_道生/第%s章.md" % ch
     if ch and is_fix:
         return "chapter-fix", "chapter_fix", "第一卷_道生/第%s章.md" % ch
     if ch:
         return "chapter-write", "chapter_write", "第一卷_道生/第%s章.md" % ch
-    if is_nkb:
-        return "nkb-sync", "nkb_update", None
     if is_platform:
         return "system-maintenance", "system_maintenance", None
+    if is_nkb:
+        return "nkb-sync", "nkb_update", None
     # 默认：章节写作（最常见）
     return "chapter-write", "chapter_write", None
 
@@ -87,7 +114,35 @@ def _build_task_from_request(root, request, project, role):
         return None, cls, None
     tname, ttype, chapter_ref = _map_request(request)
     tmpl = _load_template(tname) or {}
-    tid = "TASK-INTAKE-%s" % datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    # Microseconds prevent a second chat instruction in the same second from
+    # overwriting the first task record and making a governed write appear
+    # untracked to the compliance scanner.
+    tid = "TASK-INTAKE-%s" % datetime.datetime.now().strftime(
+        "%Y%m%d%H%M%S%f")
+    required_inputs = tmpl.get("required_inputs", [])
+    input_values = {}
+    if ttype == "system_maintenance":
+        input_values = {
+            "change_brief": request,
+            "explicit_user_approval": True,
+            "confirmation_source": "user_request",
+        }
+    if ttype == "reference_learn":
+        input_values = {
+            "learning_scope": request,
+            "explicit_user_approval": True,
+            "confirmation_source": "user_request",
+        }
+    if ttype == "project_design":
+        total_chapters = outline_governance.extract_total_chapters(request)
+        input_values = {
+            "inspiration_brief": request,
+            "autonomy_policy": "balanced",
+            "design_gap_matrix": "generate_before_execution",
+            "confirmation_source": "user_request",
+        }
+        if total_chapters is not None:
+            input_values["total_chapters"] = total_chapters
     task = {
         "id": tid,
         "type": ttype,
@@ -98,7 +153,7 @@ def _build_task_from_request(root, request, project, role):
         "chapter_ref": chapter_ref,
         "agent": {"required_role": tmpl.get("required_role", role)},
         "permissions": tmpl.get("permissions", {"read": ["NKB/**"], "write": ["tasks/**"]}),
-        "inputs": {"required": tmpl.get("required_inputs", [])},
+        "inputs": {"required": required_inputs, "values": input_values},
         "expected_outputs": tmpl.get("allowed_outputs", []),
         "acceptance": {"criteria": ["按 %s 模板契约完成" % tname]},
     }
@@ -107,6 +162,19 @@ def _build_task_from_request(root, request, project, role):
 
 def _cmd_intake(args):
     root = args.project_root
+    if args.request and CD.looks_like_chapter_request(args.request):
+        try:
+            plan = CD.dispatch(
+                root, args.request, args.project,
+                author=args.agent, model=args.model, write=True)
+        except (RuntimeError, ValueError) as exc:
+            print("REJECTED: %s" % exc)
+            sys.exit(1)
+        print("✓ 对话请求已拆为受管任务: %s" % plan["request_id"])
+        print("章节: %s" % plan["chapters"])
+        print("任务数: %d" % len(plan["created_tasks"]))
+        print("解释记录: %s" % plan["manifest_path"])
+        return
     cls, required, action = TI.classify(args.request)
     print("分类: %s | task_required=%s" % (cls, required))
     print("建议: %s" % action)
@@ -123,6 +191,19 @@ def _cmd_intake(args):
 def _cmd_run(args):
     root = args.project_root
     # 1) 解析任务：--request 则先 intake；否则加载 --task
+    if args.request and CD.looks_like_chapter_request(args.request):
+        try:
+            plan = CD.dispatch(
+                root, args.request, args.project,
+                author=args.agent, model=args.model, write=True)
+        except (RuntimeError, ValueError) as exc:
+            print("REJECTED: %s" % exc)
+            sys.exit(1)
+        print("✓ 对话请求已拆为受管任务: %s" % plan["request_id"])
+        print("章节: %s" % plan["chapters"])
+        print("任务数: %d" % len(plan["created_tasks"]))
+        print("解释记录: %s" % plan["manifest_path"])
+        return
     if args.request:
         cls, required, _ = TI.classify(args.request)
         if not required:
@@ -173,7 +254,8 @@ def main():
     ap = argparse.ArgumentParser(prog="task", description="任务系统操作中心")
     ap.add_argument("verb", choices=["create", "goal", "promote", "claim", "start",
                                      "submit", "review", "complete", "fail", "retry",
-                                     "route", "list", "show", "intake", "run", "next", "packet"])
+                                     "route", "list", "show", "intake", "run", "dispatch",
+                                     "next", "packet"])
     ap.add_argument("--project-root", required=True)
     ap.add_argument("--request", help="自然语言请求（intake/run 用）")
     ap.add_argument("--project", default="novel-dsf", help="项目 id（intake/run 用）")
@@ -187,6 +269,7 @@ def main():
     ap.add_argument("--lease", type=int, default=60)
     ap.add_argument("--artifact", default=None)
     ap.add_argument("--checks", default=None, help='JSON dict，如 {"constitution":"pass"}')
+    ap.add_argument("--outputs", default=None, help="JSON named output paths")
     ap.add_argument("--decision", choices=["pass", "fail"], default="pass")
     ap.add_argument("--findings", default=None, help="JSON list of findings")
     ap.add_argument("--reason", default="")
@@ -224,8 +307,9 @@ def main():
         print("✓ start %s -> %s" % (args.task, st))
     elif v == "submit":
         checks = json.loads(args.checks) if args.checks else {}
+        outputs = json.loads(args.outputs) if args.outputs else {}
         st, rev = TE.submit(root, args.task, args.artifact or "BUILD-unknown",
-                            outputs={}, checks=checks, agent=args.agent, role=args.role, model=args.model)
+                            outputs=outputs, checks=checks, agent=args.agent, role=args.role, model=args.model)
         print("✓ submit %s -> %s (review=%s)" % (args.task, st, rev))
     elif v == "review":
         findings = json.loads(args.findings) if args.findings else None
@@ -281,6 +365,17 @@ def main():
         _cmd_intake(args)
     elif v == "run":
         _cmd_run(args)
+    elif v == "dispatch":
+        if not args.request:
+            ap.error("dispatch requires --request")
+        try:
+            plan = CD.dispatch(
+                root, args.request, args.project,
+                author=args.agent, model=args.model, write=True)
+        except (RuntimeError, ValueError) as exc:
+            print("REJECTED: %s" % exc)
+            sys.exit(1)
+        print(_gov.dump_block(plan))
 
 
 def _load_arg(args, ap):

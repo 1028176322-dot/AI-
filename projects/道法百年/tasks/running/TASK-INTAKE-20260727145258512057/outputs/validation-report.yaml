@@ -1,0 +1,49 @@
+validation_report:
+  task_id: TASK-INTAKE-20260727145258512057
+  decision: pass
+  validated_at: "2026-07-27"
+  checks:
+    python_compile:
+      decision: pass
+      files:
+        - scripts/project/outline_governance.py
+        - scripts/platform/writing_strategy.py
+        - scripts/tasks/task_engine.py
+        - scripts/tasks/task_packet.py
+        - scripts/context/context_builder.py
+        - scripts/project/design_expansion.py
+        - scripts/project/project_layout.py
+        - cli/platform.py
+    yaml_contract_parse:
+      decision: pass
+      files: 10
+      failures: 0
+    targeted_regression:
+      decision: pass
+      tests: 35
+      failures: 0
+    compatibility_regression:
+      decision: pass
+      task_enforcement_chain: 19/19
+      scripting_toolchain: 52/52
+    full_platform_regression:
+      decision: pass
+      suites: 31
+      failures: 0
+      duration_seconds: 220.96
+      execution_mode: single_agent_sequential
+  verified_invariants:
+    - total chapter count N requires N complete detailed chapter plans
+    - generation batches control execution size but never reduce detail
+    - every scene declares type, environment function and adaptive techniques
+    - opening design links the previous plan and fits the first scene
+    - ending design resolves chapter change and links the next plan
+    - three consecutive identical opening or ending modes are rejected
+    - recent chapter boundary similarity above 0.75 blocks evidence
+    - chapter claim creates a governed writing strategy
+    - chapter submit and content review require valid strategy evidence
+    - legacy projects without strict-v2 layout remain compatible
+  gate:
+    decision: pass
+    reasons: []
+

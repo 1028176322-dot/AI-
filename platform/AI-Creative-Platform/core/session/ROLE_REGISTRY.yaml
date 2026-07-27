@@ -101,12 +101,46 @@ roles:
       - source_chapter
       - event_id
 
-  system-maintainer:
-    purpose: 修改平台规范（core/registry/templates）
+  learning-curator:
+    purpose: Govern reference learning, review feedback, reader evidence, and project-private guidance.
+    capabilities: [reference_learn, candidate_review, feedback_integrate, reader_panel]
     may_write:
+      - sources/references/manifests/**
+      - learning/candidates/**
+      - memory/project/reference-learning/**
+      - memory/project/review-feedback/**
+      - runtime/learning/**
+      - runtime/reader-panels/**
+      - analysis/learning/**
+      - analysis/reader/**
+      - tasks/running/<id>/outputs/**
+    may_not_write:
+      - NKB/**
+      - chapters/**
+      - platform/memory/**
+    requires:
+      - governed_task
+      - current_session
+
+  system-maintainer:
+    purpose: 维护平台入口、CLI、脚本、契约、模板、测试与文档
+    may_write:
+      - .gitattributes
+      - workspace.yaml
+      - platform.yaml
+      - platform.lock.yaml
+      - cli/**
       - core/**
+      - scripts/**
       - registry/**
+      - schemas/**
       - templates/**
+      - tests/**
+      - memory/晋升机制.md
+      - README.md
+      - ARCHITECTURE.md
+      - platform.bat
+      - platform.sh
     may_not_write:
       - projects/**/NKB/**
       - projects/**/approved/**

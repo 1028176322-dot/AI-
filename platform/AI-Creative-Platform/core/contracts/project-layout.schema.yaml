@@ -1,0 +1,14 @@
+schema:
+  id: project.layout
+  version: "2.0.0"
+  description: Strict storage contract for newly scaffolded projects only.
+marker:
+  required: [schema, layout_version, strict, task_system, review, learning, storage, required_directories, allowed_top_level]
+compatibility:
+  existing_projects_without_marker: legacy_proceed
+  automatic_migration: false
+rules:
+  root_level_files_must_be_registered: true
+  generated_files_follow_storage_map: true
+  all_mutations_require_task: true
+

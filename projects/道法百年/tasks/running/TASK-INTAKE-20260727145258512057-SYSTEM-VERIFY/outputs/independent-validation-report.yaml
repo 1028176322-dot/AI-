@@ -1,0 +1,41 @@
+validation_report:
+  task_id: TASK-INTAKE-20260727145258512057-SYSTEM-VERIFY
+  source_task: TASK-INTAKE-20260727145258512057
+  decision: pass
+  verified_at: "2026-07-27"
+  mode: single_agent_sequential_independent_stage
+  checks:
+    source_outputs:
+      decision: pass
+      present:
+        - platform-patch-summary.md
+        - validation-report.yaml
+        - operation-manifest.yaml
+    focused_regression:
+      decision: pass
+      tests: 16
+      failures: 0
+      suites:
+        - tests.test_outline_governance
+        - tests.test_platform_integrity
+    platform_selfcheck:
+      decision: pass
+      checks: 7
+      errors: 0
+      warnings: 0
+      health: 100
+    full_regression_evidence:
+      decision: pass
+      suites: 31
+      failures: 0
+      duration_seconds: 220.96
+  reviewed_boundaries:
+    - full chapter outline coverage is mandatory only after governed planning is enabled
+    - strict-v2 projects require writing strategy input and execution evidence
+    - legacy task instances remain authoritative over later template defaults
+    - review stage revalidates evidence rather than trusting writer declaration
+    - system maintenance did not write project NKB or approved chapters
+  gate:
+    decision: pass
+    reasons: []
+

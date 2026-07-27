@@ -1,0 +1,10 @@
+contract:
+  id: orchestrator.run
+  version: "1.0.0"
+input:
+  required: [project_id, task_id, session_id, policy_version]
+  optional: [model_route, resume_checkpoint]
+output:
+  required: [decision, next_step, task_status, audit_ref]
+  decision_enum: [continue, stop, blocked, human_gate]
+

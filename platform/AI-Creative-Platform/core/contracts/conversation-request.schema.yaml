@@ -1,0 +1,21 @@
+schema:
+  id: conversation.request.plan
+  version: "1.0.0"
+  description: Deterministic conversion of conversational chapter scope into governed tasks.
+plan:
+  required: [request_id, request, project_id, action, selection, chapters, assumptions, created_tasks]
+  action_enum: [write_pipeline, review_only]
+  selection_enum:
+    - explicit_range
+    - explicit_chapter
+    - all_existing
+    - count_from_next
+    - latest_existing_count
+rules:
+  write_count_starts_after_latest_existing: true
+  review_count_selects_latest_existing: true
+  write_pipeline_requires_review: true
+  publish_is_separate_task: true
+  direct_prose_write: forbidden
+  task_packet_per_created_task: required
+

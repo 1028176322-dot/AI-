@@ -37,11 +37,40 @@ roles:
       - core/**
       - chapters/**
       - approved/**
+  learning-curator:
+    allow_write:
+      - sources/references/manifests/**
+      - learning/candidates/**
+      - memory/project/reference-learning/**
+      - memory/project/review-feedback/**
+      - runtime/learning/**
+      - runtime/reader-panels/**
+      - analysis/learning/**
+      - analysis/reader/**
+      - tasks/running/<id>/outputs/**
+    deny_write:
+      - NKB/**
+      - chapters/**
+      - platform/memory/**
+
   system-maintainer:
     allow_write:
+      - .gitattributes
+      - workspace.yaml
+      - platform.yaml
+      - platform.lock.yaml
+      - cli/**
       - core/**
+      - scripts/**
       - registry/**
+      - schemas/**
       - templates/**
+      - tests/**
+      - memory/晋升机制.md
+      - README.md
+      - ARCHITECTURE.md
+      - platform.bat
+      - platform.sh
     deny_write:
       - projects/**/NKB/**
       - projects/**/approved/**

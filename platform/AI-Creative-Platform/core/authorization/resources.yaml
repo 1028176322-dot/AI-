@@ -24,6 +24,7 @@ layers:
     description: 正式章节正文（已发布），仅 Publish Service 可写，authoritative 真相源
     authoritative: true
     prefixes:
+      - chapters/approved/
       - 第一卷_道生/
       - 第二卷_京华/
       - 第三卷_江湖/

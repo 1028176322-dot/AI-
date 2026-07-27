@@ -215,7 +215,8 @@ check("agent_audit 无 spawned/delegated/parallel",
 # doctor 实际跑出 AgentGov PASS
 r = subprocess.run([sys.executable, os.path.join(_PLAT2, "cli", "platform.py"),
                     "--workspace", PROJ_ROOT, "doctor"],
-                   capture_output=True, text=True, timeout=420)
+                   capture_output=True, text=True,
+                   encoding="utf-8", errors="replace", timeout=420)
 doctor_ok = ("AgentGov" in r.stdout) and ("[PASS] AgentGov" in r.stdout)
 check("platform doctor 输出 AgentGov PASS", doctor_ok,
       ("AgentGov 缺失" if "AgentGov" not in r.stdout else "非 PASS"))

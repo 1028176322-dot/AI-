@@ -1,0 +1,54 @@
+task:
+  id: TASK-INTAKE-20260727141931370703
+  type: project_design
+  project: novel-dsf
+  title: 修改平台，新增总章节数驱动的五级大纲契约、AI结构化生成计划、全书覆盖校验、章节可写性与防注水门禁，并接入新项目设计、开
+  version: 1
+  priority: high
+  chapter_ref: null
+  agent:
+    required_role: project-producer
+  permissions:
+    read:
+      - sources/**
+      - NKB/**
+      - runtime/learning/**
+      - analysis/design/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - sources/design/_candidates/**
+      - analysis/design/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  inputs:
+    required:
+      - inspiration_brief
+      - autonomy_policy
+      - design_gap_matrix
+    values:
+      inspiration_brief: 修改平台，新增总章节数驱动的五级大纲契约、AI结构化生成计划、全书覆盖校验、章节可写性与防注水门禁，并接入新项目设计、开写准备度、上下文和全平台测试
+      autonomy_policy: balanced
+      design_gap_matrix: generate_before_execution
+      confirmation_source: user_request
+  expected_outputs:
+    - design_sources
+    - design_candidates
+    - design_handoff
+  acceptance:
+    criteria:
+      - 按 project-design 模板契约完成
+  created: 2026-07-27T14:19:31
+  created_by: codex-root
+  urgency: normal
+  status: failed
+  failure:
+    reason: intake classification mismatch: platform maintenance was mapped to project_design
+    strategy: reload_context
+    max_retry: 3
+    resolved_by: TASK-INTAKE-20260727142016443045
+    resolved_at: 2026-07-27T14:47:50
+  retry_count: 0

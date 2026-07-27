@@ -1,0 +1,33 @@
+validation:
+  task_id: TASK-INTAKE-20260727114830
+  decision: pass
+  executed_at: "2026-07-27T12:22:00+08:00"
+  checks:
+    - name: full_serial_regression
+      result: pass
+      evidence: "tests/run_all.py: 28/28 passed"
+    - name: conversation_parser
+      result: pass
+      evidence: "tests/test_conversation_dispatch.py: 5/5 passed"
+    - name: real_project_chain
+      result: pass
+      evidence: "tests/e2e_46_conversation_project_chain.py"
+    - name: legacy_single_chapter_compatibility
+      result: pass
+      evidence: "tests/e2e_35_task_enforcement_chain.py: 19/19 passed"
+    - name: publish_authorization
+      result: pass
+      evidence: "tests/e2e_45_publish_authorization.py: 24/24 passed"
+    - name: platform_selfcheck
+      result: pass
+      evidence: "health=100 errors=0 warnings=0"
+    - name: bootstrap
+      result: pass
+      evidence: "workspace cache manifest regenerated"
+    - name: full_doctor
+      result: pass_with_warnings
+      evidence: "0 FAIL; existing project SyncGov and VersionGov soft warnings"
+  residual_risks:
+    - "Existing project content was intentionally not migrated to the strict new-project layout."
+    - "Natural-language ambiguity is recorded as assumptions; requests without a recognized chapter scope continue through the existing intake classifier."
+

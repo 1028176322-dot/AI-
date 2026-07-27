@@ -29,6 +29,8 @@ allowed_operations:
 allowed_target_components:
   - Canon
   - Characters
+  - Locations
+  - Organizations
   - Timeline
   - WorldState
   - Events

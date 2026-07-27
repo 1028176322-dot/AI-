@@ -1,0 +1,18 @@
+schema:
+  id: reference.learning
+  version: "1.0.0"
+  description: Structural learning from user-authorized reference novels.
+profile:
+  required: [schema, meta, metrics, candidates, raw_text_stored]
+  raw_text_stored: false
+meta:
+  required: [source_id, source_name, source_hash, genre, analyzed_at, copyright_policy]
+candidate:
+  required: [rule_id, target, scope, principle, evidence, review_check, writing_action, confidence, status, requires_project_validation]
+  target_enum: [writing, review, both]
+  status_enum: [candidate, experimenting, active, rejected]
+promotion:
+  project_activation_requires: [governed_task, explicit_approval]
+  genre_global_requires: [independent_project_validation, memory_governance]
+  source_count_is_not_project_validation: true
+

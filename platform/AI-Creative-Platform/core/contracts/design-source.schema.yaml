@@ -4,22 +4,28 @@ applies_to: ["sources/design/**", "sources/canon/**"]
 description: P3 创作设计源契约（按 document.type 区分必填业务段）
 requires_document_header: true
 type_required:
+  story_core:
+    section: story
+    required_fields: [id, premise, theme, central_conflict, story_promise, ending_direction]
   character:
     section: character
-    required_fields: [id, canonical_name, status]
+    required_fields: [id, canonical_name, status, identity, personality, goal, abilities, relationships, speech]
     nested_required:
       identity: [current_age]
       personality: [stable_traits, values, forbidden_behaviors]
-      metadata: [version, updated]
+      speech: [register, prohibited_patterns]
   faction:
     section: faction
-    required_fields: [id, canonical_name, type, status]
+    required_fields: [id, canonical_name, type, status, goals, relationships]
+  organization:
+    section: organization
+    required_fields: [id, canonical_name, type, status, goals, relationships]
   location:
     section: location
-    required_fields: [id, canonical_name, type]
+    required_fields: [id, canonical_name, type, status, accessibility]
   item:
     section: item
-    required_fields: [id, canonical_name, type]
+    required_fields: [id, canonical_name, type, status, abilities, limitations]
   ability:
     section: ability
     required_fields: [id, canonical_name, type]
@@ -33,13 +39,35 @@ type_required:
     required_fields: [id, name, dimension]
   foreshadow:
     section: foreshadow
-    required_fields: [id, content, planned_reveal]
+    required_fields: [id, content, status, planted_at, payoff_window, related_entities]
   world:
     section: world
     required_fields: [id, name, genre]
   canon_rule:
-    section: rules
+    section: rule
     required_fields: [id, statement, severity]
     enums:
       severity: [fatal, major, minor]
+  terminology:
+    section: terminology
+    required_fields: [id, name, canonical, forbidden]
+  world_state:
+    section: world_state
+    required_fields: [id, state, derived_from]
+  reader_state:
+    section: reader_state
+    required_fields: [id, fact_id, epistemic_status, learned_at, evidence]
+    enums:
+      epistemic_status: [known, believed, suspected, unknown, false_belief]
+  timeline:
+    section: timeline
+    required_fields: [id, chapter, event_id, story_time]
+  event:
+    section: event
+    required_fields: [id, name, chapter, participants, cause, effect, state_deltas, truth_status]
+    enums:
+      truth_status: [designed, occurred, revealed, believed, claimed]
+  graph:
+    section: graph
+    required_fields: [id, nodes, edges]
 forbidden_patterns: ["可能", "也许", "预计", "大概", "或许", "应该"]

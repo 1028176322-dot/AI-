@@ -6,4 +6,4 @@ add_fields:
   K1_canon: 强化 物理法则 / 技术树
   K8_terminology: 强化 科技术语表
   TechTree: 新增技术树组件
-note: 基础 11 组件见 core/review/NKB.md；本文件仅列题材增量。
+note: canonical 14 组件见 schemas/nkb/nkb-manifest.yaml；本文件仅列题材增量。

@@ -35,9 +35,18 @@ def _normalize(raw):
         s = ln.strip()
         if not s:
             continue
+        plain_heading = s.lstrip('#').strip()
+        if re.match(r"^第[0-9一二三四五六七八九十百千]+章(?:\s|$)", plain_heading):
+            # 标题中的分隔符（如 “童年·道心”）在纯文本导出中
+            # 可能被简化；同步门禁只比较正文。
+            continue
         if s.startswith('#'):          # 标题行：去 # 保留标题文字（与 txt 纯文本对齐）
             s = s.lstrip('#').strip()
             if not s:
+                continue
+            # 卷目录的 Markdown 源含卷标题，而章节 txt 导出只保留
+            # 章节标题。卷标题是容器元数据，不属于正文差异。
+            if re.match(r"^第.+卷(?:\s|$)", s):
                 continue
             out.append(s)
             continue
@@ -94,8 +103,10 @@ def check_txt_md_sync(project_root, threshold=0.97):
             continue
         checked += 1
         try:
-            md_text = _normalize(open(md, encoding='utf-8').read())
-            tx_text = _normalize(open(txt, encoding='utf-8').read())
+            with open(md, encoding='utf-8') as md_file:
+                md_text = _normalize(md_file.read())
+            with open(txt, encoding='utf-8') as txt_file:
+                tx_text = _normalize(txt_file.read())
         except Exception as _e:
             drift.append('%s (读取失败: %s)' % (name, _e))
             continue

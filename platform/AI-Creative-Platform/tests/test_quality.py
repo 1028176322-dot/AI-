@@ -41,7 +41,7 @@ import quality_scorer as qs
 import task_engine as te
 
 
-PY = "C:/Users/Administrator/.workbuddy/binaries/python/versions/3.13.12/python.exe"
+PY = sys.executable
 
 
 def _write_chapter(root, sub, fname, text):
@@ -95,7 +95,7 @@ class QualityScoreTest(unittest.TestCase):
     # T1 partial：无审查报告 -> proceed + review_consumed False
     def test_partial_no_review(self):
         rep = self._score99()
-        self.assertEqual(rep["gate"]["decision"], "proceed")
+        self.assertEqual(rep["gate"]["decision"], "caution")
         self.assertFalse(rep["composite"]["review_consumed"])
         # 部分评分提示在理由里
         self.assertTrue(any("partial" in r for r in rep["gate"]["reasons"]))
@@ -140,7 +140,7 @@ class QualityScoreTest(unittest.TestCase):
         # 回读可解析
         back = qs._safe_load(rd)
         self.assertIsInstance(back, dict)
-        self.assertEqual(back["gate"]["decision"], "proceed")
+        self.assertEqual(back["gate"]["decision"], "caution")
         self.assertEqual(back["target"]["target_type"], "chapter")
         self.assertEqual(str(back["target"]["target_id"]), "99")
 

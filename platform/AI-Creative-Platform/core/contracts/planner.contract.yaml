@@ -1,0 +1,29 @@
+contract:
+  id: chapter.plan
+  version: "2.0.0"
+input:
+  required: [project_id, chapter_id, outline_ref, nkb_snapshot, planning_policy]
+  optional: [previous_summary, reader_state, previous_chapter_handoff, review_feedback]
+output:
+  schema: core/contracts/outline.schema.yaml#chapter_plan
+  required:
+    - document
+    - plan
+    - starting_state
+    - objectives
+    - conflict
+    - scenes
+    - causal_chain
+    - reader_experience
+    - information_plan
+    - foreshadow
+    - expected_deltas
+    - constraints
+    - ending
+    - flexibility
+    - narrative_strategy
+    - opening_design
+    - ending_design
+gate:
+  command: platform outline chapter-check --project-root <project> --chapter <CH-ID>
+  required_decision: proceed

@@ -5,4 +5,4 @@ extends: [K2 Characters, D2 ReaderState]
 add_fields:
   K2_characters: 强化 情感档案（心动触发 / 雷区）
   D2_reader_state: 强化 双向暗恋信息差
-note: 基础 11 组件见 core/review/NKB.md；本文件仅列题材增量。
+note: canonical 14 组件见 schemas/nkb/nkb-manifest.yaml；本文件仅列题材增量。

@@ -2,12 +2,12 @@ task_template:
   type: project_design
   version: "1.0.0"
   required_role: project-producer
-  description: 项目级设计（世界观/大纲/设定架构，不写正文）
-  required_inputs: [outline_brief, market_signal]
-  allowed_outputs: [design_doc, handoff]
+  description: 单 Agent 串行完成项目分域设计及五级大纲；只写候选、设计源和大纲候选，不写正文或 NKB。
+  required_inputs: [inspiration_brief, autonomy_policy, design_gap_matrix]
+  allowed_outputs: [design_sources, design_candidates, outline_sources, outline_generation_plan, design_handoff]
   permissions:
-    read: [sources/**, NKB/**]
-    write: [tasks/running/<id>/outputs/**, designs/**]
+    read: [sources/**, NKB/**, runtime/learning/**, analysis/design/**]
+    write: [tasks/running/<id>/outputs/**, sources/design/_candidates/**, sources/outline/**, analysis/design/**, analysis/outline/**, runtime/outline/**]
     forbidden: [core/**, registry/**, templates/**, NKB/**, chapters/approved/**]
   execution_policy:
     agent_mode: single
@@ -19,4 +19,4 @@ task_template:
     required_session: current
 
   next_tasks:
-    on_submit: [chapter_plan]
+    on_submit: [design_review]

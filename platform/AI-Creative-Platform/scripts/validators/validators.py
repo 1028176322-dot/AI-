@@ -190,21 +190,24 @@ def _check_ids(args):
 def _check_references(args):
     comps = _load_nkb(args.project_root)
     ids = {comp: {str(r.get("id")) for r in recs} for comp, recs in comps.items()}
+    all_ids = set()
+    for component_ids in ids.values():
+        all_ids.update(component_ids)
     findings = []
-    # Events participants → Characters
-    char_ids = ids.get("Characters", set())
+    # Events may involve characters, organizations, locations, or other
+    # registered entities. Validate existence across the whole NKB.
     for e in comps.get("Events", []):
         for p in (e.get("participants") or []):
-            if p not in char_ids:
+            if p not in all_ids:
                 findings.append({"check": "references", "severity": "warn",
-                                 "detail": "%s 参与者 %s 不在 Characters" % (e.get("id"), p)})
-    # Characters relationships target → Characters
+                                 "detail": "%s 参与者 %s 不在 NKB" % (e.get("id"), p)})
+    # Character relationships may also point to organizations or locations.
     for c in comps.get("Characters", []):
         for rel in (c.get("relationships") or []):
             t = rel.get("target") if isinstance(rel, dict) else None
-            if t and t not in char_ids:
+            if t and t not in all_ids:
                 findings.append({"check": "references", "severity": "warn",
-                                 "detail": "%s 关系目标 %s 不在 Characters" % (c.get("id"), t)})
+                                 "detail": "%s 关系目标 %s 不在 NKB" % (c.get("id"), t)})
     if not findings:
         findings = [{"check": "references", "severity": "info", "detail": "引用完整性 OK"}]
     return _emit(findings)

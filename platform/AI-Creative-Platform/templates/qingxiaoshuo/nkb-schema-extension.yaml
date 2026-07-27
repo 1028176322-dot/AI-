@@ -5,4 +5,4 @@ extends: [K2 Characters]
 add_fields:
   K2_characters: 强化 角色标签（傲娇 / 天然）
   chapter_quality: 章节质量门槛降低（单章结构散允许）
-note: 基础 11 组件见 core/review/NKB.md；本文件仅列题材增量。
+note: canonical 14 组件见 schemas/nkb/nkb-manifest.yaml；本文件仅列题材增量。

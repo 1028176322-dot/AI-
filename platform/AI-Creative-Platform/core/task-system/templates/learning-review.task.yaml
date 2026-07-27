@@ -1,0 +1,28 @@
+task_template:
+  type: candidate_review
+  version: "1.0.0"
+  required_role: learning-curator
+  description: Review project learning candidates before activation or wider promotion.
+  required_inputs: [learning_candidates]
+  allowed_outputs: [candidate_decision, validation_report]
+  permissions:
+    read:
+      - learning/candidates/**
+      - memory/project/**
+      - analysis/learning/**
+      - tasks/**
+    write:
+      - learning/candidates/**
+      - runtime/learning/**
+      - memory/project/reference-learning/**
+      - tasks/running/<id>/outputs/**
+    forbidden:
+      - NKB/**
+      - chapters/**
+      - platform/memory/**
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+

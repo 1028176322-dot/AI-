@@ -1,0 +1,23 @@
+task_template:
+  type: design_approval
+  version: "1.0.0"
+  required_role: project-producer
+  description: 按用户授予的自主模式处理低风险候选，并集中呈现必须由作者裁决的高影响设计。
+  required_inputs: [approval_packet, autonomy_policy, design_review_report, outline_validation]
+  allowed_outputs: [design_approval, approved_design_sources, approved_outline_sources, approval_evidence, outline_approval_evidence]
+  permissions:
+    read: [sources/design/_candidates/**, sources/design/_intake/**, analysis/design/**]
+    write: [tasks/running/<id>/outputs/**, sources/design/**, sources/canon/**, lifecycle/design/**, operations/design/**]
+    forbidden: [NKB/**, chapters/**, core/**, registry/**, templates/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_submit: []
+    on_pass: [nkb_genesis]
+    on_fail: [project_design]

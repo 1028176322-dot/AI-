@@ -101,6 +101,15 @@ def test_derive():
         # 阻塞
         check("blocked=True", res["blocked"]["is_blocked"] is True, str(res["blocked"]))
         check("failed_tasks 记录", "TASK-BAD" in res["blocked"]["failed_tasks"], str(res["blocked"]))
+        # 同类型、同标题的后续完成任务会关闭历史失败，不永久阻塞项目。
+        _write(os.path.join(proot, "tasks", "completed", "TASK-BAD-REPLACEMENT.yaml"),
+               "task:\n  id: TASK-BAD-REPLACEMENT\n  status: completed\n"
+               "  type: chapter_write\n  title: 第一卷 Ch50 写作\n"
+               "  created: 2026-07-27T10:00:00\n")
+        res_resolved = sd.derive(proot, write=False)
+        check("后续完成任务解除历史失败阻塞",
+              res_resolved["blocked"]["is_blocked"] is False,
+              str(res_resolved["blocked"]))
         # NKB
         check("nkb present", res["nkb"]["present"] is True)
         check("NKB Characters=2", res["nkb"]["component_counts"].get("Characters") == 2,
@@ -168,7 +177,8 @@ def test_wiring():
     check("doctor 含 status_derive 调用", '"status_derive").govern' in src or "status_derive" in src)
     su_path = os.path.join(_PLAT2, "scripts", "tasks", "status_update.py")
     su = open(su_path, encoding="utf-8").read()
-    check("status_update 接入 derive 动词", '"derive"' in su and "status_derive" in su)
+    check("status_update 接入 derive/unblock 动词",
+          '"derive"' in su and '"unblock"' in su and "status_derive" in su)
 
 
 if __name__ == "__main__":

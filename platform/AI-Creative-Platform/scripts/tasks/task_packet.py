@@ -18,6 +18,7 @@ import sys
 import json
 import datetime
 import argparse
+import re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 # [Phase2] 把 scripts 各分组目录加入 sys.path，保持跨组裸名 import 可用
@@ -31,40 +32,139 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 import _gov
 import task_engine as TE
+import task_templates as TT
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(os.path.dirname(HERE)), "core", "task-system", "templates")
 
 
 def _load_template(name):
-    p = os.path.join(TEMPLATES_DIR, name + ".task.yaml")
-    if not os.path.isfile(p):
-        return {}
-    d = _gov.load_yaml(p) or {}
-    return d.get("task_template") or d.get("template") or {}
+    return TT.load(name)
 
 
 def _resolve_input(root, name, task):
     """把概念性必需输入映射到项目内路径（最佳努力）。"""
     chapter_ref = task.get("chapter_ref")
+    if chapter_ref is not None:
+        chapter_ref = str(chapter_ref)
+    values = (task.get("inputs") or {}).get("values") or {}
+    if values.get(name) not in (None, False, ""):
+        return ("inline:inputs.values.%s" % name, True)
+    # 优先解析依赖任务的已提交制品/命名输出。
+    for dep in task.get("dependencies") or []:
+        _, dep_data = TE.load_task(root, dep)
+        source = (dep_data or {}).get("task") or {}
+        outputs = source.get("outputs") or {}
+        candidates = []
+        if isinstance(outputs, dict):
+            if outputs.get(name):
+                candidates.append(outputs.get(name))
+            candidates.extend(outputs.values())
+        candidates.append(source.get("artifact"))
+        for candidate in candidates:
+            if isinstance(candidate, str):
+                path = candidate if os.path.isabs(candidate) else os.path.join(root, candidate)
+                if os.path.exists(path):
+                    return (path, True)
     if name == "nkb_snapshot":
         p = os.path.join(root, "NKB")
         return (p, os.path.isdir(p))
     if name == "final_context":
         p = os.path.join(root, "runtime", "context")
-        return (p, os.path.isdir(p))
-    if name == "previous_chapter_handoff":
+        if os.path.isdir(p):
+            prefix = "CTX-%s-" % task.get("id", "")
+            matches = [os.path.join(p, f) for f in os.listdir(p)
+                       if f.startswith(prefix) and f.endswith(".md")]
+            if matches:
+                return (sorted(matches, key=os.path.getmtime)[-1], True)
+        return (None, False)
+    if name in ("previous_chapter_handoff", "chapter_handoff"):
         p = os.path.join(root, "handoffs")
-        return (p, os.path.isdir(p))
+        if os.path.isdir(p):
+            files = [os.path.join(p, f) for f in os.listdir(p)
+                     if os.path.isfile(os.path.join(p, f))]
+            if files:
+                return (sorted(files, key=os.path.getmtime)[-1], True)
+        return (None, False)
+    if name == "planning_policy":
+        path = os.path.join(
+            root, "sources", "outline", "_intake",
+            "planning-policy.yaml")
+        return (path, os.path.isfile(path))
+    if name == "writing_strategy":
+        # 旧项目没有 PROJECT_LAYOUT.yaml，也没有启用新式全章规划治理。
+        # 对其标记为不适用而非缺失；新建 strict-v2 项目仍必须提供真实编排文件。
+        if not os.path.isfile(os.path.join(root, "PROJECT_LAYOUT.yaml")):
+            return ("not-applicable:legacy-project", True)
+        chapter_match = re.search(
+            r"(\d+)", str(chapter_ref or task.get("chapter_ref") or ""))
+        if chapter_match:
+            path = os.path.join(
+                root, "runtime", "writing-strategies",
+                "STRATEGY-CH-%03d.yaml" % int(chapter_match.group(1)))
+            return (path, os.path.isfile(path))
+        return (None, False)
     if name == "chapter_plan":
         if chapter_ref:
             base = os.path.splitext(chapter_ref)[0]
-            for cand in (base + "_plan.md", base + ".plan.md",
-                         os.path.join("sources", "outline", os.path.basename(base) + ".md")):
+            chapter_match = re.search(r"(\d+)", os.path.basename(base))
+            number = int(chapter_match.group(1)) if chapter_match else None
+            governed = []
+            if number is not None:
+                governed = [
+                    os.path.join(
+                        "sources", "outline", "chapters",
+                        "PLAN-%03d.yaml" % number),
+                    os.path.join(
+                        "sources", "outline", "chapters",
+                        "CH-%03d.yaml" % number),
+                ]
+            for cand in tuple(governed) + (
+                    base + "_plan.md", base + ".plan.md",
+                    os.path.join(
+                        "sources", "outline",
+                        os.path.basename(base) + ".md")):
                 fp = os.path.join(root, cand)
                 if os.path.isfile(fp):
                     return (fp, True)
-            return (chapter_ref, os.path.isfile(os.path.join(root, chapter_ref)))
+            return (None, False)
         return (None, False)
+    if name == "outline":
+        project_file = os.path.join(root, "project.yaml")
+        pdata = _gov.load_yaml(project_file) if os.path.isfile(project_file) else {}
+        rel = ((pdata.get("paths") or {}).get("outline") or (
+            "sources/outline" if os.path.isfile(os.path.join(
+                root, "PROJECT_LAYOUT.yaml")) else "")).lstrip("./")
+        path = os.path.join(root, rel)
+        if os.path.isfile(path):
+            return (path, True)
+        if os.path.isdir(path):
+            has_outline = any(
+                filename.lower().endswith((".md", ".yaml", ".yml"))
+                for filename in os.listdir(path)
+                if os.path.isfile(os.path.join(path, filename))
+            )
+            return (path, has_outline)
+        return (path, False)
+    if name == "project_status":
+        for rel in ("project/status.derived.yaml", "project/status.yaml",
+                    "lifecycle/status.yaml"):
+            path = os.path.join(root, rel)
+            if os.path.isfile(path):
+                return (path, True)
+        return (None, False)
+    if name in ("chapter_draft", "review_report", "patch",
+                "validation_report", "nkb_change", "operation_manifest"):
+        return (None, False)
+    if name == "review_spec":
+        platform_root = _gov.find_platform_root()
+        path = os.path.join(platform_root, "core", "review", "review-plan.yaml")
+        return (path, os.path.isfile(path))
+    if name == "design_review_spec":
+        platform_root = _gov.find_platform_root()
+        path = os.path.join(
+            platform_root, "core", "contracts",
+            "design-review.schema.yaml")
+        return (path, os.path.isfile(path))
     # 未知输入：按文件名片段猜测
     return (None, False)
 
@@ -84,7 +184,12 @@ def build_packet(root, tid):
     _gov.dump_yaml(os.path.join(out_dir, "task.yaml"), data)
 
     # 2) input-index.yaml
-    required = (tmpl.get("required_inputs") or task.get("inputs", {}).get("required") or [])
+    # 任务实例是当次执行契约的权威来源；模板只为未内联输入的任务提供默认值。
+    # 这样已存在的旧任务包不会因平台模板升级而被悄悄追加新必填项。
+    required = (
+        task.get("inputs", {}).get("required")
+        or tmpl.get("required_inputs")
+        or [])
     if isinstance(required, str):
         required = [required]
     inputs = []
@@ -97,10 +202,21 @@ def build_packet(root, tid):
     })
 
     # 3) context.md（优先引用 context build 产物；否则占位）
-    ctx_path = os.path.join(root, "runtime", "context", "CTX-%s-001.md" % tid)
+    ctx_dir = os.path.join(root, "runtime", "context")
+    ctx_candidates = []
+    if os.path.isdir(ctx_dir):
+        prefix = "CTX-%s-" % tid
+        ctx_candidates = sorted(
+            (os.path.join(ctx_dir, f) for f in os.listdir(ctx_dir)
+             if f.startswith(prefix) and f.endswith(".md")),
+            key=os.path.getmtime,
+            reverse=True,
+        )
+    ctx_path = ctx_candidates[0] if ctx_candidates else None
     ctx_lines = ["# Context Package（%s）" % tid, ""]
-    if os.path.isfile(ctx_path):
-        ctx_lines.append("完整最小上下文已生成：runtime/context/CTX-%s-001.md" % tid)
+    if ctx_path and os.path.isfile(ctx_path):
+        ctx_rel = os.path.relpath(ctx_path, root).replace("\\", "/")
+        ctx_lines.append("完整最小上下文已生成：%s" % ctx_rel)
         ctx_lines.append("（由 `platform context build --task %s` 产出）" % tid)
     else:
         ctx_lines.append("尚未生成最小上下文。请运行：")

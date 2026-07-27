@@ -40,6 +40,7 @@ import task_engine as TE
 import auth_engine as AE
 import manifest as MF
 import audit_log
+import project_layout
 
 
 SERVICE_ROLE = "publish_service"
@@ -111,6 +112,21 @@ def publish(project_root, task_id, role=SERVICE_ROLE, agent=SERVICE_ROLE, model=
     if st != "running":
         raise ValueError("发布任务 %s 未处于 running（当前 %s）" % (task_id, st))
 
+    if project_layout.is_strict(project_root):
+        expected_snapshot = t.get("knowledge_snapshot")
+        if not expected_snapshot:
+            raise ValueError(
+                "strict publish requires a validated NKB knowledge_snapshot")
+        manifest_path = os.path.join(project_root, "NKB", "manifest.yaml")
+        manifest = _gov.load_yaml(manifest_path) if os.path.isfile(
+            manifest_path) else {}
+        current_snapshot = (
+            ((manifest or {}).get("nkb") or {}).get("snapshot_id"))
+        if current_snapshot != expected_snapshot:
+            raise ValueError(
+                "NKB snapshot drift: task=%s current=%s" %
+                (expected_snapshot, current_snapshot))
+
     # 3. 六因子授权门禁
     target = t.get("publish_target") or _norm(t.get("inputs", {}).get("required", [None])[0] or "")
     if not target:
@@ -153,7 +169,12 @@ def publish(project_root, task_id, role=SERVICE_ROLE, agent=SERVICE_ROLE, model=
     entry = MF.record_publish(project_root, target, _norm(draft), content, prev_status="publishing")
 
     # 9. 闭环：任务 completed + grant 失效 + 审计
-    TE.finish_service_task(project_root, task_id, model=model, author=agent)
+    TE.finish_service_task(
+        project_root, task_id, model=model, author=agent,
+        outputs={
+            "published_chapter": target.replace("\\", "/"),
+            "canonical_manifest": "canonical_manifest.yaml",
+        })
     AE.invalidate_grant(project_root, task_id)
     audit_log.record(project_root, "publish", agent=agent, role=role, model=model,
                      task_id=task_id, result="success",

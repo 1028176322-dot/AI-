@@ -26,6 +26,7 @@ if os.path.isdir(_SCRIPTS):
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
 import _yaml_lite
+import project_layout
 
 PASS = "PASS"
 FAIL = "FAIL"
@@ -83,6 +84,17 @@ def govern(proot, write=False):
         if not os.path.exists(pdir):
             reasons.append("paths.%s 指向不存在目录 %s" % (pk, pv))
             resp["missing_paths"].append(pk)
+
+    # Only projects created with PROJECT_LAYOUT.yaml are subject to the strict
+    # v2 contract. Legacy projects remain compatible and are not migrated.
+    layout_report = project_layout.validate(proot)
+    resp["project_layout"] = layout_report.get("response") or {}
+    if layout_report.get("gate", {}).get("decision") == "block":
+        reasons.extend(layout_report.get("gate", {}).get("reasons") or [])
+        resp["missing_paths"].extend(
+            "layout:%s" % item
+            for item in (layout_report.get("response", {}).get("missing") or [])
+        )
 
     if resp["missing_keys"]:
         decision = "block"

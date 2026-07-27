@@ -1,0 +1,10 @@
+contract:
+  id: context.build
+  version: "1.0.0"
+input:
+  required: [task_id, task_type, budget]
+  optional: [chapter_ref, project_id]
+output:
+  required: [context_id, context_path, source_refs, token_estimate]
+  invariants: [task_type_isolation, authority_order_preserved, budget_not_exceeded]
+

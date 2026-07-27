@@ -75,7 +75,8 @@ def run_main(module, argv):
 
 def git(*args, cwd=None):
     r = subprocess.run(["git"] + list(args), cwd=cwd,
-                       capture_output=True, text=True)
+                       capture_output=True, text=True,
+                       encoding="utf-8", errors="replace")
     return r.returncode, r.stdout, r.stderr
 
 
@@ -228,6 +229,16 @@ def main():
         m = re.search(r"(TASK-INTAKE-\d+)", out)
         all_ok &= check("intake 建 chapter_write 任务", rc == 0 and bool(m), "rc=%s" % rc)
         tid = m.group(1) if m else None
+        # Ready Check 现在与 Task Packet 共用输入解析器：用内联 fixture
+        # 补齐计划、最终上下文与交接，不制造受保护路径的旁路文件。
+        _, tdata = TE.load_task(PROJ, tid)
+        tdata["task"].setdefault("inputs", {})["values"] = {
+            "chapter_plan": "fixture-plan",
+            "final_context": "fixture-context",
+            "nkb_snapshot": "fixture-nkb",
+            "previous_chapter_handoff": "fixture-handoff",
+        }
+        _gov.dump_yaml(os.path.join(PROJ, "tasks", "ready", tid + ".yaml"), tdata)
 
         rc, _ = run_main(TC, ["run", "--task", tid, "--project-root", PROJ,
                               "--role", "writer", "--agent", "writer-ai"])
@@ -325,7 +336,7 @@ def main():
             "operations/OP-PRECOMMIT-001.yaml", cwd=PROJ)
         rc_l, _, err_l = git("commit", "-q", "-m", "legit with task record", cwd=PROJ)
         all_ok &= check("pre-commit 放行 受保护内容+任务记录+Operation Manifest", rc_l == 0,
-                        "commit_rc=%s" % rc_l)
+                        "commit_rc=%s stderr=%s" % (rc_l, (err_l or "").strip()[:500]))
         # 还原该测试提交，保持沙箱干净
         git("reset", "-q", "--hard", "HEAD~1", cwd=PROJ)
 
@@ -335,7 +346,8 @@ def main():
         try:
             r = subprocess.run([sys.executable, os.path.join(_PLAT2, "cli", "platform.py"),
                                 "--workspace", real_ws, "doctor"],
-                               capture_output=True, text=True, timeout=420)
+                               capture_output=True, text=True,
+                               encoding="utf-8", errors="replace", timeout=420)
             dout = r.stdout + r.stderr
         except subprocess.TimeoutExpired:
             dout = "(doctor 超时)"

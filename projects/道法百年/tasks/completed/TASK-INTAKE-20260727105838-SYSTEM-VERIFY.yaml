@@ -1,0 +1,74 @@
+task:
+  id: TASK-INTAKE-20260727105838-SYSTEM-VERIFY
+  version: 1
+  project: novel-dsf
+  type: system_verify
+  title: TASK-INTAKE-20260727105838 后继 system_verify
+  status: completed
+  priority: high
+  created: 2026-07-27T11:45:19
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260727105838
+  inputs:
+    required:
+      - tasks/running/TASK-INTAKE-20260727105838/outputs/patch-summary.md
+    values:
+      source_task: TASK-INTAKE-20260727105838
+      source_artifact: tasks/running/TASK-INTAKE-20260727105838/outputs/patch-summary.md
+  expected_outputs:
+    - validation_report
+    - findings
+  acceptance:
+    criteria:
+      - 按 system_verify 模板完成
+  permissions:
+    read:
+      - AGENTS.md
+      - platform.yaml
+      - platform.lock.yaml
+      - cli/**
+      - core/**
+      - scripts/**
+      - registry/**
+      - schemas/**
+      - templates/**
+      - tests/**
+      - README.md
+      - ARCHITECTURE.md
+      - platform.bat
+      - platform.sh
+    write:
+      - tasks/running/<id>/outputs/**
+      - analysis/platform-review/**
+    forbidden:
+      - projects/*/NKB/**
+      - projects/*/chapters/approved/**
+  agent:
+    required_role: system-maintainer
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  owner: codex-root
+  claimed_at: 2026-07-27T11:45:44
+  lease_expire: 2026-07-27T12:45:44
+  workspace: tasks\running\TASK-INTAKE-20260727105838-SYSTEM-VERIFY\outputs
+  artifact: tasks/running/TASK-INTAKE-20260727105838-SYSTEM-VERIFY/outputs/validation-report.yaml
+  outputs:
+    validation_report: tasks/running/TASK-INTAKE-20260727105838-SYSTEM-VERIFY/outputs/validation-report.yaml
+    findings: tasks/running/TASK-INTAKE-20260727105838-SYSTEM-VERIFY/outputs/findings.yaml
+  submission:
+    checks:
+      source_outputs: pass
+      task_graph: pass
+      cli_routing: pass
+      regression: pass
+      bootstrap: pass
+      doctor: pass
+    at: 2026-07-27T11:46:37

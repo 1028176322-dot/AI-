@@ -760,11 +760,18 @@ claim:
 
 ```
 sources/outline/
-├── premise.yaml
-├── series-outline.yaml
+├── _intake/
+│   └── planning-policy.yaml
+├── series/
+│   └── series-outline.yaml
 ├── volumes/
 │   ├── VOL-01.yaml
 │   └── VOL-02.yaml
+├── arcs/
+│   ├── ARC-001.yaml
+│   └── ARC-002.yaml
+├── maps/
+│   └── chapter-map.yaml
 ├── chapters/
 │   ├── PLAN-001.yaml
 │   └── PLAN-002.yaml
@@ -772,6 +779,10 @@ sources/outline/
 ```
 
 ### 9.2 总纲必须包含
+
+总纲除核心故事前提外，还必须声明总章节数、故事承诺、主角、中央冲突、结局方向、
+主要真相、主要剧情弧、七维成长轨迹、全局里程碑、节奏政策和禁止方向；机器字段以
+`core/contracts/outline.schema.yaml#series_outline` 为准。
 
 ```yaml
 series:
@@ -797,14 +808,18 @@ series:
 - 伏笔计划；
 - 人物成长变化；
 - 不可提前泄露的信息。
+- 章节范围、卷中转折、最低谷、卷高潮、余波和下一卷入口；
+- 本卷打开/回答的问题与读者承诺；
+- 范围必须与其他卷共同完整覆盖 Planning Policy 的总章节数。
 
 ### 9.4 章纲必须包含
 
-现有规划体系要求章节规划卡至少包括：
+现有规划体系要求**全书每一章**都存在可直接用于写作的详细规划卡。若全书 N 章，就必须有 N 份 `PLAN-NNN.yaml`；可以分批生成和校验，但不得只细化当前窗口。每份至少包括：
 
 - 章节目标；
-- 起承转合；
-- Story Beat；
+- 章节角色（开场 / 升级 / 转折 / 兑现 / 过渡等）；
+- 完整场景链（场景类型、目标、进入/退出状态、环境功能）；
+- Story Beat（数量按场景复杂度确定，不固定为五拍）；
 - 核心冲突；
 - 情绪曲线；
 - 字数预算；
@@ -813,6 +828,17 @@ series:
 - 预计事件；
 - 伏笔动作；
 - 预期状态变化。
+- 剧情/人物/读者/剧情弧四类目标；
+- 因果链（前置条件、原因、人物选择、后果）；
+- 读者体验（问题、期待、兑现、惊讶、公平线索、情绪曲线）；
+- 必须发生/禁止发生/OOC/连续性约束；
+- 叙事策略（本章主导手法、节奏、信息释放）；
+- 开头设计（上章 Plan ID、承接锚点、进入方式、首场景动作、读者定位、禁止复用模式）；
+- 结尾设计（下章 Plan ID、已兑现事项、不可逆变化、收束方式、情绪余韵、留存动力、最终意象、下章桥梁）；
+- 下一章承诺和可调整边界。
+
+全书还必须存在唯一章节地图，保证每章都有功能、冲突、进展、读者收益、状态变化和
+有效收束；连续三章重复同一开头模式、结尾模式或功能组合，以及连续过渡章超过上限时，规划门禁必须阻断。`opening_design` / `ending_design` 是规划事实，不进入正式 NKB 的“已发生事实”；写作时由 Context Engine 与 `writing_strategy.py` 共同使用。
 
 示例：
 
@@ -1380,7 +1406,7 @@ NKB/manifest.yaml 必须记录整个知识库状态：
 ```yaml
 nkb:
   project_id: novel-dsf
-  schema_version: 1.2.0
+  schema_version: 1.3.0
   snapshot_id: NKB-245
   status: active
   authoritative: true

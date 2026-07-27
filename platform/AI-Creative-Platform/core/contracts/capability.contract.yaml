@@ -1,0 +1,10 @@
+contract:
+  id: capability.invoke
+  version: "1.0.0"
+input:
+  required: [capability_id, task_id, instruction, context_ref]
+  optional: [style_profile, constraints]
+output:
+  required: [capability_id, result, evidence, warnings]
+  invariants: [no_direct_publish, no_nkb_mutation]
+

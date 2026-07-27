@@ -1,0 +1,4 @@
+*.sh text eol=lf
+platform/AI-Creative-Platform/scripts/_common/git_hooks/* text eol=lf
+*.bat text eol=crlf
+

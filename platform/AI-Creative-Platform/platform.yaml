@@ -6,7 +6,7 @@
 #   - platform.yaml：平台机器入口（组件在哪里、应调用什么）
 #   - README.md   ：人类说明
 #
-# 版本对齐 registry/versions.yaml（core.platform=2.1.0, review=4.3.0, contract=1.4.0）。
+# 版本对齐 registry/versions.yaml（core.platform=2.1.0, review=4.4.0, contract=1.4.0）。
 # 路径决策（见 2026-07-25 评审）：
 #   - projects 保留在仓库根（paths.projects = ../../projects）；
 #   - schemas 仅做索引（schemas/registry.yaml 指向 core/contracts，不迁移实体）；
@@ -17,7 +17,7 @@ platform:
   id: ai-creative-platform
   name: AI创作运行平台
   version: 2.1.0
-  architecture_version: 4.3.0
+  architecture_version: 4.4.0
   language: zh-CN
 
 entrypoints:
@@ -44,6 +44,8 @@ registries:
   capabilities: registry/capabilities.yaml
   schemas: schemas/registry.yaml
   versions: registry/versions.yaml
+  learning: registry/learning.yaml
+  readers: registry/readers.yaml
 
 schemas:
   index: schemas/registry.yaml        # 实体文件位于 core/contracts/（Q2：仅索引，不迁移）
@@ -94,6 +96,14 @@ memory:
   rejected: memory/rejected/
   cross_project_isolation: true
 
+learning:
+  reference_pipeline: scripts/learning/reference_learning.py
+  feedback_pipeline: scripts/learning/feedback_learning.py
+  reader_panel: scripts/platform/reader_panel.py
+  project_layout: scripts/project/project_layout.py
+  source_count_is_not_project_validation: true
+  ai_reader_is_not_human_feedback: true
+
 quality_gates:
   platform_bootstrap: required
   project_creation: required
@@ -104,10 +114,20 @@ quality_gates:
 commands:
   platform_bootstrap: platform bootstrap
   project_create: platform project create
+  design_prepare: platform design prepare
+  design_gate: platform design gate
+  outline_prepare: platform outline prepare
+  outline_validate: platform outline validate
+  writing_strategy_build: platform craft build
+  writing_strategy_evidence: platform craft evidence-check
   project_open: platform project open
   project_doctor: platform project doctor
   session_bootstrap: platform session bootstrap
   validate_all: platform validate all
+  reference_learn: platform learn batch
+  feedback_integrate: platform feedback ingest
+  reader_panel: platform reader-panel prepare
+  layout_validate: platform layout validate
 
 override_policy:
   # 不可覆盖：任何下层配置（题材模板 / 项目 / 任务运行时）均不得修改以下键。

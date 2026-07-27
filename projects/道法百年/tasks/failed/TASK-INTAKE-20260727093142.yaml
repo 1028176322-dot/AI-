@@ -1,0 +1,49 @@
+task:
+  id: TASK-INTAKE-20260727093142
+  type: system_maintenance
+  project: novel-dsf
+  title: 审查并修改整个平台系统所有功能，完善全链路闭环、脚本复用、写作与审查优化
+  version: 1
+  priority: high
+  chapter_ref: null
+  agent:
+    required_role: system-maintainer
+  permissions:
+    read:
+      - core/**
+      - tools/**
+      - registry/**
+      - policies/**
+    write:
+      - core/**
+      - tools/**
+      - registry/**
+      - policies/**
+    forbidden:
+      - projects/*/NKB/**
+      - projects/*/chapters/approved/**
+  inputs:
+    required:
+      - change_brief
+      - impact_assessment
+  expected_outputs:
+    - patch
+    - operation_manifest
+  acceptance:
+    criteria:
+      - 按 system-maintenance 模板契约完成
+  created: 2026-07-27T09:31:42
+  created_by: codex-root
+  urgency: normal
+  status: failed
+  owner: codex-root
+  claimed_at: 2026-07-27T09:31:53
+  lease_expire: 2026-07-27T10:31:53
+  workspace: tasks\running\TASK-INTAKE-20260727093142\outputs
+  failure:
+    reason: Task Packet 仍引用已删除 tools/**，未授权 cli/scripts/tests/platform 入口，且 required_inputs 未解析；已修复模板，需重建任务
+    strategy: reload_context
+    max_retry: 3
+    resolved_by: TASK-INTAKE-20260727094950
+    resolved_at: 2026-07-27T10:53:43
+  retry_count: 0

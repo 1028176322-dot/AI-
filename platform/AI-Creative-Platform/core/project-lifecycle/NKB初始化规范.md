@@ -53,7 +53,7 @@ Source Validation（validate_sources.py 全 PASS）
 ```yaml
 nkb:
   project_id: novel-dsf
-  schema_version: 1.2.0
+  schema_version: 1.3.0
   snapshot_id: NKB-GENESIS-001
   status: migration          # migration（待验收）| active
   authoritative: pending      # pending（Genesis 后）| true（P5 通过）
@@ -64,7 +64,11 @@ nkb:
 ```
 
 - Genesis 后 `authoritative: pending`，**不得**被写作对话当作 SSOT 使用，直到 P5 通过。
-- `NKB/` 下 11 组件 yaml 的 `records` 由本步填充初始事实（非全空）。
+- `NKB/` 下 canonical 14 组件（Canon、Characters、Locations、Organizations、
+  Timeline、WorldState、Events、Foreshadow、Assets、Terminology、StoryState、
+  ReaderState、Graph、Derived）的 `records` 由本步填充初始事实或保留经契约允许的空集合。
+- Genesis 先在 `runtime/nkb-genesis-*` 暂存区构建并执行全库校验；只有校验通过后，
+  才原子替换正式 `NKB/*.yaml`，避免半成品污染权威知识库。
 
 ## 5. 契约
 
@@ -76,6 +80,8 @@ nkb:
 - 来源全部 `validate_sources.py` PASS；
 - 所有实体有唯一 ID；
 - 所有初始事实有 `source`（指向 sources/ 文件）；
+- manifest、组件清单、项目 ID 与 schema_version 一致；
+- 来源审批状态、字段枚举和 ID 格式合法；
 - `broken_references == 0`；
 - `unresolved_fatal_conflicts == 0`。
 

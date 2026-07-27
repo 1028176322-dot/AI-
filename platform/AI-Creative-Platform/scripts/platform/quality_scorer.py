@@ -11,7 +11,8 @@
 评分模型：
   - 任一 scorer fatal（结构性致命）-> block（不看分）
   - review 消费时：composite = review 分（工程非致命项软罚），< hard_floor -> block，< target -> caution，否则 proceed
-  - review 未消费（partial）：composite = 工程基线（logic/contract/readability 归一），仅 fatal 拦截，否则 proceed（标 partial）
+  - review 未消费（partial）：composite = 已有工程/读者信号的归一分；无 fatal
+    也只给 caution，不能伪装为完成深度审查后的 proceed
 
 CLI：platform quality --project-root <root> <score|from-task|show> ...
 """
@@ -179,9 +180,9 @@ def _score_contract(project_root, target_type, target_id):
                     "consumed": True, "detail": "NKB 记录 %s 缺失" % target_id}
         return {"name": "contract", "score": 100, "fatal": False, "weight": 0.20,
                 "consumed": True, "detail": "NKB 记录存在"}
-    # asset / outline / world：结构校验留待对应契约接入，本期视为通过
+    # asset / outline / world：未接入不能记为 100 分证据。
     return {"name": "contract", "score": 100, "fatal": False, "weight": 0.20,
-            "consumed": True, "detail": "类型 %s 结构校验未接入，视为通过" % target_type}
+            "consumed": False, "detail": "类型 %s 结构校验未接入，不计分" % target_type}
 
 
 def _score_readability(project_root, target_type, target_id):
@@ -240,9 +241,9 @@ def _score_review(project_root, target_type, target_id):
                 score = es * 0.4 + ci * 0.3 + reader * 0.2 + pi * 0.1
                 fatal = bool(d.get("fatal") in (True, "true", "True"))
                 return {"name": "review", "score": round(score, 1), "fatal": fatal, "weight": 1.00,
-                        "consumed": True,
+                        "consumed": True, "coverage": "full",
                         "detail": "ES=%.0f CI=%.0f Reader=%.0f PI=%.0f <- %s" % (es, ci, reader, pi, reps[0])}
-    # 回退：消费读者模拟报告（仅 reader 维度；ES/CI 无相反证据占位 100）
+    # 回退：只消费读者维度。缺失的 ES/CI 不得用 100 分伪造证据。
     rd2 = os.path.join(project_root, "analysis", "reader")
     if os.path.isdir(rd2):
         reps2 = [f for f in os.listdir(rd2) if f.endswith(".yaml")]
@@ -253,12 +254,13 @@ def _score_review(project_root, target_type, target_id):
                 reader = float(d2.get("reader_index", 0) or 0)
                 pi = float(d2.get("pi", 0) or 0)
                 fatal = bool(d2.get("fatal") in (True, "true", "True"))
-                score = 100 * 0.4 + 100 * 0.3 + reader * 0.2 + pi * 0.1
+                score = reader * (2.0 / 3.0) + pi * (1.0 / 3.0)
                 return {"name": "review", "score": round(score, 1), "fatal": fatal, "weight": 1.00,
-                        "consumed": True,
-                        "detail": "reader-only 回退(ES/CI 占位100) Reader=%.0f PI=%.0f <- %s" % (reader, pi, reps2[0])}
+                        "consumed": True, "coverage": "reader_only",
+                        "detail": "reader-only 回退（ES/CI 未知，不计分）Reader=%.0f PI=%.0f <- %s" % (reader, pi, reps2[0])}
     return {"name": "review", "score": 0, "fatal": False, "weight": 1.00,
-            "consumed": False, "detail": "无审查报告且无读者模拟报告"}
+            "consumed": False, "coverage": "none",
+            "detail": "无审查报告且无读者模拟报告"}
 
 
 _SCORERS = {
@@ -288,8 +290,9 @@ def score(project_root, target_type, target_id, proposed_by="unknown",
         signals.append(r)
     fatal = any(s["fatal"] for s in signals)
     review = next((s for s in signals if s["name"] == "review" and s["consumed"]), None)
+    deep_review = review is not None and review.get("coverage") == "full"
 
-    if review is not None:
+    if deep_review:
         composite = float(review["score"])
         for s in signals:
             if s["name"] != "review" and s["consumed"] and s["score"] < 100:
@@ -298,6 +301,8 @@ def score(project_root, target_type, target_id, proposed_by="unknown",
         review_consumed = True
     else:
         eng = [s for s in signals if s["name"] != "review" and s["consumed"]]
+        if review is not None:
+            eng.append(review)
         if eng:
             tw = sum(s["weight"] for s in eng)
             composite = round(sum(s["score"] * s["weight"] for s in eng) / tw, 1) if tw else 100.0
@@ -313,7 +318,12 @@ def score(project_root, target_type, target_id, proposed_by="unknown",
         "target": {"target_type": target_type, "target_id": str(target_id),
                    "artifact_path": _rel(project_root, _ap) if _ap else ""},
         "signals": signals,
-        "composite": {"value": composite, "review_consumed": review_consumed},
+        "composite": {
+            "value": composite,
+            "review_consumed": review_consumed,
+            "coverage": "full" if review_consumed else (
+                review.get("coverage") if review is not None else "engineering_only"),
+        },
         "gate": {"decision": decision, "reasons": reasons},
         "recommendations": _recommend(signals, decision, target_type, target_id),
     }
@@ -354,7 +364,7 @@ def _decide(composite, fatal, review_consumed, thr):
         if composite < thr["target"]:
             return "caution", ["质量分 %s 低于目标 %s（含深度评审）" % (composite, thr["target"])]
         return "proceed", ["质量分 %s ≥ 目标 %s" % (composite, thr["target"])]
-    return "proceed", ["partial 评分（未含深度评审），仅拦截结构性致命；建议补充审查报告"]
+    return "caution", ["partial 评分（未含完整深度评审）；不得作为发布通过证据"]
 
 
 def _recommend(signals, decision, target_type, target_id):

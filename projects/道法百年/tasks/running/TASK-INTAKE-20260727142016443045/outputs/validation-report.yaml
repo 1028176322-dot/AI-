@@ -1,0 +1,50 @@
+validation_report:
+  task_id: TASK-INTAKE-20260727142016443045
+  decision: pass
+  validated_at: "2026-07-27"
+  checks:
+    python_compile:
+      decision: pass
+      files:
+        - scripts/project/outline_governance.py
+        - scripts/project/design_expansion.py
+        - scripts/tasks/task_cli.py
+        - scripts/tasks/task_intake.py
+        - scripts/tasks/task_engine.py
+        - scripts/tasks/task_packet.py
+        - scripts/tasks/readiness_gate.py
+        - scripts/publish/publish_chapter.py
+        - scripts/project/project_layout.py
+        - cli/platform.py
+    platform_selfcheck:
+      decision: pass
+      errors: 0
+      warnings: 0
+      health: 100
+    targeted_regression:
+      decision: pass
+      tests: 32
+      failures: 0
+    full_platform_regression:
+      decision: pass
+      suites: 31
+      failures: 0
+      duration_seconds: 221.16
+      execution_mode: single_agent_sequential
+  verified_invariants:
+    - total chapter count produces deterministic volume, arc and chapter-map coverage
+    - outline candidates cannot become writing authority before approval
+    - volume, arc and chapter-map gaps or overlaps block validation
+    - missing causal chain, reader payoff, state delta or hook blocks chapter writing
+    - three repeated chapter functions and excessive transition chapters are rejected
+    - conversational total chapter count enters project_design task inputs
+    - platform maintenance requests take priority over project-design wording
+    - chapter publication creates an outline_refresh task
+    - existing write-review-NKB-publish-next pipeline remains green
+  resolved_incidents:
+    - task_id: TASK-INTAKE-20260727141931370703
+      issue: platform maintenance request initially misclassified as project_design
+      resolved_by: TASK-INTAKE-20260727142016443045
+  gate:
+    decision: pass
+    reasons: []

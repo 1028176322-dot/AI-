@@ -1,0 +1,82 @@
+task:
+  id: TASK-INTAKE-20260727094950
+  type: system_maintenance
+  project: novel-dsf
+  title: 审查并修改整个平台系统所有功能，完善全链路闭环、脚本复用、写作与审查优化
+  resolves:
+    - TASK-INTAKE-20260727093142
+  version: 1
+  priority: high
+  chapter_ref: null
+  agent:
+    required_role: system-maintainer
+  permissions:
+    read:
+      - .gitattributes
+      - workspace.yaml
+      - AGENTS.md
+      - platform.yaml
+      - platform.lock.yaml
+      - cli/**
+      - core/**
+      - scripts/**
+      - registry/**
+      - schemas/**
+      - templates/**
+      - tests/**
+      - README.md
+      - ARCHITECTURE.md
+      - platform.bat
+      - platform.sh
+      - tasks/running/<id>/outputs/**
+    write:
+      - .gitattributes
+      - workspace.yaml
+      - platform.yaml
+      - platform.lock.yaml
+      - cli/**
+      - core/**
+      - scripts/**
+      - registry/**
+      - schemas/**
+      - templates/**
+      - tests/**
+      - README.md
+      - ARCHITECTURE.md
+      - platform.bat
+      - platform.sh
+      - tasks/running/<id>/outputs/**
+    forbidden:
+      - projects/*/NKB/**
+      - projects/*/chapters/approved/**
+  inputs:
+    required:
+      - change_brief
+      - explicit_user_approval
+    values:
+      change_brief: 审查并修改整个平台系统所有功能，完善全链路闭环、脚本复用、写作与审查优化
+      explicit_user_approval: true
+      confirmation_source: user_request
+  expected_outputs:
+    - patch
+    - validation_report
+    - operation_manifest
+  acceptance:
+    criteria:
+      - 按 system-maintenance 模板契约完成
+  created: 2026-07-27T09:49:50
+  created_by: codex-root
+  urgency: normal
+  status: completed
+  owner: codex-root
+  claimed_at: 2026-07-27T09:50:12
+  lease_expire: 2026-07-27T10:50:12
+  workspace: tasks\running\TASK-INTAKE-20260727094950\outputs
+  artifact: tasks/running/TASK-INTAKE-20260727094950/outputs/validation-report.md
+  outputs: null
+  submission:
+    checks: null
+    at: 2026-07-27T10:47:49
+  review:
+    decision: pass
+    at: 2026-07-27T10:53:43

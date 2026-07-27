@@ -1,0 +1,29 @@
+operation:
+  id: OP-TASK-INTAKE-20260727142016443045
+  task_id: TASK-INTAKE-20260727142016443045
+  type: platform_system_maintenance
+  status: verified
+  operated_by: codex-root
+  execution_policy:
+    agent_mode: single
+    delegation_used: false
+    subagents_used: false
+    parallel_execution_used: false
+  scope:
+    - outline contract and planning policy
+    - total chapter count structure derivation
+    - coverage, writeability and anti-filler validation
+    - design approval promotion
+    - strict writing precheck
+    - post-publish rolling refresh task
+    - conversational intake routing
+    - documentation and tests
+  outputs:
+    patch: tasks/running/TASK-INTAKE-20260727142016443045/outputs/platform-patch-summary.md
+    validation_report: tasks/running/TASK-INTAKE-20260727142016443045/outputs/validation-report.yaml
+    operation_manifest: tasks/running/TASK-INTAKE-20260727142016443045/outputs/operation-manifest.yaml
+  validation:
+    targeted_regression: 32/32
+    full_platform_regression: 31/31
+    platform_selfcheck: pass
+    decision: pass

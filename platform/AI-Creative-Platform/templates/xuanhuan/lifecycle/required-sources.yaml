@@ -18,4 +18,4 @@ required_before_writing:
     series_min: 1
     volumes_min: 1
     chapters_min_detailed: 3  # 前三章详细规划
-    chapters_min_planned: 10  # 前 10–30 章细纲（至少 10）
+    all_chapters_detailed: true

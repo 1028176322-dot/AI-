@@ -6,4 +6,3 @@ workspace:
   platform: ./platform/AI-Creative-Platform
   projects:
     - ./projects/道法百年
-    - ./projects/test-fix-verify

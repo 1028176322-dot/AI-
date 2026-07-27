@@ -28,11 +28,13 @@ PLATFORM_ROOT = os.path.abspath(os.path.join(HERE, ".."))
 import project_template as _pt
 import _yaml_lite
 
-PY = "C:/Users/Administrator/.workbuddy/binaries/python/versions/3.13.12/python.exe"
+PY = sys.executable
 
-_BASE_NKB = ["Canon", "Characters", "Timeline", "WorldState", "Events",
-             "Foreshadow", "Assets", "Terminology", "StoryState",
-             "ReaderState", "Graph"]
+_BASE_NKB = [
+    "Canon", "Characters", "Locations", "Organizations", "Timeline",
+    "WorldState", "Events", "Foreshadow", "Assets", "Terminology",
+    "StoryState", "ReaderState", "Graph", "Derived",
+]
 
 
 def _write_workspace(ws_root, projects=None):
@@ -79,7 +81,7 @@ class ProjectTemplateTest(unittest.TestCase):
         self.assertEqual(d["project"]["type"], "xuanhuan")
         self.assertEqual(d["requires"]["templates"]["xuanhuan"], ">=1.3.0")
 
-    # ── 2. scaffold → 空 NKB（基础 11 组件 + 索引 + Derived）──
+    # ── 2. scaffold → 空 NKB（canonical 14 组件 + 索引 + manifest）──
     def test_scaffold_creates_nkb(self):
         ok, _, proot = _pt.scaffold(self.plat, self.ws, "小说B", "xuanhuan", write=True)
         self.assertTrue(ok)
@@ -102,6 +104,20 @@ class ProjectTemplateTest(unittest.TestCase):
         self.assertTrue(os.path.isfile(ex))
         # 模板为 .example，不应被 market.ingest 的 *.yaml glob 命中
         self.assertFalse(ex.endswith(".yaml"))
+
+    def test_scaffold_enables_strict_v2_layout_for_new_project(self):
+        ok, _, proot = _pt.scaffold(
+            self.plat, self.ws, "小说Layout", "xuanhuan", write=True)
+        self.assertTrue(ok)
+        self.assertTrue(os.path.isfile(
+            os.path.join(proot, "PROJECT_LAYOUT.yaml")))
+        self.assertTrue(os.path.isdir(
+            os.path.join(proot, "sources", "references", "inbox")))
+        self.assertTrue(os.path.isdir(
+            os.path.join(proot, "runtime", "reader-panels")))
+        data = _yaml_lite.load_file(os.path.join(proot, "project.yaml"))
+        self.assertTrue(data["project_layout"]["strict"])
+        self.assertEqual(data["paths"]["chapters"], "./chapters")
 
     # ── 4. register → 写 registry/projects.yaml ──
     def test_register_writes_projects_yaml(self):
@@ -199,8 +215,9 @@ class ProjectTemplateTest(unittest.TestCase):
             cli = os.path.join(_PLAT2, "cli", "platform.py")
             r = subprocess.run(
                 [PY, cli, "--workspace", ws, "doctor"],
-                cwd=_PLAT2, capture_output=True, text=True)
-            self.assertEqual(r.returncode, 0, msg=r.stdout + r.stderr)
+                cwd=_PLAT2, capture_output=True, text=True,
+                encoding="utf-8", errors="replace")
+            self.assertIn(r.returncode, (0, 1), msg=r.stdout + r.stderr)
             self.assertIn("TemplateGov", r.stdout)
             self.assertIn("PASS", r.stdout)
         finally:

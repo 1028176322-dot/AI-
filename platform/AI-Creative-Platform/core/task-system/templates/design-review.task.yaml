@@ -1,0 +1,23 @@
+task_template:
+  type: design_review
+  version: "1.0.0"
+  required_role: design-reviewer
+  description: 对 AI 项目设计执行一致性、可写性、人物驱动、读者价值、长篇承载力和原创隔离审查。
+  required_inputs: [design_sources, design_candidates, outline_sources, outline_generation_plan, design_review_spec, autonomy_policy]
+  allowed_outputs: [design_review_report, findings, revised_gap_matrix, outline_validation, approval_packet]
+  permissions:
+    read: [sources/design/**, sources/canon/**, sources/outline/**, runtime/learning/**, analysis/design/**]
+    write: [tasks/running/<id>/outputs/**, analysis/design/**]
+    forbidden: [NKB/**, chapters/**, core/**, registry/**, templates/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_submit: []
+    on_pass: [design_approval]
+    on_fail: [project_design]

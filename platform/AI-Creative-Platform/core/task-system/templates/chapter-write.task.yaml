@@ -3,10 +3,10 @@ task_template:
   version: "1.0.0"
   required_role: writer
   description: 章节正文写作（受控写，产物先落任务工作区）
-  required_inputs: [chapter_plan, final_context, nkb_snapshot, previous_chapter_handoff]
-  allowed_outputs: [chapter_draft, self_check, candidate_facts, handoff]
+  required_inputs: [chapter_plan, writing_strategy, final_context, nkb_snapshot, previous_chapter_handoff]
+  allowed_outputs: [chapter_draft, self_check, writing_strategy_evidence, candidate_facts, handoff]
   permissions:
-    read: [NKB/**, sources/outline/**, chapters/approved/**]
+    read: [NKB/**, sources/outline/**, runtime/writing-strategies/**, chapters/approved/**]
     write: [tasks/running/<id>/outputs/**, chapters/drafts/**]
     forbidden: [core/**, registry/**, templates/**, NKB/**, chapters/approved/**]
   execution_policy:

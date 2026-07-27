@@ -70,6 +70,7 @@ def derive(project_root, write=True):
     total_tasks = sum(by_state.values())
     active_types = set()
     failed = []
+    task_records = []
     chapter_max = 0
     chapter_min = None
     completed_chapter_tasks = 0
@@ -80,17 +81,43 @@ def derive(project_root, write=True):
             if not d:
                 continue
             t = (d.get("task") or {})
+            task_records.append((stt, tid, t))
             ttype = t.get("type")
             if ttype:
                 active_types.add(ttype)
-            if stt == "failed":
-                failed.append((tid, t.get("title")))
             if stt == "completed" and str(ttype or "").startswith("chapter"):
                 completed_chapter_tasks += 1
             rng = _chapter_from_task(d)
             if rng:
                 chapter_max = max(chapter_max, rng[1])
                 chapter_min = rng[0] if chapter_min is None else min(chapter_min, rng[0])
+
+    # Failed files are an audit history, not necessarily a permanent project
+    # blocker. A later completed replacement with the same type/title, or an
+    # explicit failure.resolved_by link, closes that failure.
+    completed_by_id = {
+        tid: t for stt, tid, t in task_records if stt == "completed"
+    }
+    for stt, tid, t in task_records:
+        if stt != "failed":
+            continue
+        failure = t.get("failure") or {}
+        resolved_by = failure.get("resolved_by")
+        resolved = resolved_by in completed_by_id
+        if not resolved:
+            for candidate_state, _, candidate in task_records:
+                if candidate_state != "completed":
+                    continue
+                same_work = (
+                    candidate.get("type") == t.get("type")
+                    and candidate.get("title") == t.get("title")
+                )
+                newer = str(candidate.get("created") or "") > str(t.get("created") or "")
+                if same_work and newer:
+                    resolved = True
+                    break
+        if not resolved:
+            failed.append((tid, t.get("title")))
 
     blocked = len(failed) > 0
     blocked_reason = None

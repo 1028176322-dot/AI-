@@ -1,0 +1,86 @@
+task:
+  id: TASK-INTAKE-20260727145258512057
+  type: system_maintenance
+  project: novel-dsf
+  title: 修改平台：所有章节必须生成完整详细章纲；写作根据情节、环境、人物和场景类型适配写作手法；开头与结尾必须匹配大纲并通过跨章
+  version: 1
+  priority: high
+  chapter_ref: null
+  agent:
+    required_role: system-maintainer
+  permissions:
+    read:
+      - .gitattributes
+      - workspace.yaml
+      - AGENTS.md
+      - platform.yaml
+      - platform.lock.yaml
+      - cli/**
+      - core/**
+      - scripts/**
+      - registry/**
+      - schemas/**
+      - templates/**
+      - tests/**
+      - memory/晋升机制.md
+      - README.md
+      - ARCHITECTURE.md
+      - platform.bat
+      - platform.sh
+      - tasks/running/<id>/outputs/**
+    write:
+      - .gitattributes
+      - workspace.yaml
+      - platform.yaml
+      - platform.lock.yaml
+      - cli/**
+      - core/**
+      - scripts/**
+      - registry/**
+      - schemas/**
+      - templates/**
+      - tests/**
+      - memory/晋升机制.md
+      - README.md
+      - ARCHITECTURE.md
+      - platform.bat
+      - platform.sh
+      - tasks/running/<id>/outputs/**
+    forbidden:
+      - projects/*/NKB/**
+      - projects/*/chapters/approved/**
+  inputs:
+    required:
+      - change_brief
+      - explicit_user_approval
+    values:
+      change_brief: 修改平台：所有章节必须生成完整详细章纲；写作根据情节、环境、人物和场景类型适配写作手法；开头与结尾必须匹配大纲并通过跨章反模板审查
+      explicit_user_approval: true
+      confirmation_source: user_request
+  expected_outputs:
+    - patch
+    - validation_report
+    - operation_manifest
+  acceptance:
+    criteria:
+      - 按 system-maintenance 模板契约完成
+  created: 2026-07-27T14:52:58
+  created_by: codex-root
+  urgency: normal
+  status: completed
+  owner: codex-root
+  claimed_at: 2026-07-27T14:52:58
+  lease_expire: 2026-07-27T15:52:58
+  workspace: tasks\running\TASK-INTAKE-20260727145258512057\outputs
+  artifact: tasks/running/TASK-INTAKE-20260727145258512057/outputs/platform-patch-summary.md
+  outputs:
+    patch: tasks/running/TASK-INTAKE-20260727145258512057/outputs/platform-patch-summary.md
+    validation_report: tasks/running/TASK-INTAKE-20260727145258512057/outputs/validation-report.yaml
+    operation_manifest: tasks/running/TASK-INTAKE-20260727145258512057/outputs/operation-manifest.yaml
+  submission:
+    checks:
+      regression: pass
+    at: 2026-07-27T15:27:09
+  review:
+    decision: pass
+    at: 2026-07-27T15:28:54

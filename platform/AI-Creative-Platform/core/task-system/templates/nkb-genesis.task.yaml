@@ -1,0 +1,21 @@
+task_template:
+  type: nkb_genesis
+  version: "1.0.0"
+  required_role: knowledge-manager
+  description: 经设计审批后，在暂存区构建并校验 NKB-GENESIS-001。
+  required_inputs: [design_approval, approved_design_sources, approved_outline_sources]
+  allowed_outputs: [nkb_manifest, nkb_validation_report, genesis_operation]
+  permissions:
+    read: [sources/design/**, sources/canon/**, sources/outline/**, lifecycle/design/**]
+    write: [NKB/**, runtime/nkb-genesis-*/**, operations/**, tasks/running/<id>/outputs/**]
+    forbidden: [chapters/**, core/**, registry/**, templates/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_submit: [readiness_review]

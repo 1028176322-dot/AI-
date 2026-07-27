@@ -31,6 +31,20 @@ import json
 import re
 import datetime
 
+
+def _configure_stdio():
+    """Make the CLI deterministic on Windows GBK and UTF-8 terminals."""
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure:
+            try:
+                reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+
+
+_configure_stdio()
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 PLATFORM_ROOT = os.path.dirname(HERE)
 _SCRIPTS = os.path.join(PLATFORM_ROOT, "scripts")
@@ -57,6 +71,57 @@ except Exception:
 PASS = "PASS"
 FAIL = "FAIL"
 WARN = "WARN"
+
+GOV_MODULE_MAP = {
+    "session": "session",
+    "perm": "validate_permissions",
+    "contract": "validate_contract",
+    "gate": "compliance_gate",
+    "handoff": "create_handoff",
+    "cwrite": "controlled_write",
+    "nkb": "validate_nkb_sources",
+    "init": "project_init",
+    "charter": "validate_charter",
+    "psrc": "validate_sources",
+    "genesis": "build_nkb_genesis",
+    "ready": "readiness_gate",
+    "design": "design_expansion",
+    "outline": "outline_governance",
+    "craft": "writing_strategy",
+    "status": "status_update",
+    "task": "task_cli",
+    "ver": "version_commit",
+    "impact": "impact_analyzer",
+    "quality": "quality_scorer",
+    "reader": "reader_simulator",
+    "memory": "memory_governor",
+    "asset": "asset_manager",
+    "model": "model_router",
+    "projects": "multi_project",
+    "project": "project_installer",
+    "exp": "experiment",
+    "bi": "bi",
+    "graph": "graph_viz",
+    "market": "market",
+    "compliance": "compliance_scan",
+    "index": "index_builder",
+    "context": "context_builder",
+    "policy": "policy_compiler",
+    "validate": "validators",
+    "query": "nkb_query",
+    "summary": "summary_builder",
+    "delta": "delta_review",
+    "review": "review_orchestrator",
+    "learn": "reference_learning",
+    "feedback": "feedback_learning",
+    "reader-panel": "reader_panel",
+    "layout": "project_layout",
+    "audit": "audit_report",
+    "report": "report_builder",
+    "terminology": "terminology_check",
+    "chapter": "chapter_cli",
+    "selfcheck": "platform_selfcheck",
+}
 
 
 def die(msg, code):
@@ -354,6 +419,14 @@ def cmd_doctor(args):
         except Exception as _e:
             _print_result(result_name, WARN, "自检异常：%s" % _e)
 
+    _run_gov("平台完整性（入口/注册表/契约/CLI/模板/可移植性）",
+             "PlatformGov",
+             lambda w: _imp("platform_selfcheck").audit(w),
+             lambda r: "健康分 %s（%d 项检查）" % (
+                 r["composite"]["health"], r["response"]["checks"]),
+             ws_root)
+
+    valid_proots = []
     projects = list_projects(ws_root, ws)
     if not projects:
         print("\n  （workspace.yaml 未登记任何 projects）")
@@ -364,11 +437,20 @@ def cmd_doctor(args):
             _print_result("Project", FAIL, "项目目录不存在")
             overall_fail = True
             continue
+        valid_proots.append(proot)
         results, _ = check_compat(proot, platform_root, versions)
         for name, (sym, detail) in results.items():
             _print_result(name, sym, detail)
             if sym == FAIL:
                 overall_fail = True
+
+        if getattr(args, "quick", False):
+            _print_result(
+                "QuickMode",
+                WARN,
+                "已跳过项目内容型深度体检；完整检查请运行 platform doctor",
+            )
+            continue
 
         _run_gov("资产治理（项目内容资产体检）", "AssetGov",
                  lambda p: _imp("asset_manager").govern(p),
@@ -433,59 +515,60 @@ def cmd_doctor(args):
              lambda r: "健康分 %s（%d 模板 / %d 注册项目）" % (
                  r["composite"]["health"], r["response"]["templates"], r["response"]["projects"]), platform_root)
 
-    _print_block("单 Agent 执行策略（Agent Compliance Gate · Phase 5）")
-    try:
-        _gates_dir = os.path.join(platform_root, "core", "gates")
-        if _gates_dir not in sys.path:
-            sys.path.insert(0, _gates_dir)
-        import agent_compliance_gate as _acg
-        acgrep = _acg.govern(proot, write=False)
-        acgd = (acgrep.get("gate") or {}).get("decision", "proceed")
-        if acgd == "block":
-            _print_result("AgentGov", FAIL, "单 Agent 策略违例：%s" % "；".join(acgrep["gate"]["reasons"][:3]))
-            overall_fail = True
-        elif acgd == "caution":
-            _print_result("AgentGov", WARN, "软问题 %d 项（健康分 %s）" % (
-                len(acgrep["gate"]["reasons"]), acgrep["composite"]["health"]))
-        else:
-            _print_result("AgentGov", PASS, "健康分 %s" % acgrep["composite"]["health"])
-    except Exception as _e:
-        _print_result("AgentGov", WARN, "自检异常：%s" % _e)
+    for proot in valid_proots:
+        _print_block("单 Agent 执行策略（%s · Agent Compliance Gate）" % proot)
+        try:
+            _gates_dir = os.path.join(platform_root, "core", "gates")
+            if _gates_dir not in sys.path:
+                sys.path.insert(0, _gates_dir)
+            import agent_compliance_gate as _acg
+            acgrep = _acg.govern(proot, write=False)
+            acgd = (acgrep.get("gate") or {}).get("decision", "proceed")
+            if acgd == "block":
+                _print_result("AgentGov", FAIL, "单 Agent 策略违例：%s" % "；".join(acgrep["gate"]["reasons"][:3]))
+                overall_fail = True
+            elif acgd == "caution":
+                _print_result("AgentGov", WARN, "软问题 %d 项（健康分 %s）" % (
+                    len(acgrep["gate"]["reasons"]), acgrep["composite"]["health"]))
+            else:
+                _print_result("AgentGov", PASS, "健康分 %s" % acgrep["composite"]["health"])
+        except Exception as _e:
+            _print_result("AgentGov", WARN, "自检异常：%s" % _e)
 
-    _print_block("脚本化工具链（Phase A · ScriptGov）")
-    try:
-        import json as _json
-        idx_path = os.path.join(proot, "runtime", "indexes", "index.json")
-        if os.path.isfile(idx_path):
-            _idata = _json.load(open(idx_path, encoding="utf-8"))
-            _print_result("ScriptGov", PASS, "索引已构建：实体 %d / 章节 %d / 事件 %d" % (
-                _idata.get("counts", {}).get("entities", 0),
-                _idata.get("counts", {}).get("chapters", 0),
-                _idata.get("counts", {}).get("events", 0)))
-        else:
-            _print_result("ScriptGov", WARN, "索引未构建（运行 platform index build 以启用输入最小化）")
-    except Exception as _e:
-        _print_result("ScriptGov", WARN, "自检异常：%s" % _e)
+        _print_block("脚本化工具链（%s · ScriptGov）" % proot)
+        try:
+            import json as _json
+            idx_path = os.path.join(proot, "runtime", "indexes", "index.json")
+            if os.path.isfile(idx_path):
+                _idata = _json.load(open(idx_path, encoding="utf-8"))
+                _print_result("ScriptGov", PASS, "索引已构建：实体 %d / 章节 %d / 事件 %d" % (
+                    _idata.get("counts", {}).get("entities", 0),
+                    _idata.get("counts", {}).get("chapters", 0),
+                    _idata.get("counts", {}).get("events", 0)))
+            else:
+                _print_result("ScriptGov", WARN, "索引未构建（运行 platform index build 以启用输入最小化）")
+        except Exception as _e:
+            _print_result("ScriptGov", WARN, "自检异常：%s" % _e)
 
-    _print_block("审查管线（Phase B · ReviewGov）")
-    try:
-        plat_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        schema_p = os.path.join(plat_root, "core", "contracts", "review-report.schema.yaml")
-        plan_p = os.path.join(plat_root, "core", "review", "review-plan.yaml")
-        if os.path.isfile(schema_p) and os.path.isfile(plan_p):
-            rv = os.path.join(proot, "runtime", "reviews")
-            n = 0
-            if os.path.isdir(rv):
-                for _d in os.listdir(rv):
-                    if _d.startswith("REVIEW-"):
-                        n += 1
-            _print_result("ReviewGov", PASS,
-                          "审查契约齐备（schema+plan）；已生成 %d 份审查证据包" % n)
-        else:
-            _print_result("ReviewGov", WARN,
-                          "审查契约缺失（review-report.schema.yaml / review-plan.yaml）")
-    except Exception as _e:
-        _print_result("ReviewGov", WARN, "自检异常：%s" % _e)
+        _print_block("审查管线（%s · ReviewGov）" % proot)
+        try:
+            plat_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            schema_p = os.path.join(plat_root, "core", "contracts", "review-report.schema.yaml")
+            plan_p = os.path.join(plat_root, "core", "review", "review-plan.yaml")
+            if os.path.isfile(schema_p) and os.path.isfile(plan_p):
+                rv = os.path.join(proot, "runtime", "reviews")
+                n = 0
+                if os.path.isdir(rv):
+                    for _d in os.listdir(rv):
+                        if _d.startswith("REVIEW-"):
+                            n += 1
+                _print_result("ReviewGov", PASS,
+                              "审查契约齐备（schema+plan）；已生成 %d 份审查证据包" % n)
+            else:
+                _print_result("ReviewGov", WARN,
+                              "审查契约缺失（review-report.schema.yaml / review-plan.yaml）")
+        except Exception as _e:
+            _print_result("ReviewGov", WARN, "自检异常：%s" % _e)
 
     print("")
     if overall_fail:
@@ -549,6 +632,21 @@ def cmd_bootstrap(args):
         print("\n✗ bootstrap 中止：platform.yaml 自洽校验失败。")
         sys.exit(1)
     _print_result("PlatformManifest", PASS, "自洽（entrypoints/registries/governance/memory 全部存在）")
+
+    try:
+        import platform_selfcheck as _psc
+        _selfcheck = _psc.audit(ws_root)
+        _errors = _selfcheck["summary"]["errors"]
+        if _errors:
+            _print_result("PlatformSelfcheck", FAIL,
+                          "%d 个平台完整性错误" % _errors)
+            print("\n✗ bootstrap 中止：平台完整性自检失败。")
+            sys.exit(1)
+        _print_result("PlatformSelfcheck", PASS, "入口/注册表/契约/CLI/模板/可移植性自洽")
+    except Exception as _e:
+        _print_result("PlatformSelfcheck", FAIL, "自检异常：%s" % _e)
+        print("\n✗ bootstrap 中止：平台完整性自检异常。")
+        sys.exit(1)
 
     manifest = {
         "generated": datetime.datetime.now().isoformat(timespec="seconds"),
@@ -690,7 +788,13 @@ def build_parser():
     sub = p.add_subparsers(dest="cmd")
 
     sub.add_parser("bootstrap", help="初始化环境并生成缓存（全 PASS 才放行）")
-    sub.add_parser("doctor", help="只读诊断兼容性，退出码反映健康度")
+    doctor_parser = sub.add_parser(
+        "doctor", help="只读诊断兼容性，退出码反映健康度")
+    doctor_parser.add_argument(
+        "--quick",
+        action="store_true",
+        help="跳过项目内容型深度体检，保留平台、兼容性和执行治理检查",
+    )
     c = sub.add_parser("check", help="单项目兼容性检查")
     c.add_argument("--project", help="项目 id 或相对路径")
     sub.add_parser("version", help="打印版本目录")
@@ -777,6 +881,12 @@ def build_parser():
     gr.add_argument("--project-root", required=True)
     gr.add_argument("--preflight", action="store_true", help="仅做编排器前置检查（JSON 输出）")
     gr.add_argument("--approve", action="store_true", help="验收通过并置 ready_for_writing")
+    gdesign = sub.add_parser("design", help="对话灵感结构化、AI 设计扩展、审查审批与 Genesis 前置门禁")
+    gdesign.add_argument("rest", nargs=argparse.REMAINDER)
+    goutline = sub.add_parser("outline", help="总章节数驱动的五级大纲生成计划、覆盖与可写性门禁")
+    goutline.add_argument("rest", nargs=argparse.REMAINDER)
+    gcraft = sub.add_parser("craft", help="按章纲和场景自适应编排写作手法并校验正文执行证据")
+    gcraft.add_argument("rest", nargs=argparse.REMAINDER)
 
     # ── 项目管理平面（Phase 1 必须项）──
     gst = sub.add_parser("status", help="项目状态管理：project/status.yaml（init/show/set/block）")
@@ -888,6 +998,17 @@ def build_parser():
     gr2 = sub.add_parser("review", help="单 Agent 多阶段审查编排（证据包 + 空报告模板）")
     gr2.add_argument("--project-root", default=None)
     gr2.add_argument("rest", nargs=argparse.REMAINDER)
+    glearn = sub.add_parser("learn", help="参考小说结构学习与项目级候选晋升")
+    glearn.add_argument("rest", nargs=argparse.REMAINDER)
+    gfeedback = sub.add_parser("feedback", help="审查问题反补写作与回归检查")
+    gfeedback.add_argument("rest", nargs=argparse.REMAINDER)
+    gpanel = sub.add_parser("reader-panel", help="多观察点读者面板与真人反馈校准")
+    gpanel.add_argument("rest", nargs=argparse.REMAINDER)
+    glayout = sub.add_parser("layout", help="新项目严格目录契约检查")
+    glayout.add_argument("rest", nargs=argparse.REMAINDER)
+    gself = sub.add_parser("selfcheck", help="平台全链路快速完整性审计")
+    gself.add_argument("--workspace", dest="selfcheck_workspace", default=None)
+    gself.add_argument("--json", dest="selfcheck_json", action="store_true")
     return p
 
 
@@ -909,10 +1030,12 @@ def main():
     elif args.cmd == "init-project":
         cmd_init_project(args)
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
-        "init", "charter", "psrc", "genesis", "ready",
+        "init", "charter", "psrc", "genesis", "ready", "design", "outline", "craft",
         "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "project", "exp", "bi", "graph", "market", "compliance",
                       "index", "context", "policy", "validate", "query",
-                      "summary", "delta", "review", "report", "audit", "terminology", "chapter"):
+                      "summary", "delta", "review", "learn", "feedback", "reader-panel", "layout",
+                      "report", "audit", "terminology", "chapter",
+                      "selfcheck"):
         _delegate_gov(args.cmd, args)
     else:
         die("未知子命令：%s" % args.cmd, 2)
@@ -925,50 +1048,30 @@ def _delegate_gov(cmd, args):
     platform <cmd> --flag a  =>  <module> --flag a
     """
     import importlib
-    mod_map = {
-        "session": "session",
-        "perm": "validate_permissions",
-        "contract": "validate_contract",
-        "gate": "compliance_gate",
-        "handoff": "create_handoff",
-        "cwrite": "controlled_write",
-        "nkb": "validate_nkb_sources",
-        "init": "project_init",
-        "charter": "validate_charter",
-        "psrc": "validate_sources",
-        "genesis": "build_nkb_genesis",
-        "ready": "readiness_gate",
-        "status": "status_update",
-        "task": "task_cli",
-        "ver": "version_commit",
-        "impact": "impact_analyzer",
-        "quality": "quality_scorer",
-        "reader": "reader_simulator",
-        "memory": "memory_governor",
-        "asset": "asset_manager",
-        "model": "model_router",
-        "projects": "multi_project",
-        "project": "project_installer",
-        "exp": "experiment",
-        "bi": "bi",
-        "graph": "graph_viz",
-        "market": "market",
-        "compliance": "compliance_scan",
-        "index": "index_builder",
-        "context": "context_builder",
-        "policy": "policy_compiler",
-        "validate": "validators",
-        "query": "nkb_query",
-        "summary": "summary_builder",
-        "delta": "delta_review",
-        "review": "review_orchestrator",
-        "audit": "audit_report",
-        "report": "report_builder",
-        "terminology": "terminology_check",
-        "chapter": "chapter_cli",
-    }
-    sys.argv = [mod_map[cmd]] + sys.argv[2:]
-    mod = importlib.import_module(mod_map[cmd])
+    if cmd == "selfcheck":
+        forwarded = []
+        if args.selfcheck_workspace:
+            forwarded += ["--workspace", args.selfcheck_workspace]
+        if args.selfcheck_json:
+            forwarded.append("--json")
+        sys.argv = [GOV_MODULE_MAP[cmd]] + forwarded
+    else:
+        forwarded = list(sys.argv[2:])
+        rest = list(getattr(args, "rest", []) or [])
+        # Many delegated modules use argparse subparsers. The façade accepts
+        # shared flags before the action (for example:
+        # ``platform index --project-root X build``), but a nested parser
+        # requires ``build`` first. Move only the declared action token while
+        # preserving every remaining user argument.
+        if rest and not str(rest[0]).startswith("-"):
+            action = rest[0]
+            try:
+                forwarded.remove(action)
+                forwarded.insert(0, action)
+            except ValueError:
+                pass
+        sys.argv = [GOV_MODULE_MAP[cmd]] + forwarded
+    mod = importlib.import_module(GOV_MODULE_MAP[cmd])
     mod.main()
 
 

@@ -1,0 +1,8 @@
+findings:
+  blocking: []
+  cautions:
+    - id: LEGACY-NKB-REFS
+      scope: existing_project
+      detail: 道法百年仍有 18 个历史 ORG/LOC 引用缺口；按用户要求不自动迁移，保持 WARN。
+  accepted_risks:
+    - Existing projects remain on their current NKB layout until an explicit migration task is authorized.

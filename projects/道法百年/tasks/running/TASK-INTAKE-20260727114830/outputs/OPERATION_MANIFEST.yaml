@@ -1,0 +1,24 @@
+operation:
+  id: OP-TASK-INTAKE-20260727114830
+  task_id: TASK-INTAKE-20260727114830
+  actor: codex-root
+  role: system-maintainer
+  mode: single_agent_sequential
+  delegation_used: false
+  scope:
+    - platform_task_routing
+    - reusable_script_chain
+    - strict_new_project_layout
+    - reader_review_feedback_loop
+    - canonical_publish
+  outputs:
+    - tasks/running/TASK-INTAKE-20260727114830/outputs/PATCH_SUMMARY.md
+    - tasks/running/TASK-INTAKE-20260727114830/outputs/VALIDATION_REPORT.yaml
+    - tasks/running/TASK-INTAKE-20260727114830/outputs/OPERATION_MANIFEST.yaml
+  verification:
+    full_regression: "28/28 pass"
+    selfcheck_health: 100
+    doctor_failures: 0
+  destructive_actions:
+    - "Removed only the temporary validation project created for diagnosis."
+  existing_projects_migrated: false

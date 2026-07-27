@@ -1,0 +1,27 @@
+task_template:
+  type: feedback_integrate
+  version: "1.0.0"
+  required_role: learning-curator
+  description: Convert review findings into writing guardrails and regression checks.
+  required_inputs: [review_report]
+  allowed_outputs: [feedback_ledger, writing_guidance, review_regression]
+  permissions:
+    read:
+      - artifacts/reviews/**
+      - runtime/reviews/**
+      - memory/project/review-feedback/**
+      - tasks/**
+    write:
+      - memory/project/review-feedback/**
+      - runtime/learning/**
+      - analysis/learning/**
+      - tasks/running/<id>/outputs/**
+    forbidden:
+      - NKB/**
+      - chapters/**
+      - platform/memory/**
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false

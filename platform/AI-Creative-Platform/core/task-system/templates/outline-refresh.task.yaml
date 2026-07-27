@@ -1,0 +1,23 @@
+task_template:
+  type: outline_refresh
+  version: "1.0.0"
+  required_role: story-architect
+  description: 正式章节发布后，读取正文实际结果、handoff 与 canonical NKB，刷新未执行章节地图和滚动细纲。
+  required_inputs: [published_chapter, canonical_manifest, chapter_plan, chapter_handoff, nkb_snapshot, planning_policy]
+  allowed_outputs: [revised_chapter_map, revised_future_plans, refresh_report, handoff]
+  permissions:
+    read: [chapters/approved/**, canonical_manifest.yaml, NKB/**, handoffs/**, sources/outline/**, runtime/outline/**]
+    write: [tasks/running/<id>/outputs/**, sources/outline/maps/**, sources/outline/chapters/**, analysis/outline/**, lifecycle/outline/**]
+    forbidden: [chapters/**, NKB/**, core/**, registry/**, templates/**, sources/outline/series/**]
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_submit: []
+    on_pass: []
+    on_fail: [outline_refresh]

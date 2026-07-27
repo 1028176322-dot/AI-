@@ -12,7 +12,7 @@ if _os.path.isdir(_SCR2):
 if _os.path.join(_PLAT2, "cli") not in _sys.path:
     _sys.path.insert(0, _os.path.join(_PLAT2, "cli"))
 """冲击分析仪端到端验证（Phase 2 #1）。覆盖 proceed/caution/block 三态 + 索引 + 任务预检拦截 + CLI 委托。"""
-import os, sys, shutil, datetime, subprocess
+import os, sys, shutil, datetime, subprocess, tempfile
 
 HERE = _os.path.dirname(_os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -20,7 +20,7 @@ import impact_analyzer as IA
 import task_engine as TE
 
 TS = datetime.datetime.now().strftime("%H%M%S")
-ROOT = r"E:/AI-Workspace/projects/_lc_tmp/impact_test_%s" % TS
+ROOT = tempfile.mkdtemp(prefix="impact_test_%s_" % TS)
 if os.path.exists(ROOT):
     shutil.rmtree(ROOT)
 for d in ("NKB", "approved", "chapters/drafts", "tasks"):
@@ -101,7 +101,8 @@ check("claim 043 放行成功", ok)
 pc = _os.path.join(_PLAT2, "cli", "platform.py")
 out = subprocess.run([sys.executable, pc, "impact", "--project-root", ROOT, "analyze",
                       "--target-type", "nkb", "--target-id", "Characters/c1"],
-                     capture_output=True, text=True)
+                     capture_output=True, text=True,
+                     encoding="utf-8", errors="replace")
 check("CLI impact analyze 返回 门禁：block", "门禁：block" in out.stdout)
 if out.returncode != 0:
     print("  CLI stderr:", out.stderr[:300])

@@ -12,7 +12,7 @@ persona_weights:
   newcomer:    [1.4, 1.3, 1.0, 1.3, 1.0, 1.0, 1.0, 0.8, 1.0]   # 新读者重开篇/流畅/钩子
   pulp:        [0.9, 0.9, 1.0, 1.0, 1.3, 1.0, 1.5, 0.8, 0.9]   # 爽文重爽点/奖励
   plot:        [0.8, 0.9, 1.3, 1.3, 1.0, 1.0, 1.0, 1.2, 1.0]   # 剧情党重情绪/期待/信息
-  worldbuilding:[0.8, 1.0, 1.0, 0.9, 0.9, 1.0, 0.8, 1.5, 1.3]   # 设定党重信息/沉浸
+  worldbuilding: [0.8, 1.0, 1.0, 0.9, 0.9, 1.0, 0.8, 1.5, 1.3]   # 设定党重信息/沉浸
 
 # 出戏词表（Immersion 扣分源）：现代词 / AI 解释词 / 作者旁白跳戏
 immersion_block_words:
@@ -45,6 +45,24 @@ immersion_block_words:
 immersion_penalty_per_hit: 12
 
 # 门禁阈值
+reader_panel:
+  mode: ai_sequential_panel
+  human_feedback_supported: true
+  honesty_rule: ai_panel_must_not_be_labeled_human
+  lenses:
+    - {id: first_contact, name: 第一接触, focus: 标题、开篇承诺、进入成本与首屏留存}
+    - {id: new_reader, name: 新读者, focus: 背景知识缺失时的理解、人物识别与信息负担}
+    - {id: genre_veteran, name: 类型老读者, focus: 套路识别、类型承诺、创新度与预期管理}
+    - {id: plot_logic, name: 情节逻辑, focus: 因果、伏笔、反转、公平性与信息权限}
+    - {id: character_empathy, name: 人物共情, focus: 动机、选择、关系、情绪与角色能动性}
+    - {id: world_immersion, name: 世界沉浸, focus: 设定呈现、感官、规则边界与出戏点}
+    - {id: pacing_fatigue, name: 节奏疲劳, focus: 拖沓、跳跃、重复、认知负荷与停读风险}
+    - {id: prose_clarity, name: 文字清晰, focus: 句段可读性、指代、画面、赘述与机械腔}
+    - {id: emotion_reward, name: 情绪兑现, focus: 情绪波形、期待、奖励、爽点与余韵}
+    - {id: serial_retention, name: 追读留存, focus: 章节承诺、末尾钩子与下一章阅读动机}
+    - {id: commercial_value, name: 付费价值, focus: 获得感、稀缺性、推荐意愿与付费意愿}
+    - {id: safety_accessibility, name: 边界与可达, focus: 敏感内容、刻板印象、阅读障碍与受众边界}
+
 thresholds:
   rr04_min: 20              # 期待值低于此 → Fatal B（缺失）
   emotion_flat_max: 8       # RR03 情绪密度低于此 → Fatal B（平）

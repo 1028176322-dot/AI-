@@ -1,0 +1,45 @@
+task:
+  id: TASK-INTAKE-20260727125235
+  type: nkb_update
+  project: novel-dsf
+  title: 修改平台NKB治理：统一Schema版本与组件，增加正式NKB记录契约及全库校验，增强写作审查上下文投影，闭合章节候选事
+  version: 1
+  priority: high
+  chapter_ref: null
+  agent:
+    required_role: knowledge-manager
+  permissions:
+    read:
+      - NKB/**
+      - operations/**
+      - tasks/**
+      - sources/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - analysis/nkb-review/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - chapters/approved/**
+      - NKB/**
+  inputs:
+    required:
+      - nkb_change
+      - operation_manifest
+    values: null
+  expected_outputs:
+    - nkb_review_report
+    - findings
+  acceptance:
+    criteria:
+      - 按 nkb-sync 模板契约完成
+  created: 2026-07-27T12:52:35
+  created_by: codex-root
+  urgency: normal
+  status: failed
+  failure:
+    reason: misclassified_platform_nkb_governance_requires_system_maintenance
+    strategy: reload_context
+    max_retry: 3
+  retry_count: 0

@@ -1,0 +1,12 @@
+schema_id: chapter-knowledge-delta
+version: 1.0.0
+applies_to:
+  - tasks/running/<chapter-task>/outputs/knowledge-delta.yaml
+  - tasks/running/<chapter-task>/outputs/nkb-handoff.yaml
+knowledge_delta:
+  required: [chapter_ref, base_snapshot, candidates]
+  candidates_type: list
+  candidate_item_contract: nkb-candidate.schema.yaml
+  empty_requires: no_change_reason
+handoff:
+  required: [session_id, project_id, base_snapshot, candidate_facts, potential_conflicts, recommended_actions]

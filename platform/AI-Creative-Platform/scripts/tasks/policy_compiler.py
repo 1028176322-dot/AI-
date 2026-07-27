@@ -29,6 +29,7 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 import _gov
 import task_engine as TE
+import task_templates as TT
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(os.path.dirname(HERE)), "core", "task-system", "templates")
 
@@ -50,11 +51,7 @@ _TASK_SYSTEM_MUST_NOT = [
 
 
 def _load_template(name):
-    p = os.path.join(TEMPLATES_DIR, name + ".task.yaml")
-    if not os.path.isfile(p):
-        return {}
-    d = _gov.load_yaml(p) or {}
-    return d.get("task_template") or d.get("template") or {}
+    return TT.load(name)
 
 
 def _must_for(role, ttype, outputs):
@@ -105,7 +102,8 @@ def compile_policy(root, tid):
         "source": [
             "AGENTS.md#Single-Agent Execution Policy",
             "core/policies/agent-execution.policy.yaml",
-            "core/task-system/templates/%s.task.yaml" % ttype,
+            os.path.relpath(TT.source_path(ttype), os.path.dirname(os.path.dirname(HERE))).replace("\\", "/")
+            if TT.source_path(ttype) else "core/task-system/templates/(missing)",
         ],
     }
     out_dir = os.path.join(root, "runtime", "policies")

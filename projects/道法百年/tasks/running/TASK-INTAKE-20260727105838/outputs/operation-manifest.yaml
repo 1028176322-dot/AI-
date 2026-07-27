@@ -1,0 +1,33 @@
+schema: operation-manifest@1.0.0
+operation:
+  id: OP-20260727-LEARNING-CLOSURE
+  task_id: TASK-INTAKE-20260727105838
+  session_id: SESSION-20260727-001
+  role: system-maintainer
+  agent: codex-root
+  mode: single_agent_sequential
+authorization:
+  explicit_user_approval: true
+  source: user_request
+changes:
+  platform_architecture: "4.4.0"
+  categories:
+    - scripts
+    - contracts
+    - registries
+    - task_templates
+    - permissions
+    - review_pipeline
+    - project_scaffolding
+    - governance_hooks
+    - documentation
+    - tests
+constraints:
+  existing_projects_migrated: false
+  project_nkb_modified: false
+  approved_chapters_modified: false
+  subagents_used: false
+result:
+  status: success
+  validation_report: validation-report.yaml
+  patch_summary: patch-summary.md

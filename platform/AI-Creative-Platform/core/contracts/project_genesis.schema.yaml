@@ -17,7 +17,7 @@ template_profile:
   # genre 须与模板目录名一致（脚手架校验）
 
 template_nkb_extension:
-  optional: [add_fields]           # 附加 NKB 组件名（dict 键），扩展基础 11 组件
+  optional: [add_fields]           # 附加 NKB 组件名（dict 键），扩展 canonical 14 组件
   add_fields_type: map(component_name -> note)
 
 market_hook:

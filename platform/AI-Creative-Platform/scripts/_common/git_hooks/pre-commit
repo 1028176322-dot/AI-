@@ -1,58 +1,117 @@
-#!/usr/bin/env bash
-# AI-Workspace pre-commit hook：任务强制层 + 权限边界（文件系统之外的第二道锁）
-# 安装：git config core.hooksPath platform/AI-Creative-Platform/tools/git_hooks
+#!/bin/sh
+# AI-Workspace pre-commit hook：任务强制层 + 权限边界
+# 安装：git config core.hooksPath platform/AI-Creative-Platform/scripts/_common/git_hooks
 #
-# 强制链（对齐 task-enforcement.policy.yaml / project.yaml.task_system.enforcement_mode=strict）：
-#   无 Task ID 不执行 / 无 Claim 不写入 / 无 Submission 不审查 / 无 Gate 不进正式目录
-#
-# 本钩子拦截两类旁路：
-#   1) 提交路径越权：项目内容产物（NKB/approved/chapters/第一卷_道生/sources/outline）
-#      未经任务系统（commit message 无 task_id= 且无非 tasks/ 工作区）被直接提交。
-#   2) 权限边界：writer/reviewer/fixer 分支越权提交受保护目录。
-#
-# 豁免：platform/ 平台自身演进（由 system-maintainer 直接提交，元循环不自我发 task_id）；
-#      operations/ Operation Manifest 本身；*.md 设计/治理文档（非内容产物）。
-set -e
+# 仅依赖 POSIX sh 内建与 git；不依赖 bash/grep/sed/awk，确保精简 Git
+# 运行时也不会因缺工具而静默放行。
+set -eu
 
-branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || printf '%s' "unknown")
 staged=$(git -c core.quotepath=false diff --cached --name-only)
 
 reject() {
-  echo "PRE-COMMIT REJECTED: $1"
-  echo "当前分支: $branch"
-  echo "（这是平台 AI 治理的 Git 约束；如需提交请经任务系统或调整暂存内容）"
+  printf '%s\n' "PRE-COMMIT REJECTED: $1"
+  printf '%s\n' "当前分支: $branch"
+  printf '%s\n' "（这是平台 AI 治理的 Git 约束；如需提交请经任务系统或调整暂存内容）"
   exit 1
 }
 
-# ── 1. 项目内容产物保护（无 Task 不执行）：受保护路径提交必须附带任务记录 ──
-# 以"任务记录随本次提交"为硬证据（不读 commit message，避免误取上一个 commit）。
-PROTECTED='^(projects/[^/]+/)?(NKB/|approved/|chapters/|第一卷_道生/|sources/|大纲_1000章总体规划\.md)'
-if echo "$staged" | grep -Eq "$PROTECTED"; then
-  if ! echo "$staged" | grep -qE "tasks/[^/]+/TASK-[A-Z0-9-]+\.yaml"; then
-    reject "受保护内容路径（NKB/approved/chapters/第一卷_道生/sources）提交必须附带任务记录 tasks/<status>/TASK-xxx.yaml（无 Task 不得修改项目内容）"
-  fi
+has_protected=0
+has_task=0
+has_operation=0
+has_platform_change=0
+has_system_task=0
+has_strict_project_change=0
+writer_violation=0
+reviewer_violation=0
+fixer_violation=0
+
+while IFS= read -r path; do
+  [ -n "$path" ] || continue
+
+  case "$path" in
+    NKB/*|approved/*|chapters/*|第一卷_道生/*|sources/*|大纲_1000章总体规划.md|\
+    projects/*/NKB/*|projects/*/approved/*|projects/*/chapters/*|\
+    projects/*/第一卷_道生/*|projects/*/sources/*|projects/*/大纲_1000章总体规划.md)
+      has_protected=1
+      ;;
+  esac
+  case "$path" in
+    tasks/*/TASK-*.yaml|projects/*/tasks/*/TASK-*.yaml)
+      has_task=1
+      task_content=$(git show ":$path" 2>/dev/null || true)
+      case "$task_content" in
+        *"type: system_maintenance"*|*"type: 'system_maintenance'"*|*"type: \"system_maintenance\""*)
+          has_system_task=1
+          ;;
+      esac
+      ;;
+  esac
+  case "$path" in
+    platform/AI-Creative-Platform/*)
+      has_platform_change=1
+      ;;
+  esac
+  case "$path" in
+    projects/*/tasks/*|projects/*/audit/*|projects/*/operations/*)
+      ;;
+    projects/*/*)
+      project_rest=${path#projects/}
+      project_name=${project_rest%%/*}
+      if [ -f "projects/$project_name/PROJECT_LAYOUT.yaml" ]; then
+        has_strict_project_change=1
+      fi
+      ;;
+  esac
+  case "$path" in
+    operations/*|projects/*/operations/*)
+      has_operation=1
+      ;;
+  esac
+
+  case "$path" in
+    NKB/*|approved/*|core/*|registry/*|templates/*|\
+    projects/*/NKB/*|projects/*/approved/*|projects/*/core/*|\
+    projects/*/registry/*|projects/*/templates/*)
+      writer_violation=1
+      fixer_violation=1
+      ;;
+  esac
+  case "$path" in
+    chapters/*|projects/*/chapters/*)
+      reviewer_violation=1
+      ;;
+  esac
+done <<EOF
+$staged
+EOF
+
+if [ "$has_protected" -eq 1 ] && [ "$has_task" -ne 1 ]; then
+  reject "受保护内容路径提交必须附带任务记录 tasks/<status>/TASK-xxx.yaml"
+fi
+if [ "$has_strict_project_change" -eq 1 ] && [ "$has_task" -ne 1 ]; then
+  reject "新版严格项目的任何内容/配置/生成文件提交都必须附带任务记录"
+fi
+if [ "$has_platform_change" -eq 1 ] && [ "$has_system_task" -ne 1 ]; then
+  reject "平台修改必须附带 type=system_maintenance 的任务记录"
 fi
 
-# ── 2. 分支权限边界（沿用既有规则）──
 case "$branch" in
   ai/writer/*)
-    echo "$staged" | grep -E '^(projects/[^/]+/)?(NKB/|approved/|core/|registry/|templates/)' \
-      && reject "writer 分支不得提交 NKB/approved/core/registry/templates" || true
+    [ "$writer_violation" -eq 0 ] || reject "writer 分支不得提交 NKB/approved/core/registry/templates"
     ;;
   ai/reviewer/*)
-    echo "$staged" | grep -E '^(projects/[^/]+/)?chapters/' \
-      && reject "reviewer 分支不得提交 chapters/ 正文修改" || true
+    [ "$reviewer_violation" -eq 0 ] || reject "reviewer 分支不得提交 chapters/ 正文修改"
     ;;
   ai/fixer/*)
-    echo "$staged" | grep -E '^(projects/[^/]+/)?(NKB/|approved/|core/|registry/|templates/)' \
-      && reject "fixer 分支不得提交 NKB/approved/core/registry/templates" || true
+    [ "$fixer_violation" -eq 0 ] || reject "fixer 分支不得提交 NKB/approved/core/registry/templates"
     ;;
 esac
 
-# ── 3. NKB 变更必须附带 Operation Manifest（可追溯）──
-if echo "$staged" | grep -qE '^(projects/[^/]+/)?NKB/'; then
-  echo "$staged" | grep -qE '^(projects/[^/]+/)?operations/' \
-    || reject "NKB 变更必须附带 operations/ 下的 Operation Manifest"
-fi
+case "$staged" in
+  *NKB/*)
+    [ "$has_operation" -eq 1 ] || reject "NKB 变更必须附带 operations/ 下的 Operation Manifest"
+    ;;
+esac
 
 exit 0

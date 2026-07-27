@@ -1,0 +1,61 @@
+task:
+  id: TASK-INTAKE-20260727094950-SYSTEM-VERIFY
+  version: 1
+  project: novel-dsf
+  type: system_verify
+  title: TASK-INTAKE-20260727094950 后继 system_verify
+  status: completed
+  priority: high
+  created: 2026-07-27T10:47:49
+  created_by: task-system
+  goal: null
+  dependencies:
+    - TASK-INTAKE-20260727094950
+  inputs:
+    required:
+      - tasks/running/TASK-INTAKE-20260727094950/outputs/validation-report.md
+    values:
+      source_task: TASK-INTAKE-20260727094950
+      source_artifact: tasks/running/TASK-INTAKE-20260727094950/outputs/validation-report.md
+  expected_outputs:
+    - validation_report
+    - findings
+  acceptance:
+    criteria:
+      - 按 system_verify 模板完成
+  permissions:
+    read:
+      - AGENTS.md
+      - platform.yaml
+      - platform.lock.yaml
+      - cli/**
+      - core/**
+      - scripts/**
+      - registry/**
+      - schemas/**
+      - templates/**
+      - tests/**
+      - README.md
+      - ARCHITECTURE.md
+      - platform.bat
+      - platform.sh
+    write:
+      - tasks/running/<id>/outputs/**
+      - analysis/platform-review/**
+    forbidden:
+      - projects/*/NKB/**
+      - projects/*/chapters/approved/**
+  agent:
+    required_role: system-maintainer
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  owner: codex-root
+  claimed_at: 2026-07-27T10:49:42
+  lease_expire: 2026-07-27T11:49:42
+  workspace: tasks\running\TASK-INTAKE-20260727094950-SYSTEM-VERIFY\outputs

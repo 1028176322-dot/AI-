@@ -27,6 +27,7 @@ import io
 import glob
 import shutil
 import contextlib
+import tempfile
 
 
 def _force_remove(p):
@@ -48,11 +49,12 @@ PLAT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import session
 import session_bootstrap as SB
 
-PROOT = os.path.normpath(os.path.join(PLAT, "..", "..", "projects", "道法百年"))
+WSROOT = tempfile.mkdtemp(prefix="e2e44_session_")
+PROOT = os.path.join(WSROOT, "projects", "session-test")
 TASK_FILE = os.path.join(PROOT, "tasks", "ready", "TASK-E2E-CH999-WRITE.yaml")
 SYN_TASK = """task:
   id: TASK-E2E-CH999-WRITE
-  project: novel-dsf
+  project: session-test
   type: chapter_write
   title: E2E 合成第999章
   status: ready
@@ -80,11 +82,11 @@ def _run(verb, **kw):
         pass
     a = A()
     a.verb = verb
-    a.project = kw.get("project", "novel-dsf")
+    a.project = kw.get("project", "session-test")
     a.intent = kw.get("intent", "auto")
     a.target = kw.get("target")
     a.role = kw.get("role")
-    a.workspace = kw.get("workspace")
+    a.workspace = kw.get("workspace", WSROOT)
     a.session = kw.get("session")
     a.stage = kw.get("stage")
     a.next = kw.get("next")
@@ -131,7 +133,17 @@ def _cleanup_sessions():
 
 
 def main():
-    # ── 准备：合成 ready 任务 ──
+    # ── 准备：完全隔离的 workspace + project ──
+    _write(os.path.join(WSROOT, "workspace.yaml"),
+           "workspace:\n  name: e2e44\n  platform: %s\n  projects:\n    - ./projects/session-test\n"
+           % PLAT.replace("\\", "/"))
+    _write(os.path.join(PROOT, "project.yaml"),
+           "project:\n  id: session-test\n  name: Session Test\n  status: active\n"
+           "paths:\n  nkb: NKB\nruntime:\n  agent_mode: single\n")
+    _write(os.path.join(PROOT, "AGENTS.md"),
+           "# Single-Agent Execution\n\n禁止创建或委派子 Agent。\n")
+    _write(os.path.join(PROOT, "NKB", "Canon.yaml"),
+           "schema_version: 1.2.0\nproject_id: session-test\nrecords: []\n")
     _write(TASK_FILE, SYN_TASK)
 
     try:
@@ -200,10 +212,6 @@ def main():
         check("require_session 识别新 Manifest", isinstance(loaded, dict) and "session" in loaded, str(type(loaded)))
 
         # ── 6. negative：无任务 → READY=False + 阻塞 + exit 3 ──
-        # 注：真实道法百年项目存在大量 ready 任务，auto 模式会定位到真实任务，
-        # 无法复现「无任务」分支。故用绝不命中的 target 显式驱动 locate_task 的
-        # 「未匹配到任务」路径（与 auto 无 ready 同属 task_ok=False → BLOCKER 分支），
-        # 使负向断言在真实工程环境下保持确定。
         _force_remove(TASK_FILE)
         out5, code5 = _run("bootstrap", intent="auto", target="CH-NONEXISTENT-E2E-XYZ")
         check("无任务时 exit=3", code5 == 3, "code=%s" % code5)
@@ -218,13 +226,7 @@ def main():
         check("负向 manifest 含 blockers", len(mdata2.get("blockers") or []) > 0, str(mdata2.get("blockers")))
 
     finally:
-        # 清理（沙箱 safe-delete 可能拦截 os.remove，_force_remove 退化为重命名，不判错）
-        _force_remove(TASK_FILE)
-        _force_remove(TASK_FILE + ".removed")
-        _cleanup_sessions()
-        hf = os.path.join(PROOT, "handoffs", "LATEST_HANDOFF.yaml")
-        _force_remove(hf)
-        _force_remove(hf + ".removed")
+        shutil.rmtree(WSROOT, ignore_errors=True)
 
     print("\n".join(_log))
     print("\n=== e2e_44 session protocol: PASS=%d FAIL=%d ===" % (_pass, _fail))

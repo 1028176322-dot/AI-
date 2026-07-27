@@ -1,0 +1,50 @@
+operation:
+  task_id: TASK-INTAKE-20260727094950
+  date: "2026-07-27"
+  actor: codex-root
+  mode: single_agent_sequential
+  authorization: explicit_user_request
+scope:
+  platform:
+    - cli
+    - core/contracts
+    - core/session
+    - core/task-system
+    - registry
+    - schemas
+    - scripts
+    - tests
+    - documentation
+  workspace:
+    - workspace.yaml
+    - .gitattributes
+changes:
+  reusable_components:
+    - scripts/tasks/task_templates.py
+    - scripts/platform/platform_selfcheck.py
+    - tests/run_all.py
+  contracts_added:
+    - core/contracts/orchestrator.contract.yaml
+    - core/contracts/planner.contract.yaml
+    - core/contracts/context.contract.yaml
+    - core/contracts/workflow.contract.yaml
+    - core/contracts/capability.contract.yaml
+  task_templates_added:
+    - core/task-system/templates/system-verify.task.yaml
+    - core/task-system/templates/nkb-review.task.yaml
+verification:
+  selfcheck: pass
+  bootstrap: pass
+  doctor: pass_no_fail
+  validate_all: pass
+  regression:
+    total: 25
+    passed: 25
+    failed: 0
+  diff_check: pass
+residuals:
+  blocking: []
+  non_blocking:
+    - txt/md 正文细微漂移与部分 txt 未导出
+    - versions 目录未初始化
+    - 最小化索引未构建

@@ -7,14 +7,14 @@ platform_lock:
 
 resolved:
   core: 2.1.0
-  architecture: 4.3.0
+  architecture: 4.4.0
   contract: 1.4.0
   workflow: 1.4.0
-  review: 4.3.0
+  review: 4.4.0
   context_engine: 2.0.0
   project_schema: 1.0.0
   task_schema: 1.0.0
-  nkb_schema: 1.2.0
+  nkb_schema: 1.3.0
 
 plugins:
   orchestrator: orchestrator@2.1.0

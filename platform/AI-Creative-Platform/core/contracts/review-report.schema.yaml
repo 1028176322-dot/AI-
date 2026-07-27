@@ -8,7 +8,7 @@ schema:
   description: "单 Agent 多阶段审查标准化输出；脚本准备证据包并生成空报告，AI 填 findings，脚本校验落盘"
 report:
   required: [review_id, task_id, chapter_ref, created_at, stages, findings, verdict]
-  optional: [summary, profile, context_hash, delta_ref, regression]
+  optional: [summary, profile, context_hash, delta_ref, regression, reader_panel_report]
 finding:
   required: [id, category, severity, location, observation, evidence, reasoning, impact, recommended_fix]
   severity_enum: [info, warn, fail, block]

@@ -1,0 +1,49 @@
+schema: system-maintenance-validation@1.0.0
+task_id: TASK-INTAKE-20260727105838
+validated_at: "2026-07-27"
+decision: pass
+scope:
+  - reference_learning
+  - review_feedback_to_writing
+  - reader_panel
+  - human_reader_calibration
+  - task_enforcement
+  - strict_new_project_layout
+  - legacy_project_compatibility
+checks:
+  python_compile:
+    decision: pass
+  platform_selfcheck:
+    decision: pass
+    health: 100
+    errors: 0
+    warnings: 0
+  full_regression:
+    decision: pass
+    test_scripts: 26
+    passed: 26
+    failed: 0
+    mode: single_agent_sequential
+    elapsed_seconds: 207.90
+  bootstrap:
+    decision: pass
+  doctor:
+    decision: pass
+    failures: 0
+    legacy_warnings:
+      - SyncGov existing soft warning
+      - VersionGov existing soft warning
+  compatibility:
+    decision: pass
+    rule: Projects without PROJECT_LAYOUT.yaml are not migrated and retain legacy behavior.
+key_assertions:
+  - Learning products do not contain source prose.
+  - Project activation requires explicit approval.
+  - Reference-source count is not treated as independent-project validation.
+  - Content review in strict projects cannot pass without a complete Reader Panel.
+  - AI reader predictions are never labeled as real human feedback.
+  - Human calibration requires at least three participants.
+  - Review findings generate both writing guardrails and regression checks.
+  - Platform changes require a system_maintenance task record at commit.
+  - Strict new-project non-governance files require an active task.
+

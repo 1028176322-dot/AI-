@@ -1,0 +1,23 @@
+operation:
+  id: OP-TASK-INTAKE-20260727125310
+  task_id: TASK-INTAKE-20260727125310
+  type: platform_maintenance
+  actor: codex-root
+  execution_mode: single_agent_sequential
+  user_authorized: true
+  scope:
+    - platform NKB contracts and canonical validator
+    - project scaffold and Genesis builder
+    - readiness and context projection
+    - chapter knowledge delta and NKB handoff
+    - review-to-NKB-to-publish task graph
+    - reference and feedback learning injection
+    - task intake classification and unique identifiers
+    - documentation and regression tests
+  project_content_mutated: false
+  verification:
+    command: tests/run_all.py --timeout 600
+    result: 29/29 pass
+  compatibility:
+    existing_projects: grandfathered
+    new_projects: strict_nkb_1_3

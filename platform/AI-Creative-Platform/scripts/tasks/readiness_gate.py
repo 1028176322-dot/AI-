@@ -31,8 +31,10 @@ if os.path.isdir(_SCRIPTS):
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
 import _gov
+import nkb_validator
 import validate_charter as VC
 import validate_sources as VS
+import outline_governance
 
 PASS, FAIL, WARN = "pass", "fail", "warn"
 
@@ -54,8 +56,31 @@ def _load(p):
     return None
 
 
+def _design_docs(root, document_type):
+    result = []
+    for source_root in (
+            os.path.join(root, "sources", "design"),
+            os.path.join(root, "sources", "canon")):
+        if not os.path.isdir(source_root):
+            continue
+        for path in _scan(source_root):
+            data = _load(path) or {}
+            document = data.get("document") or {}
+            if (document.get("type") == document_type
+                    and document.get("status") == "approved"):
+                result.append(data)
+    return result
+
+
 def _dim_project(root, pid):
     miss = []
+    if os.path.isfile(os.path.join(root, "PROJECT_LAYOUT.yaml")):
+        design_approval = _load(os.path.join(
+            root, "lifecycle", "design", "DESIGN_APPROVAL.yaml")) or {}
+        approval = design_approval.get("design_approval") or {}
+        if (approval.get("decision") != "pass"
+                or approval.get("genesis_allowed") is not True):
+            miss.append("design.approval")
     charter = os.path.join(root, "lifecycle", "initiation", "PROJECT_CHARTER.yaml")
     if not os.path.isfile(charter):
         miss.append("charter")
@@ -86,19 +111,21 @@ def _dim_story(root, pid):
     charter = _load(os.path.join(root, "lifecycle", "initiation", "PROJECT_CHARTER.yaml")) or {}
     if not (charter.get("concept") or {}).get("one_sentence_premise"):
         miss.append("story.premise")
+    story_docs = _design_docs(root, "story_core")
+    story = (story_docs[0].get("story") or {}) if story_docs else {}
     sdir = os.path.join(root, "sources", "design", "story")
     names = [os.path.basename(p) for p in _scan(sdir)]
-    if "CENTRAL_CONFLICT.yaml" not in names:
+    if not story.get("central_conflict") and "CENTRAL_CONFLICT.yaml" not in names:
         miss.append("story.central_conflict")
-    if "STORY_PROMISE.yaml" not in names:
+    if not story.get("story_promise") and "STORY_PROMISE.yaml" not in names:
         miss.append("story.promise")
-    if "ENDING_DESIGN.yaml" not in names:
+    if not story.get("ending_direction") and "ENDING_DESIGN.yaml" not in names:
         miss.append("story.ending")
     chars = _scan(os.path.join(root, "sources", "design", "characters"))
     any_goal = False
     for c in chars:
         cb = (_load(c) or {}).get("character", {})
-        if cb.get("goals"):
+        if cb.get("goal") or cb.get("goals"):
             any_goal = True
             break
     if not any_goal:
@@ -109,11 +136,15 @@ def _dim_story(root, pid):
 def _dim_world(root):
     miss = []
     canon = os.path.join(root, "sources", "canon")
-    if not os.path.isfile(os.path.join(canon, "world.yaml")):
+    if (not os.path.isfile(os.path.join(canon, "world.yaml"))
+            and not _design_docs(root, "world")):
         miss.append("world.core")
-    if not os.path.isfile(os.path.join(canon, "immutable-rules.yaml")):
+    canon_rules = _design_docs(root, "canon_rule")
+    if (not os.path.isfile(os.path.join(canon, "immutable-rules.yaml"))
+            and not canon_rules):
         miss.append("world.immutable_rules")
-    if not os.path.isfile(os.path.join(canon, "power-system.yaml")):
+    if (not os.path.isfile(os.path.join(canon, "power-system.yaml"))
+            and not _design_docs(root, "ability")):
         miss.append("world.power_limits")
     if not _scan(os.path.join(root, "sources", "design", "locations")):
         miss.append("world.initial_locations")
@@ -126,8 +157,11 @@ def _dim_characters(root):
     if not chars:
         miss.append("characters.protagonist")
         return miss
-    any_ooc = any(((_load(c) or {}).get("character", {}).get("forbidden_behaviors"))
-                  for c in chars)
+    any_ooc = any((
+        (_load(c) or {}).get("character", {}).get("forbidden_behaviors")
+        or (((_load(c) or {}).get("character", {}).get("personality") or {})
+            .get("forbidden_behaviors"))
+        for c in chars))
     if not any_ooc:
         miss.append("characters.ooc_boundaries")
     if len(chars) < 2:
@@ -141,6 +175,17 @@ def _dim_characters(root):
 
 def _dim_planning(root):
     miss = []
+    if os.path.isfile(os.path.join(root, "PROJECT_LAYOUT.yaml")):
+        report = outline_governance.validate_project(
+            root, write=False, require_approved=True)
+        body = report["outline_validation"]
+        if body["gate"]["decision"] != "proceed":
+            miss.append("planning.outline_governance")
+            miss.extend([
+                "planning.%s" % item
+                for item in body["gate"]["reasons"][:10]
+            ])
+        return miss
     out = os.path.join(root, "sources", "outline")
     if not _scan(os.path.join(out, "series")) and not os.path.isfile(os.path.join(out, "series.yaml")):
         miss.append("planning.series_direction")
@@ -164,7 +209,7 @@ def _dim_nkb(root, pid):
         miss.append("nkb.genesis_completed")
         return miss
     nb = manifest["nkb"]
-    if nb.get("schema_version") != "1.2.0":
+    if nb.get("schema_version") != "1.3.0":
         miss.append("nkb.schema_valid")
     integ = manifest.get("integrity", {})
     if integ.get("unresolved_conflicts", 0) != 0:
@@ -176,6 +221,15 @@ def _dim_nkb(root, pid):
     rs = _load(os.path.join(root, "NKB", "ReaderState.yaml"))
     if not (rs and rs.get("records")):
         miss.append("nkb.reader_state_initialized")
+    for component in (
+            "Canon", "Characters", "Locations", "StoryState",
+            "ReaderState", "Terminology"):
+        data = _load(os.path.join(root, "NKB", "%s.yaml" % component))
+        if not (data and data.get("records")):
+            miss.append("nkb.%s_initialized" % component.lower())
+    validation = nkb_validator.validate_project(root)
+    if validation["gate"]["decision"] == "block":
+        miss.append("nkb.canonical_validation")
     return miss
 
 

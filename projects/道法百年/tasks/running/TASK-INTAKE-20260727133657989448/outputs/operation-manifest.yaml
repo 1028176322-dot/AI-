@@ -1,0 +1,27 @@
+operation:
+  id: OP-TASK-INTAKE-20260727133657989448
+  task_id: TASK-INTAKE-20260727133657989448
+  type: platform_system_maintenance
+  status: verified
+  operated_by: codex-root
+  execution_policy:
+    agent_mode: single
+    delegation_used: false
+    subagents_used: false
+    parallel_execution_used: false
+  scope:
+    - design expansion contracts and runtime
+    - new-project task templates and routing
+    - strict project layout
+    - design approval and Genesis gates
+    - readiness semantics
+    - CLI and documentation
+    - automated tests
+  outputs:
+    patch: tasks/running/TASK-INTAKE-20260727133657989448/outputs/platform-patch-summary.md
+    validation_report: tasks/running/TASK-INTAKE-20260727133657989448/outputs/validation-report.yaml
+    operation_manifest: tasks/running/TASK-INTAKE-20260727133657989448/outputs/operation-manifest.yaml
+  validation:
+    full_platform_regression: 30/30
+    targeted_regression: 24/24
+    decision: pass

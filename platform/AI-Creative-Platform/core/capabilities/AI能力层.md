@@ -75,19 +75,28 @@
 > **本轮关键升级**：原 Workflow 仍「知道谁先谁后」——它直接编排 6 引擎调用顺序，把大量**控制逻辑压在 Workflow 里**，Workflow 难以简化。**现把「何时调哪个引擎」的控制权移交能力编排器**：Workflow 只发一句指令「写第 N 章」，由能力编排器依据 Story Beat ＋ 上下文，自行决定每个片段该调 Dialogue / Emotion / Description / Battle / Narrative / Character。Workflow 越来越薄。
 
 **能力编排器的职责**：
-- 输入：本章规划卡（Story Beat 序列）＋ 运行时上下文 ＋ 宪法/规范约束。
-- 输出：**能力编排计划（Capability Composition Plan）**——逐片段标注「该调哪些引擎、按什么顺序、产出什么」。
-- 决策依据：Beat 类型 → 引擎组合（见下表）；冲突升级点 → 强制 Battle＋Emotion；章末 → 强制 Emotion（钩子）。
+- 输入：完整章节规划卡（场景类型、环境作用、叙事策略、开头/结尾设计）＋运行时上下文＋宪法/规范约束。
+- 输出：**能力编排计划（Capability Composition Plan）**——逐场景标注主导/辅助手法、引擎组合、执行顺序和选择理由。
+- 决策依据：场景类型、人物选择、环境功能、信息释放和读者目标，不允许所有章节套同一 Story Beat 模板。
 
-| Story Beat | 主要引擎组合（编排器决定，Workflow 不感知） |
-|------------|------------------------------------------|
-| Hook（钩子） | Narrative（开篇结构）＋ Description（场景锚点） |
-| Inciting（激励） | Narrative ＋ Character（约束人设）＋ Dialogue（触发对话） |
-| Escalation（升级） | Character ＋ Battle（战力/冲突）＋ Emotion（紧张曲线） |
-| Climax（高潮） | 全引擎（Narrative＋Character＋Dialogue＋Battle＋Description＋Emotion） |
-| Resolution（收束） | Narrative（收线）＋ Emotion（章末钩子）＋ Description（余韵） |
+| 场景类型 | 适配手法与主要能力 |
+|----------|--------------------|
+| action | 动作因果、空间清晰、环境压力、节奏加速；Narrative＋Character＋Battle＋Emotion＋Description |
+| dialogue | 潜台词、权力变化、选择压力；Narrative＋Character＋Dialogue＋Emotion |
+| investigation | 线索递进、公平线索、假设修正、有限视角；Narrative＋Character＋Description |
+| exploration | 感官落地、空间路径、环境阻力；Narrative＋Description＋Character |
+| emotional | 自由间接引语、具身情绪、余波；Character＋Emotion＋Narrative |
+| business | 资源后果、过程压缩、博弈对白；Narrative＋Character＋Dialogue |
+| training | 动作因果、资源代价、进步反馈；Character＋Battle＋Emotion |
+| revelation | 对比揭露、延迟命名、公平证据；Narrative＋Character＋Emotion |
+| transition | 时间压缩、省略、场景对照、余韵；Narrative＋Emotion＋Description |
 
-> 编排器不写正文，只产出「编排计划」；各引擎按计划在各自 impl 执行。换编排策略 = 换 `capability.orchestrator.impl`，Workflow 完全不变。这正解决用户指出的「Workflow 仍承担大量控制逻辑」问题。
+开头根据第一场景选择行动中切入、后果、选择、对话冲突、发现、环境异常、情绪余波、
+时间跳转等进入方式；结尾根据本章实际变化选择危机、揭露、决定、代价、兑现、余韵、
+关系变化、新目标等收束方式，不再强制统一悬崖钩子。
+
+> 编排器不写正文，只产出「编排计划」；确定性实现为
+> `scripts/platform/writing_strategy.py`。各引擎按计划执行，正文提交时必须提供具体执行证据。
 
 ---
 

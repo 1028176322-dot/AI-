@@ -1,0 +1,41 @@
+validation_report:
+  task_id: TASK-INTAKE-20260727133657989448
+  decision: pass
+  validated_at: "2026-07-27"
+  checks:
+    python_compile:
+      decision: pass
+      scope:
+        - scripts/project/design_expansion.py
+        - scripts/project/build_nkb_genesis.py
+        - scripts/project/project_layout.py
+        - scripts/tasks/task_engine.py
+        - scripts/tasks/task_cli.py
+        - scripts/tasks/task_packet.py
+        - scripts/tasks/readiness_gate.py
+        - cli/platform.py
+    targeted_regression:
+      decision: pass
+      tests: 24
+      failures: 0
+    full_platform_regression:
+      decision: pass
+      suites: 30
+      failures: 0
+      duration_seconds: 213.66
+      execution_mode: single_agent_sequential
+    platform_selfcheck:
+      decision: pass
+      errors: 0
+  verified_invariants:
+    - free-form inspiration is converted into governed design inputs
+    - incomplete design blocks approval
+    - delegated low-impact candidates can proceed
+    - high-impact candidates require explicit author approval
+    - design review requires six evidence-complete lenses
+    - strict Genesis requires DESIGN_APPROVAL
+    - conversational new-project requests route to project_design
+    - existing writing-review-NKB-publish chain remains green
+  gate:
+    decision: pass
+    reasons: []

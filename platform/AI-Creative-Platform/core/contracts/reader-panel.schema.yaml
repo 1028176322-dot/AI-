@@ -1,0 +1,16 @@
+schema:
+  id: reader.panel
+  version: "1.0.0"
+  description: Evidence-complete sequential reader panel; AI output never claims to be human feedback.
+panel:
+  required: [schema, panel_id, task_id, evidence_mode, lenses, dropoff, summary, reader_index, gate, human_calibration]
+lens:
+  required: [id, name, focus, score, observation, evidence_location, reading_effect, expectation, recommended_fix, confidence]
+  score_range: [0, 100]
+  confidence_range: [0, 1]
+human_feedback:
+  required: [participants]
+  minimum_participants: 3
+  participant_required: [reader_id, segment, completion_ratio, recommend_score, payment_intent]
+honesty:
+  ai_panel_must_not_be_labeled_human: true

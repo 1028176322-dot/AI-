@@ -5,24 +5,24 @@ capabilities:
   - id: narrative
     type: craft
     default_impl: capability.narrative.default@2.0.0
-    contract: contracts/capability-v1.json
+    contract: core/contracts/capability.contract.yaml
   - id: character
     type: craft
     default_impl: capability.character.default@1.5.0
-    contract: contracts/capability-v1.json
+    contract: core/contracts/capability.contract.yaml
   - id: dialogue
     type: craft
     default_impl: capability.dialogue.ancient@1.3.0
-    contract: contracts/capability-v1.json
+    contract: core/contracts/capability.contract.yaml
   - id: battle
     type: craft
     default_impl: capability.battle.xuanhuan@2.1.0
-    contract: contracts/capability-v1.json
+    contract: core/contracts/capability.contract.yaml
   - id: emotion
     type: craft
     default_impl: capability.emotion.commercial@1.2.0
-    contract: contracts/capability-v1.json
+    contract: core/contracts/capability.contract.yaml
   - id: description
     type: craft
     default_impl: capability.description.ancient@1.1.0
-    contract: contracts/capability-v1.json
+    contract: core/contracts/capability.contract.yaml

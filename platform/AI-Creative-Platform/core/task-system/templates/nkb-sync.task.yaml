@@ -4,7 +4,7 @@ task_template:
   required_role: knowledge-manager
   description: NKB 知识库同步（须持 approved_event；数据型任务，submit 门禁豁免 quality/reader）
   required_inputs: [candidate_facts, approved_event]
-  allowed_outputs: [nkb_sync, operation_manifest]
+  allowed_outputs: [nkb_change, operation_manifest, nkb_snapshot_after]
   permissions:
     read: [NKB/**, chapters/**, sources/**]
     write: [NKB/**, operations/**]
@@ -19,4 +19,4 @@ task_template:
     required_session: current
 
   next_tasks:
-    on_submit: [nkb_publish]
+    on_submit: [nkb_sync]

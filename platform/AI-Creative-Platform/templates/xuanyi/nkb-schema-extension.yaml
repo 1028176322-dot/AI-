@@ -6,4 +6,4 @@ add_fields:
   D2_reader_state: 强化 作者/角色/读者 分别已知
   K3_timeline: 精确到小时
   Evidence: 新增证据组件（编号/发现章/关联人物）
-note: 基础 11 组件见 core/review/NKB.md；本文件仅列题材增量。
+note: canonical 14 组件见 schemas/nkb/nkb-manifest.yaml；本文件仅列题材增量。
