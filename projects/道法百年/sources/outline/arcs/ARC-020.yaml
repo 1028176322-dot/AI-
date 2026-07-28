@@ -1,0 +1,28 @@
+document:
+  id: ARC-020
+  type: arc_outline
+  title: VOL-004·虞国内应
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-020
+  volume_id: VOL-004
+  chapter_range:
+    - 476
+    - 500
+  objective: 虞国借听雨阁为内应，内应暴露。
+  conflict_engine: 内应破坏 vs 反间识破。
+  start_state: 三皇子构陷后。
+  end_state: 内应暴露，国战前奏。
+  causal_chain: 三皇子构陷后。 → 内应破坏 vs 反间识破。 → 肖凡以情报反制。 → 内应暴露，国战前奏。
+  milestones:
+    - 内应
+    - 反间
+    - 暴露
+  character_decisions: 肖凡以情报反制。
+  reader_experience: 谍战智斗爽。
+  payoff: 听雨阁内应伏笔。
+  handoff: 交接国战爆发。

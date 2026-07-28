@@ -1,0 +1,116 @@
+schema: reference-learning@1.0.0
+meta:
+  source_id: qingyuniandu
+  source_name: 庆余年_精校全本_猫腻.utf8.txt
+  source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+  genre: 历史架空·穿越
+  analyzed_at: 2026-07-27T21:53:29
+  copyright_policy: statistics_and_principles_only
+metrics:
+  characters: 3524663
+  chapters: 1
+  chapter_length:
+    median: 3524663
+    p25: 3524663
+    p75: 3524663
+  paragraph_length:
+    median: 57
+    p90: 112
+  sentence_length:
+    mean: 43.8
+    p90: 82
+  dialogue_ratio: 0.2164
+  opening_hook_density: 3.966
+  ending_hook_rate: 1.0
+  emotion_curve:
+    - 3.455
+    - 3.1
+    - 3.89
+    - 3.516
+    - 3.75
+    - 4.471
+    - 4.072
+    - 4.308
+  emotion_variance: 0.1849
+  information_density: 1.207
+candidates:
+  - rule_id: REF-CHAPTER-RHYTHM
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 章节容量应形成稳定区间，并允许关键章节有受控偏离。
+    evidence:
+      source_id: qingyuniandu
+      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      metric: chapter_length
+      value:
+        median: 3524663
+        p25: 3524663
+        p75: 3524663
+      raw_excerpt_copied: false
+    review_check: 检查章节长度是否偏离参考区间且偏离是否服务于情节。
+    writing_action: 规划时给出目标区间与偏离理由，不机械复制参考书字数。
+    confidence: 0.62
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-END-HOOK
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
+    evidence:
+      source_id: qingyuniandu
+      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      metric: ending_hook_rate
+      value: 1.0
+      raw_excerpt_copied: false
+    review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
+    writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
+    confidence: 0.85
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-DIALOGUE-BALANCE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 对白应承担行动、关系或信息变化，而非脱离叙事独立堆积。
+    evidence:
+      source_id: qingyuniandu
+      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      metric: dialogue_ratio
+      value: 0.2164
+      raw_excerpt_copied: false
+    review_check: 检查对白占比、角色辨识度及每段对白造成的状态变化。
+    writing_action: 场景规划同时标注对白目的、潜台词和对白后的局面变化。
+    confidence: 0.66
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-EMOTION-WAVE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 情绪应随冲突和选择产生可辨认的波形，避免全章同强度。
+    evidence:
+      source_id: qingyuniandu
+      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      metric: emotion_variance
+      value: 0.1849
+      raw_excerpt_copied: false
+    review_check: 按场景标记情绪起点、峰值、回落与余波。
+    writing_action: 章纲预设情绪转折，写作后核对变化是否由事件触发。
+    confidence: 0.64
+    status: candidate
+    requires_project_validation: true
+raw_text_stored: false

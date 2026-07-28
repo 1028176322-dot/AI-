@@ -1,0 +1,59 @@
+document:
+  id: VOL-006
+  type: volume_outline
+  title: 卷六·乾坤
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+volume:
+  id: VOL-006
+  number: 6
+  chapter_range:
+    - 851
+    - 1000
+  purpose: 终极决战、内部清算、收束；三次大劫圆满，听雨阁余孽+三皇子残余+狄族联盟最终清算。
+  objective: 完成全本收官；半步陆仙极境；返还老还童事件；天下归静。
+  start_state: 1410 肖凡40岁驻颜态，三皇子残余+听雨阁余孽+狄族联盟蛰伏。
+  end_state: 1490+ 域外终极一战终结所有暗线，天下归静，长生归宿落定。
+  main_characters:
+    - 肖凡
+    - 新国师
+    - 三皇子残余
+    - 听雨阁余孽
+    - 狄族联盟
+    - 萧俊(逝)
+  main_locations:
+    - 天下
+    - 域外
+    - 盛京
+  central_conflict: 多方暗线的最终清算 vs 长生者的收束；返老还童肉身重置的代价。
+  antagonist_pressure: 三方联盟终极清算；三次大劫；萧俊慢性毒发身亡的追查。
+  milestones:
+    - 三次大劫圆满（851-875）
+    - 内部清算三皇子残余（876-900）
+    - 返老还童事件（901-925）
+    - 萧俊毒发身亡追查（926-950）
+    - 域外终极一战（951-975）
+    - 天下归静收官（976-1000）
+  midpoint_turn: 第925章返老还童完成肉身重置，肖凡从'驻颜防老'进入'重置损伤'新阶段，追查萧俊之死转守为攻。
+  lowest_point: 萧俊82岁慢性毒发身亡，肖凡出关后面对挚友已逝的追查无力感。
+  climax: 域外终极一战，肖凡以圆满之境终结所有暗线。
+  aftermath: 天下归静，班底封赏，长生归宿（驻颜/返老还童后长生态）落定。
+  reader_promises:
+    - 终极碾压的封神爽
+    - 宿命收束的史诗感
+    - 长生归宿的情感落点
+  questions_opened:
+    - 长生者的最终归宿将如何安放？
+  questions_answered:
+    - 三皇子残余清算
+    - 听雨阁余孽清算
+    - 狄族联盟清算
+    - 萧俊之死真相
+  foreshadow_plan:
+    - 全本伏笔闭合
+    - 长生归宿收束
+  growth_deltas: 半步陆仙极境；三次大劫圆满；返老还童重置肉身。
+  next_volume_entry: （终卷）无后续卷，落定长生归宿与天下归静。

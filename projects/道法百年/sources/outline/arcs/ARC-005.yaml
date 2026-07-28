@@ -1,0 +1,28 @@
+document:
+  id: ARC-005
+  type: arc_outline
+  title: VOL-002·新政风波
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-005
+  volume_id: VOL-002
+  chapter_range:
+    - 101
+    - 125
+  objective: 钱万山借新政举报肖凡伙计无籍施压。
+  conflict_engine: 新政约束 vs 肖凡借势反制。
+  start_state: 仙人醉立足盛京。
+  end_state: 钱万山举报被反制，新政转为利器。
+  causal_chain: 仙人醉立足盛京。 → 新政约束 vs 肖凡借势反制。 → 肖凡选择以新政反制而非硬扛。 → 钱万山举报被反制，新政转为利器。
+  milestones:
+    - 新政举报
+    - 无籍施压
+    - 反制
+  character_decisions: 肖凡选择以新政反制而非硬扛。
+  reader_experience: 朝堂智斗的智力爽起点。
+  payoff: FB-07新政由约束转利器。
+  handoff: 交接天上人间。

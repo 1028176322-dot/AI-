@@ -1,0 +1,28 @@
+document:
+  id: ARC-013
+  type: arc_outline
+  title: VOL-003·工坊产业化
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-013
+  volume_id: VOL-003
+  chapter_range:
+    - 301
+    - 325
+  objective: 火药工坊产业化，灵气火器雏形。
+  conflict_engine: 产业化 vs 地方势力封锁。
+  start_state: 班底成型。
+  end_state: 工坊起步，灵气火器雏形。
+  causal_chain: 班底成型。 → 产业化 vs 地方势力封锁。 → 肖凡以班底+技术破封锁。 → 工坊起步，灵气火器雏形。
+  milestones:
+    - 工坊建设
+    - 产业化
+    - 雏形
+  character_decisions: 肖凡以班底+技术破封锁。
+  reader_experience: 宏大产业爽。
+  payoff: 灵气火器雏形（卷四战争伏笔）。
+  handoff: 交接初触宗师。

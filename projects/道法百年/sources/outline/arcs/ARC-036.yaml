@@ -1,0 +1,28 @@
+document:
+  id: ARC-036
+  type: arc_outline
+  title: VOL-006·内部清算
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-036
+  volume_id: VOL-006
+  chapter_range:
+    - 876
+    - 900
+  objective: 三皇子残余清算。
+  conflict_engine: 残余反扑 vs 清算铁腕。
+  start_state: 极境达成后。
+  end_state: 三皇子残余覆灭。
+  causal_chain: 极境达成后。 → 残余反扑 vs 清算铁腕。 → 肖凡以雷霆手段清内。 → 三皇子残余覆灭。
+  milestones:
+    - 清算
+    - 残余
+    - 覆灭
+  character_decisions: 肖凡以雷霆手段清内。
+  reader_experience: 清算的痛快爽。
+  payoff: FB 三皇子线闭合。
+  handoff: 交接返老还童。

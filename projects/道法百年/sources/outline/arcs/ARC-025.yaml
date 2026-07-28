@@ -1,0 +1,28 @@
+document:
+  id: ARC-025
+  type: arc_outline
+  title: VOL-004·听雨全面对抗
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-025
+  volume_id: VOL-004
+  chapter_range:
+    - 601
+    - 625
+  objective: 听雨阁全面对抗肖凡。
+  conflict_engine: 听雨主力 vs 双线死战。
+  start_state: 阵营稳定后。
+  end_state: 听雨阁主力压境。
+  causal_chain: 阵营稳定后。 → 听雨主力 vs 双线死战。 → 肖凡正面硬刚听雨阁。 → 听雨阁主力压境。
+  milestones:
+    - 全面对抗
+    - 主力
+    - 死战
+  character_decisions: 肖凡正面硬刚听雨阁。
+  reader_experience: 宿敌对决的紧张。
+  payoff: FB-08全面对抗。
+  handoff: 交接卷终决战。

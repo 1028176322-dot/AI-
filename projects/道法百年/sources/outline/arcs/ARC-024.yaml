@@ -1,0 +1,28 @@
+document:
+  id: ARC-024
+  type: arc_outline
+  title: VOL-004·阵营博弈
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-024
+  volume_id: VOL-004
+  chapter_range:
+    - 576
+    - 600
+  objective: 合纵连横，阵营博弈。
+  conflict_engine: 多方博弈 vs 信任危机。
+  start_state: 洗髓后。
+  end_state: 阵营稳定，劣势扭转。
+  causal_chain: 洗髓后。 → 多方博弈 vs 信任危机。 → 肖凡以实力为筹码外交。 → 阵营稳定，劣势扭转。
+  milestones:
+    - 合纵
+    - 博弈
+    - 稳定
+  character_decisions: 肖凡以实力为筹码外交。
+  reader_experience: 权谋博弈爽。
+  payoff: 国战局势扭转。
+  handoff: 交接听雨全面对抗。

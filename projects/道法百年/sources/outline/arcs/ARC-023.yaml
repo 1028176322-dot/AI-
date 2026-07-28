@@ -1,0 +1,28 @@
+document:
+  id: ARC-023
+  type: arc_outline
+  title: VOL-004·七境洗髓
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-023
+  volume_id: VOL-004
+  chapter_range:
+    - 551
+    - 575
+  objective: 七境界推进至洗髓。
+  conflict_engine: 境界突破 vs 战损恢复。
+  start_state: 以技破武后。
+  end_state: 七境至洗髓。
+  causal_chain: 以技破武后。 → 境界突破 vs 战损恢复。 → 肖凡战时突破。 → 七境至洗髓。
+  milestones:
+    - 洗髓突破
+    - 战损
+    - 推进
+  character_decisions: 肖凡战时突破。
+  reader_experience: 修炼与战争交织爽。
+  payoff: 七境推进（卷五通神铺垫）。
+  handoff: 交接阵营博弈。

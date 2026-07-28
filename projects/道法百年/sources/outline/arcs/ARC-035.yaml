@@ -1,0 +1,28 @@
+document:
+  id: ARC-035
+  type: arc_outline
+  title: VOL-006·三次大劫
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-035
+  volume_id: VOL-006
+  chapter_range:
+    - 851
+    - 875
+  objective: 三次大劫圆满，半步陆仙极境。
+  conflict_engine: 大劫叠加 vs 极境突破。
+  start_state: 长生者入收官。
+  end_state: 半步陆仙极境。
+  causal_chain: 长生者入收官。 → 大劫叠加 vs 极境突破。 → 肖凡正面迎劫。 → 半步陆仙极境。
+  milestones:
+    - 三次大劫
+    - 极境
+    - 圆满
+  character_decisions: 肖凡正面迎劫。
+  reader_experience: 终极突破的史诗感。
+  payoff: 长生线收束推进。
+  handoff: 交接内部清算。

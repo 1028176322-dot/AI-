@@ -1,0 +1,28 @@
+document:
+  id: ARC-011
+  type: arc_outline
+  title: VOL-003·初入江湖
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-011
+  volume_id: VOL-003
+  chapter_range:
+    - 251
+    - 275
+  objective: 出盛京入大晟江湖，立规矩。
+  conflict_engine: 江湖规矩 vs 肖凡科技底牌。
+  start_state: 京城洗牌后出走。
+  end_state: 在江湖初步立足。
+  causal_chain: 京城洗牌后出走。 → 江湖规矩 vs 肖凡科技底牌。 → 肖凡选择低调立威。 → 在江湖初步立足。
+  milestones:
+    - 入江湖
+    - 立规矩
+    - 初步立足
+  character_decisions: 肖凡选择低调立威。
+  reader_experience: 新地图探索的新鲜爽。
+  payoff: 江湖线开启。
+  handoff: 交接收班底。

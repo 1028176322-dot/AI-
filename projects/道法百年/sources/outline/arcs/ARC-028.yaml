@@ -1,0 +1,28 @@
+document:
+  id: ARC-028
+  type: arc_outline
+  title: VOL-005·第一次大劫
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-028
+  volume_id: VOL-005
+  chapter_range:
+    - 676
+    - 700
+  objective: 渡第一次大劫（失败即死）。
+  conflict_engine: 大劫生死 vs 功法濒溃。
+  start_state: 归元达成后。
+  end_state: 渡劫成功，转长生者。
+  causal_chain: 归元达成后。 → 大劫生死 vs 功法濒溃。 → 肖凡以玉佩+科技扛劫。 → 渡劫成功，转长生者。
+  milestones:
+    - 大劫
+    - 濒死
+    - 成功
+  character_decisions: 肖凡以玉佩+科技扛劫。
+  reader_experience: 生死一线的极致紧张。
+  payoff: FB-03长生附注呼应。
+  handoff: 交接驻颜启动。

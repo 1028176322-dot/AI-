@@ -1,0 +1,28 @@
+document:
+  id: ARC-021
+  type: arc_outline
+  title: VOL-004·国战爆发
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-021
+  volume_id: VOL-004
+  chapter_range:
+    - 501
+    - 525
+  objective: 虞国发起国战，边境燃火。
+  conflict_engine: 外敌入侵 vs 边境死守。
+  start_state: 内应暴露后。
+  end_state: 国战全面爆发。
+  causal_chain: 内应暴露后。 → 外敌入侵 vs 边境死守。 → 肖凡赴边境参战。 → 国战全面爆发。
+  milestones:
+    - 开战
+    - 边境
+    - 燃火
+  character_decisions: 肖凡赴边境参战。
+  reader_experience: 战争爽的开场宏大。
+  payoff: 国战幕开启。
+  handoff: 交接以技破武。

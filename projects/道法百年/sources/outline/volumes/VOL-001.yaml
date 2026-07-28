@@ -1,0 +1,63 @@
+document:
+  id: VOL-001
+  type: volume_outline
+  title: 卷一·道生
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+volume:
+  id: VOL-001
+  number: 1
+  chapter_range:
+    - 1
+    - 100
+  purpose: 少年肖凡于清虚观成长，玉佩觉醒埋下长生暗线，初探世俗并以黑火药萌芽实现科技降维，进京经商铺开朝堂暗线。
+  objective: 完成主角从遗弃孤儿到初入盛京修行商贾的身份转变；确立'科技+修炼'双线爽点基调；埋设 FB-01~FB-09 核心伏笔。
+  start_state: 1370 肖凡0岁被遗弃清虚观，玉佩碎裂灌顶未启；凡俗武道铁皮境。
+  end_state: 1386 肖凡16岁进京投国师，盘店酿酒仙人醉出世，商战初燃；黑火药燧发枪萌芽，暗线铺开。
+  main_characters:
+    - 肖凡
+    - 玄尘子(师父)
+    - 苏墨凝
+    - 师兄
+    - 四皇子
+    - 国师
+  main_locations:
+    - 清虚观
+    - 下山历练路
+    - 盛京
+  central_conflict: 凡俗成长 vs 暗藏长生宿命；藏拙生存 vs 科技惊世。
+  antagonist_pressure: 听雨阁渗透初现；新政暗流；江湖草莽威胁。
+  milestones:
+    - 玉佩灌顶觉醒（1-20章）
+    - 土法炼硝火药实验成功（21-50章）
+    - 下山初遇苏墨凝、首次杀人（51-80章）
+    - 进京仙人醉出世、商战初燃（81-100章）
+  midpoint_turn: 第50章左右炼硝成功，火药从玩具变杀器，肖凡重新评估'藏拙'边界。
+  lowest_point: 下山历练中首次杀人后搜身得银，良知与生存冲突，质疑自身道路。
+  climax: 京华初启，仙人醉出世商战初燃，暗线收口（FB-04师父信已用）。
+  aftermath: 肖凡在盛京站稳，朝堂暗线与听雨阁阴影同时逼近。
+  reader_promises:
+    - 扮猪吃虎的爽感
+    - 科技降维打击的震撼
+    - 长生伏笔的神秘
+  questions_opened:
+    - 玉佩碎片何用？
+    - 苏墨凝真实身份？
+    - 四皇子名单指向？
+    - 听雨阁目的？
+  questions_answered:
+    - FB-04引荐信作用
+    - FB-05苏墨凝之恩相认
+  foreshadow_plan:
+    - FB-01玉佩埋槐树
+    - FB-02回春药方
+    - FB-03长生附注
+    - FB-06四皇子
+    - FB-07新政
+    - FB-08听雨阁密信
+    - FB-09沈括灭门
+  growth_deltas: 武道铁皮→铜骨/气感→周天；心智从懵懂到藏拙经营。
+  next_volume_entry: 持仙人醉与国师背书进入卷二京华朝堂商战。

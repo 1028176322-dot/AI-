@@ -1,0 +1,28 @@
+document:
+  id: ARC-018
+  type: arc_outline
+  title: VOL-003·卷终围剿
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-018
+  volume_id: VOL-003
+  chapter_range:
+    - 426
+    - 450
+  objective: 江湖大宗门围剿，灵气火器破局。
+  conflict_engine: 围剿危机 vs 灵气火器破局。
+  start_state: 暗线追查后。
+  end_state: 声望鹊起，班底封赏。
+  causal_chain: 暗线追查后。 → 围剿危机 vs 灵气火器破局。 → 肖凡以灵气火器终结围剿。 → 声望鹊起，班底封赏。
+  milestones:
+    - 围剿
+    - 破局
+    - 声望
+  character_decisions: 肖凡以灵气火器终结围剿。
+  reader_experience: 卷终宏大破局爽。
+  payoff: FB-09余波收口，钩卷四。
+  handoff: 交接卷四国战。

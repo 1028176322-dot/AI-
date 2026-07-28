@@ -1,0 +1,28 @@
+document:
+  id: ARC-037
+  type: arc_outline
+  title: VOL-006·返老还童
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-037
+  volume_id: VOL-006
+  chapter_range:
+    - 901
+    - 925
+  objective: 肖凡因玉佩第一次返老还童，重置肉身。
+  conflict_engine: 返老还童代价 vs 肉身重置。
+  start_state: 内部清算后。
+  end_state: 肉身重置完成。
+  causal_chain: 内部清算后。 → 返老还童代价 vs 肉身重置。 → 肖凡接受肉身重置。 → 肉身重置完成。
+  milestones:
+    - 返老还童
+    - 重置
+    - 完成
+  character_decisions: 肖凡接受肉身重置。
+  reader_experience: 长生机制的震撼揭秘。
+  payoff: 返老还童事件（区别于驻颜）。
+  handoff: 交接萧俊之死。

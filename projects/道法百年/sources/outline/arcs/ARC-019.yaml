@@ -1,0 +1,28 @@
+document:
+  id: ARC-019
+  type: arc_outline
+  title: VOL-004·三皇子阴谋
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-019
+  volume_id: VOL-004
+  chapter_range:
+    - 451
+    - 475
+  objective: 三皇子萧沛借听雨阁构陷大皇子。
+  conflict_engine: 构陷夺嫡 vs 国战外患。
+  start_state: 江湖声望引动边境。
+  end_state: 确认三皇子为国战暗线推手。
+  causal_chain: 江湖声望引动边境。 → 构陷夺嫡 vs 国战外患。 → 肖凡选择先平外患再清内乱。 → 确认三皇子为国战暗线推手。
+  milestones:
+    - 构陷
+    - 夺嫡
+    - 推手
+  character_decisions: 肖凡选择先平外患再清内乱。
+  reader_experience: 权谋暗线的压抑。
+  payoff: 三皇子伏笔（卷六清算）。
+  handoff: 交接虞国内应。

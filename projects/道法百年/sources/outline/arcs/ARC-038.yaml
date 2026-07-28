@@ -1,0 +1,28 @@
+document:
+  id: ARC-038
+  type: arc_outline
+  title: VOL-006·萧俊之死
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-038
+  volume_id: VOL-006
+  chapter_range:
+    - 926
+    - 950
+  objective: 萧俊82岁慢性毒发身亡，肖凡追查。
+  conflict_engine: 挚友离世 vs 追查无力。
+  start_state: 返老还童后。
+  end_state: 确认毒杀，转守为攻。
+  causal_chain: 返老还童后。 → 挚友离世 vs 追查无力。 → 肖凡出关后直面挚友已逝。 → 确认毒杀，转守为攻。
+  milestones:
+    - 萧俊逝
+    - 毒杀
+    - 追查
+  character_decisions: 肖凡出关后直面挚友已逝。
+  reader_experience: 情感重击的悲怆。
+  payoff: 萧俊线收束。
+  handoff: 交接域外终极。

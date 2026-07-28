@@ -1,0 +1,28 @@
+document:
+  id: ARC-001
+  type: arc_outline
+  title: VOL-001·观中童年
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-001
+  volume_id: VOL-001
+  chapter_range:
+    - 1
+    - 20
+  objective: 遗弃孤儿在清虚观的成长与玉佩灌顶觉醒。
+  conflict_engine: 玉佩碎裂灌顶的神秘驱动 vs 凡俗观中平淡日常。
+  start_state: 1370 肖凡0岁被收养，玉佩碎裂。
+  end_state: 玉佩灌顶完成，修炼入门，初见世态。
+  causal_chain: 1370 肖凡0岁被收养，玉佩碎裂。 → 玉佩碎裂灌顶的神秘驱动 vs 凡俗观中平淡日常。 → 肖凡选择藏拙而非显露玉佩异象。 → 玉佩灌顶完成，修炼入门，初见世态。
+  milestones:
+    - 玉佩灌顶
+    - 修炼入门
+    - 初见世态
+  character_decisions: 肖凡选择藏拙而非显露玉佩异象。
+  reader_experience: 童年视角的惊奇与伏笔铺设。
+  payoff: 玉佩灌顶埋下长生线，FB-01碎片待埋。
+  handoff: 交接下山历练。

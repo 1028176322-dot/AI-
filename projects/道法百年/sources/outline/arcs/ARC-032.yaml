@@ -1,0 +1,28 @@
+document:
+  id: ARC-032
+  type: arc_outline
+  title: VOL-005·顾衡旧案
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-032
+  volume_id: VOL-005
+  chapter_range:
+    - 776
+    - 800
+  objective: 顾衡旧案牵出更高层暗线（FB-080）。
+  conflict_engine: 旧案追查 vs 更高层遮蔽。
+  start_state: 洞天线索后。
+  end_state: 确认更高层存在。
+  causal_chain: 洞天线索后。 → 旧案追查 vs 更高层遮蔽。 → 肖凡深入追查。 → 确认更高层存在。
+  milestones:
+    - 旧案
+    - 更高层
+    - 确认
+  character_decisions: 肖凡深入追查。
+  reader_experience: 暗线升级的不安。
+  payoff: FB-080顾衡旧案暗线。
+  handoff: 交接灵气火器成熟。

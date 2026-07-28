@@ -1,0 +1,28 @@
+document:
+  id: ARC-033
+  type: arc_outline
+  title: VOL-005·灵气火器成熟
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-033
+  volume_id: VOL-005
+  chapter_range:
+    - 801
+    - 825
+  objective: 灵气火器成熟（FB-049）。
+  conflict_engine: 技术成熟 vs 战争需求。
+  start_state: 旧案追查后。
+  end_state: 灵气火器成熟可用。
+  causal_chain: 旧案追查后。 → 技术成熟 vs 战争需求。 → 肖凡完成技术闭环。 → 灵气火器成熟可用。
+  milestones:
+    - 成熟
+    - 技术
+    - 可用
+  character_decisions: 肖凡完成技术闭环。
+  reader_experience: 技术爽的满足。
+  payoff: FB-049灵气火器成熟。
+  handoff: 交接卷终会战。

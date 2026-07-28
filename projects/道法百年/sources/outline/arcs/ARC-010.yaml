@@ -1,0 +1,28 @@
+document:
+  id: ARC-010
+  type: arc_outline
+  title: VOL-002·卷终决战
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-010
+  volume_id: VOL-002
+  chapter_range:
+    - 226
+    - 250
+  objective: 听雨阁一次刺杀被肖凡科技+修炼双破。
+  conflict_engine: 刺杀危机 vs 双线破局。
+  start_state: 三皇子初现后。
+  end_state: 京城势力洗牌，听雨阁暂退。
+  causal_chain: 三皇子初现后。 → 刺杀危机 vs 双线破局。 → 肖凡以实力震慑而非妥协。 → 京城势力洗牌，听雨阁暂退。
+  milestones:
+    - 刺杀
+    - 双破
+    - 势力洗牌
+  character_decisions: 肖凡以实力震慑而非妥协。
+  reader_experience: 卷终碾压爽与暗敌升级。
+  payoff: FB-08初交锋收口，钩卷四。
+  handoff: 交接卷三江湖。

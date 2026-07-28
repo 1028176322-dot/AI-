@@ -1,0 +1,66 @@
+document:
+  id: VOL-005
+  type: volume_outline
+  title: 卷五·长生
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+volume:
+  id: VOL-005
+  number: 5
+  chapter_range:
+    - 651
+    - 850
+  purpose: 归元突破＋驻颜启动，第一次大劫，北方狄族入侵，主动覆盖14年无闭关空洞。
+  objective: 完成长生揭秘核心幕；七境界至归元渡劫；FB-01/02/03/049/075/080 回收。
+  start_state: 1396 肖凡26岁返朝，准备归元闭关，狄族边境异动。
+  end_state: 1410 狄族主力会战退却，肖凡驻颜态碾压，留未来线钩卷六。
+  main_characters:
+    - 肖凡
+    - 萧俊(好友)
+    - 拓跋烈(狄族)
+    - 新国师
+    - 顾衡旧案关联
+  main_locations:
+    - 灵气源地
+    - 洞天
+    - 北境
+    - 盛京
+  central_conflict: 长生突破的劫数风险 vs 守护责任；狄族外患 vs 朝局更迭。
+  antagonist_pressure: 第一次大劫（失败即死）；狄族入侵（FB-075）；顾衡旧案暗线。
+  milestones:
+    - 归元突破闭关（651-675）
+    - 第一次大劫渡劫（676-700）
+    - 驻颜启动锁青年态（701-725）
+    - 狄族入侵外患升级（726-750）
+    - 洞天探秘玉佩新线索（751-775）
+    - 顾衡旧案牵出高层（776-800）
+    - 灵气火器成熟（801-825）
+    - 卷终狄族会战退却（826-850）
+  midpoint_turn: 第700章渡第一次大劫成功，肖凡由'求生者'转为'长生者'，重入朝局姿态质变。
+  lowest_point: 大劫中功法濒溃，一旦失败即死，生死一线。
+  climax: 卷终狄族主力会战，肖凡驻颜态碾压，狄族退却留未来线。
+  aftermath: 长生者身份坐实，萧俊1405登基肖凡35岁在场，新朝局自然衔接。
+  reader_promises:
+    - 长生揭秘的悬疑爽
+    - 越阶守护大战爽
+    - 时间跨度史诗感
+  questions_opened:
+    - 顾衡旧案更高层是谁？
+    - 玉佩洞天线索指向？
+    - 狄族退却后留何线？
+  questions_answered:
+    - FB-01玉佩碎片洞天触发
+    - FB-02回春药方大劫药用
+    - FB-03长生附注圆满呼应
+    - FB-049灵气火器成熟
+    - FB-075狄族入侵
+    - FB-080顾衡旧案暗线
+  foreshadow_plan:
+    - 顾衡旧案更高层伏笔卷六
+    - 狄族联盟伏笔卷六
+    - 返老还童事件预埋
+  growth_deltas: 七境洗髓→通神→归元＋第一次大劫＋驻颜启动；灵气火器成熟。
+  next_volume_entry: 以长生者身份入收官，迎三次大劫与域外终极。

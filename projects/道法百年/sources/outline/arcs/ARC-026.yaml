@@ -1,0 +1,28 @@
+document:
+  id: ARC-026
+  type: arc_outline
+  title: VOL-004·卷终决战
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-026
+  volume_id: VOL-004
+  chapter_range:
+    - 626
+    - 650
+  objective: 国战大决战，破听雨阁主力。
+  conflict_engine: 决战危机 vs 终极碾压。
+  start_state: 听雨压境后。
+  end_state: 听雨阁主力受挫，三皇子未灭。
+  causal_chain: 听雨压境后。 → 决战危机 vs 终极碾压。 → 肖凡以圆满之姿终结国战。 → 听雨阁主力受挫，三皇子未灭。
+  milestones:
+    - 决战
+    - 破主力
+    - 受挫
+  character_decisions: 肖凡以圆满之姿终结国战。
+  reader_experience: 卷终史诗决战爽。
+  payoff: FB-09幕后揭露，钩卷六。
+  handoff: 交接卷五长生。

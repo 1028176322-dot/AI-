@@ -1,0 +1,137 @@
+schema: reference-learning@1.0.0
+meta:
+  source_id: zhuixu
+  source_name: 赘婿_全本.txt
+  source_hash: ecfe6415f77af48386e535b2f20b75090ce3f023093651865e2a89f48b52340d
+  genre: 历史架空·穿越
+  analyzed_at: 2026-07-27T21:53:09
+  copyright_policy: statistics_and_principles_only
+metrics:
+  characters: 5395996
+  chapters: 844
+  chapter_length:
+    median: 4643
+    p25: 3836
+    p75: 6187
+  paragraph_length:
+    median: 64
+    p90: 156
+  sentence_length:
+    mean: 45.56
+    p90: 89
+  dialogue_ratio: 0.2675
+  opening_hook_density: 2.52
+  ending_hook_rate: 0.5427
+  emotion_curve:
+    - 2.166
+    - 2.615
+    - 2.552
+    - 2.378
+    - 2.646
+    - 2.47
+    - 2.678
+    - 2.114
+  emotion_variance: 0.0409
+  information_density: 1.083
+candidates:
+  - rule_id: REF-CHAPTER-RHYTHM
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 章节容量应形成稳定区间，并允许关键章节有受控偏离。
+    evidence:
+      source_id: zhuixu
+      source_hash: ecfe6415f77af48386e535b2f20b75090ce3f023093651865e2a89f48b52340d
+      metric: chapter_length
+      value:
+        median: 4643
+        p25: 3836
+        p75: 6187
+      raw_excerpt_copied: false
+    review_check: 检查章节长度是否偏离参考区间且偏离是否服务于情节。
+    writing_action: 规划时给出目标区间与偏离理由，不机械复制参考书字数。
+    confidence: 0.62
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-END-HOOK
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
+    evidence:
+      source_id: zhuixu
+      source_hash: ecfe6415f77af48386e535b2f20b75090ce3f023093651865e2a89f48b52340d
+      metric: ending_hook_rate
+      value: 0.5427
+      raw_excerpt_copied: false
+    review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
+    writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
+    confidence: 0.71
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-DIALOGUE-BALANCE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 对白应承担行动、关系或信息变化，而非脱离叙事独立堆积。
+    evidence:
+      source_id: zhuixu
+      source_hash: ecfe6415f77af48386e535b2f20b75090ce3f023093651865e2a89f48b52340d
+      metric: dialogue_ratio
+      value: 0.2675
+      raw_excerpt_copied: false
+    review_check: 检查对白占比、角色辨识度及每段对白造成的状态变化。
+    writing_action: 场景规划同时标注对白目的、潜台词和对白后的局面变化。
+    confidence: 0.66
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-PARAGRAPH-CONTRAST
+    target: writing
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 长短段落的对比可服务信息承载与节奏加速。
+    evidence:
+      source_id: zhuixu
+      source_hash: ecfe6415f77af48386e535b2f20b75090ce3f023093651865e2a89f48b52340d
+      metric: paragraph_length
+      value:
+        median: 64
+        p90: 156
+      raw_excerpt_copied: false
+    review_check: 检查长段是否造成认知负荷、短段是否只是碎片化。
+    writing_action: 在解释、动作、转折处主动设计段落长度变化。
+    confidence: 0.58
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-EMOTION-WAVE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 情绪应随冲突和选择产生可辨认的波形，避免全章同强度。
+    evidence:
+      source_id: zhuixu
+      source_hash: ecfe6415f77af48386e535b2f20b75090ce3f023093651865e2a89f48b52340d
+      metric: emotion_variance
+      value: 0.0409
+      raw_excerpt_copied: false
+    review_check: 按场景标记情绪起点、峰值、回落与余波。
+    writing_action: 章纲预设情绪转折，写作后核对变化是否由事件触发。
+    confidence: 0.64
+    status: candidate
+    requires_project_validation: true
+raw_text_stored: false

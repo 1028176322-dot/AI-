@@ -1,0 +1,28 @@
+document:
+  id: ARC-040
+  type: arc_outline
+  title: VOL-006·天下归静
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-040
+  volume_id: VOL-006
+  chapter_range:
+    - 976
+    - 1000
+  objective: 班底封赏，长生归宿落定，天下归静。
+  conflict_engine: 收束 vs 归宿落定。
+  start_state: 域外终极后。
+  end_state: 天下归静，长生归宿。
+  causal_chain: 域外终极后。 → 收束 vs 归宿落定。 → 肖凡选择淡出朝堂守长生。 → 天下归静，长生归宿。
+  milestones:
+    - 封赏
+    - 归宿
+    - 归静
+  character_decisions: 肖凡选择淡出朝堂守长生。
+  reader_experience: 宿命收束的释然与余韵。
+  payoff: 全本伏笔闭合。
+  handoff: （终）无后续。

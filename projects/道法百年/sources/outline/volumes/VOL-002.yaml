@@ -1,0 +1,61 @@
+document:
+  id: VOL-002
+  type: volume_outline
+  title: 卷二·京华
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+volume:
+  id: VOL-002
+  number: 2
+  chapter_range:
+    - 101
+    - 250
+  purpose: 盛京朝堂商界博弈，武者新政与科技产业化正面碰撞，天上人间成情报舞台，听雨阁初交锋。
+  objective: 确立京城势力版图；以商战+朝堂智斗放大科技碾压爽点；FB-07新政、FB-08听雨阁初交锋回收与推进。
+  start_state: 1386 肖凡16岁立足盛京，仙人醉初成，国师门下。
+  end_state: 1388 天上人间压垮醉仙楼，听雨阁一次刺杀被双破，京城势力洗牌。
+  main_characters:
+    - 肖凡
+    - 苏墨凝
+    - 钱万山(东宫)
+    - 三皇子萧沛
+    - 国师
+    - 听雨阁刺客
+  main_locations:
+    - 盛京
+    - 朝堂
+    - 天上人间
+    - 醉仙楼
+  central_conflict: 新政压制武者 vs 肖凡借势化作利器；听雨阁渗透 vs 科技+修炼双破。
+  antagonist_pressure: 钱万山借新政举报施压；听雨阁密信真相逼近；三皇子书院势力初现。
+  milestones:
+    - 钱万山新政举报被反制（101-125）
+    - 天上人间开业压垮醉仙楼（126-150）
+    - 苏墨凝密信真相初露（151-175）
+    - 商战升级正面碾压（176-200）
+    - 三皇子萧沛势力初现（201-225）
+    - 卷终听雨阁刺杀被双破（226-250）
+  midpoint_turn: 第175章苏墨凝密信真相初露，肖凡确认听雨阁渗透规模，从被动应对转主动布局。
+  lowest_point: 钱万山借新政构陷，肖凡伙计被无籍打压，商基动摇。
+  climax: 卷终听雨阁刺杀行动被肖凡科技＋修炼双破，京城势力洗牌。
+  aftermath: 听雨阁暂退，三皇子暗线浮出，肖凡声望与暗敌同步上升。
+  reader_promises:
+    - 朝堂智斗的智力爽
+    - 势力经营的养成爽
+    - 以技破武的碾压爽
+  questions_opened:
+    - 三皇子萧沛真实图谋？
+    - 听雨阁渗透多深？
+    - 天上人间情报网能挖出什么？
+  questions_answered:
+    - FB-07新政由约束转为利器
+    - FB-08听雨阁初交锋
+  foreshadow_plan:
+    - FB-06四皇子名单延伸
+    - FB-08听雨阁渗透加深
+    - 三皇子书院势力伏笔
+  growth_deltas: 武道铜骨→金身/周天→化罡；玉佩七境界凝灵→化精；火器产业化。
+  next_volume_entry: 借京城洗牌余威出盛京，入大晟江湖游历收班底。

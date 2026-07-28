@@ -1,0 +1,59 @@
+document:
+  id: VOL-003
+  type: volume_outline
+  title: 卷三·江湖
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+volume:
+  id: VOL-003
+  number: 3
+  chapter_range:
+    - 251
+    - 450
+  purpose: 大晟江湖游历收班底，科技产业化，初触宗师级，玉佩七境界推进至易筋。
+  objective: 组建核心团队；灵气火器雏形落地；以越阶战低宗师立威；FB-06、FB-09 江湖线回收。
+  start_state: 1388 肖凡出盛京入江湖，班底雏形，火器工坊起步。
+  end_state: 1392 江湖大宗门围剿被灵气火器破局，肖凡声望鹊起，班底成型。
+  main_characters:
+    - 肖凡
+    - 沈遇(班底)
+    - 江湖宗师
+    - 黑虎帮幕后
+    - 苏墨凝
+  main_locations:
+    - 大晟江湖
+    - 诸道州府
+    - 火药工坊
+  central_conflict: 江湖宗门垄断 vs 科技产业化破局；越阶挑战 vs 金身/化罡极限认知。
+  antagonist_pressure: 大宗门围剿；黑虎帮幕后（FB-09余波）；宗师级压制。
+  milestones:
+    - 初入江湖立规矩（251-275）
+    - 核心班底成型（276-300）
+    - 火药工坊产业化（301-325）
+    - 初遇宗师认知极限（326-350）
+    - 七境推进至易筋（351-375）
+    - 打脸升级越阶战（376-400）
+    - 江湖暗线牵出黑虎帮（401-425）
+    - 卷终大宗门围剿破局（426-450）
+  midpoint_turn: 第350章初遇宗师，肖凡认知金身/化罡极限，决定以灵气火器跨越战力鸿沟。
+  lowest_point: 工坊初建遭地方势力封锁，班底未稳，陷入资源窘境。
+  climax: 卷终江湖大宗门围剿，肖凡以灵气火器破局，声望鹊起。
+  aftermath: 班底封赏，江湖格局重写，FB-09余波牵出更高层。
+  reader_promises:
+    - 组建势力的养成爽
+    - 打脸升级的越阶爽
+    - 科技产业化的宏大爽
+  questions_opened:
+    - 黑虎帮幕后是否听雨阁？
+    - 宗师之上还有何境界？
+  questions_answered:
+    - FB-06四皇子江湖线延伸
+    - FB-09沈括灭门余波牵出黑虎帮幕后
+  foreshadow_plan:
+    - FB-09沈括灭门揭露推进
+    - 灵气火器雏形埋卷四战争伏笔
+  growth_deltas: 金身圆满/化罡；七境化精→淬体→易筋；灵气火器雏形。
+  next_volume_entry: 江湖声望引动国战，赴边境直面虞国与听雨阁。

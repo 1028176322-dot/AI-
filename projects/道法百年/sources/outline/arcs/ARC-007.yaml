@@ -1,0 +1,28 @@
+document:
+  id: ARC-007
+  type: arc_outline
+  title: VOL-002·听雨初交锋
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-007
+  volume_id: VOL-002
+  chapter_range:
+    - 151
+    - 175
+  objective: 苏墨凝密信真相初露，听雨阁渗透显现。
+  conflict_engine: 密信真相 vs 听雨阁暗杀威胁。
+  start_state: 天上人间站稳。
+  end_state: 确认听雨阁渗透规模，转主动布局。
+  causal_chain: 天上人间站稳。 → 密信真相 vs 听雨阁暗杀威胁。 → 肖凡决定正面应对听雨阁而非回避。 → 确认听雨阁渗透规模，转主动布局。
+  milestones:
+    - 密信真相
+    - 渗透显现
+    - 主动布局
+  character_decisions: 肖凡决定正面应对听雨阁而非回避。
+  reader_experience: 悬疑揭开的不适与期待。
+  payoff: FB-08听雨阁初交锋。
+  handoff: 交接商战升级。

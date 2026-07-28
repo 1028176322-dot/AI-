@@ -1,0 +1,28 @@
+document:
+  id: ARC-030
+  type: arc_outline
+  title: VOL-005·狄族入侵
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-030
+  volume_id: VOL-005
+  chapter_range:
+    - 726
+    - 750
+  objective: 北方狄族入侵（FB-075 拓跋烈）。
+  conflict_engine: 外患升级 vs 边境守护。
+  start_state: 驻颜启动后。
+  end_state: 狄族成新外患。
+  causal_chain: 驻颜启动后。 → 外患升级 vs 边境守护。 → 肖凡以长生者姿态守护。 → 狄族成新外患。
+  milestones:
+    - 狄族
+    - 入侵
+    - 外患
+  character_decisions: 肖凡以长生者姿态守护。
+  reader_experience: 守护大战的壮烈。
+  payoff: FB-075狄族入侵。
+  handoff: 交接洞天探秘。

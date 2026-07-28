@@ -1,0 +1,28 @@
+document:
+  id: ARC-003
+  type: arc_outline
+  title: VOL-001·下山历练
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-003
+  volume_id: VOL-001
+  chapter_range:
+    - 51
+    - 80
+  objective: 初入江湖市井，苏墨凝初遇，首次杀人。
+  conflict_engine: 初涉险恶江湖 vs 藏拙自保的生存法则。
+  start_state: 山中精进完成，奉命下山。
+  end_state: 首次杀人搜身得银，良知与生存冲突。
+  causal_chain: 山中精进完成，奉命下山。 → 初涉险恶江湖 vs 藏拙自保的生存法则。 → 肖凡在杀人后选择搜身取银，直面自身狠厉。 → 首次杀人搜身得银，良知与生存冲突。
+  milestones:
+    - 初入江湖
+    - 苏墨凝初遇
+    - 首次杀人
+  character_decisions: 肖凡在杀人后选择搜身取银，直面自身狠厉。
+  reader_experience: 从懵懂到认清江湖残酷。
+  payoff: FB-05苏墨凝之恩，FB 暗线延续。
+  handoff: 交接京华初启。

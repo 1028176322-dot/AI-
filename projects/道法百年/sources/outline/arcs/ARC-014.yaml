@@ -1,0 +1,28 @@
+document:
+  id: ARC-014
+  type: arc_outline
+  title: VOL-003·初触宗师
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-014
+  volume_id: VOL-003
+  chapter_range:
+    - 326
+    - 350
+  objective: 初遇宗师级，认知金身/化罡极限。
+  conflict_engine: 宗师压制 vs 越阶挑战。
+  start_state: 工坊起步。
+  end_state: 认知战力鸿沟，定灵气火器路线。
+  causal_chain: 工坊起步。 → 宗师压制 vs 越阶挑战。 → 肖凡选择以科技跨越而非硬拼。 → 认知战力鸿沟，定灵气火器路线。
+  milestones:
+    - 遇宗师
+    - 认知极限
+    - 定路线
+  character_decisions: 肖凡选择以科技跨越而非硬拼。
+  reader_experience: 战力体系的认知震撼。
+  payoff: 宗师线为越阶战铺垫。
+  handoff: 交接七境推进。

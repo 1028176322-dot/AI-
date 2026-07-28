@@ -1,0 +1,28 @@
+document:
+  id: ARC-022
+  type: arc_outline
+  title: VOL-004·以技破武
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-022
+  volume_id: VOL-004
+  chapter_range:
+    - 526
+    - 550
+  objective: 肖凡以科技+修炼双碾压战争。
+  conflict_engine: 战争碾压 vs 传统武备。
+  start_state: 国战爆发后。
+  end_state: 以技破武定调国战核心。
+  causal_chain: 国战爆发后。 → 战争碾压 vs 传统武备。 → 肖凡以降维打击主导战局。 → 以技破武定调国战核心。
+  milestones:
+    - 碾压
+    - 科技战争
+    - 定调
+  character_decisions: 肖凡以降维打击主导战局。
+  reader_experience: 战争碾压爽高潮。
+  payoff: 以技破武成熟。
+  handoff: 交接七境洗髓。

@@ -1,0 +1,28 @@
+document:
+  id: ARC-027
+  type: arc_outline
+  title: VOL-005·归元突破
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-027
+  volume_id: VOL-005
+  chapter_range:
+    - 651
+    - 675
+  objective: 肖凡闭关冲击归元。
+  conflict_engine: 归元突破 vs 闭关风险。
+  start_state: 国战功成返朝。
+  end_state: 归元境界达成。
+  causal_chain: 国战功成返朝。 → 归元突破 vs 闭关风险。 → 肖凡选择主动冲关。 → 归元境界达成。
+  milestones:
+    - 闭关
+    - 归元
+    - 突破
+  character_decisions: 肖凡选择主动冲关。
+  reader_experience: 突破的紧张与期待。
+  payoff: 长生线核心推进。
+  handoff: 交接第一次大劫。

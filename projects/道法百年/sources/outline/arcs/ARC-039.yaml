@@ -1,0 +1,28 @@
+document:
+  id: ARC-039
+  type: arc_outline
+  title: VOL-006·域外终极
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-039
+  volume_id: VOL-006
+  chapter_range:
+    - 951
+    - 975
+  objective: 域外终极一战，终结所有暗线。
+  conflict_engine: 终极危机 vs 圆满之境。
+  start_state: 追查毒杀后。
+  end_state: 听雨阁余孽+狄族联盟终结。
+  causal_chain: 追查毒杀后。 → 终极危机 vs 圆满之境。 → 肖凡以圆满之境收官。 → 听雨阁余孽+狄族联盟终结。
+  milestones:
+    - 域外
+    - 终极战
+    - 终结
+  character_decisions: 肖凡以圆满之境收官。
+  reader_experience: 封神级终极爽。
+  payoff: FB 听雨/狄族线闭合。
+  handoff: 交接天下归静。

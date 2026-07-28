@@ -1,0 +1,28 @@
+document:
+  id: ARC-015
+  type: arc_outline
+  title: VOL-003·七境推进
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-015
+  volume_id: VOL-003
+  chapter_range:
+    - 351
+    - 375
+  objective: 玉佩七境界推进至易筋。
+  conflict_engine: 境界突破 vs 资源瓶颈。
+  start_state: 认知极限后。
+  end_state: 七境至易筋。
+  causal_chain: 认知极限后。 → 境界突破 vs 资源瓶颈。 → 肖凡以双线并行突破。 → 七境至易筋。
+  milestones:
+    - 易筋突破
+    - 资源瓶颈
+    - 推进
+  character_decisions: 肖凡以双线并行突破。
+  reader_experience: 修炼进境的扎实爽。
+  payoff: 七境推进（卷四洗髓铺垫）。
+  handoff: 交接打脸升级。

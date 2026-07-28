@@ -1,0 +1,28 @@
+document:
+  id: ARC-009
+  type: arc_outline
+  title: VOL-002·三皇子初现
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-009
+  volume_id: VOL-002
+  chapter_range:
+    - 201
+    - 225
+  objective: 三皇子萧沛书院势力初现。
+  conflict_engine: 三皇子图谋 vs 肖凡旁观布局。
+  start_state: 商战升级后。
+  end_state: 确认三皇子为后续国战暗线推手。
+  causal_chain: 商战升级后。 → 三皇子图谋 vs 肖凡旁观布局。 → 肖凡选择静观其变积累筹码。 → 确认三皇子为后续国战暗线推手。
+  milestones:
+    - 萧沛初现
+    - 书院势力
+    - 暗线推手
+  character_decisions: 肖凡选择静观其变积累筹码。
+  reader_experience: 朝堂暗线的悬念加深。
+  payoff: 三皇子伏笔（卷四爆发）。
+  handoff: 交接卷终决战。

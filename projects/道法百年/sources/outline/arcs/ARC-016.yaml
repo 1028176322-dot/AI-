@@ -1,0 +1,28 @@
+document:
+  id: ARC-016
+  type: arc_outline
+  title: VOL-003·打脸升级
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-016
+  volume_id: VOL-003
+  chapter_range:
+    - 376
+    - 400
+  objective: 越阶战低宗师，打脸升级。
+  conflict_engine: 越阶挑战 vs 宗门傲慢。
+  start_state: 七境推进后。
+  end_state: 立威江湖。
+  causal_chain: 七境推进后。 → 越阶挑战 vs 宗门傲慢。 → 肖凡以碾压式打脸立规矩。 → 立威江湖。
+  milestones:
+    - 越阶战
+    - 打脸
+    - 立威
+  character_decisions: 肖凡以碾压式打脸立规矩。
+  reader_experience: 经典打脸爽。
+  payoff: 江湖声望上升。
+  handoff: 交接江湖暗线。

@@ -1,0 +1,28 @@
+document:
+  id: ARC-008
+  type: arc_outline
+  title: VOL-002·商战升级
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-008
+  volume_id: VOL-002
+  chapter_range:
+    - 176
+    - 200
+  objective: 商战正面升级，碾压对手。
+  conflict_engine: 商战升级 vs 对手联合反制。
+  start_state: 听雨初交锋后。
+  end_state: 商基稳固，声望上升。
+  causal_chain: 听雨初交锋后。 → 商战升级 vs 对手联合反制。 → 肖凡以科技+经营双重碾压。 → 商基稳固，声望上升。
+  milestones:
+    - 商战升级
+    - 对手反制
+    - 碾压
+  character_decisions: 肖凡以科技+经营双重碾压。
+  reader_experience: 以技破武的商业版爽点。
+  payoff: 商战线为卷终决战蓄势。
+  handoff: 交接三皇子初现。

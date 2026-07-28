@@ -1,0 +1,28 @@
+document:
+  id: ARC-034
+  type: arc_outline
+  title: VOL-005·卷终会战
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-034
+  volume_id: VOL-005
+  chapter_range:
+    - 826
+    - 850
+  objective: 狄族主力会战，驻颜态碾压。
+  conflict_engine: 会战危机 vs 驻颜碾压。
+  start_state: 灵气火器成熟后。
+  end_state: 狄族退却，留未来线。
+  causal_chain: 灵气火器成熟后。 → 会战危机 vs 驻颜碾压。 → 肖凡以长生者实力镇场。 → 狄族退却，留未来线。
+  milestones:
+    - 会战
+    - 碾压
+    - 退却
+  character_decisions: 肖凡以长生者实力镇场。
+  reader_experience: 卷终守护大战爽。
+  payoff: 狄族联盟伏笔卷六。
+  handoff: 交接卷六乾坤。

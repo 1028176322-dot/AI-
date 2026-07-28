@@ -1,0 +1,28 @@
+document:
+  id: ARC-006
+  type: arc_outline
+  title: VOL-002·天上人间
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-006
+  volume_id: VOL-002
+  chapter_range:
+    - 126
+    - 150
+  objective: 天上人间开业，正面压垮醉仙楼。
+  conflict_engine: 新旧商战 vs 醉仙楼反扑。
+  start_state: 新政风波落定。
+  end_state: 天上人间压垮醉仙楼，成情报舞台。
+  causal_chain: 新政风波落定。 → 新旧商战 vs 醉仙楼反扑。 → 肖凡以经营碾压而非武力。 → 天上人间压垮醉仙楼，成情报舞台。
+  milestones:
+    - 开业
+    - 压垮醉仙楼
+    - 情报网
+  character_decisions: 肖凡以经营碾压而非武力。
+  reader_experience: 势力经营的养成爽。
+  payoff: 天上人间成听雨阁情报前线。
+  handoff: 交接听雨初交锋。

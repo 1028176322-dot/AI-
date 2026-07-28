@@ -1,0 +1,28 @@
+document:
+  id: ARC-002
+  type: arc_outline
+  title: VOL-001·山中精进
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+arc:
+  id: ARC-002
+  volume_id: VOL-001
+  chapter_range:
+    - 21
+    - 50
+  objective: 炼体十八式深化，土法炼硝与火药实验。
+  conflict_engine: 修炼进境 vs 火药实验的风险与藏拙压力。
+  start_state: 玉佩灌顶后修炼入门。
+  end_state: 炼硝成功，火药从玩具变杀器。
+  causal_chain: 玉佩灌顶后修炼入门。 → 修炼进境 vs 火药实验的风险与藏拙压力。 → 肖凡决定以火药作为底牌而非炫耀。 → 炼硝成功，火药从玩具变杀器。
+  milestones:
+    - 炼体深化
+    - 土法炼硝
+    - 藏拙日常
+  character_decisions: 肖凡决定以火药作为底牌而非炫耀。
+  reader_experience: 工匠精神与科技降维的初体验。
+  payoff: 黑火药萌芽，FB 暗线推进。
+  handoff: 交接下山历练。

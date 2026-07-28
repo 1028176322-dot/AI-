@@ -1,0 +1,62 @@
+document:
+  id: VOL-004
+  type: volume_outline
+  title: 卷四·国战
+  status: draft
+  version: 1
+  updated_at: 2026-07-27
+  owner: story-architect
+  project_id: novel-dsf
+volume:
+  id: VOL-004
+  number: 4
+  chapter_range:
+    - 451
+    - 650
+  purpose: 听雨阁全面对抗，三皇子阴谋爆发，虞国借内应发起国战，肖凡以科技+修炼双碾压参战。
+  objective: 完成国战大事件幕；七境界推进至洗髓；FB-08、FB-09、FB-06 全面回收。
+  start_state: 1393 肖凡23岁赴边境，三皇子构陷暗流涌动。
+  end_state: 1396 国战大决战，肖凡破听雨阁主力，三皇子阴谋受挫但未灭。
+  main_characters:
+    - 肖凡
+    - 三皇子萧沛
+    - 大皇子萧恒
+    - 二皇子萧厉
+    - 虞国将领
+    - 听雨阁主力
+  main_locations:
+    - 大晟边境
+    - 虞国
+    - 朝堂
+  central_conflict: 三皇子借听雨阁构陷夺嫡 vs 国战外患；以技破武的战争碾压。
+  antagonist_pressure: 虞国借听雨阁为内应；三皇子火并借刀杀人；听雨阁主力压境。
+  milestones:
+    - 三皇子构陷大皇子（451-475）
+    - 虞国听雨阁内应暴露（476-500）
+    - 国战爆发（501-525）
+    - 以技破武战争碾压（526-550）
+    - 七境推进至洗髓（551-575）
+    - 阵营博弈合纵连横（576-600）
+    - 听雨阁全面对抗（601-625）
+    - 卷终国战大决战（626-650）
+  midpoint_turn: 第550章以技破武定调，肖凡从边将变国战核心，战争爽进入高潮。
+  lowest_point: 二皇子萧厉被构陷火并，大晟内乱，国战初期失利。
+  climax: 卷终国战大决战，肖凡破听雨阁主力，三皇子阴谋受挫未灭。
+  aftermath: 边境暂稳，三皇子潜伏，FB-09幕后黑手揭露。
+  reader_promises:
+    - 战争爽的宏大场面
+    - 阵营博弈的智力爽
+    - 以技破武的碾压爽
+  questions_opened:
+    - 三皇子下一步如何翻盘？
+    - 听雨阁背后更高层是谁？
+  questions_answered:
+    - FB-08听雨阁全面对抗
+    - FB-09沈括灭门幕后揭露
+    - FB-06四皇子火并高潮
+  foreshadow_plan:
+    - 三皇子残余伏笔卷六
+    - 听雨阁余孽伏笔卷六
+    - 狄族联盟伏笔卷五
+  growth_deltas: 化罡圆满；七境易筋→洗髓；以技破武战争成熟。
+  next_volume_entry: 国战功成返朝，迎长生突破与北方狄族入侵。
