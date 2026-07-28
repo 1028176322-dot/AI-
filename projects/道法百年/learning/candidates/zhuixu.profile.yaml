@@ -1,11 +1,12 @@
-schema: reference-learning@1.0.0
+schema: reference-learning@2.0.0
 meta:
   source_id: zhuixu
   source_name: 赘婿_全本.txt
   source_hash: ecfe6415f77af48386e535b2f20b75090ce3f023093651865e2a89f48b52340d
   genre: 历史架空·穿越
-  analyzed_at: 2026-07-27T21:53:09
+  analyzed_at: 2026-07-28T17:08:54
   copyright_policy: statistics_and_principles_only
+  license_type: user-provided
 metrics:
   characters: 5395996
   chapters: 844
@@ -33,7 +34,208 @@ metrics:
     - 2.114
   emotion_variance: 0.0409
   information_density: 1.083
-candidates:
+style_dimensions:
+  narrative_pov:
+    first_person_signal: 11820
+    third_person_signal: 23482
+    interiority_signal: 5886
+    semantic_confirmation_required: true
+  narrative_distance:
+    close_signal: 70836
+    far_signal: 4700
+    semantic_confirmation_required: true
+  syntactic_rhythm:
+    mean_sentence_chars: 48.125
+    sentence_length_stddev: 36.971
+    short_sentence_ratio: 0.099117
+    long_sentence_ratio: 0.578834
+    mean_paragraph_chars: 73.319
+  information_function:
+    distribution:
+      plot_action: 0.635556
+      world_exposition: 0.036949
+      emotion: 0.015259
+      dialogue: 0.312236
+    semantic_confirmation_required: true
+  description_selection:
+    distribution:
+      environment: 0.341123
+      character: 0.169336
+      object: 0.102637
+      action: 0.386904
+    semantic_confirmation_required: true
+  sensory_preference:
+    distribution:
+      visual: 0.614803
+      auditory: 0.246318
+      olfactory: 0.030015
+      tactile: 0.085811
+      gustatory: 0.023054
+  emotion_expression:
+    direct_emotion_signal: 1493
+    behavioral_emotion_signal: 448
+    behavior_to_direct_ratio: 0.3
+    semantic_confirmation_required: true
+  dialogue_method:
+    dialogue_blocks_per_1000_chars: 6.862
+    mean_dialogue_chars: 70.634
+    action_insertion_signal: 11641
+    semantic_confirmation_required: true
+  metaphor_mechanism:
+    metaphors_per_1000_chars: 0.606
+    source_domain_requires_semantic_evidence: true
+    character_fit_requires_semantic_evidence: true
+  omission_method:
+    omission_signals_per_1000_chars: 4.844
+    omitted_information_type_requires_semantic_evidence: true
+  scene_closure:
+    last_sentence_length: 5
+    question_hook: false
+    choice_hook: false
+    action_hook: false
+    semantic_confirmation_required: true
+  prohibited_patterns:
+    template_expression_count: 15
+    hedge_density: 0.056516
+    repeated_sentence_opening_count: 43204
+semantic_evidence: {}
+fingerprint:
+  source_id: zhuixu
+  source_digest: ecfe6415f77af48386e535b2f20b75090ce3f023093651865e2a89f48b52340d
+  minhash_signature:
+    - 167483995124
+    - 37726774788
+    - 662516076916
+    - 631555442435
+    - 320160586865
+    - 337902330208
+    - 278671900303
+    - 493549758946
+    - 629085427746
+    - 113062468103
+    - 369482785787
+    - 478546813637
+    - 566681968201
+    - 752820581910
+    - 244901520691
+    - 391937440485
+    - 1182693109948
+    - 392090205106
+    - 395593279783
+    - 94352877778
+    - 7987048590
+    - 257399763672
+    - 454477694097
+    - 1141919798884
+    - 615531578479
+    - 112923161350
+    - 511751875841
+    - 120059279973
+    - 265071118448
+    - 825731220168
+    - 1858771156763
+    - 1375971790756
+    - 524865643792
+    - 488934114819
+    - 112551023223
+    - 373615239161
+    - 909573490280
+    - 526558249708
+    - 365214863952
+    - 466975173574
+    - 461658435728
+    - 954592315588
+    - 562281492902
+    - 23673843828
+    - 12010552177
+    - 1600974634183
+    - 156965157019
+    - 132826969114
+    - 147435096441
+    - 62457582401
+    - 168184430978
+    - 407351242743
+    - 609511464324
+    - 2102100134221
+    - 232498066932
+    - 1032923178425
+    - 21331422707
+    - 208110448679
+    - 411981060378
+    - 993642913956
+    - 438621693502
+    - 370907933088
+    - 738627285060
+    - 186901324338
+    - 24031165041
+    - 30465072392
+    - 332963178171
+    - 680698104270
+    - 49622243894
+    - 760034225074
+    - 280709903763
+    - 95225357807
+    - 506987648519
+    - 177003985884
+    - 33522518263
+    - 659951021666
+    - 377094067801
+    - 12469407592
+    - 147171637271
+    - 66116105548
+    - 547318305061
+    - 97488985209
+    - 45554495542
+    - 303937318003
+    - 1098352521764
+    - 235696167796
+    - 436845814494
+    - 52265798201
+    - 26720750462
+    - 271536685465
+    - 56792788065
+    - 481440371359
+    - 192551441671
+    - 316134687221
+    - 377847405578
+    - 846604937937
+    - 497043167830
+    - 102993484574
+    - 514741682119
+    - 218200147314
+    - 761671702970
+    - 326552782542
+    - 55221154192
+    - 76520857122
+    - 15068037823
+    - 261743848288
+    - 606180045224
+    - 913194229919
+    - 199501550294
+    - 582122391449
+    - 502973541212
+    - 189763051736
+    - 36349867649
+    - 2319813850976
+    - 939633909352
+    - 298774342816
+    - 123383762689
+    - 367275574266
+    - 483149033565
+    - 615344531991
+    - 121036077682
+    - 764039910481
+    - 477705074462
+    - 422756318695
+    - 3000961813
+    - 49767496964
+    - 510549004822
+    - 574580595811
+  license_type: user-provided
+  key_id: default
+  k: 9
+  num_hashes: 128
+legacy_candidates:
   - rule_id: REF-CHAPTER-RHYTHM
     target: both
     scope:
@@ -134,4 +336,5 @@ candidates:
     confidence: 0.64
     status: candidate
     requires_project_validation: true
+candidates: []
 raw_text_stored: false

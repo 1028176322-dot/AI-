@@ -1,10 +1,16 @@
-schema: reference-learning-summary@1.0.0
+schema: reference-learning-summary@2.0.0
 genre: 历史架空·穿越
-generated_at: 2026-07-27T21:54:47
+generated_at: 2026-07-28T17:08:55
 source_profiles:
   - qingyuniandu.profile.yaml
   - zhuixu.profile.yaml
 source_count: 2
+archetype: style-archetypes/reference.archetype.yaml
+source_contribution_vector:
+  qingyuniandu: 0.5
+  zhuixu: 0.5
+style_rule_candidate_ids: []
+style_rule_candidates_require_review: true
 writing_candidates:
   - rule_id: REF-CHAPTER-RHYTHM
     target: both
@@ -16,12 +22,12 @@ writing_candidates:
     principle: 章节容量应形成稳定区间，并允许关键章节有受控偏离。
     evidence:
       source_id: qingyuniandu
-      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
       metric: chapter_length
       value:
-        median: 3524663
-        p25: 3524663
-        p75: 3524663
+        median: 4689
+        p25: 3072
+        p75: 5968
       raw_excerpt_copied: false
     review_check: 检查章节长度是否偏离参考区间且偏离是否服务于情节。
     writing_action: 规划时给出目标区间与偏离理由，不机械复制参考书字数。
@@ -39,15 +45,48 @@ writing_candidates:
       - source_id: qingyuniandu
         metric: chapter_length
         value:
-          median: 3524663
-          p25: 3524663
-          p75: 3524663
+          median: 4689
+          p25: 3072
+          p75: 5968
       - source_id: zhuixu
         metric: chapter_length
         value:
           median: 4643
           p25: 3836
           p75: 6187
+  - rule_id: REF-END-HOOK
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
+    evidence:
+      source_id: qingyuniandu
+      source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
+      metric: ending_hook_rate
+      value: 0.8525
+      raw_excerpt_copied: false
+    review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
+    writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
+    confidence: 0.81
+    status: candidate
+    requires_project_validation: true
+    evidence_sources:
+      - qingyuniandu
+      - zhuixu
+    source_count: 2
+    individual_confidences:
+      - 0.81
+      - 0.71
+    evidence_by_source:
+      - source_id: qingyuniandu
+        metric: ending_hook_rate
+        value: 0.8525
+      - source_id: zhuixu
+        metric: ending_hook_rate
+        value: 0.5427
   - rule_id: REF-DIALOGUE-BALANCE
     target: both
     scope:
@@ -58,7 +97,7 @@ writing_candidates:
     principle: 对白应承担行动、关系或信息变化，而非脱离叙事独立堆积。
     evidence:
       source_id: qingyuniandu
-      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
       metric: dialogue_ratio
       value: 0.2164
       raw_excerpt_copied: false
@@ -91,7 +130,7 @@ writing_candidates:
     principle: 情绪应随冲突和选择产生可辨认的波形，避免全章同强度。
     evidence:
       source_id: qingyuniandu
-      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
       metric: emotion_variance
       value: 0.1849
       raw_excerpt_copied: false
@@ -114,39 +153,6 @@ writing_candidates:
       - source_id: zhuixu
         metric: emotion_variance
         value: 0.0409
-  - rule_id: REF-END-HOOK
-    target: both
-    scope:
-      content_type: both
-      scene_types: []
-      character_ids: []
-    genre: 历史架空·穿越
-    principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
-    evidence:
-      source_id: qingyuniandu
-      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
-      metric: ending_hook_rate
-      value: 1.0
-      raw_excerpt_copied: false
-    review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
-    writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
-    confidence: 0.78
-    status: candidate
-    requires_project_validation: true
-    evidence_sources:
-      - qingyuniandu
-      - zhuixu
-    source_count: 2
-    individual_confidences:
-      - 0.85
-      - 0.71
-    evidence_by_source:
-      - source_id: qingyuniandu
-        metric: ending_hook_rate
-        value: 1.0
-      - source_id: zhuixu
-        metric: ending_hook_rate
-        value: 0.5427
   - rule_id: REF-PARAGRAPH-CONTRAST
     target: writing
     scope:
@@ -190,12 +196,12 @@ review_candidates:
     principle: 章节容量应形成稳定区间，并允许关键章节有受控偏离。
     evidence:
       source_id: qingyuniandu
-      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
       metric: chapter_length
       value:
-        median: 3524663
-        p25: 3524663
-        p75: 3524663
+        median: 4689
+        p25: 3072
+        p75: 5968
       raw_excerpt_copied: false
     review_check: 检查章节长度是否偏离参考区间且偏离是否服务于情节。
     writing_action: 规划时给出目标区间与偏离理由，不机械复制参考书字数。
@@ -213,15 +219,48 @@ review_candidates:
       - source_id: qingyuniandu
         metric: chapter_length
         value:
-          median: 3524663
-          p25: 3524663
-          p75: 3524663
+          median: 4689
+          p25: 3072
+          p75: 5968
       - source_id: zhuixu
         metric: chapter_length
         value:
           median: 4643
           p25: 3836
           p75: 6187
+  - rule_id: REF-END-HOOK
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
+    evidence:
+      source_id: qingyuniandu
+      source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
+      metric: ending_hook_rate
+      value: 0.8525
+      raw_excerpt_copied: false
+    review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
+    writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
+    confidence: 0.81
+    status: candidate
+    requires_project_validation: true
+    evidence_sources:
+      - qingyuniandu
+      - zhuixu
+    source_count: 2
+    individual_confidences:
+      - 0.81
+      - 0.71
+    evidence_by_source:
+      - source_id: qingyuniandu
+        metric: ending_hook_rate
+        value: 0.8525
+      - source_id: zhuixu
+        metric: ending_hook_rate
+        value: 0.5427
   - rule_id: REF-DIALOGUE-BALANCE
     target: both
     scope:
@@ -232,7 +271,7 @@ review_candidates:
     principle: 对白应承担行动、关系或信息变化，而非脱离叙事独立堆积。
     evidence:
       source_id: qingyuniandu
-      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
       metric: dialogue_ratio
       value: 0.2164
       raw_excerpt_copied: false
@@ -265,7 +304,7 @@ review_candidates:
     principle: 情绪应随冲突和选择产生可辨认的波形，避免全章同强度。
     evidence:
       source_id: qingyuniandu
-      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
       metric: emotion_variance
       value: 0.1849
       raw_excerpt_copied: false
@@ -288,49 +327,46 @@ review_candidates:
       - source_id: zhuixu
         metric: emotion_variance
         value: 0.0409
-  - rule_id: REF-END-HOOK
-    target: both
+  - rule_id: REF-PARAGRAPH-CONTRAST
+    target: writing
     scope:
       content_type: both
       scene_types: []
       character_ids: []
     genre: 历史架空·穿越
-    principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
+    principle: 长短段落的对比可服务信息承载与节奏加速。
     evidence:
-      source_id: qingyuniandu
-      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
-      metric: ending_hook_rate
-      value: 1.0
+      source_id: zhuixu
+      source_hash: ecfe6415f77af48386e535b2f20b75090ce3f023093651865e2a89f48b52340d
+      metric: paragraph_length
+      value:
+        median: 64
+        p90: 156
       raw_excerpt_copied: false
-    review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
-    writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
-    confidence: 0.78
+    review_check: 检查长段是否造成认知负荷、短段是否只是碎片化。
+    writing_action: 在解释、动作、转折处主动设计段落长度变化。
+    confidence: 0.58
     status: candidate
     requires_project_validation: true
     evidence_sources:
-      - qingyuniandu
       - zhuixu
-    source_count: 2
+    source_count: 1
     individual_confidences:
-      - 0.85
-      - 0.71
+      - 0.58
     evidence_by_source:
-      - source_id: qingyuniandu
-        metric: ending_hook_rate
-        value: 1.0
       - source_id: zhuixu
-        metric: ending_hook_rate
-        value: 0.5427
+        metric: paragraph_length
+        value:
+          median: 64
+          p90: 156
 promotion:
   state: candidate
   rule: 参考书数量不等于项目验证数；先进入项目试验，再按 memory 晋升门槛升级。
-  genre_requires_independent_projects: 3
-  global_requires_independent_genres: 2
 data_quality_notes:
   - source_id: qingyuniandu
-    issue: 原文分章格式为『第一卷 在澹州』『楔子 一块黑布』（卷/楔子/节用中文数字+空格），不匹配平台 _chapters 的『第X章』正则，整本被识别为 1 章。
-    impact: 章节级指标（chapter_length、ending_hook_rate=1.0 为失真假阳性）不可直接采信；仅段落长度、句式长度、对白比、情绪密度类全本聚合指标可用。
-    remediation: 如需庆余年真实章级节奏，可生成按『卷/楔子』切分的标准化副本再 analyze；本次保持平台默认行为，不擅自改造输入。
+    issue: 原文标题行以全角空格缩进（『　　第一章 故事会』），平台 _chapters 正则只认 ASCII 空白，旧版整本被识别为 1 章。本次已生成标准化副本（标题规整为行首『第X章』、楔子→第零章、卷标行丢弃）后重新 analyze，章级指标现已有效。
+    impact: 本次 chapter_length / ending_hook_rate 等章级指标有效；对白比/段落/句式/情绪密度全本聚合指标始终有效。
+    remediation: 标准化副本存于 sources/references/inbox/庆余年_精校全本_猫腻.normalized.txt；原始两副本已移出 batch 输入目录至 _archive/。
   - source_id: zhuixu
     issue: 正确识别 844 章，章节级指标有效。
     impact: 全部指标可采信。

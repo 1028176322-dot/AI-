@@ -1,18 +1,19 @@
-schema: reference-learning@1.0.0
+schema: reference-learning@2.0.0
 meta:
   source_id: qingyuniandu
-  source_name: 庆余年_精校全本_猫腻.utf8.txt
-  source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+  source_name: 庆余年_精校全本_猫腻.normalized.txt
+  source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
   genre: 历史架空·穿越
-  analyzed_at: 2026-07-27T21:53:29
+  analyzed_at: 2026-07-28T17:06:24
   copyright_policy: statistics_and_principles_only
+  license_type: user-provided
 metrics:
-  characters: 3524663
-  chapters: 1
+  characters: 3524610
+  chapters: 746
   chapter_length:
-    median: 3524663
-    p25: 3524663
-    p75: 3524663
+    median: 4689
+    p25: 3072
+    p75: 5968
   paragraph_length:
     median: 57
     p90: 112
@@ -21,7 +22,7 @@ metrics:
     p90: 82
   dialogue_ratio: 0.2164
   opening_hook_density: 3.966
-  ending_hook_rate: 1.0
+  ending_hook_rate: 0.8525
   emotion_curve:
     - 3.455
     - 3.1
@@ -33,7 +34,208 @@ metrics:
     - 4.308
   emotion_variance: 0.1849
   information_density: 1.207
-candidates:
+style_dimensions:
+  narrative_pov:
+    first_person_signal: 3863
+    third_person_signal: 10911
+    interiority_signal: 5736
+    semantic_confirmation_required: true
+  narrative_distance:
+    close_signal: 58632
+    far_signal: 3613
+    semantic_confirmation_required: true
+  syntactic_rhythm:
+    mean_sentence_chars: 46.341
+    sentence_length_stddev: 28.683
+    short_sentence_ratio: 0.081634
+    long_sentence_ratio: 0.599656
+    mean_paragraph_chars: 59.8
+  information_function:
+    distribution:
+      plot_action: 0.588585
+      world_exposition: 0.046738
+      emotion: 0.033931
+      dialogue: 0.330746
+    semantic_confirmation_required: true
+  description_selection:
+    distribution:
+      environment: 0.324195
+      character: 0.21994
+      object: 0.118193
+      action: 0.337672
+    semantic_confirmation_required: true
+  sensory_preference:
+    distribution:
+      visual: 0.549137
+      auditory: 0.237148
+      olfactory: 0.020377
+      tactile: 0.1231
+      gustatory: 0.070239
+  emotion_expression:
+    direct_emotion_signal: 2091
+    behavioral_emotion_signal: 532
+    behavior_to_direct_ratio: 0.254
+    semantic_confirmation_required: true
+  dialogue_method:
+    dialogue_blocks_per_1000_chars: 6.703
+    mean_dialogue_chars: 27.84
+    action_insertion_signal: 11014
+    semantic_confirmation_required: true
+  metaphor_mechanism:
+    metaphors_per_1000_chars: 0.898
+    source_domain_requires_semantic_evidence: true
+    character_fit_requires_semantic_evidence: true
+  omission_method:
+    omission_signals_per_1000_chars: 3.41
+    omitted_information_type_requires_semantic_evidence: true
+  scene_closure:
+    last_sentence_length: 4
+    question_hook: false
+    choice_hook: false
+    action_hook: false
+    semantic_confirmation_required: true
+  prohibited_patterns:
+    template_expression_count: 68
+    hedge_density: 0.064196
+    repeated_sentence_opening_count: 38022
+semantic_evidence: {}
+fingerprint:
+  source_id: qingyuniandu
+  source_digest: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
+  minhash_signature:
+    - 988114835484
+    - 115069448174
+    - 258306661504
+    - 826504678484
+    - 1034122847678
+    - 555641848391
+    - 1017779428774
+    - 138223046439
+    - 215152262728
+    - 467354116122
+    - 55492714639
+    - 653497587232
+    - 386476005828
+    - 92636020863
+    - 1180555421178
+    - 607143720254
+    - 9951870319
+    - 319248255702
+    - 126661759914
+    - 853989008757
+    - 1598703171084
+    - 1184561686269
+    - 629531343505
+    - 1111452348326
+    - 188795802973
+    - 74086576790
+    - 286005499722
+    - 1149216129563
+    - 302056017327
+    - 541968631098
+    - 1065567133358
+    - 12253595113
+    - 668982356048
+    - 228251241601
+    - 177842623033
+    - 520812454255
+    - 491321670671
+    - 93559626274
+    - 404048577578
+    - 404391098048
+    - 1074443171083
+    - 648267924440
+    - 34832288241
+    - 230782099422
+    - 54428024864
+    - 2116266262135
+    - 97140054938
+    - 28388218561
+    - 320949106600
+    - 113125971318
+    - 102449594222
+    - 496866987
+    - 363933034355
+    - 512061335822
+    - 60851930460
+    - 1047777448963
+    - 358318200631
+    - 596552673514
+    - 1081819774358
+    - 1597839477725
+    - 33569892694
+    - 73026076770
+    - 40333731914
+    - 74648085017
+    - 1565175303518
+    - 800008275115
+    - 963075861550
+    - 119044061048
+    - 375503470104
+    - 1751695229965
+    - 528291990593
+    - 31621119120
+    - 786381065291
+    - 310159304678
+    - 279396626780
+    - 551737482729
+    - 354736568477
+    - 450216159082
+    - 292470927860
+    - 493246449892
+    - 389872262879
+    - 291862647884
+    - 166436451047
+    - 15069528076
+    - 661120202102
+    - 82736331842
+    - 510895160365
+    - 852475723362
+    - 803158805070
+    - 1365950240951
+    - 879091890446
+    - 1061645533171
+    - 947120940065
+    - 163715800665
+    - 112690244666
+    - 491429281917
+    - 98449334168
+    - 243844844392
+    - 1548792112527
+    - 1104335658360
+    - 146135659252
+    - 1120061626692
+    - 91466724580
+    - 411171636432
+    - 1137437079221
+    - 1335441800089
+    - 389467731505
+    - 275899778980
+    - 816441252571
+    - 1106074540146
+    - 432078302880
+    - 929182935482
+    - 510523796741
+    - 813250142517
+    - 18925953376
+    - 79186676050
+    - 257920219709
+    - 230683023852
+    - 968766227491
+    - 678644392455
+    - 618126046521
+    - 109213906483
+    - 27780254476
+    - 244346387888
+    - 444082055384
+    - 174479593634
+    - 139446178658
+    - 179884115775
+  license_type: user-provided
+  key_id: default
+  k: 9
+  num_hashes: 128
+legacy_candidates:
   - rule_id: REF-CHAPTER-RHYTHM
     target: both
     scope:
@@ -44,12 +246,12 @@ candidates:
     principle: 章节容量应形成稳定区间，并允许关键章节有受控偏离。
     evidence:
       source_id: qingyuniandu
-      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
       metric: chapter_length
       value:
-        median: 3524663
-        p25: 3524663
-        p75: 3524663
+        median: 4689
+        p25: 3072
+        p75: 5968
       raw_excerpt_copied: false
     review_check: 检查章节长度是否偏离参考区间且偏离是否服务于情节。
     writing_action: 规划时给出目标区间与偏离理由，不机械复制参考书字数。
@@ -66,13 +268,13 @@ candidates:
     principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
     evidence:
       source_id: qingyuniandu
-      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
       metric: ending_hook_rate
-      value: 1.0
+      value: 0.8525
       raw_excerpt_copied: false
     review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
     writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
-    confidence: 0.85
+    confidence: 0.81
     status: candidate
     requires_project_validation: true
   - rule_id: REF-DIALOGUE-BALANCE
@@ -85,7 +287,7 @@ candidates:
     principle: 对白应承担行动、关系或信息变化，而非脱离叙事独立堆积。
     evidence:
       source_id: qingyuniandu
-      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
       metric: dialogue_ratio
       value: 0.2164
       raw_excerpt_copied: false
@@ -104,7 +306,7 @@ candidates:
     principle: 情绪应随冲突和选择产生可辨认的波形，避免全章同强度。
     evidence:
       source_id: qingyuniandu
-      source_hash: 591fdd47a79ae64d308fdf8b0c1263849658ff1552d3c410f6938d865d3188b9
+      source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
       metric: emotion_variance
       value: 0.1849
       raw_excerpt_copied: false
@@ -113,4 +315,5 @@ candidates:
     confidence: 0.64
     status: candidate
     requires_project_validation: true
+candidates: []
 raw_text_stored: false
