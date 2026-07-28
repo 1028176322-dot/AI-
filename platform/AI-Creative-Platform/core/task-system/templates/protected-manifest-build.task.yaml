@@ -1,6 +1,6 @@
 task_template:
   type: protected-manifest-build
-  version: "1.0.0"
+  version: "2.0.0"
   required_role: writer
   description: 生成受保护保真基线（protected-manifest）；唯一生产者，写 analysis/style/
   required_inputs: [chapter_draft, nkb_snapshot, outline]
@@ -19,4 +19,10 @@ task_template:
     required_session: current
   next_tasks:
     on_complete: [ai-diagnose]
-    on_conflict: [style-rule-review]
+    on_conflict: [human_gate]
+  event_contracts:
+    on_complete:
+      required_outputs: [protected_manifest]
+      required_bindings: [source_draft_sha256, nkb_snapshot_sha256, outline_sha256]
+    on_conflict:
+      required_outputs: [conflict_report]

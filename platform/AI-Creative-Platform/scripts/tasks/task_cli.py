@@ -50,7 +50,8 @@ TEMPLATES_DIR = os.path.join(PLAT_ROOT, "core", "task-system", "templates")
 # 变更类动词（需先 bootstrap 会话）；只读动词豁免
 # 注：intake/run 的会话要求在其内部按“是否实际建/武装任务”动态判定。
 _MUTATION_VERBS = {"create", "goal", "promote", "claim", "start",
-                   "submit", "review", "complete", "fail", "retry"}
+                   "submit", "review", "complete", "fail", "retry",
+                   "event"}
 
 
 def _load_template(name):
@@ -104,6 +105,77 @@ def _map_request(req):
     if is_nkb:
         return "nkb-sync", "nkb_update", None
     # 默认：章节写作（最常见）
+    return "chapter-write", "chapter_write", None
+
+
+# UTF-8 authoritative request router. It intentionally replaces the legacy
+# vocabulary above so Chinese chat instructions cannot be misclassified by
+# source-encoding damage.
+def _map_request(req):
+    chapter_match = re.search(r"第\s*(\d+)\s*章", req)
+    chapter_number = (
+        "%03d" % int(chapter_match.group(1))
+        if chapter_match else None)
+    chapter_ref = (
+        "chapters/drafts/CH-%s.md" % chapter_number
+        if chapter_number else None)
+
+    reference_learning = (
+        any(word in req for word in (
+            "参考小说", "参考原著", "原著", "样本小说", "reference"))
+        and any(word in req for word in (
+            "学习", "提取", "归纳", "learn")))
+    feedback_learning = (
+        any(word in req for word in (
+            "审查", "review", "读者反馈"))
+        and any(word in req for word in (
+            "反补", "回流", "反馈写作", "纳入写作")))
+    is_review = any(
+        word in req for word in ("审查", "审核", "复审", "review"))
+    is_fix = any(
+        word in req for word in (
+            "修改", "修复", "润色", "fix", "改写"))
+    total_chapters = outline_governance.extract_total_chapters(req)
+    project_design = (
+        any(word in req for word in (
+            "新项目", "新小说", "开新书", "灵感", "项目设计",
+            "故事构思", "创作设定"))
+        and (
+            any(word in req for word in (
+                "设定", "人物", "世界观", "题材", "大纲", "故事",
+                "主角", "方向", "灵感"))
+            or total_chapters is not None))
+    is_nkb = any(
+        word in req for word in (
+            "NKB", "知识库", "设定", "人物", "世界观"))
+    is_platform = any(
+        word in req for word in (
+            "平台", "工具", "脚本", "policy", "钩子", "pre-commit",
+            "Broker", "任务系统", "治理"))
+    platform_change = (
+        is_platform and any(
+            word in req for word in (
+                "执行", "修改", "优化", "新增", "升级", "修复",
+                "重构", "接入", "实现", "改造")))
+
+    if reference_learning:
+        return "reference-learn", "reference_learn", None
+    if feedback_learning:
+        return "feedback-integrate", "feedback_integrate", None
+    if platform_change:
+        return "system-maintenance", "system_maintenance", None
+    if project_design and not chapter_number:
+        return "project-design", "project_design", None
+    if chapter_number and is_review:
+        return "chapter-review", "chapter_review", chapter_ref
+    if chapter_number and is_fix:
+        return "chapter-fix", "chapter_fix", chapter_ref
+    if chapter_number:
+        return "chapter-write", "chapter_write", chapter_ref
+    if is_platform:
+        return "system-maintenance", "system_maintenance", None
+    if is_nkb:
+        return "nkb-update", "nkb_update", None
     return "chapter-write", "chapter_write", None
 
 
@@ -255,7 +327,7 @@ def main():
     ap.add_argument("verb", choices=["create", "goal", "promote", "claim", "start",
                                      "submit", "review", "complete", "fail", "retry",
                                      "route", "list", "show", "intake", "run", "dispatch",
-                                     "next", "packet"])
+                                     "next", "packet", "event"])
     ap.add_argument("--project-root", required=True)
     ap.add_argument("--request", help="自然语言请求（intake/run 用）")
     ap.add_argument("--project", default="novel-dsf", help="项目 id（intake/run 用）")
@@ -272,6 +344,7 @@ def main():
     ap.add_argument("--outputs", default=None, help="JSON named output paths")
     ap.add_argument("--decision", choices=["pass", "fail"], default="pass")
     ap.add_argument("--findings", default=None, help="JSON list of findings")
+    ap.add_argument("--event", default=None, help="模板声明的事件，如 on_clean")
     ap.add_argument("--reason", default="")
     ap.add_argument("--state", default=None)
     ap.add_argument("--capabilities", default=None, help="逗号分隔能力标签")
@@ -361,6 +434,19 @@ def main():
         except RuntimeError as e:
             print("ERROR: %s" % e)
             sys.exit(2)
+    elif v == "event":
+        if not args.task or not args.event:
+            ap.error("event requires --task and --event")
+        outputs = json.loads(args.outputs) if args.outputs else {}
+        checks = json.loads(args.checks) if args.checks else {}
+        try:
+            result = TE.finish_with_event(
+                root, args.task, args.event, outputs, checks=checks,
+                actor=args.agent, role=args.role, model=args.model)
+        except Exception as exc:
+            print("REJECTED: %s" % exc)
+            sys.exit(1)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
     elif v == "intake":
         _cmd_intake(args)
     elif v == "run":

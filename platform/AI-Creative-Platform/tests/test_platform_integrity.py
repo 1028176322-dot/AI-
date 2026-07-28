@@ -111,13 +111,23 @@ class PlatformIntegrityTest(unittest.TestCase):
             }})
             task_engine.claim(root, task_id, "tester", "system-maintainer")
             task_engine.start(root, task_id, "tester", "system-maintainer")
-            artifact = (
-                "tasks/running/%s/outputs/validation-report.md" % task_id)
-            artifact_path = os.path.join(root, artifact)
-            with open(artifact_path, "w", encoding="utf-8") as stream:
-                stream.write("# pass\n")
+            outputs = {}
+            for name, filename in (
+                    ("patch", "platform-patch-summary.md"),
+                    ("validation_report", "validation-report.yaml"),
+                    ("operation_manifest", "operation-manifest.yaml")):
+                relative = (
+                    "tasks/running/%s/outputs/%s"
+                    % (task_id, filename))
+                path = os.path.join(root, relative)
+                with open(path, "w", encoding="utf-8") as stream:
+                    stream.write(
+                        "status: pass\n"
+                        if filename.endswith(".yaml") else "# pass\n")
+                outputs[name] = relative
             _, verify_id = task_engine.submit(
-                root, task_id, artifact,
+                root, task_id, outputs["validation_report"],
+                outputs=outputs,
                 agent="tester", role="system-maintainer")
             ok, report = task_engine.ready_check(root, verify_id)
             self.assertTrue(ok, report)

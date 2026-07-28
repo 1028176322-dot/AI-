@@ -58,3 +58,26 @@ contracts:
 
 docs:
   - AI契约.md
+
+style_schema_dir: core/learning/schemas/
+style_schemas:
+  - authorization-policy.schema.yaml
+  - capability-token.schema.yaml
+  - chapter-apply-result.schema.yaml
+  - chapter-rollback-result.schema.yaml
+  - diagnosis.schema.yaml
+  - final-regression-result.schema.yaml
+  - nkb-sync-proof.schema.yaml
+  - nkb-validation-report.schema.yaml
+  - fidelity-report.schema.yaml
+  - protected-manifest.schema.yaml
+  - quality-policy.schema.yaml
+  - revision-candidate-state.schema.yaml
+  - revision-result.schema.yaml
+  - style-archetype.schema.yaml
+  - style-card.schema.yaml
+  - style-guidance.schema.yaml
+  - style-profile.schema.yaml
+  - style-quality-report.schema.yaml
+  - style-rule-candidate.schema.yaml
+  - task-event.schema.yaml

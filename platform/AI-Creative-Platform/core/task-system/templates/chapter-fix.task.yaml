@@ -1,12 +1,12 @@
 task_template:
   type: chapter_fix
-  version: "1.0.0"
+  version: "2.0.0"
   required_role: writer
   description: 章节修复（依据 review findings 改正文，受控写）
-  required_inputs: [review_report, chapter_draft]
+  required_inputs: [review_report, chapter_draft, style_guidance]
   allowed_outputs: [chapter_draft, self_check, handoff]
   permissions:
-    read: [chapters/**, NKB/**, tasks/running/<id>/outputs/**]
+    read: [chapters/**, NKB/**, runtime/learning/**, memory/project/style-library/**, tasks/running/<id>/outputs/**]
     write: [tasks/running/<id>/outputs/**, chapters/drafts/**]
     forbidden: [core/**, registry/**, templates/**, NKB/**, chapters/approved/**]
   execution_policy:

@@ -1,0 +1,50 @@
+schema: system-maintenance-validation@1.0.0
+task_id: TASK-INTAKE-20260728122405217605
+generated_at: "2026-07-28T14:35:00+08:00"
+decision: pass
+code_and_contracts:
+  status: VERIFIED
+  python_compile:
+    command: python -m compileall -q cli scripts tests
+    result: PASS
+  full_regression:
+    command: python tests/run_all.py --timeout 600
+    groups_total: 53
+    groups_passed: 53
+    groups_failed: 0
+    duration_seconds: 50.93
+  strict_v2_e2e:
+    command: python tests/test_style_strict_v2_e2e.py
+    scenarios_total: 20
+    scenarios_passed: 20
+    scenarios_failed: 0
+  platform_selfcheck:
+    decision: proceed
+    health: 100
+    checks: 10
+    errors: 0
+    warnings: 0
+  doctor_quick:
+    result: PASS
+    failures: 0
+broker_deployment:
+  code_status: VERIFIED
+  plan_mode: PASS
+  powershell_parse: PASS
+  service_host_entry: PASS_EXPECTED_1063_OUTSIDE_SCM
+  real_identities_created: true
+  windows_service_installed: true
+  windows_service_state: RUNNING
+  broker_reachable: true
+  strict_dependencies: true
+  trusted_context_source: task_session_ssot
+  ntfs_acl_applied: true
+  ntfs_acl_readback_verified: true
+  taskrunner_create_denied: true
+  taskrunner_delete_denied: true
+  secrets_persisted_in_project: false
+  status: DEPLOYED_VERIFIED
+protected_content:
+  formal_nkb_modified: false
+  approved_chapters_modified: false
+  existing_projects_migrated: false

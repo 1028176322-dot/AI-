@@ -67,11 +67,17 @@ def _build_tmp_project():
     shutil.copytree(os.path.join(PROJ, "NKB"), os.path.join(tmp, "NKB"))
     shutil.copy(os.path.join(PROJ, "project.yaml"), os.path.join(tmp, "project.yaml"))
     vol = os.path.join(PROJ, "第一卷_道生")
+    if not os.path.isdir(vol):
+        vol = os.path.join(PROJ, "chapters", "drafts")
     src = None
-    for fn in sorted(os.listdir(vol)):
-        if fn.endswith(".md") and "第" in fn and "章" in fn and "审读" not in fn \
-           and "评分卡" not in fn and "大纲" not in fn and "批注" not in fn:
-            src = os.path.join(vol, fn)
+    for current, dirs, files in os.walk(vol):
+        dirs.sort()
+        for fn in sorted(files):
+            if fn.endswith(".md") and "第" in fn and "章" in fn and "审读" not in fn \
+               and "评分卡" not in fn and "大纲" not in fn and "批注" not in fn:
+                src = os.path.join(current, fn)
+                break
+        if src:
             break
     assert src, "未找到示例章节"
     os.makedirs(os.path.join(tmp, "第一卷_道生"), exist_ok=True)
@@ -216,7 +222,7 @@ def main():
         cli = os.path.join(_PLAT2, "cli", "platform.py")
         env = dict(os.environ)
         env["PYTHONPATH"] = os.pathsep.join([_p for _p in sys.path if _p.startswith(_SCR2)]) + os.pathsep + env.get("PYTHONPATH", "")
-        proc = subprocess.run([py, cli, "doctor"], capture_output=True, text=True,
+        proc = subprocess.run([py, cli, "doctor", "--quick"], capture_output=True, text=True,
                               encoding="utf-8", errors="replace",
                               env=env, cwd=PROJ)
         doc = proc.stdout + proc.stderr

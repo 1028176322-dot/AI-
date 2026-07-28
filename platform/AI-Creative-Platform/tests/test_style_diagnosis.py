@@ -32,7 +32,9 @@ class DiagnosisTest(unittest.TestCase):
         draft = self._draft("他似乎也许大概在犹豫。事实上，值得注意的是，显而易见的是，"
                              "他握紧了刀。他握紧了刀。他握紧了刀。他握紧了刀。")
         r = dx.ai_diagnose("CH1", "TA1", "T1", draft)
-        self.assertTrue(r["has_issues"])
+        self.assertFalse(r["has_issues"])
+        self.assertTrue(r["only_warnings"])
+        self.assertGreater(r["deterministic_signal_count"], 0)
         self.assertTrue(len(r["issue_list"]) > 0)
         cats = {i["category"] for i in r["issue_list"]}
         self.assertIn("repetitive_opener", cats)

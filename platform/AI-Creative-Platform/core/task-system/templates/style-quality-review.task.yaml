@@ -1,9 +1,9 @@
 task_template:
   type: style-quality-review
-  version: "1.0.0"
+  version: "2.0.0"
   required_role: reviewer
   description: 风格质量门禁；按 quality-policy 版本化阈值判定
-  required_inputs: [revision_candidate, quality_policy]
+  required_inputs: [revision_candidate, quality_policy, style_guidance, fidelity_report]
   allowed_outputs: [quality_report]
   permissions:
     read: [analysis/style/**, core/learning/quality-policies/**]
@@ -18,5 +18,10 @@ task_template:
     max_parallel_steps: 1
     required_session: current
   next_tasks:
-    on_pass: [ai-diagnose]
-    on_fail: [style-rule-review]
+    on_pass: [chapter-apply-revision]
+    on_fail: [human_gate]
+  event_contracts:
+    on_pass:
+      required_outputs: [quality_report]
+    on_fail:
+      required_outputs: [quality_report]

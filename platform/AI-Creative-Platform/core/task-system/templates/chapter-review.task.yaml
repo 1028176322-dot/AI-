@@ -1,6 +1,6 @@
 task_template:
   type: chapter_review
-  version: "1.0.0"
+  version: "2.0.0"
   required_role: reviewer
   description: 章节审查（四支柱评分卡，不跑 quality/reader 门禁——它是门禁执行者）
   required_inputs: [chapter_draft, review_spec]
@@ -19,5 +19,10 @@ task_template:
     required_session: current
 
   next_tasks:
-    on_pass: [chapter_publish]
+    on_pass: [protected-manifest-build]
     on_fail: [chapter_fix]
+  event_contracts:
+    on_pass:
+      required_outputs: [review_report]
+    on_fail:
+      required_outputs: [review_report, findings]

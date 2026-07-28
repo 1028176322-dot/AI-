@@ -1,6 +1,6 @@
 task_template:
   type: nkb_update
-  version: "1.0.0"
+  version: "2.0.0"
   required_role: knowledge-manager
   description: NKB 知识库同步（须持 approved_event；数据型任务，submit 门禁豁免 quality/reader）
   required_inputs: [candidate_facts, approved_event]

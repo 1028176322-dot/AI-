@@ -1,6 +1,6 @@
 task_template:
   type: ai-diagnose
-  version: "1.0.0"
+  version: "2.0.0"
   required_role: writer
   description: 风格风险诊断（只读）；输出 diagnosis-report，不改正文
   required_inputs: [chapter_draft, protected_manifest, style_guidance]
@@ -19,5 +19,15 @@ task_template:
     required_session: current
   next_tasks:
     on_clean: [final-regression]
-    on_warning: [style-rule-review]
+    on_warning: [human_gate]
     on_issues: [style-revise]
+  event_contracts:
+    on_clean:
+      required_outputs: [diagnosis_report]
+      required_bindings: [source_draft_sha256, protected_manifest_sha256]
+    on_warning:
+      required_outputs: [diagnosis_report]
+      required_bindings: [source_draft_sha256, protected_manifest_sha256]
+    on_issues:
+      required_outputs: [diagnosis_report]
+      required_bindings: [source_draft_sha256, protected_manifest_sha256]

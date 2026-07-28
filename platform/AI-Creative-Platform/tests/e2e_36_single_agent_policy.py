@@ -103,7 +103,7 @@ check("位于文件顶部（第一行或紧随标题）", agents_txt.lstrip().st
 # ───────────────────────── 4. 任务模板 execution_policy ─────────────────────────
 print("\n[4] 任务模板 execution_policy 一致性")
 TEMPLATES = ["chapter-write", "chapter-fix", "chapter-plan", "chapter-review",
-             "nkb-sync", "project-design", "system-maintenance"]
+             "nkb-review", "project-design", "system-maintenance"]
 all_ok_tmpl = True
 for name in TEMPLATES:
     tf = os.path.join(PLAT, "core", "task-system", "templates", "%s.task.yaml" % name)
@@ -214,7 +214,7 @@ check("agent_audit 无 spawned/delegated/parallel",
       and rep["agent_audit"]["parallel_runs"] == [])
 # doctor 实际跑出 AgentGov PASS
 r = subprocess.run([sys.executable, os.path.join(_PLAT2, "cli", "platform.py"),
-                    "--workspace", PROJ_ROOT, "doctor"],
+                    "--workspace", PROJ_ROOT, "doctor", "--quick"],
                    capture_output=True, text=True,
                    encoding="utf-8", errors="replace", timeout=420)
 doctor_ok = ("AgentGov" in r.stdout) and ("[PASS] AgentGov" in r.stdout)

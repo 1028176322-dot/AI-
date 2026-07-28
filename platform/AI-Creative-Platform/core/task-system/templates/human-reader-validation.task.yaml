@@ -1,26 +1,33 @@
 task_template:
   type: human_gate
-  version: "1.0.0"
+  version: "2.0.0"
   required_role: learning-curator
-  description: Ingest consented real-reader observations and calibrate AI reader predictions.
-  required_inputs: [human_reader_feedback, reader_panel_report]
-  allowed_outputs: [human_reader_report, reader_calibration, milestone_decision]
+  description: 人工决策门；处理风格警告、质量豁免和真人读者观察。
+  required_inputs: [gate_context]
+  allowed_outputs: [gate_decision, human_reader_report, reader_calibration, milestone_decision]
   permissions:
-    read:
-      - runtime/reader-panels/**
-      - analysis/reader/**
-      - tasks/**
-    write:
-      - runtime/reader-panels/**
-      - analysis/reader/**
-      - tasks/running/<id>/outputs/**
-    forbidden:
-      - NKB/**
-      - chapters/**
-      - platform/memory/**
+    read: [runtime/reader-panels/**, analysis/reader/**, tasks/**]
+    write: [runtime/reader-panels/**, analysis/reader/**, tasks/running/<id>/outputs/**]
+    forbidden: [NKB/**, chapters/**, platform/memory/**]
   execution_policy:
     agent_mode: single
     delegation_allowed: false
     subagent_allowed: false
     parallel_execution_allowed: false
-
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  next_tasks:
+    on_pass: [final-regression]
+    on_complete: [style-revise]
+    on_conflict: []
+  event_contracts:
+    on_pass:
+      required_outputs: [gate_decision]
+      required_bindings: [decision, gate_context_sha256]
+    on_complete:
+      required_outputs: [gate_decision]
+      required_bindings: [decision, gate_context_sha256]
+    on_conflict:
+      required_outputs: [gate_decision]
+      required_bindings: [decision, gate_context_sha256]

@@ -10,6 +10,7 @@ governance thresholds.
 import argparse
 import datetime
 import hashlib
+import json
 import os
 import re
 import statistics
@@ -24,6 +25,8 @@ for child in os.listdir(SCRIPTS_ROOT):
         sys.path.insert(0, path)
 
 import _gov
+import reference_fingerprint
+import style_extract
 
 
 SUPPORTED_EXTENSIONS = (".txt", ".md")
@@ -65,6 +68,34 @@ def _read_source(path):
         raise ValueError("仅支持 TXT/MD 参考文件: %s" % path)
     with open(path, "r", encoding="utf-8-sig") as stream:
         return stream.read()
+
+
+def _semantic_evidence_for_source(path):
+    """Load an optional AI semantic-evidence sidecar without storing prose.
+
+    Supported names are ``novel.style-evidence.yaml|json`` and
+    ``novel.txt.style-evidence.yaml|json``.  The sidecar must be a mapping
+    keyed by the twelve style-dimension identifiers.
+    """
+    stem, _ = os.path.splitext(path)
+    candidates = [
+        stem + ".style-evidence.yaml",
+        stem + ".style-evidence.json",
+        path + ".style-evidence.yaml",
+        path + ".style-evidence.json",
+    ]
+    for candidate in candidates:
+        if not os.path.isfile(candidate):
+            continue
+        if candidate.lower().endswith(".json"):
+            with open(candidate, "r", encoding="utf-8-sig") as stream:
+                payload = json.load(stream)
+        else:
+            payload = _gov.load_yaml(candidate)
+        if not isinstance(payload, dict):
+            raise ValueError("语义证据 sidecar 必须是映射: %s" % candidate)
+        return payload
+    return {}
 
 
 def _strip_markup(text):
@@ -238,13 +269,19 @@ def _derive_candidates(metrics, source_id, source_hash, genre):
     return candidates
 
 
-def analyze(source_path, genre, output_dir, source_id=None):
+def analyze(
+        source_path, genre, output_dir, source_id=None,
+        fingerprint_key_id="default", license_type="user-provided",
+        semantic_evidence=None):
     text = _read_source(source_path)
     digest = hashlib.sha256(text.encode("utf-8")).hexdigest()
     source_id = source_id or _safe_id(os.path.splitext(os.path.basename(source_path))[0])
     metrics = _metrics(text)
+    fingerprint = reference_fingerprint.Fingerprinter().fingerprint(
+        text, key_id=fingerprint_key_id, source_id=source_id,
+        license_type=license_type)
     report = {
-        "schema": "reference-learning@1.0.0",
+        "schema": "reference-learning@2.0.0",
         "meta": {
             "source_id": source_id,
             "source_name": os.path.basename(source_path),
@@ -252,10 +289,15 @@ def analyze(source_path, genre, output_dir, source_id=None):
             "genre": genre,
             "analyzed_at": _now(),
             "copyright_policy": "statistics_and_principles_only",
+            "license_type": license_type,
         },
         "metrics": metrics,
-        "candidates": _derive_candidates(
+        "style_dimensions": style_extract.extract_source_profile(text),
+        "semantic_evidence": semantic_evidence or {},
+        "fingerprint": fingerprint,
+        "legacy_candidates": _derive_candidates(
             metrics, source_id, digest, genre),
+        "candidates": [],
         "raw_text_stored": False,
     }
     os.makedirs(output_dir, exist_ok=True)
@@ -264,38 +306,105 @@ def analyze(source_path, genre, output_dir, source_id=None):
     return out, report
 
 
-def batch(input_dir, genre, output_dir):
+def _normalized_weights(source_ids):
+    if not source_ids:
+        return {}
+    weight = 1.0 / len(source_ids)
+    return {source_id: round(weight, 6) for source_id in source_ids}
+
+
+def _build_archetype(profiles, genre):
+    source_ids = [
+        (profile.get("meta") or {}).get("source_id")
+        for profile in profiles]
+    weights = _normalized_weights(source_ids)
+    dimensions = {}
+    for name in style_extract.extract_source_profile("").keys():
+        nodes = [
+            (profile.get("style_dimensions") or {}).get(name, {})
+            for profile in profiles]
+        dimensions[name] = style_extract._aggregate_nodes(nodes)
+    return {
+        "schema": "style-archetype@2.0.0",
+        "genre": genre,
+        "source_count": len(source_ids),
+        "source_ids": source_ids,
+        "source_contribution_vector": weights,
+        "minimum_independent_sources": 3,
+        "recommended_independent_sources": 5,
+        "max_single_source_weight": 0.4,
+        "dimensions": dimensions,
+        "status": (
+            "review_pending" if len(source_ids) >= 3
+            else "insufficient_sources"),
+        "raw_text_stored": False,
+    }
+
+
+def batch(
+        input_dir, genre, output_dir, fingerprint_key_id="default",
+        license_type="user-provided"):
     sources = []
     for name in sorted(os.listdir(input_dir)):
         path = os.path.join(input_dir, name)
         if os.path.isfile(path) and name.lower().endswith(SUPPORTED_EXTENSIONS):
             sources.append(path)
     profiles = []
-    rule_groups = {}
+    profile_payloads = []
+    source_payloads = []
     for path in sources:
-        profile_path, report = analyze(path, genre, output_dir)
+        profile_path, report = analyze(
+            path, genre, output_dir,
+            fingerprint_key_id=fingerprint_key_id,
+            license_type=license_type,
+            semantic_evidence=_semantic_evidence_for_source(path))
         profiles.append(os.path.basename(profile_path))
-        for candidate in report["candidates"]:
-            rule_groups.setdefault(candidate["rule_id"], []).append(candidate)
-    aggregated = []
-    for rule_id, items in sorted(rule_groups.items()):
-        base = dict(items[0])
-        base["evidence_sources"] = sorted({
-            item["evidence"]["source_id"] for item in items})
-        base["source_count"] = len(base["evidence_sources"])
-        base["confidence"] = round(
-            sum(float(item["confidence"]) for item in items) / len(items), 2)
-        aggregated.append(base)
+        profile_payloads.append(report)
+        source_payloads.append({
+            "source_id": (report.get("meta") or {}).get("source_id"),
+            "text": _read_source(path),
+            "semantic_evidence": report.get("semantic_evidence") or {},
+        })
+    weights = _normalized_weights([
+        item["source_id"] for item in source_payloads])
+    for item in source_payloads:
+        item["weight"] = weights[item["source_id"]]
+    archetype = _build_archetype(profile_payloads, genre)
+    archetype_dir = os.path.join(output_dir, "style-archetypes")
+    os.makedirs(archetype_dir, exist_ok=True)
+    archetype_path = os.path.join(
+        archetype_dir, "%s.archetype.yaml" % _safe_id(genre))
+    _gov.dump_yaml(archetype_path, archetype)
+    style_candidates = []
+    candidate_dir = os.path.join(output_dir, "style-rule-candidates")
+    if len(source_payloads) >= 3:
+        extractor = style_extract.StyleExtractor(
+            extractor_version="twelve-dimension-2.0.0")
+        style_candidates = extractor.extract(
+            source_payloads, "REFERENCE-BATCH", "REFERENCE-BATCH")
+        os.makedirs(candidate_dir, exist_ok=True)
+        for candidate in style_candidates:
+            with open(
+                    os.path.join(
+                        candidate_dir,
+                        "%s.json" % candidate["candidate_id"]),
+                    "w", encoding="utf-8") as stream:
+                json.dump(
+                    candidate, stream, ensure_ascii=False, indent=2)
     summary = {
-        "schema": "reference-learning-summary@1.0.0",
+        "schema": "reference-learning-summary@2.0.0",
         "genre": genre,
         "generated_at": _now(),
         "source_profiles": profiles,
         "source_count": len(profiles),
-        "writing_candidates": [
-            item for item in aggregated if item["target"] in ("writing", "both")],
-        "review_candidates": [
-            item for item in aggregated if item["target"] in ("review", "both")],
+        "archetype": os.path.relpath(
+            archetype_path, output_dir).replace("\\", "/"),
+        "source_contribution_vector": weights,
+        "style_rule_candidate_ids": [
+            item["candidate_id"] for item in style_candidates],
+        "style_rule_candidates_require_review": True,
+        "writing_candidates": [],
+        "review_candidates": [],
         "promotion": {
             "state": "candidate",
             "rule": "参考书数量不等于项目验证数；先进入项目试验，再按 memory 晋升门槛升级。",
@@ -304,6 +413,143 @@ def batch(input_dir, genre, output_dir):
     out = os.path.join(output_dir, "learning-summary.yaml")
     _gov.dump_yaml(out, summary)
     return out, summary
+
+
+def withdraw_source(summary_path, source_id, output_dir=None):
+    """Withdraw a source and cascade invalidation/recomputation.
+
+    Raw reference prose is never needed for this operation: the twelve
+    dimension profiles and semantic evidence are sufficient to rebuild the
+    aggregate candidates.  Every old candidate that depended on the withdrawn
+    source is retained as a revoked audit record.
+    """
+    summary = _gov.load_yaml(summary_path) or {}
+    base = output_dir or os.path.dirname(summary_path)
+    remaining = []
+    removed = []
+    for name in summary.get("source_profiles") or []:
+        path = name if os.path.isabs(name) else os.path.join(base, name)
+        profile = _gov.load_yaml(path) or {}
+        if (profile.get("meta") or {}).get("source_id") == source_id:
+            removed.append(profile)
+        else:
+            remaining.append(profile)
+    if not removed:
+        raise ValueError("未找到可撤回来源: %s" % source_id)
+
+    archetype = _build_archetype(
+        remaining, summary.get("genre") or "unknown")
+    archetype["withdrawn_source_id"] = source_id
+    archetype["recomputed_at"] = _now()
+    if len(remaining) < 3:
+        archetype["status"] = "SUSPENDED"
+        archetype["suspension_reason"] = (
+            "source withdrawal reduced independent sources below 3")
+    path = os.path.join(
+        base, "style-archetypes",
+        "%s.archetype.yaml" % _safe_id(summary.get("genre") or "unknown"))
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    _gov.dump_yaml(path, archetype)
+
+    candidate_dir = os.path.join(base, "style-rule-candidates")
+    revoked_ids = []
+    if os.path.isdir(candidate_dir):
+        for filename in sorted(os.listdir(candidate_dir)):
+            if not filename.endswith(".json"):
+                continue
+            candidate_path = os.path.join(candidate_dir, filename)
+            with open(candidate_path, "r", encoding="utf-8") as stream:
+                candidate = json.load(stream)
+            contributions = candidate.get("source_contribution_vector") or {}
+            if source_id not in contributions:
+                continue
+            candidate["review_status"] = "REVOKED"
+            candidate["revocation"] = {
+                "reason": "reference_source_withdrawn",
+                "source_id": source_id,
+                "at": _now(),
+            }
+            revoked_ids.append(candidate.get("candidate_id"))
+            with open(candidate_path, "w", encoding="utf-8") as stream:
+                json.dump(candidate, stream, ensure_ascii=False, indent=2)
+
+    source_ids = [
+        (profile.get("meta") or {}).get("source_id")
+        for profile in remaining
+    ]
+    weights = _normalized_weights(source_ids)
+    rebuilt = []
+    if len(remaining) >= 3:
+        payloads = []
+        for profile in remaining:
+            meta = profile.get("meta") or {}
+            sid = meta.get("source_id")
+            payloads.append({
+                "source_id": sid,
+                "text": "",
+                "style_profile": profile.get("style_dimensions") or {},
+                "semantic_evidence": profile.get("semantic_evidence") or {},
+                "weight": weights[sid],
+            })
+        rebuilt = style_extract.StyleExtractor(
+            extractor_version="twelve-dimension-2.0.0"
+        ).extract(payloads, "REFERENCE-WITHDRAWAL", "REFERENCE-WITHDRAWAL")
+        os.makedirs(candidate_dir, exist_ok=True)
+        for candidate in rebuilt:
+            with open(os.path.join(
+                    candidate_dir, "%s.json" % candidate["candidate_id"]),
+                    "w", encoding="utf-8") as stream:
+                json.dump(candidate, stream, ensure_ascii=False, indent=2)
+
+    updated_profiles = [
+        os.path.basename(
+            next(
+                name if os.path.isabs(name) else os.path.join(base, name)
+                for name in summary.get("source_profiles") or []
+                if ((_gov.load_yaml(
+                    name if os.path.isabs(name)
+                    else os.path.join(base, name)) or {}).get("meta") or {})
+                .get("source_id") == sid
+            )
+        )
+        for sid in source_ids
+    ]
+    summary.update({
+        "generated_at": _now(),
+        "source_profiles": updated_profiles,
+        "source_count": len(remaining),
+        "source_contribution_vector": weights,
+        "style_rule_candidate_ids": [
+            item["candidate_id"] for item in rebuilt],
+        "withdrawal": {
+            "source_id": source_id,
+            "revoked_candidate_ids": revoked_ids,
+            "rebuilt_candidate_ids": [
+                item["candidate_id"] for item in rebuilt],
+            "status": archetype.get("status"),
+            "at": _now(),
+        },
+    })
+    _gov.dump_yaml(summary_path, summary)
+    report = {
+        "schema": "reference-source-withdrawal@1.0.0",
+        "source_id": source_id,
+        "remaining_source_count": len(remaining),
+        "source_contribution_vector": weights,
+        "archetype": os.path.relpath(path, base).replace("\\", "/"),
+        "archetype_status": archetype.get("status"),
+        "revoked_candidate_ids": revoked_ids,
+        "rebuilt_candidate_ids": [
+            item["candidate_id"] for item in rebuilt],
+        "summary_updated": os.path.abspath(summary_path),
+        "raw_text_stored": False,
+        "created_at": _now(),
+    }
+    report_path = os.path.join(
+        base, "withdrawals", "%s.withdrawal.yaml" % _safe_id(source_id))
+    os.makedirs(os.path.dirname(report_path), exist_ok=True)
+    _gov.dump_yaml(report_path, report)
+    return report_path, report
 
 
 def promote_project(summary_path, project_root, approved=False):
@@ -321,6 +567,10 @@ def promote_project(summary_path, project_root, approved=False):
     except ImportError:
         pass  # 非刚性阻断：authorize 模块不可用时跳过
     summary = _gov.load_yaml(summary_path) or {}
+    if summary.get("style_rule_candidate_ids"):
+        raise ValueError(
+            "style candidates must pass style-rule-review and "
+            "style-rule-promote; direct project promotion is forbidden")
     if not summary.get("writing_candidates") and not summary.get("review_candidates"):
         raise ValueError("学习摘要没有候选规则")
     digest = hashlib.sha256(
@@ -357,8 +607,9 @@ def promote_project(summary_path, project_root, approved=False):
 def validate_profile(path):
     data = _gov.load_yaml(path) or {}
     errors = []
-    if data.get("schema") != "reference-learning@1.0.0":
-        errors.append("schema 非 reference-learning@1.0.0")
+    if data.get("schema") not in (
+            "reference-learning@1.0.0", "reference-learning@2.0.0"):
+        errors.append("schema 非受支持的 reference-learning 版本")
     if not (data.get("meta") or {}).get("source_hash"):
         errors.append("缺 source_hash")
     if data.get("raw_text_stored") is not False:
@@ -379,23 +630,36 @@ def main():
     one.add_argument("--genre", required=True)
     one.add_argument("--output-dir", required=True)
     one.add_argument("--source-id")
+    one.add_argument("--fingerprint-key-id", default="default")
+    one.add_argument("--license-type", default="user-provided")
     many = sub.add_parser("batch")
     many.add_argument("--input-dir", required=True)
     many.add_argument("--genre", required=True)
     many.add_argument("--output-dir", required=True)
+    many.add_argument("--fingerprint-key-id", default="default")
+    many.add_argument("--license-type", default="user-provided")
     promote = sub.add_parser("promote-project")
     promote.add_argument("--summary", required=True)
     promote.add_argument("--project-root", required=True)
     promote.add_argument("--approved", action="store_true")
     validate = sub.add_parser("validate")
     validate.add_argument("--profile", required=True)
+    withdraw = sub.add_parser("withdraw")
+    withdraw.add_argument("--summary", required=True)
+    withdraw.add_argument("--source-id", required=True)
+    withdraw.add_argument("--output-dir")
     args = parser.parse_args()
     if args.action == "analyze":
         path, _ = analyze(
-            args.source, args.genre, args.output_dir, args.source_id)
+            args.source, args.genre, args.output_dir, args.source_id,
+            fingerprint_key_id=args.fingerprint_key_id,
+            license_type=args.license_type)
         print("✓ reference profile: %s" % path)
     elif args.action == "batch":
-        path, report = batch(args.input_dir, args.genre, args.output_dir)
+        path, report = batch(
+            args.input_dir, args.genre, args.output_dir,
+            fingerprint_key_id=args.fingerprint_key_id,
+            license_type=args.license_type)
         print("✓ learning summary: %s (sources=%d)" %
               (path, report["source_count"]))
     elif args.action == "promote-project":
@@ -403,6 +667,11 @@ def main():
             args.summary, args.project_root, args.approved)
         print("✓ project learning: %s" % memory)
         print("✓ runtime guidance: %s" % guidance)
+    elif args.action == "withdraw":
+        path, report = withdraw_source(
+            args.summary, args.source_id, args.output_dir)
+        print("✓ archetype recomputed: %s (status=%s)" % (
+            path, report.get("archetype_status")))
     else:
         ok, errors = validate_profile(args.profile)
         if not ok:

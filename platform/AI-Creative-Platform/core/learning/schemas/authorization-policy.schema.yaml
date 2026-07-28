@@ -65,6 +65,12 @@ operation_checks:
     checks:
       - lease_owner
       - candidate_path_permission
+  - operation: chapter_write
+    checks:
+      - lease_owner
+      - role_match
+      - path_permission
+      - target_hash_equal
   - operation: apply
     checks:
       - lease_owner

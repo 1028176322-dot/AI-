@@ -49,8 +49,9 @@ class KeyManager:
     否则 fallback 为项目级默认密钥（仅用于开发，生产须配 env）。
     """
 
-    def __init__(self):
+    def __init__(self, allow_insecure_fallback=False):
         self._cache = {}
+        self.allow_insecure_fallback = allow_insecure_fallback
 
     def get_key(self, key_id: str) -> bytes:
         if key_id in self._cache:
@@ -59,9 +60,14 @@ class KeyManager:
         key = os.environ.get(env_key)
         if key:
             key_bytes = key.encode("utf-8")
-        else:
-            # 开发 fallback（不应用于生产）
+        elif self.allow_insecure_fallback:
+            # Only explicit unit/dev callers may opt in. Production learning
+            # never derives a predictable key from key_id.
             key_bytes = hashlib.sha256(key_id.encode("utf-8")).digest()
+        else:
+            raise RuntimeError(
+                "fingerprint key unavailable: set %s outside the project"
+                % env_key)
         self._cache[key_id] = key_bytes
         return key_bytes
 
@@ -195,26 +201,27 @@ def validate_source_weights(contribution_vector):
     Returns:
       (ok: bool, reasons: list[str])
     """
-    reasons = []
+    errors = []
+    warnings = []
     vec = contribution_vector or {}
     # 单一来源权重不得 > 0.4
     for sid, w in vec.items():
         if w > MAX_SINGLE_SOURCE_WEIGHT:
-            reasons.append("source %s weight %.3f > max %.1f" % (
+            errors.append("source %s weight %.3f > max %.1f" % (
                 sid, w, MAX_SINGLE_SOURCE_WEIGHT))
 
     # 最少独立来源数
     n = len(vec)
     if n < MIN_INDEPENDENT_SOURCES:
-        reasons.append(
+        errors.append(
             "only %d independent sources (need >= %d)" % (
                 n, MIN_INDEPENDENT_SOURCES))
     elif n < RECOMMENDED_INDEPENDENT_SOURCES:
-        reasons.append(
+        warnings.append(
             "only %d independent sources (recommended >= %d)" % (
                 n, RECOMMENDED_INDEPENDENT_SOURCES))
 
-    return len(reasons) == 0, reasons
+    return len(errors) == 0, errors + warnings
 
 
 # ── 主入口（CLI） ─────────────────────────────────────────────

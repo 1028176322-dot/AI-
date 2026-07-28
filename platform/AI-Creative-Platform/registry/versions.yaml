@@ -30,8 +30,13 @@ core:
   graph_viz: 1.0.0
   market: 1.0.0
   project_template: 1.0.0
-  reference_learning: 1.0.0
-  feedback_learning: 1.0.0
+  reference_learning: 2.0.0
+  feedback_learning: 2.0.0
+  style_system: 1.0.0
+  style_orchestrator: 1.0.0
+  style_guidance: 1.0.0
+  controlled_write_broker: 1.0.0
+  style_event_log: 1.0.0
   reader_panel: 1.0.0
   project_layout: 2.0.0
   outline_governance: 2.0.0

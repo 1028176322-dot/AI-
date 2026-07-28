@@ -12,6 +12,7 @@ import argparse
 import datetime
 import glob
 import fnmatch
+import hashlib
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 # [Phase2] 把 scripts 各分组目录加入 sys.path，保持跨组裸名 import 可用
@@ -78,6 +79,9 @@ def main():
     ap.add_argument("--policy-version", default="1.3.0")
     ap.add_argument("--session", default="SES-unknown")
     ap.add_argument("--task-id", default=None, help="关联任务 ID（受保护内容产物必填）")
+    ap.add_argument(
+        "--expected-sha256", default=None,
+        help="legacy CAS：目标当前 SHA-256 必须匹配；strict-v2 不使用本入口")
     args = ap.parse_args()
 
     ws_root = _gov.find_workspace_root()
@@ -136,6 +140,19 @@ def main():
             sys.exit(1)
 
     full = os.path.join(pdir, args.target)
+    if args.expected_sha256:
+        if not os.path.isfile(full):
+            print("REJECTED: CAS target missing: %s" % full)
+            sys.exit(3)
+        digest = hashlib.sha256()
+        with open(full, "rb") as current:
+            for chunk in iter(lambda: current.read(1024 * 1024), b""):
+                digest.update(chunk)
+        actual = digest.hexdigest()
+        if actual != args.expected_sha256:
+            print("REJECTED: CAS mismatch current=%s expected=%s" % (
+                actual, args.expected_sha256))
+            sys.exit(3)
     if args.content_file:
         with open(args.content_file, "r", encoding="utf-8") as f:
             content = f.read()

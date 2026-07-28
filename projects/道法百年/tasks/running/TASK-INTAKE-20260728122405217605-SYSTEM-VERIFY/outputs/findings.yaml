@@ -1,0 +1,9 @@
+schema: system-verify-findings@1.0.0
+task_id: TASK-INTAKE-20260728122405217605-SYSTEM-VERIFY
+decision: pass
+blocking: []
+non_blocking: []
+deployment_notes:
+  - 每个未来 strict-v2 新项目仍须执行 Broker Apply/Verify；未验证的项目必须保持 fail-closed。
+  - 既有项目不会自动迁移。
+  - Rollback 模式可停止并删除服务、移除 ACL、撤销服务登录权限，并可选择删除两个本地身份。

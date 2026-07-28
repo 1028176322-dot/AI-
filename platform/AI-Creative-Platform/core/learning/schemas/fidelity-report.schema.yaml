@@ -1,0 +1,43 @@
+schema:
+  id: style.fidelity-report
+  version: "1.0.0"
+  description: 候选稿相对 protected manifest、NKB、章纲和源草稿的保真审查证据。
+fields:
+  - name: chapter_id
+    type: string
+    required: true
+  - name: revision_cycle_id
+    type: string
+    required: true
+  - name: producer_task_id
+    type: string
+    required: true
+  - name: source_draft_sha256
+    type: string
+    required: true
+  - name: candidate_sha256
+    type: string
+    required: true
+  - name: protected_manifest_sha256
+    type: string
+    required: true
+  - name: hard_fact_retention
+    type: number
+    required: true
+  - name: must_preserve_retention
+    type: number
+    required: true
+  - name: unsupported_fact_count
+    type: integer
+    required: true
+  - name: semantic_checks
+    type: list
+    required: true
+    description: 人物动机、因果、时间线、揭露边界、章纲目标和状态变化的结构化 AI 证据。
+  - name: result
+    type: enum
+    required: true
+    enum: [FIDELITY_PASSED, FIDELITY_FAILED]
+  - name: created_at
+    type: timestamp
+    required: true

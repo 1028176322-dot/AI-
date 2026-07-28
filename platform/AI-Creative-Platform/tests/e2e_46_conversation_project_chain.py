@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Conversation request -> strict project -> review feedback -> publish."""
+"""Legacy conversation chain compatibility: review feedback -> publish.
+
+The strict-v2 style lifecycle has its own 20-case E2E suite.  This fixture is
+explicitly marked as a non-migrated project so it continues to verify that the
+platform does not silently force existing projects onto the new chain.
+"""
 import glob
 import os
 import shutil
@@ -38,6 +43,15 @@ def check(condition, message):
 
 def setup_project(root):
     project_layout.scaffold_layout(root, "xuanhuan")
+    layout_path = os.path.join(root, "PROJECT_LAYOUT.yaml")
+    layout = _gov.load_yaml(layout_path)
+    layout["style_system"] = {
+        "enabled": False,
+        "enforcement_profile": "legacy-unmigrated",
+        "full_chapter_chain_required": False,
+        "broker_fail_closed": False,
+    }
+    _gov.dump_yaml(layout_path, layout)
     _gov.dump_yaml(os.path.join(root, "project.yaml"), {
         "project": {"id": "chain-test", "name": "链路测试", "type": "xuanhuan"},
         "requires": {"platform": ">=2.1.0"},
@@ -94,6 +108,13 @@ def setup_project(root):
 
 def fill_reader_panel(path):
     report = _gov.load_yaml(path)
+    evidence_excerpt = None
+    if report.get("source") and os.path.isfile(report["source"]):
+        with open(report["source"], "r", encoding="utf-8") as stream:
+            source_text = stream.read()
+        # Keep the fixture evidence YAML-lite-safe while still proving that
+        # every lens points to text that exists in the chapter.
+        evidence_excerpt = "1" if "1" in source_text else source_text.strip()[:1]
     for lens in report["lenses"]:
         lens.update({
             "score": 78,
@@ -103,6 +124,7 @@ def fill_reader_panel(path):
             "expectation": "期待钟声真相",
             "recommended_fix": "保留因果和章末承诺",
             "confidence": 0.82,
+            "evidence_excerpt": evidence_excerpt,
         })
     report["dropoff"] = {
         "risk": "low", "location": "无明显停读点", "reason": "场景持续变化"}
@@ -266,7 +288,8 @@ def main():
         check(valid, "review report invalid: %s" % errors)
         task_engine.review(
             root, review_id, "pass", findings=[finding],
-            reviewer="reviewer", role="reviewer")
+            reviewer="reviewer", role="reviewer",
+            outputs={"review_report": report_path})
 
         feedback = os.path.join(
             root, "runtime", "learning", "writing-guidance.yaml")
@@ -337,9 +360,9 @@ def main():
         check(task_engine.load_task(root, sync_id)[0] == "ready",
               "NKB sync review task missing")
         task_engine.claim(
-            root, sync_id, "knowledge-manager", "knowledge-manager")
+            root, sync_id, "reviewer", "reviewer")
         task_engine.start(
-            root, sync_id, "knowledge-manager", "knowledge-manager")
+            root, sync_id, "reviewer", "reviewer")
         sync_report_rel = (
             "tasks/running/%s/outputs/nkb-review-report.yaml" % sync_id)
         _gov.dump_yaml(os.path.join(root, sync_report_rel), {
@@ -352,15 +375,14 @@ def main():
         task_engine.submit(
             root, sync_id, sync_report_rel,
             outputs={
-                "nkb_review_report": sync_report_rel,
-                "findings": [],
-                "nkb_snapshot_after": "NKB/manifest.yaml",
+                "nkb_sync_proof": sync_report_rel,
+                "validation_report": sync_report_rel,
             },
             checks={"canonical_validation": "pass"},
-            agent="knowledge-manager", role="knowledge-manager")
+            agent="reviewer", role="reviewer")
         task_engine.review(
             root, sync_id, "pass",
-            reviewer="knowledge-manager", role="knowledge-manager")
+            reviewer="reviewer", role="reviewer")
         check(task_engine.load_task(root, publish_id)[0] == "ready",
               "publish was not unlocked after NKB sync")
         check(os.path.isfile(os.path.join(

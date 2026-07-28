@@ -150,10 +150,13 @@ def grant_path(project_root, task_id):
     return os.path.join(project_root, d, "%s.yaml" % task_id)
 
 
-def generate_grant(project_root, task_id, role, action, resource_layer, targets):
+def generate_grant(
+        project_root, task_id, role, action, resource_layer, targets,
+        ttl_seconds=900):
     """生成动态任务授权文件（task_grant 因子实体）。terminal 态会自动失效。"""
     p = grant_path(project_root, task_id)
     os.makedirs(os.path.dirname(p), exist_ok=True)
+    now = datetime.datetime.now()
     data = {
         "grant": {
             "task_id": task_id,
@@ -161,7 +164,10 @@ def generate_grant(project_root, task_id, role, action, resource_layer, targets)
             "action": action,
             "resource_layer": resource_layer,
             "targets": targets if isinstance(targets, list) else [targets],
-            "generated_at": datetime.datetime.now().isoformat(timespec="seconds"),
+            "generated_at": now.isoformat(timespec="seconds"),
+            "expires_at": (
+                now + datetime.timedelta(seconds=ttl_seconds)
+            ).isoformat(timespec="seconds"),
             "status": "active",
         }
     }
@@ -323,6 +329,17 @@ def authorize(role, target, task_id=None, project_root=None,
                 code = "PUBLISH_GATE_FAILED" if action == "chapter.publish" else "TASK_GRANT_MISSING"
                 return _deny(code, factors, layer, action,
                              "缺少有效动态授权 grant（task_grant 因子失败）：%s" % task_id)
+            try:
+                expired = (
+                    datetime.datetime.fromisoformat(
+                        str(g.get("expires_at"))) <=
+                    datetime.datetime.now())
+            except (TypeError, ValueError):
+                expired = True
+            if expired:
+                return _deny(
+                    "PUBLISH_GATE_FAILED", factors, layer, action,
+                    "动态授权 grant 已过期或缺 expires_at：%s" % task_id)
             factors["workflow_state"] = True
             factors["task_grant"] = True
         else:

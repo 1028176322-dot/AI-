@@ -15,6 +15,9 @@ import json
 import os
 import time
 
+from controlled_chapter_client import (
+    broker_write, dependency_resources, resource)
+
 SCHEMA_ID = "style.chapter-rollback-result"
 SCHEMA_VERSION = "1.0.0"
 
@@ -51,6 +54,8 @@ def prepare_rollback(chapter_id, revision_cycle_id, producer_task_id,
             "chapter_id": chapter_id,
             "revision_cycle_id": revision_cycle_id,
             "producer_task_id": producer_task_id,
+            "task_id": producer_task_id,
+            "operation": "rollback",
             "result": "ROLLBACK_CONFLICT",
             "error": "draft changed since apply; current %s != applied %s"
                      % (current_sha, applied_draft_sha256),
@@ -58,6 +63,13 @@ def prepare_rollback(chapter_id, revision_cycle_id, producer_task_id,
             "applied_draft_sha256": applied_draft_sha256,
             "current_draft_sha256": current_sha,
             "created_at": created_at if created_at is not None else time.time(),
+            "rollback_task_id": producer_task_id,
+            "pre_apply_artifact_ref":
+                "analysis/style/%s/%s/draft-pre-apply.md" %
+                (chapter_id, revision_cycle_id),
+            "state_before": "ROLLBACK_READY",
+            "state_after": "ROLLBACK_CONFLICT",
+            "conflict_detected": True,
         }
 
     return {
@@ -66,6 +78,8 @@ def prepare_rollback(chapter_id, revision_cycle_id, producer_task_id,
         "chapter_id": chapter_id,
         "revision_cycle_id": revision_cycle_id,
         "producer_task_id": producer_task_id,
+        "task_id": producer_task_id,
+        "operation": "rollback",
         "result": "ROLLED_BACK",
         "pre_apply_sha256": pre_apply_sha,
         "pre_apply_ref": "analysis/style/%s/%s/draft-pre-apply.md"
@@ -73,6 +87,13 @@ def prepare_rollback(chapter_id, revision_cycle_id, producer_task_id,
         "applied_draft_sha256": applied_draft_sha256,
         "current_draft_sha256": current_sha,
         "created_at": created_at if created_at is not None else time.time(),
+        "rollback_task_id": producer_task_id,
+        "pre_apply_artifact_ref":
+            "analysis/style/%s/%s/draft-pre-apply.md" %
+            (chapter_id, revision_cycle_id),
+        "state_before": "ROLLBACK_READY",
+        "state_after": "ROLLED_BACK",
+        "conflict_detected": False,
     }
 
 
@@ -93,3 +114,29 @@ def calculate_backup_path(root, chapter_id, revision_cycle_id):
     """pre_apply 备份路径（由 chapter_apply 写入）。"""
     return os.path.join(root, "analysis", "style", chapter_id, revision_cycle_id,
                         "draft-pre-apply.md")
+
+
+def execute_rollback(
+        project_root, task_id, chapter_id, revision_cycle_id,
+        draft_path, backup_path, applied_draft_sha256,
+        final_regression_path, actor_id=None):
+    with open(draft_path, "r", encoding="utf-8") as stream:
+        current = stream.read()
+    with open(backup_path, "r", encoding="utf-8") as stream:
+        backup = stream.read()
+    result = prepare_rollback(
+        chapter_id, revision_cycle_id, task_id, backup,
+        applied_draft_sha256, current)
+    if result["result"] != "ROLLED_BACK":
+        return result
+    resources = [
+        resource("source", backup_path, _sha256(backup)),
+        resource("target", draft_path, applied_draft_sha256),
+    ]
+    resources.extend(dependency_resources({
+        "final_regression": final_regression_path,
+    }))
+    result["broker_result"] = broker_write(
+        project_root, task_id, "rollback", resources, backup,
+        actor_id=actor_id)
+    return result

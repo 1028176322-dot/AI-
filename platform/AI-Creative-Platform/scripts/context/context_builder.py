@@ -67,6 +67,10 @@ PLATFORM_TASK_TYPES = {"system_maintenance", "system_verify"}
 CONTENT_TASK_TYPES = {
     "chapter_write", "chapter_review", "chapter_fix", "continuity_fix",
     "chapter_publish", "nkb_update", "nkb_sync", "plan_write",
+    "protected-manifest-build", "ai-diagnose", "style-revise",
+    "fidelity-review", "style-quality-review",
+    "chapter-apply-revision", "chapter-rollback-revision",
+    "final-regression",
 }
 
 
@@ -224,6 +228,49 @@ def _writing_strategy(project_root, task, max_tokens):
         return "（写作手法编排读取失败）"
 
 
+def _style_runtime_context(project_root, task, max_tokens=1800):
+    """Load the exact governed style evidence bound to the Task Packet."""
+    try:
+        import task_packet
+    except Exception:
+        return "（风格上下文解析器不可用）"
+    sections = []
+    inputs = (
+        ("L0-L4 风格指导", "style_guidance"),
+        ("不可修改的保真基线", "protected_manifest"),
+        ("当前风格诊断", "diagnosis_report"),
+    )
+    for title, name in inputs:
+        try:
+            path, resolved = task_packet._resolve_input(
+                project_root, name, task)
+        except Exception:
+            path, resolved = None, False
+        if not resolved or not path or not os.path.isfile(path):
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as stream:
+                body = stream.read()
+        except Exception:
+            continue
+        sections.append("### %s\n%s" % (
+            title, _cap(body, max(240, max_tokens // 2))))
+    # Recent anti-template evidence is project-private and must never include
+    # reference novel source text.
+    recent = os.path.join(
+        project_root, "runtime", "learning", "anti-template-recent.yaml")
+    if os.path.isfile(recent):
+        try:
+            with open(recent, "r", encoding="utf-8") as stream:
+                sections.append("### 最近章节反模板信息\n%s" % _cap(
+                    stream.read(), max(200, max_tokens // 3)))
+        except Exception:
+            pass
+    if not sections:
+        return "（尚未生成风格指导；strict-v2 任务应在 Ready Check 阶段阻断）"
+    return _cap("\n\n".join(sections), max_tokens)
+
+
 def _write_context(root, tid, content):
     ctx_dir = os.path.join(root, "runtime", "context")
     os.makedirs(ctx_dir, exist_ok=True)
@@ -374,6 +421,12 @@ def build_context(root, tid, budget=12000):
         "writing_strategy", 800))
     lines.append(_writing_strategy(
         root, task, alloc.get("writing_strategy", 800)))
+    lines.append("")
+
+    lines.append("## 风格系统与保真边界（%d token）" % alloc.get(
+        "reserve", 600))
+    lines.append(_style_runtime_context(
+        root, task, alloc.get("reserve", 600)))
     lines.append("")
 
     # Canon is a mandatory writing boundary, not archival metadata.

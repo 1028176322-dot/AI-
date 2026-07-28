@@ -41,6 +41,109 @@ def _load_template(name):
     return TT.load(name)
 
 
+STYLE_FILE_INPUTS = {
+    "protected_manifest": ("protected-manifest.yaml",),
+    "diagnosis_report": (
+        "diagnosis-report.yaml", "diagnosis.yaml", "diagnosis.json"),
+    "revision_candidate": ("revision-candidate.md",),
+    "revision_result": (
+        "revision-result.yaml", "revision-result.json"),
+    "fidelity_report": (
+        "fidelity-report.yaml", "fidelity-report.json"),
+    "quality_report": (
+        "quality-report.yaml", "style-quality-report.yaml",
+        "quality-report.json"),
+    "pre_apply_backup": ("draft-pre-apply.md", "pre-apply.md"),
+    "regression_result": (
+        "final-regression-result.yaml", "regression-result.yaml",
+        "final-regression-result.json", "regression-result.json"),
+    "apply_result": ("chapter-apply-result.yaml", "apply-result.yaml"),
+    "rollback_result": (
+        "chapter-rollback-result.yaml", "rollback-result.yaml"),
+    "nkb_sync_proof": ("nkb-sync-proof.yaml",),
+}
+
+
+def _lineage_tasks(root, task, limit=64):
+    """Yield current task and dependency ancestors without scanning task pools."""
+    queue = [task]
+    seen = set()
+    while queue and len(seen) < limit:
+        current = queue.pop(0)
+        task_id = current.get("id")
+        if task_id in seen:
+            continue
+        if task_id:
+            seen.add(task_id)
+        yield current
+        for dep in current.get("dependencies") or []:
+            _, data = TE.load_task(root, dep)
+            parent = (data or {}).get("task") or {}
+            if parent:
+                queue.append(parent)
+
+
+def _existing_value(root, value):
+    if isinstance(value, dict):
+        return ("inline:structured-value", True)
+    if isinstance(value, list):
+        return ("inline:list-value", True)
+    if not isinstance(value, str) or not value:
+        return (None, False)
+    if value.startswith(("inline:", "not-applicable:")):
+        return (value, True)
+    path = value if os.path.isabs(value) else os.path.join(root, value)
+    return (path, os.path.exists(path))
+
+
+def _resolve_from_lineage(root, name, task):
+    for source in _lineage_tasks(root, task):
+        for values in (
+                ((source.get("inputs") or {}).get("values") or {}),
+                (source.get("outputs") or {})):
+            if not isinstance(values, dict):
+                continue
+            if values.get(name) not in (None, "", False):
+                path, ok = _existing_value(root, values[name])
+                if ok:
+                    return path, True
+        if name in ("chapter_review_report", "review_report"):
+            outputs = source.get("outputs") or {}
+            value = outputs.get("review_report") or (
+                source.get("artifact")
+                if source.get("type") == "chapter_review" else None)
+            path, ok = _existing_value(root, value)
+            if ok:
+                return path, True
+        for value in (source.get("outputs") or {}).values():
+            if not isinstance(value, str):
+                continue
+            path, ok = _existing_value(root, value)
+            if ok and os.path.basename(path) in STYLE_FILE_INPUTS.get(
+                    name, ()):
+                return path, True
+    return None, False
+
+
+def _latest_style_artifact(root, names):
+    style_root = os.path.join(root, "analysis", "style")
+    if not os.path.isdir(style_root):
+        return None, False
+    matches = []
+    wanted = set(names)
+    for current, dirs, files in os.walk(style_root):
+        dirs.sort()
+        for filename in files:
+            if (
+                    filename in wanted
+                    or any(filename.endswith("." + name) for name in wanted)):
+                matches.append(os.path.join(current, filename))
+    if not matches:
+        return None, False
+    matches.sort(key=os.path.getmtime, reverse=True)
+    return matches[0], True
+
+
 def _resolve_input(root, name, task):
     """把概念性必需输入映射到项目内路径（最佳努力）。"""
     chapter_ref = task.get("chapter_ref")
@@ -48,23 +151,60 @@ def _resolve_input(root, name, task):
         chapter_ref = str(chapter_ref)
     values = (task.get("inputs") or {}).get("values") or {}
     if values.get(name) not in (None, False, ""):
-        return ("inline:inputs.values.%s" % name, True)
+        path, ok = _existing_value(root, values[name])
+        if ok:
+            return (path, True)
+        # Non-path scalar values (hashes, modes, revisions) are valid inline
+        # bindings. File-like style inputs must exist.
+        if name not in STYLE_FILE_INPUTS and name not in (
+                "style_guidance", "quality_policy",
+                "publish_authorization"):
+            return ("inline:inputs.values.%s" % name, True)
     # 优先解析依赖任务的已提交制品/命名输出。
-    for dep in task.get("dependencies") or []:
-        _, dep_data = TE.load_task(root, dep)
-        source = (dep_data or {}).get("task") or {}
-        outputs = source.get("outputs") or {}
-        candidates = []
-        if isinstance(outputs, dict):
-            if outputs.get(name):
-                candidates.append(outputs.get(name))
-            candidates.extend(outputs.values())
-        candidates.append(source.get("artifact"))
-        for candidate in candidates:
-            if isinstance(candidate, str):
-                path = candidate if os.path.isabs(candidate) else os.path.join(root, candidate)
-                if os.path.exists(path):
-                    return (path, True)
+    lineage_path, lineage_ok = _resolve_from_lineage(root, name, task)
+    if lineage_ok:
+        return lineage_path, True
+    if name in STYLE_FILE_INPUTS:
+        path, ok = _latest_style_artifact(
+            root, STYLE_FILE_INPUTS[name])
+        if ok:
+            return path, True
+        return None, False
+    if name == "style_guidance":
+        try:
+            import project_layout
+            if not project_layout.is_style_strict(root):
+                return ("not-applicable:legacy-project", True)
+        except Exception:
+            pass
+        task_path = os.path.join(
+            root, "runtime", "learning", "style-guidance",
+            "%s.yaml" % task.get("id"))
+        path = (
+            task_path if os.path.isfile(task_path)
+            else os.path.join(
+                root, "runtime", "learning", "style-guidance.yaml"))
+        return path, os.path.isfile(path)
+    if name == "applied_style_rules":
+        path = os.path.join(
+            root, "runtime", "learning", "style-guidance.yaml")
+        return path, os.path.isfile(path)
+    if name == "quality_policy":
+        platform_root = _gov.find_platform_root()
+        path = os.path.join(
+            platform_root, "core", "learning", "quality-policies",
+            "default.v1.yaml")
+        return path, os.path.isfile(path)
+    if name in ("apply_readiness", "rollback_readiness"):
+        # Readiness is an inline event decision produced by the orchestrator.
+        return None, False
+    if name == "publish_authorization":
+        path = os.path.join(
+            root, "operations", "grants",
+            "%s.yaml" % task.get("id"))
+        return path, os.path.isfile(path)
+    if name == "chapter_review_report":
+        return _resolve_from_lineage(root, "review_report", task)
     if name == "nkb_snapshot":
         p = os.path.join(root, "NKB")
         return (p, os.path.isdir(p))
@@ -177,6 +317,44 @@ def build_packet(root, tid):
     ttype = task.get("type", "unknown")
     tmpl = _load_template(ttype)
 
+    # Strict-v2 writing/fix tasks receive a deterministic, task-scoped
+    # L0-L4 composition before Ready Check. Candidates are never promoted by
+    # this step; only approved/active cards can become effective.
+    if ttype in ("chapter_write", "chapter_fix", "continuity_fix"):
+        try:
+            import project_layout
+            if project_layout.is_style_strict(root):
+                import style_guidance
+                chapter_match = re.search(
+                    r"(\d+)", str(task.get("chapter_ref") or tid))
+                chapter_id = (
+                    "CH-%03d" % int(chapter_match.group(1))
+                    if chapter_match else str(task.get("chapter_ref") or tid))
+                strategy_path, strategy_ok = _resolve_input(
+                    root, "writing_strategy", task)
+                output = os.path.join(
+                    root, "runtime", "learning", "style-guidance",
+                    "%s.yaml" % tid)
+                style_guidance.build(
+                    root, chapter_id,
+                    str(task.get("revision_cycle_id") or tid),
+                    scene_types=[
+                        str(((task.get("inputs") or {}).get("values") or {})
+                            .get("scene_type") or "daily")],
+                    character_ids=(
+                        ((task.get("inputs") or {}).get("values") or {})
+                        .get("character_ids") or []),
+                    task_id=tid,
+                    writing_strategy_path=(
+                        strategy_path if strategy_ok
+                        and isinstance(strategy_path, str)
+                        and os.path.isfile(strategy_path) else None),
+                    output=output)
+        except Exception as exc:
+            raise RuntimeError(
+                "style guidance composition failed for %s: %s"
+                % (tid, exc))
+
     out_dir = os.path.join(root, "runtime", "task-packets", tid)
     os.makedirs(out_dir, exist_ok=True)
 
@@ -258,6 +436,16 @@ def build_packet(root, tid):
     })
 
     # 6) execution-manifest.yaml
+    guidance_path, guidance_ok = _resolve_input(
+        root, "style_guidance", task)
+    guidance_hash = ""
+    if guidance_ok and isinstance(guidance_path, str):
+        try:
+            guidance_hash = (
+                _gov.load_yaml(guidance_path) or {}
+            ).get("style_guidance_sha256", "")
+        except Exception:
+            guidance_hash = ""
     _gov.dump_yaml(os.path.join(out_dir, "execution-manifest.yaml"), {
         "task_id": tid,
         "role": (task.get("agent") or {}).get("required_role"),
@@ -265,6 +453,7 @@ def build_packet(root, tid):
         "budget_tokens": 12000,
         "generated_at": datetime.datetime.now().isoformat(timespec="seconds"),
         "packet_version": "1.0.0",
+        "style_guidance_sha256": guidance_hash,
     })
 
     return out_dir

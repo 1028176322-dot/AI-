@@ -17,6 +17,9 @@ import json
 import os
 import time
 
+from controlled_chapter_client import (
+    broker_write, dependency_resources, resource)
+
 SCHEMA_ID = "style.chapter-publish-result"
 SCHEMA_VERSION = "1.0.0"
 
@@ -28,6 +31,22 @@ def _sha256(text):
 def _sha256_obj(obj):
     return hashlib.sha256(
         json.dumps(obj, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
+
+
+def _sha256_file(path):
+    digest = hashlib.sha256()
+    with open(path, "rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _load(path):
+    if path.lower().endswith(".json"):
+        with open(path, "r", encoding="utf-8") as stream:
+            return json.load(stream)
+    import _gov
+    return _gov.load_yaml(path) or {}
 
 
 def prepare_publish(chapter_id, revision_cycle_id, producer_task_id,
@@ -68,11 +87,20 @@ def prepare_publish(chapter_id, revision_cycle_id, producer_task_id,
         ("outline_sha256", outline_sha256),
         ("protected_manifest_sha256", protected_manifest_sha256),
         ("style_guidance_sha256", style_guidance_sha256),
+        ("final_regression_config_version",
+         final_regression_config_version),
+        ("chapter_review_report_sha256",
+         chapter_review_report_sha256),
     ]
     for field, val in REQUIRED_BINDINGS:
         if not val:
             stale = True
             stale_reasons.append("%s is empty" % field)
+    if final_regression_mode not in ("baseline", "post_apply"):
+        stale = True
+        stale_reasons.append(
+            "invalid final_regression_mode: %s"
+            % final_regression_mode)
 
     if stale:
         return {
@@ -124,3 +152,96 @@ def validate_publish_result(d):
     if d.get("status") not in ("PUBLISH_READY", "STALE"):
         errors.append("invalid status: %s" % d.get("status"))
     return (len(errors) == 0, errors)
+
+
+def execute_publish(
+        project_root, task_id, chapter_id, revision_cycle_id,
+        draft_path, approved_path, regression_result,
+        protected_manifest_path, style_guidance_path,
+        final_regression_path, nkb_sync_proof_path,
+        outline_path, chapter_review_report_path, actor_id=None):
+    """Publish through Broker; all release evidence participates in CAS."""
+    with open(draft_path, "r", encoding="utf-8") as stream:
+        draft_text = stream.read()
+    if regression_result.get("result") != "FINAL_PASSED":
+        return {
+            "schema": SCHEMA_ID,
+            "schema_version": SCHEMA_VERSION,
+            "chapter_id": chapter_id,
+            "revision_cycle_id": revision_cycle_id,
+            "producer_task_id": task_id,
+            "status": "STALE",
+            "error": "FINAL_PASSED evidence is missing",
+            "draft_sha256": _sha256(draft_text),
+            "created_at": time.time(),
+        }
+    prepared = prepare_publish(
+        chapter_id, revision_cycle_id, task_id, draft_text,
+        regression_result.get("draft_sha256", ""),
+        nkb_revision=regression_result.get("nkb_revision", ""),
+        nkb_snapshot_sha256=regression_result.get(
+            "nkb_snapshot_sha256", ""),
+        outline_sha256=regression_result.get("outline_sha256", ""),
+        protected_manifest_sha256=regression_result.get(
+            "protected_manifest_sha256", ""),
+        style_guidance_sha256=regression_result.get(
+            "style_guidance_sha256", ""),
+        final_regression_config_version=regression_result.get(
+            "final_regression_config_version", ""),
+        final_regression_mode=regression_result.get(
+            "final_regression_mode", ""),
+        chapter_review_report_sha256=regression_result.get(
+            "chapter_review_report_sha256", ""))
+    if prepared["status"] != "PUBLISH_READY":
+        return prepared
+    import manifest_build
+    manifest = _load(protected_manifest_path)
+    guidance = _load(style_guidance_path)
+    sync_proof = _load(nkb_sync_proof_path)
+    actual_bindings = {
+        "protected_manifest_sha256":
+            manifest_build.manifest_sha256(manifest),
+        "style_guidance_sha256":
+            guidance.get("style_guidance_sha256", ""),
+        "outline_sha256": _sha256_file(outline_path),
+        "chapter_review_report_sha256":
+            _sha256_file(chapter_review_report_path),
+    }
+    stale = [
+        "%s changed" % name
+        for name, actual in actual_bindings.items()
+        if regression_result.get(name) != actual]
+    sync_status = (
+        sync_proof.get("status")
+        or sync_proof.get("result")
+        or sync_proof.get("decision"))
+    if sync_status not in (
+            "NKB_SYNC_PASSED", "PASSED", "passed",
+            "pass", "proceed"):
+        stale.append("nkb_sync_proof is not passed")
+    for name in ("nkb_revision", "nkb_snapshot_sha256"):
+        if sync_proof.get(name) != regression_result.get(name):
+            stale.append("nkb_sync_proof.%s changed" % name)
+    if stale:
+        prepared["status"] = "STALE"
+        prepared["error"] = "; ".join(stale)
+        prepared["actual_bindings"] = actual_bindings
+        return prepared
+    resources = [
+        resource(
+            "source", draft_path,
+            regression_result.get("draft_sha256")),
+        resource("target", approved_path),
+    ]
+    resources.extend(dependency_resources({
+        "protected_manifest": protected_manifest_path,
+        "style_guidance": style_guidance_path,
+        "final_regression": final_regression_path,
+        "nkb_sync_proof": nkb_sync_proof_path,
+        "outline": outline_path,
+        "chapter_review_report": chapter_review_report_path,
+    }))
+    prepared["broker_result"] = broker_write(
+        project_root, task_id, "publish", resources, draft_text,
+        actor_id=actor_id)
+    return prepared

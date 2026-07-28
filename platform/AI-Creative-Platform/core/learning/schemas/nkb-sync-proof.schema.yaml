@@ -1,0 +1,24 @@
+schema:
+  id: style.nkb-sync-proof
+  version: "1.0.0"
+  description: NKB 更新完成后的发布证明；发布时必须与最终回归绑定一致。
+fields:
+  - name: task_id
+    type: string
+    required: true
+  - name: status
+    type: enum
+    required: true
+    enum: [NKB_SYNC_PASSED, NKB_SYNC_FAILED]
+  - name: nkb_revision
+    type: string
+    required: true
+  - name: nkb_snapshot_sha256
+    type: string
+    required: true
+  - name: operation_manifest_sha256
+    type: string
+    required: true
+  - name: created_at
+    type: timestamp
+    required: true

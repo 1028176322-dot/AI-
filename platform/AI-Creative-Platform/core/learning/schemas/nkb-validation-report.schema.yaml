@@ -1,0 +1,24 @@
+schema:
+  id: style.nkb-validation-report
+  version: "1.0.0"
+  description: NKB canonical 校验结果；与同步证明配对后才能进入发布。
+fields:
+  - name: task_id
+    type: string
+    required: true
+  - name: status
+    type: enum
+    required: true
+    enum: [PASS, FAIL]
+  - name: checks
+    type: list
+    required: true
+  - name: nkb_revision
+    type: string
+    required: true
+  - name: nkb_snapshot_sha256
+    type: string
+    required: true
+  - name: created_at
+    type: timestamp
+    required: true

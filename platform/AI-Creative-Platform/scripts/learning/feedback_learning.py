@@ -36,6 +36,26 @@ CATEGORY_GUIDANCE = {
 }
 
 
+# UTF-8 authoritative guidance. Findings become executable guardrails and
+# regression checks; they never auto-promote into project constraints.
+CATEGORY_GUIDANCE = {
+    "hard_consistency": "写作前核对相关 NKB、时间线和实体状态，正文不得用推测替代事实。",
+    "continuity": "读取上一章交接与相关事件，明确承接点、状态变化和未完成动作。",
+    "character": "关键行为必须能由角色目标、认知、关系和压力解释。",
+    "logic": "明确因果链、必要条件和失败代价，避免结果先于原因。",
+    "terminology": "写作与修订均使用 Terminology 唯一标准名，禁止同义漂移。",
+    "style": "控制重复句式、解释性旁白和抽象总结，以可观察行动承载信息。",
+    "pacing": "标记场景目标、阻力、转折和退出点，删除不改变状态的段落。",
+    "worldbuilding": "设定只在行动需要时释放，并保持规则、代价和边界一致。",
+    "emotion": "情绪变化必须由事件触发，通过动作、感知和选择体现。",
+    "dialogue": "对白必须推进目标、关系或信息，并保持角色可辨识度。",
+    "narrative": "保持 POV、时序和信息权限稳定，切换必须有明确锚点。",
+    "conflict": "冲突应产生选择、代价和不可逆变化，避免只有表面争执。",
+    "reader": "按真实停读点、困惑、疲劳、期待、兑现和沉浸证据修复。",
+    "other": "把问题转成下一次写作前可执行、审查时可复测的检查动作。",
+}
+
+
 def _now():
     return datetime.datetime.now().isoformat(timespec="seconds")
 

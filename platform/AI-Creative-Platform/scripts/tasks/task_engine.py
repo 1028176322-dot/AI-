@@ -732,9 +732,10 @@ def _create_on_pass_successors(root, source_id, source_task, model, author):
     """Instantiate template-declared on_pass successors after real review."""
     created = []
     for next_type in TT.next_types(source_task.get("type"), "on_pass"):
-        # Chapter publish has additional NKB ordering and dynamic grant rules;
-        # it is created by the dedicated content-review branch below.
-        if next_type == "chapter_publish":
+        # Legacy publish is created by the dedicated content-review branch.
+        # strict-v2 publish is allowed here only after the governed NKB sync.
+        if (next_type == "chapter_publish"
+                and not project_layout.is_style_strict(root)):
             continue
         next_template = TT.load(next_type)
         task_id = "%s-%s" % (
@@ -803,13 +804,18 @@ def _create_on_pass_successors(root, source_id, source_task, model, author):
 
 
 def review(root, task_id, decision, findings=None, reviewer="unknown",
-           role="reviewer", model="unknown"):
+           role="reviewer", model="unknown", outputs=None):
     """对审查任务做决策。pass -> 原任务 completed；fail -> 建 FIX 任务。"""
     st, data = load_task(root, task_id)
     if st not in ("submitted", "reviewing", "running", "claimed"):
         # 允许 reviewer 直接对 review 任务判（review 任务通常在 ready/claimed/running）
         pass
     t = data["task"]
+    if outputs:
+        t["outputs"] = dict(outputs)
+        t["artifact"] = (
+            outputs.get("review_report")
+            or next(iter(outputs.values()), None))
     # 找被审查的原任务
     dep = (t.get("dependencies") or [None])[0]
     dep_type = None
@@ -937,6 +943,48 @@ def review(root, task_id, decision, findings=None, reviewer="unknown",
                 "chapter_write", "chapter_fix", "continuity_fix")):
         feedback_learning.capture_findings(
             root, task_id, findings, decision=decision)
+    # strict-v2 uses the template event router. An older PROJECT_LAYOUT marker
+    # is not an implicit migration and therefore remains on the legacy path.
+    style_strict = project_layout.is_style_strict(root)
+    if decision == "pass" and style_strict and (
+            is_content_review or is_nkb_sync_review):
+        event_outputs = dict(t.get("outputs") or {})
+        if is_content_review:
+            review_report = (
+                event_outputs.get("review_report") or t.get("artifact"))
+            if not review_report:
+                raise ValueError(
+                    "strict-v2 chapter review requires review_report output")
+            event_outputs = {"review_report": review_report}
+        else:
+            required_sync = ("nkb_sync_proof", "validation_report")
+            missing_sync = [
+                name for name in required_sync
+                if not event_outputs.get(name)]
+            if missing_sync:
+                raise ValueError(
+                    "strict-v2 NKB sync review missing outputs: %s" %
+                    ", ".join(missing_sync))
+            event_outputs = {
+                name: event_outputs[name] for name in required_sync}
+        if dep:
+            dep_state, dep_data = load_task(root, dep)
+            if dep_state and dep_state not in (
+                    "completed", "failed", "archive"):
+                dep_data["task"]["review"] = {
+                    "decision": "pass", "at": _now()}
+                _move(root, dep, dep_data, "completed")
+                _mark_resolved_failures(root, dep_data["task"])
+        result = finish_with_event(
+            root, task_id, "on_pass", event_outputs,
+            checks={"review_gate": "pass"}, actor=reviewer,
+            role=role, model=model)
+        audit_log.record(
+            root, "task_review", agent=reviewer, role=role, model=model,
+            task_id=task_id, result="success",
+            detail="strict-v2 PASS; successors=%s" %
+            result.get("successors"))
+        return "completed", result
     if decision == "pass":
         _move(root, task_id, data, "passed")
         _move(root, task_id, data, "completed")
@@ -1224,6 +1272,16 @@ def finish_service_task(
         _create_on_pass_successors(
             root, task_id, data["task"], model, author)
     return "completed"
+
+
+def finish_with_event(
+        root, task_id, event, outputs, checks=None, actor="unknown",
+        role=None, model="unknown"):
+    """Consume a template-declared style event through the governed router."""
+    import style_orchestrator
+    return style_orchestrator.finish_with_event(
+        root, task_id, event, outputs, checks=checks, actor=actor,
+        role=role, model=model)
 
 
 def _promote_dependents(root, done_id, model, author):
