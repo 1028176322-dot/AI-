@@ -1,0 +1,43 @@
+# 发布后大纲刷新记录（outline_refresh）
+operation:
+  type: outline_refresh_post_publish
+  refreshed_at: 2026-07-28T16:38:03
+  refreshed_by: 肖俊<102817622@qq.com>
+  scope: WARN-FIX 6 章发布后大纲刷新（CH-080/089/090/097/099/178）
+  template: core/task-system/templates/outline-refresh.task.yaml
+  summary: |
+    6 章此前已发布（r3），其 outline_refresh 后继任务（*-PUBLISH-OUTLINE-REFRESH）在单 agent 模式下未执行。本次按模板对账 chapter_map：将 6 条规划占位条目（带「第N章·」anti-filler 前缀）改写为已发布正文的实际情节/冲突/进展/读者价值/章末钩子，条目 status 置 approved；chapter_map 文档与其余 994 条不动。
+  validation: validate_project(require_approved=True) proceed, 0 errors, 1000/1000 覆盖。
+  note: |
+    章纲（PLAN-080/089/090/097/099/178）状态保持 approved_for_writing，与平台发布流程（publish 不翻 executed）及全库其余已发布章纲一致，未单独翻 executed 以免不一致。
+  refreshed_chapters:
+    - chapter_id: CH-080
+      source_artifact: 第一卷_道生/第080章_进京前夜·下.md
+      title: 进京前夜·下
+      change: |
+        入场前暗号/预案与北道半年盘点→已发布正文实际内容；去掉规划占位前缀，条目对账为已出版事实。
+    - chapter_id: CH-089
+      source_artifact: 第一卷_道生/第089章_班底扩京.md
+      title: 班底扩京
+      change: |
+        好物商城班底四格（造账暗线护院）与灯号暗记→已发布正文；占位前缀去除，对账实际班底架构。
+    - chapter_id: CH-090
+      source_artifact: 第一卷_道生/第090章_京华初定.md
+      title: 京华初定
+      change: |
+        奇货会首秀扬名（酒为明牌枪为暗威慑）→已发布正文；占位前缀去除，对账实际商战铺垫。
+    - chapter_id: CH-097
+      source_artifact: 第一卷_道生/第097章_听雨暗杀京.md
+      title: 听雨暗杀京
+      change: |
+        听雨阁死士夜袭、颗粒枪制活口留证→已发布正文；占位前缀去除，对账实际暗线收网前奏。
+    - chapter_id: CH-099
+      source_artifact: 第一卷_道生/第099章_决战前夜.md
+      title: 决战前夜
+      change: |
+        钱万山+听雨搭线、两路预案以静制动→已发布正文；占位前缀去除，对账实际决战前夜布局。
+    - chapter_id: CH-178
+      source_artifact: 第二卷_京华/第178章_武籍反制终.md
+      title: 武籍反制终
+      change: |
+        东宫商客借势压货路、以籍制反压→已发布正文；占位前缀去除，对账实际以制压人收束。

@@ -967,13 +967,13 @@ chapter_map:
       volume_id: VOL-001
       arc_id: ARC-003
       role: setup
-      purpose: 第80章·进京前夜（下）：肖凡与班底定"入城暗号、遇险预案"，望盛京方向。幕三收束，章末钩子：明日，盛京。
-      primary_conflict: 第80章·进京前夜（下）：肖凡与班底定"入城暗号、遇险预案"，望盛京方向。幕三收束，章末钩子：明日，盛京。
-      progress: 第80章·进京前夜（下）：肖凡与班底定"入城暗号、遇险预案"，望盛京方向。幕三收束，章末钩子：明日，盛京。
-      reader_value: 第80章·明日，盛京。
-      planned_change: 第80章·进京前夜（下）：肖凡与班底定"入城暗号、遇险预案"，望盛京方向。幕三收束，章末钩子：明日，盛京。
-      end_hook: 第80章·明日，盛京。
-      status: candidate
+      purpose: 肖凡在盛京南郊与老柯沈遇定下入城暗号与遇险预案，盘点北道半年所得，凝定进京头几步。
+      primary_conflict: 班底虽齐，盛京暗流深不可测，进城后如何以籍立身以货扬名仍是未知数。
+      progress: 北道布局收束，进京四样（明路护符门面台子）齐备，沈括旧案成翻案之底。
+      reader_value: 一程游历如何串成进京的绳，玉佩功法这最大隐秘会否在盛京暴露。
+      planned_change: 肖凡从孤身少年转为有班底相随有根基可凭，铜骨洗髓已成立心于北道。
+      end_hook: 明日启程车轱辘一转便把半年所得拉进那片灯海，盛京他来了。
+      status: approved
     - chapter_id: CH-081
       number: 81
       volume_id: VOL-001
@@ -1075,25 +1075,25 @@ chapter_map:
       volume_id: VOL-001
       arc_id: ARC-004
       role: setup
-      purpose: 第89章·肖凡在京安顿班底：老柯管造、沈遇管账、苏墨凝理暗线（FB-023）。招两名可靠护院，班底扩。小爽
-      primary_conflict: 第89章·肖凡在京安顿班底：老柯管造、沈遇管账、苏墨凝理暗线（FB-023）。招两名可靠护院，班底扩。小爽
-      progress: 第89章·肖凡在京安顿班底：老柯管造、沈遇管账、苏墨凝理暗线（FB-023）。招两名可靠护院，班底扩。小爽
-      reader_value: 第89章·人齐了，京城也不慌。
-      planned_change: 第89章·肖凡在京安顿班底：老柯管造、沈遇管账、苏墨凝理暗线（FB-023）。招两名可靠护院，班底扩。小爽
-      end_hook: 第89章·人齐了，京城也不慌。
-      status: candidate
+      purpose: 肖凡在盛京正式搭建班底架构（造账暗线护院四格），各署其名旁注职司，并定坊前灯号暗记。
+      primary_conflict: 钱万山频频往东宫搬救兵压咱，班底虽立商战与暗流已逼近。
+      progress: 好物商城从一人独撑转为四人各司其职，苏墨凝眼线撒开三处盛京商界地图渐清。
+      reader_value: 人齐了京城也不慌，这班人马能否在商战与暗流里扎牢根。
+      planned_change: 肖凡身边有了老柯的憨沈遇的稳苏墨凝的灵石周的忠，盛京的根因这四人扎下。
+      end_hook: 班底再齐盛京的水也深得能吞人，这根基能否在明日商战与暗流里扎牢还得撞了才知道。
+      status: approved
     - chapter_id: CH-090
       number: 90
       volume_id: VOL-001
       arc_id: ARC-004
       role: setup
-      purpose: 第90章·肖凡在京立稳：籍（FB-007）得、店（FB-015）立、楼（FB-025）成、线（FB-012
-      primary_conflict: 第90章·肖凡在京立稳：籍（FB-007）得、店（FB-015）立、楼（FB-025）成、线（FB-012
-      progress: 第90章·肖凡在京立稳：籍（FB-007）得、店（FB-015）立、楼（FB-025）成、线（FB-012
-      reader_value: 第90章·会，来了。
-      planned_change: 第90章·肖凡在京立稳：籍（FB-007）得、店（FB-015）立、楼（FB-025）成、线（FB-012
-      end_hook: 第90章·会，来了。
-      status: candidate
+      purpose: 肖凡就灯盘点半年进项（籍店楼线四样皆立），催备奇货会首秀率班底押酒赴会扬名。
+      primary_conflict: 钱万山备厚礼要夺酒方听雨阁派人探枪，奇货会上明暗两线皆来。
+      progress: 好物商城名气扬出口碑初立，以酒为明牌枪为暗威慑技术规矩人三样立稳。
+      reader_value: 凭酒立名不凭势压人，好物商城能否在盛京商界真正立足。
+      planned_change: 肖凡从初入京的孤身一人成了籍在怀店在侧楼立起线撒开的各方之主。
+      end_hook: 京华初定不过是风暴眼里的片刻静，钱万山与东宫联手的浪何时至盛京的盘才刚启幕。
+      status: approved
     - chapter_id: CH-091
       number: 91
       volume_id: VOL-001
@@ -1171,13 +1171,13 @@ chapter_map:
       volume_id: VOL-001
       arc_id: ARC-004
       role: discovery
-      purpose: 第97章·听雨阁京中刺客（FB-022）再袭灭口，战力近铜骨巅峰。肖凡反杀，俘问得"阁主令取你信"。苏墨凝
-      primary_conflict: 第97章·听雨阁京中刺客（FB-022）再袭灭口，战力近铜骨巅峰。肖凡反杀，俘问得"阁主令取你信"。苏墨凝
-      progress: 第97章·听雨阁京中刺客（FB-022）再袭灭口，战力近铜骨巅峰。肖凡反杀，俘问得"阁主令取你信"。苏墨凝
-      reader_value: 第97章·他们，逼急了。
-      planned_change: 第97章·听雨阁京中刺客（FB-022）再袭灭口，战力近铜骨巅峰。肖凡反杀，俘问得"阁主令取你信"。苏墨凝
-      end_hook: 第97章·他们，逼急了。
-      status: candidate
+      purpose: 听雨阁死士夜袭好物商城，肖凡凭铜骨硬抗颗粒枪制住活口，留苏墨凝录口供帛。
+      primary_conflict: 听雨阁要灭苏父遗信的口，刺客奉阁主令取信证暗杀与取证正面交锋。
+      progress: 活口与口供落手印证国师推断，肖凡决定走武籍新政规矩送官并怀揣信证面呈国师。
+      reader_value: 这一俘如何成为国师收网的导火索，雨丝面巾与苏家灭门有何关联。
+      planned_change: 肖凡从被动防备转为主动收网的绳头，火器慑而不杀的分寸拿死。
+      end_hook: 听雨越急破绽越多收网越近，盛京的暗流被这口活证推向明处天就要变了。
+      status: approved
     - chapter_id: CH-098
       number: 98
       volume_id: VOL-001
@@ -1195,13 +1195,13 @@ chapter_map:
       volume_id: VOL-001
       arc_id: ARC-004
       role: climax
-      purpose: 第99章·钱万山联合听雨阁（FB-012）最后反扑前夜：钱断好物商城供、听雨欲夺信。肖凡与班底定"会中收网
-      primary_conflict: 第99章·钱万山联合听雨阁（FB-012）最后反扑前夜：钱断好物商城供、听雨欲夺信。肖凡与班底定"会中收网
-      progress: 第99章·钱万山联合听雨阁（FB-012）最后反扑前夜：钱断好物商城供、听雨欲夺信。肖凡与班底定"会中收网
-      reader_value: 第99章·网，要收了。
-      planned_change: 第99章·钱万山联合听雨阁（FB-012）最后反扑前夜：钱断好物商城供、听雨欲夺信。肖凡与班底定"会中收网
-      end_hook: 第99章·网，要收了。
-      status: candidate
+      purpose: 苏墨凝探得钱万山与听雨阁搭线明夜动手，肖凡唤齐班底定下两路预案以静制动。
+      primary_conflict: 钱断供（明招）与听雨夺信（暗招）两线齐发要一举掀了好物商城。
+      progress: 五样（籍店楼线山）皆备预案落定，肖凡将钱与听雨圈在一处只等明夜收网。
+      reader_value: 这半年的布局能否在明夜一并收网，孤身少年如何长成能定大局的暗子。
+      planned_change: 肖凡从持枪硬闯到以静制动以理破局，眼底的沉替代了漂浮。
+      end_hook: 明夜收网之后盛京的道才真正要他自己去走，决战前夜绳头已在手。
+      status: approved
     - chapter_id: CH-100
       number: 100
       volume_id: VOL-001
@@ -2143,13 +2143,13 @@ chapter_map:
       volume_id: VOL-002
       arc_id: ARC-008
       role: climax
-      purpose: 第178章·肖凡以籍（FB-007/FB-044）+内卫府（FB-038）终压东宫（FB-043 推进），制
-      primary_conflict: 第178章·肖凡以籍（FB-007/FB-044）+内卫府（FB-038）终压东宫（FB-043 推进），制
-      progress: 第178章·肖凡以籍（FB-007/FB-044）+内卫府（FB-038）终压东宫（FB-043 推进），制
-      reader_value: 第178章·压，终了。
-      planned_change: 第178章·肖凡以籍（FB-007/FB-044）+内卫府（FB-038）终压东宫（FB-043 推进），制
-      end_hook: 第178章·压，终了。
-      status: candidate
+      purpose: 东宫关联商客借势压好物商城货路，肖凡亮出武籍商籍双全请内卫府查对方籍不全以制反压。
+      primary_conflict: 东宫名头对朝廷籍制，商客仗东宫压人肖凡以依规二字反制。
+      progress: 东宫商客狼狈退去并撤压货令，三皇子借东宫的刀钝了半寸，肖凡给国师补短报请趁势参劾。
+      reader_value: 不以势压人却以制压人，肖凡这根针东宫碰不碰得。
+      planned_change: 商城根从人立到制立，肖凡的反制胜在压不在杀立稳朝廷制的靠山。
+      end_hook: 三皇子借东宫这把刀今被籍制折了刃，倾大皇子的局便少了柴，朝争总爆撞上来时这刃立着接住。
+      status: approved
     - chapter_id: CH-179
       number: 179
       volume_id: VOL-002
