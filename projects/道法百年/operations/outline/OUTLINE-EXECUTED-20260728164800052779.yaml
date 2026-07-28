@@ -1,0 +1,14 @@
+# 已发布章纲标记为 executed 记录
+operation:
+  type: chapter_plan_executed_marking
+  marked_at: 2026-07-28T16:48:00
+  marked_by: 肖俊<102817622@qq.com>
+  scope: operations/published/ 下全部已发布章节对应的章纲
+  summary: |
+    应要求将全部 200 个已发布章节的章纲（PLAN-NNN.yaml）状态明确标记为 executed。每个 PLAN 的 document.status 与 plan.status 均由 approved_for_writing 翻为 executed，并在 plan 段追加 executed_by/executed_at 溯源；chapter_map 条目状态、其余 800 个未发布章纲（保持 approved_for_writing）及卷/幕/总纲/地图文档均不动。
+  validation: |
+    validate_project(require_approved=False) 与 (require_approved=True) 均 proceed，0 errors，1000/1000 覆盖；anti-template / anti-filler 无新增。
+  note: |
+    executed 为平台章纲终态（draft→candidate→approved→approved_for_writing→executed），双 status 字段（document.status / plan.status）均已翻。plan↔map 一致性校验仅比 chapter_id/volume_id/arc_id/role，不受影响；opening/ending 模式链校验只依 plan.id，不受影响。
+  executed_plan_count: 200
+  executed_plans_sample: [CH-001, CH-002, CH-003, CH-004, CH-005, CH-006, CH-007, CH-008, CH-009, CH-010, CH-011, CH-012]

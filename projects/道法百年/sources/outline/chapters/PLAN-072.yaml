@@ -2,7 +2,7 @@ document:
   id: PLAN-072
   type: chapter_plan
   title: 第72章 《近郊探城》
-  status: approved_for_writing
+  status: executed
   version: 2
   updated_at: 2026-07-28T15:46:05
   owner: story-architect
@@ -12,11 +12,13 @@ document:
   approval_evidence: 1000章合规章纲全量补齐完成：880章由源 v2 拆分重生成（平台契约结构），120章缺失章纲代笔补齐；chapter-map 1000条生成并通过 anti-filler；opening/ending 模式经定点迭代消除全部 anti-template 三连；series/volume/arc 结构文档翻为 candidate。候选级 validate proceed，准予 promote。
 plan:
   id: PLAN-072
+  executed_by: 肖俊<102817622@qq.com>
+  executed_at: 2026-07-28T16:47:08
   chapter_id: CH-072
   number: 72
   volume_id: VOL-001
   arc_id: ARC-003
-  status: approved_for_writing
+  status: executed
   role: discovery
   word_budget: 2800
 starting_state:
