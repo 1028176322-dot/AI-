@@ -1,0 +1,122 @@
+[
+  {
+    "event_id": "SRC-ad0ecdf9964a12e3-review-approved",
+    "type": "review_approved",
+    "candidate_id": "SRC-ad0ecdf9964a12e3",
+    "rule_id": "RULE-SRC-ad0e",
+    "reviewer": "肖俊<102817622@qq.com>",
+    "reviewer_role": "author",
+    "decision": "approved",
+    "at": "2026-07-28T09:52:09Z"
+  },
+  {
+    "event_id": "SRC-44edece6fc2d156c-review-approved",
+    "type": "review_approved",
+    "candidate_id": "SRC-44edece6fc2d156c",
+    "rule_id": "RULE-SRC-44ed",
+    "reviewer": "肖俊<102817622@qq.com>",
+    "reviewer_role": "author",
+    "decision": "approved",
+    "at": "2026-07-28T09:52:09Z"
+  },
+  {
+    "event_id": "SRC-015713d417b74021-review-approved",
+    "type": "review_approved",
+    "candidate_id": "SRC-015713d417b74021",
+    "rule_id": "RULE-SRC-0157",
+    "reviewer": "肖俊<102817622@qq.com>",
+    "reviewer_role": "author",
+    "decision": "approved",
+    "at": "2026-07-28T09:52:09Z"
+  },
+  {
+    "event_id": "SRC-543cfe7eb3925379-review-approved",
+    "type": "review_approved",
+    "candidate_id": "SRC-543cfe7eb3925379",
+    "rule_id": "RULE-SRC-543c",
+    "reviewer": "肖俊<102817622@qq.com>",
+    "reviewer_role": "author",
+    "decision": "approved",
+    "at": "2026-07-28T09:52:09Z"
+  },
+  {
+    "event_id": "SRC-88da66f90fbc2ecc-review-approved",
+    "type": "review_approved",
+    "candidate_id": "SRC-88da66f90fbc2ecc",
+    "rule_id": "RULE-SRC-88da",
+    "reviewer": "肖俊<102817622@qq.com>",
+    "reviewer_role": "author",
+    "decision": "approved",
+    "at": "2026-07-28T09:52:09Z"
+  },
+  {
+    "event_id": "SRC-b797617902db8ce9-review-approved",
+    "type": "review_approved",
+    "candidate_id": "SRC-b797617902db8ce9",
+    "rule_id": "RULE-SRC-b797",
+    "reviewer": "肖俊<102817622@qq.com>",
+    "reviewer_role": "author",
+    "decision": "approved",
+    "at": "2026-07-28T09:52:09Z"
+  },
+  {
+    "event_id": "SRC-d8b2cbb59f590c7a-review-approved",
+    "type": "review_approved",
+    "candidate_id": "SRC-d8b2cbb59f590c7a",
+    "rule_id": "RULE-SRC-d8b2",
+    "reviewer": "肖俊<102817622@qq.com>",
+    "reviewer_role": "author",
+    "decision": "approved",
+    "at": "2026-07-28T09:52:09Z"
+  },
+  {
+    "event_id": "SRC-734d332f7bcc7888-review-approved",
+    "type": "review_approved",
+    "candidate_id": "SRC-734d332f7bcc7888",
+    "rule_id": "RULE-SRC-734d",
+    "reviewer": "肖俊<102817622@qq.com>",
+    "reviewer_role": "author",
+    "decision": "approved",
+    "at": "2026-07-28T09:52:09Z"
+  },
+  {
+    "event_id": "SRC-2dba1bd2c00d4e5f-review-approved",
+    "type": "review_approved",
+    "candidate_id": "SRC-2dba1bd2c00d4e5f",
+    "rule_id": "RULE-SRC-2dba",
+    "reviewer": "肖俊<102817622@qq.com>",
+    "reviewer_role": "author",
+    "decision": "approved",
+    "at": "2026-07-28T09:52:09Z"
+  },
+  {
+    "event_id": "SRC-a24a8ad1b2da0083-review-approved",
+    "type": "review_approved",
+    "candidate_id": "SRC-a24a8ad1b2da0083",
+    "rule_id": "RULE-SRC-a24a",
+    "reviewer": "肖俊<102817622@qq.com>",
+    "reviewer_role": "author",
+    "decision": "approved",
+    "at": "2026-07-28T09:52:09Z"
+  },
+  {
+    "event_id": "SRC-b1cc82483e3e69fc-review-approved",
+    "type": "review_approved",
+    "candidate_id": "SRC-b1cc82483e3e69fc",
+    "rule_id": "RULE-SRC-b1cc",
+    "reviewer": "肖俊<102817622@qq.com>",
+    "reviewer_role": "author",
+    "decision": "approved",
+    "at": "2026-07-28T09:52:09Z"
+  },
+  {
+    "event_id": "SRC-c4be1af83a205138-review-approved",
+    "type": "review_approved",
+    "candidate_id": "SRC-c4be1af83a205138",
+    "rule_id": "RULE-SRC-c4be",
+    "reviewer": "肖俊<102817622@qq.com>",
+    "reviewer_role": "author",
+    "decision": "approved",
+    "at": "2026-07-28T09:52:09Z"
+  }
+]

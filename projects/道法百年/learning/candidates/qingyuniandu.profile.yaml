@@ -1,10 +1,10 @@
 schema: reference-learning@2.0.0
 meta:
   source_id: qingyuniandu
-  source_name: 庆余年_精校全本_猫腻.normalized.txt
+  source_name: 庆余年.txt
   source_hash: 8685669b250586955bd7d678de1d55812d083ed9e16ed26ce99030c687c3d56d
   genre: 历史架空·穿越
-  analyzed_at: 2026-07-28T17:06:24
+  analyzed_at: 2026-07-28T17:44:58
   copyright_policy: statistics_and_principles_only
   license_type: user-provided
 metrics:

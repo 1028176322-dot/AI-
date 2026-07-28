@@ -1,15 +1,29 @@
 schema: reference-learning-summary@2.0.0
 genre: 历史架空·穿越
-generated_at: 2026-07-28T17:08:55
+generated_at: 2026-07-28T17:51:39
 source_profiles:
   - qingyuniandu.profile.yaml
   - zhuixu.profile.yaml
-source_count: 2
+  - yanyulou.profile.yaml
+source_count: 3
 archetype: style-archetypes/reference.archetype.yaml
 source_contribution_vector:
-  qingyuniandu: 0.5
-  zhuixu: 0.5
-style_rule_candidate_ids: []
+  qingyuniandu: 0.333333
+  zhuixu: 0.333333
+  yanyulou: 0.333333
+style_rule_candidate_ids:
+  - SRC-ad0ecdf9964a12e3
+  - SRC-44edece6fc2d156c
+  - SRC-015713d417b74021
+  - SRC-543cfe7eb3925379
+  - SRC-88da66f90fbc2ecc
+  - SRC-b797617902db8ce9
+  - SRC-d8b2cbb59f590c7a
+  - SRC-734d332f7bcc7888
+  - SRC-2dba1bd2c00d4e5f
+  - SRC-a24a8ad1b2da0083
+  - SRC-b1cc82483e3e69fc
+  - SRC-c4be1af83a205138
 style_rule_candidates_require_review: true
 writing_candidates:
   - rule_id: REF-CHAPTER-RHYTHM
@@ -37,8 +51,10 @@ writing_candidates:
     evidence_sources:
       - qingyuniandu
       - zhuixu
-    source_count: 2
+      - yanyulou
+    source_count: 3
     individual_confidences:
+      - 0.62
       - 0.62
       - 0.62
     evidence_by_source:
@@ -54,6 +70,12 @@ writing_candidates:
           median: 4643
           p25: 3836
           p75: 6187
+      - source_id: yanyulou
+        metric: chapter_length
+        value:
+          median: 2197
+          p25: 2124
+          p75: 2327
   - rule_id: REF-END-HOOK
     target: both
     scope:
@@ -76,10 +98,12 @@ writing_candidates:
     evidence_sources:
       - qingyuniandu
       - zhuixu
-    source_count: 2
+      - yanyulou
+    source_count: 3
     individual_confidences:
       - 0.81
       - 0.71
+      - 0.79
     evidence_by_source:
       - source_id: qingyuniandu
         metric: ending_hook_rate
@@ -87,6 +111,9 @@ writing_candidates:
       - source_id: zhuixu
         metric: ending_hook_rate
         value: 0.5427
+      - source_id: yanyulou
+        metric: ending_hook_rate
+        value: 0.8057
   - rule_id: REF-DIALOGUE-BALANCE
     target: both
     scope:
@@ -109,8 +136,10 @@ writing_candidates:
     evidence_sources:
       - qingyuniandu
       - zhuixu
-    source_count: 2
+      - yanyulou
+    source_count: 3
     individual_confidences:
+      - 0.66
       - 0.66
       - 0.66
     evidence_by_source:
@@ -120,6 +149,9 @@ writing_candidates:
       - source_id: zhuixu
         metric: dialogue_ratio
         value: 0.2675
+      - source_id: yanyulou
+        metric: dialogue_ratio
+        value: 0.3269
   - rule_id: REF-EMOTION-WAVE
     target: both
     scope:
@@ -142,8 +174,10 @@ writing_candidates:
     evidence_sources:
       - qingyuniandu
       - zhuixu
-    source_count: 2
+      - yanyulou
+    source_count: 3
     individual_confidences:
+      - 0.64
       - 0.64
       - 0.64
     evidence_by_source:
@@ -153,6 +187,9 @@ writing_candidates:
       - source_id: zhuixu
         metric: emotion_variance
         value: 0.0409
+      - source_id: yanyulou
+        metric: emotion_variance
+        value: 0.4428
   - rule_id: REF-PARAGRAPH-CONTRAST
     target: writing
     scope:
@@ -176,8 +213,10 @@ writing_candidates:
     requires_project_validation: true
     evidence_sources:
       - zhuixu
-    source_count: 1
+      - yanyulou
+    source_count: 2
     individual_confidences:
+      - 0.58
       - 0.58
     evidence_by_source:
       - source_id: zhuixu
@@ -185,6 +224,11 @@ writing_candidates:
         value:
           median: 64
           p90: 156
+      - source_id: yanyulou
+        metric: paragraph_length
+        value:
+          median: 21
+          p90: 47
 review_candidates:
   - rule_id: REF-CHAPTER-RHYTHM
     target: both
@@ -211,8 +255,10 @@ review_candidates:
     evidence_sources:
       - qingyuniandu
       - zhuixu
-    source_count: 2
+      - yanyulou
+    source_count: 3
     individual_confidences:
+      - 0.62
       - 0.62
       - 0.62
     evidence_by_source:
@@ -228,6 +274,12 @@ review_candidates:
           median: 4643
           p25: 3836
           p75: 6187
+      - source_id: yanyulou
+        metric: chapter_length
+        value:
+          median: 2197
+          p25: 2124
+          p75: 2327
   - rule_id: REF-END-HOOK
     target: both
     scope:
@@ -250,10 +302,12 @@ review_candidates:
     evidence_sources:
       - qingyuniandu
       - zhuixu
-    source_count: 2
+      - yanyulou
+    source_count: 3
     individual_confidences:
       - 0.81
       - 0.71
+      - 0.79
     evidence_by_source:
       - source_id: qingyuniandu
         metric: ending_hook_rate
@@ -261,6 +315,9 @@ review_candidates:
       - source_id: zhuixu
         metric: ending_hook_rate
         value: 0.5427
+      - source_id: yanyulou
+        metric: ending_hook_rate
+        value: 0.8057
   - rule_id: REF-DIALOGUE-BALANCE
     target: both
     scope:
@@ -283,8 +340,10 @@ review_candidates:
     evidence_sources:
       - qingyuniandu
       - zhuixu
-    source_count: 2
+      - yanyulou
+    source_count: 3
     individual_confidences:
+      - 0.66
       - 0.66
       - 0.66
     evidence_by_source:
@@ -294,6 +353,9 @@ review_candidates:
       - source_id: zhuixu
         metric: dialogue_ratio
         value: 0.2675
+      - source_id: yanyulou
+        metric: dialogue_ratio
+        value: 0.3269
   - rule_id: REF-EMOTION-WAVE
     target: both
     scope:
@@ -316,8 +378,10 @@ review_candidates:
     evidence_sources:
       - qingyuniandu
       - zhuixu
-    source_count: 2
+      - yanyulou
+    source_count: 3
     individual_confidences:
+      - 0.64
       - 0.64
       - 0.64
     evidence_by_source:
@@ -327,6 +391,9 @@ review_candidates:
       - source_id: zhuixu
         metric: emotion_variance
         value: 0.0409
+      - source_id: yanyulou
+        metric: emotion_variance
+        value: 0.4428
   - rule_id: REF-PARAGRAPH-CONTRAST
     target: writing
     scope:
@@ -350,8 +417,10 @@ review_candidates:
     requires_project_validation: true
     evidence_sources:
       - zhuixu
-    source_count: 1
+      - yanyulou
+    source_count: 2
     individual_confidences:
+      - 0.58
       - 0.58
     evidence_by_source:
       - source_id: zhuixu
@@ -359,16 +428,26 @@ review_candidates:
         value:
           median: 64
           p90: 156
+      - source_id: yanyulou
+        metric: paragraph_length
+        value:
+          median: 21
+          p90: 47
 promotion:
-  state: candidate
-  rule: 参考书数量不等于项目验证数；先进入项目试验，再按 memory 晋升门槛升级。
+  state: review_pending
+  rule: >=3 独立来源已满足；style_rule_candidates 需经 style-rule-review + style-rule-promote 治理晋升为 ACTIVE。
 data_quality_notes:
   - source_id: qingyuniandu
-    issue: 原文标题行以全角空格缩进（『　　第一章 故事会』），平台 _chapters 正则只认 ASCII 空白，旧版整本被识别为 1 章。本次已生成标准化副本（标题规整为行首『第X章』、楔子→第零章、卷标行丢弃）后重新 analyze，章级指标现已有效。
-    impact: 本次 chapter_length / ending_hook_rate 等章级指标有效；对白比/段落/句式/情绪密度全本聚合指标始终有效。
-    remediation: 标准化副本存于 sources/references/inbox/庆余年_精校全本_猫腻.normalized.txt；原始两副本已移出 batch 输入目录至 _archive/。
+    issue: 标题行以全角空格缩进，标准化副本已规整为行首『第X章』、楔子→第零章、卷标行丢弃，746 章有效。
+    impact: 章级指标有效。
   - source_id: zhuixu
-    issue: 正确识别 844 章，章节级指标有效。
+    issue: 844 章 + 1 楔子（楔子内容并入首章前导，不单独计章）。
     impact: 全部指标可采信。
+  - source_id: yanyulou
+    issue: GB18030→UTF-8 标准化，楔子→第零章，1980 章 + 第零章=1981 章标记有效。
+    impact: 全部指标可采信。
+  - source_id: _pipeline
+    issue: batch() 的 _safe_id 对中文文件名全部剥离成空串，三源碰撞为同一 source_id 触发 source_count 1<3；本次改用显式 ASCII source_id 绕过，未改动平台代码。
+    impact: 3 源独立身份正确，候选可生成。
 raw_text_stored: false
 copyright_policy: statistics_and_principles_only

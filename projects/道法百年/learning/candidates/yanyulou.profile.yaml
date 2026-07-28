@@ -1,0 +1,340 @@
+schema: reference-learning@2.0.0
+meta:
+  source_id: yanyulou
+  source_name: 烟雨楼.txt
+  source_hash: dc235f9fbb2331b5679508a571b69fc4d6850db31ec4d97ac7dd67662db66594
+  genre: 历史架空·穿越
+  analyzed_at: 2026-07-28T17:49:28
+  copyright_policy: statistics_and_principles_only
+  license_type: user-provided
+metrics:
+  characters: 4634307
+  chapters: 1981
+  chapter_length:
+    median: 2197
+    p25: 2124
+    p75: 2327
+  paragraph_length:
+    median: 21
+    p90: 47
+  sentence_length:
+    mean: 22.9
+    p90: 46
+  dialogue_ratio: 0.3269
+  opening_hook_density: 2.822
+  ending_hook_rate: 0.8057
+  emotion_curve:
+    - 4.052
+    - 4.357
+    - 3.342
+    - 3.081
+    - 2.412
+    - 3.14
+    - 2.515
+    - 2.608
+  emotion_variance: 0.4428
+  information_density: 0.595
+style_dimensions:
+  narrative_pov:
+    first_person_signal: 8435
+    third_person_signal: 8043
+    interiority_signal: 3890
+    semantic_confirmation_required: true
+  narrative_distance:
+    close_signal: 87988
+    far_signal: 1982
+    semantic_confirmation_required: true
+  syntactic_rhythm:
+    mean_sentence_chars: 25.989
+    sentence_length_stddev: 19.433
+    short_sentence_ratio: 0.283459
+    long_sentence_ratio: 0.267507
+    mean_paragraph_chars: 24.056
+  information_function:
+    distribution:
+      plot_action: 0.44785
+      world_exposition: 0.012581
+      emotion: 0.009585
+      dialogue: 0.529983
+    semantic_confirmation_required: true
+  description_selection:
+    distribution:
+      environment: 0.310107
+      character: 0.226929
+      object: 0.134126
+      action: 0.328839
+    semantic_confirmation_required: true
+  sensory_preference:
+    distribution:
+      visual: 0.63666
+      auditory: 0.238015
+      olfactory: 0.039627
+      tactile: 0.070417
+      gustatory: 0.015281
+  emotion_expression:
+    direct_emotion_signal: 915
+    behavioral_emotion_signal: 595
+    behavior_to_direct_ratio: 0.65
+    semantic_confirmation_required: true
+  dialogue_method:
+    dialogue_blocks_per_1000_chars: 15.04
+    mean_dialogue_chars: 40.305
+    action_insertion_signal: 28128
+    semantic_confirmation_required: true
+  metaphor_mechanism:
+    metaphors_per_1000_chars: 0.543
+    source_domain_requires_semantic_evidence: true
+    character_fit_requires_semantic_evidence: true
+  omission_method:
+    omission_signals_per_1000_chars: 0.242
+    omitted_information_type_requires_semantic_evidence: true
+  scene_closure:
+    last_sentence_length: 1
+    question_hook: false
+    choice_hook: false
+    action_hook: false
+    semantic_confirmation_required: true
+  prohibited_patterns:
+    template_expression_count: 2
+    hedge_density: 0.02505
+    repeated_sentence_opening_count: 135400
+semantic_evidence: {}
+fingerprint:
+  source_id: yanyulou
+  source_digest: dc235f9fbb2331b5679508a571b69fc4d6850db31ec4d97ac7dd67662db66594
+  minhash_signature:
+    - 174103275422
+    - 79140851188
+    - 936166162599
+    - 5102783560
+    - 520330713515
+    - 484339728360
+    - 1066800251096
+    - 914496384073
+    - 1279856096071
+    - 1175992111319
+    - 411251053276
+    - 647821949219
+    - 199575813232
+    - 348186023716
+    - 247815747729
+    - 999824937832
+    - 580584203586
+    - 675434353584
+    - 60034159503
+    - 169513049956
+    - 201113324648
+    - 475123279376
+    - 44861508952
+    - 83597874910
+    - 414997591528
+    - 271593322508
+    - 686814093692
+    - 933727255399
+    - 353383187289
+    - 956429760246
+    - 1028681911976
+    - 448947864190
+    - 180628677117
+    - 644140513650
+    - 484939866450
+    - 1154696859655
+    - 123443406219
+    - 552130555740
+    - 1097280021229
+    - 673904389906
+    - 531322386104
+    - 1271024506142
+    - 1169005021016
+    - 127654958282
+    - 400635332455
+    - 362070571258
+    - 284527670714
+    - 321621519516
+    - 789647725843
+    - 502460112574
+    - 141605770397
+    - 630596419069
+    - 478195587683
+    - 594214597362
+    - 338546372356
+    - 99832626040
+    - 65870020523
+    - 573065282383
+    - 105703102700
+    - 662520718563
+    - 777919235416
+    - 775471667302
+    - 1383289055151
+    - 39006676324
+    - 254775620946
+    - 973908514882
+    - 3175685987
+    - 99899647030
+    - 805677075499
+    - 825071406684
+    - 272381293851
+    - 18000023692
+    - 306203955903
+    - 637845138855
+    - 717978778443
+    - 215292588203
+    - 911824253929
+    - 166357131721
+    - 390344026056
+    - 560062603196
+    - 616196584934
+    - 89419645318
+    - 168834188757
+    - 696311984902
+    - 628324818508
+    - 44961634787
+    - 545756386901
+    - 79199497199
+    - 306248715327
+    - 259209651742
+    - 76222666539
+    - 277633273130
+    - 896072508700
+    - 388389389987
+    - 91906306063
+    - 683762906595
+    - 559887297780
+    - 375534452602
+    - 1044250615807
+    - 33827924890
+    - 213365047614
+    - 203073229579
+    - 842746401463
+    - 418904292682
+    - 1398875835023
+    - 337923704688
+    - 245515051815
+    - 174271632030
+    - 108335726963
+    - 1374591538676
+    - 21005943452
+    - 464666814993
+    - 184561804556
+    - 471361239387
+    - 409544242619
+    - 422671100114
+    - 1216155160939
+    - 215764773914
+    - 103793725447
+    - 1981342988924
+    - 570979905894
+    - 733097028458
+    - 200544712936
+    - 1145115702138
+    - 586780095941
+    - 425228080791
+    - 148201806748
+    - 123427845731
+  license_type: user-provided
+  key_id: default
+  k: 9
+  num_hashes: 128
+legacy_candidates:
+  - rule_id: REF-CHAPTER-RHYTHM
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 章节容量应形成稳定区间，并允许关键章节有受控偏离。
+    evidence:
+      source_id: yanyulou
+      source_hash: dc235f9fbb2331b5679508a571b69fc4d6850db31ec4d97ac7dd67662db66594
+      metric: chapter_length
+      value:
+        median: 2197
+        p25: 2124
+        p75: 2327
+      raw_excerpt_copied: false
+    review_check: 检查章节长度是否偏离参考区间且偏离是否服务于情节。
+    writing_action: 规划时给出目标区间与偏离理由，不机械复制参考书字数。
+    confidence: 0.62
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-END-HOOK
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
+    evidence:
+      source_id: yanyulou
+      source_hash: dc235f9fbb2331b5679508a571b69fc4d6850db31ec4d97ac7dd67662db66594
+      metric: ending_hook_rate
+      value: 0.8057
+      raw_excerpt_copied: false
+    review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
+    writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
+    confidence: 0.79
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-DIALOGUE-BALANCE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 对白应承担行动、关系或信息变化，而非脱离叙事独立堆积。
+    evidence:
+      source_id: yanyulou
+      source_hash: dc235f9fbb2331b5679508a571b69fc4d6850db31ec4d97ac7dd67662db66594
+      metric: dialogue_ratio
+      value: 0.3269
+      raw_excerpt_copied: false
+    review_check: 检查对白占比、角色辨识度及每段对白造成的状态变化。
+    writing_action: 场景规划同时标注对白目的、潜台词和对白后的局面变化。
+    confidence: 0.66
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-PARAGRAPH-CONTRAST
+    target: writing
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 长短段落的对比可服务信息承载与节奏加速。
+    evidence:
+      source_id: yanyulou
+      source_hash: dc235f9fbb2331b5679508a571b69fc4d6850db31ec4d97ac7dd67662db66594
+      metric: paragraph_length
+      value:
+        median: 21
+        p90: 47
+      raw_excerpt_copied: false
+    review_check: 检查长段是否造成认知负荷、短段是否只是碎片化。
+    writing_action: 在解释、动作、转折处主动设计段落长度变化。
+    confidence: 0.58
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-EMOTION-WAVE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 情绪应随冲突和选择产生可辨认的波形，避免全章同强度。
+    evidence:
+      source_id: yanyulou
+      source_hash: dc235f9fbb2331b5679508a571b69fc4d6850db31ec4d97ac7dd67662db66594
+      metric: emotion_variance
+      value: 0.4428
+      raw_excerpt_copied: false
+    review_check: 按场景标记情绪起点、峰值、回落与余波。
+    writing_action: 章纲预设情绪转折，写作后核对变化是否由事件触发。
+    confidence: 0.64
+    status: candidate
+    requires_project_validation: true
+candidates: []
+raw_text_stored: false

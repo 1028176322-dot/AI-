@@ -1,0 +1,58 @@
+{
+  "schema": "style.rule-candidate",
+  "schema_version": "1.0.0",
+  "candidate_id": "SRC-ad0ecdf9964a12e3",
+  "candidate_sha256": "ad0ecdf9964a12e3c3d2a74ee4d844dd6f1689b32efece9fb7b937b9d486dd09",
+  "source_set_hash": "2f2dcc2489707ae13a96e03b1896d81db61cac8824eeeacc845d61fb7d79689b",
+  "rule_id": "RULE-SRC-ad0e",
+  "scope": {
+    "content_type": "narration",
+    "scene_types": [],
+    "character_ids": [],
+    "span_selector": "dimension:narrative_pov"
+  },
+  "rule_type": "style_target",
+  "value": {
+    "dimension": "narrative_pov",
+    "target_distribution": {
+      "first_person_signal": 8039.333333,
+      "interiority_signal": 5170.666667,
+      "semantic_confirmation_required": true,
+      "third_person_signal": 14145.333333
+    },
+    "evidence_mode": "deterministic_signal_pending_ai_review",
+    "requires_semantic_review": true,
+    "requires_human_approval": true,
+    "confidence_source": {
+      "computed": true,
+      "cross_source_agreement": 0.6,
+      "source_count": 3,
+      "semantic_evidence_count": 0,
+      "method": "cross_source_twelve_dimension_aggregation"
+    }
+  },
+  "confidence": 0.6,
+  "evidence_count": 3,
+  "eligible_scenes": [],
+  "source_count": 3,
+  "max_single_source_weight": 0.4,
+  "minimum_independent_sources": 3,
+  "recommended_independent_sources": 5,
+  "source_contribution_vector": {
+    "qingyuniandu": 0.3333,
+    "zhuixu": 0.3333,
+    "yanyulou": 0.3333
+  },
+  "extractor_version": "twelve-dimension-2.0.0",
+  "model_id": null,
+  "prompt_hash": "",
+  "review_status": "ACTIVE",
+  "created_at": 1785232183.7479768,
+  "example_rules": [
+    {
+      "text": "（系统生成）该维度只保存目标分布与抽象原则，不保存参考作品原句。",
+      "example_origin": "system-generated"
+    }
+  ],
+  "activated_at": 1785232329.1749976
+}
