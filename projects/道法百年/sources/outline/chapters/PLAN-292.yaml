@@ -1,0 +1,261 @@
+document:
+  id: PLAN-292
+  type: chapter_plan
+  title: 第292章 《草图既定》
+  status: approved_for_writing
+  version: 2
+  updated_at: 2026-07-28T15:46:05
+  owner: story-architect
+  project_id: novel-dsf
+  approved_by: 肖俊<102817622@qq.com>
+  approved_at: 2026-07-28T16:12:24
+  approval_evidence: 1000章合规章纲全量补齐完成：880章由源 v2 拆分重生成（平台契约结构），120章缺失章纲代笔补齐；chapter-map 1000条生成并通过 anti-filler；opening/ending 模式经定点迭代消除全部 anti-template 三连；series/volume/arc 结构文档翻为 candidate。候选级 validate proceed，准予 promote。
+plan:
+  id: PLAN-292
+  chapter_id: CH-292
+  number: 292
+  volume_id: VOL-003
+  arc_id: ARC-012
+  status: approved_for_writing
+  role: aftermath
+  word_budget: 2800
+starting_state:
+  time: 永熙二十二年(1389年)·肖凡19岁
+  location: 铁砧坊内室，肖凡铺图。
+  protagonist_state: 永熙二十二年(1389年)·肖凡19岁；肖凡主线推进中
+  reader_knows: 读者已知前情与既有伏笔（见前序关联）
+  reader_does_not_know: 本章将揭示/推进的未知走向
+objectives:
+  plot: 肖凡绘后装枪草图（FB-048 绘草图）：后膛闭锁、翻转/起落枪机、定装弹自后膛入。硬核机构描写（R19），注"仍黑火药、闭气靠铜裙/纸壳"（R5）。老柯初读疑其难，肖凡以"膛线枪都成了，这关也过"定调。
+  character: 角色成长：肖凡、老柯
+  reader: 读者获得本章事件推进与情绪/信息收益
+  arc_progress: 推进所在幕(ARC-012)/卷(VOL-003)叙事
+conflict:
+  desire: 主角意欲推进之事（见摘要）
+  opposition: 阻力/反方（见摘要与设定）
+  stakes: 成败利害（见设定与余波）
+  dilemma: 两难取舍（见撰写备注）
+  escalation: 冲突升级路径（见节拍分解）
+scenes:
+  - id: beat-1
+    type: transition
+    purpose: 铺纸（约450字）
+    location: 铁砧坊内室，肖凡铺图。
+    participants:
+      - 肖凡
+    entry_condition: 本章开场
+    beats:
+      - 肖凡铺大纸绘后装枪总图（FB-048 绘草图），标后膛、枪机、击发三区。
+    turn: 开场
+    exit_state: 本章节拍收束
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: controlled_ellipsis
+      supporting:
+        - temporal_compression
+        - scene_counterpoint
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 动作呈现
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R19
+      - R5
+  - id: beat-2
+    type: action
+    purpose: 析机（约450字）
+    location: 肖凡讲机。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 肖凡讲后膛闭锁＝"枪机后翻露膛，弹入再闭锁"；老柯悟"自后塞，不必立"。
+      - 肖凡"闭锁要严，闭气靠铜裙"；老柯"铜裙好打"；肖凡"纸壳也行，FB-027 现成"。
+    turn: 发展
+    exit_state: 本章节拍收束
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: environmental_pressure
+      supporting:
+        - action_causality
+        - spatial_clarity
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 肖凡"闭锁要严，闭气靠铜裙"；老柯"铜裙好打"；肖凡"纸壳也行，FB-027 现成"。
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R19
+      - R17
+  - id: beat-3
+    type: revelation
+    purpose: 注限（约450字）
+    location: 肖凡注。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 肖凡于图角注"仍黑火药黑烟，闭气差则初速跌"（R5 严守，不得越级无烟火药）。
+    turn: 转折
+    exit_state: 本章节拍收束
+    environment_function: 墨注小字；窗风带煤味；他眯眼。
+    technique:
+      dominant: fair_clue_placement
+      supporting:
+        - contrast_reveal
+        - delayed_naming
+      rhythm: 中
+      sensory_focus: 墨注小字；窗风带煤味；他眯眼。
+      information_method: 动作呈现
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R5
+      - R19
+  - id: beat-4
+    type: transition
+    purpose: 定试（约450字）
+    location: 老柯领。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 老柯领图去备料（FB-013/018）；肖凡定"先打一支样机"。章末钩子：图，定了。
+    turn: 收尾
+    exit_state: 图，定了。
+    environment_function: 样料铁块码齐；院风清；他唇角微扬。
+    technique:
+      dominant: symbolic_echo
+      supporting:
+        - temporal_compression
+        - controlled_ellipsis
+      rhythm: 中
+      sensory_focus: 样料铁块码齐；院风清；他唇角微扬。
+      information_method: 动作呈现
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R17
+      - R7
+  - id: beat-5
+    type: action
+    purpose: 暗联（约450字）**（约450字）
+    location: 肖凡翻册。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 肖凡联 FB-048/027/018，定"定装弹复用，后装即快"。暗联。
+    turn: 暗联（约450字）**
+    exit_state: 本章节拍收束
+    environment_function: 册页添机构注；灯花爆；院风静。
+    technique:
+      dominant: action_causality
+      supporting:
+        - spatial_clarity
+        - environmental_pressure
+      rhythm: 中
+      sensory_focus: 册页添机构注；灯花爆；院风静。
+      information_method: 动作呈现
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R17
+      - R20
+  - id: beat-6
+    type: action
+    purpose: 技术钩（约450字）**（约450字）
+    location: 肖凡忆。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 肖凡忆国防大学后装枪史（R20）——"前装到后装是射速坎"；明本章图即跨坎。暗联 FB-048。
+    turn: 技术钩（约450字）**
+    exit_state: 本章节拍收束
+    environment_function: 枪管幽光；江船笛远；他吐纳稳。
+    technique:
+      dominant: spatial_clarity
+      supporting:
+        - action_causality
+        - environmental_pressure
+      rhythm: 中
+      sensory_focus: 枪管幽光；江船笛远；他吐纳稳。
+      information_method: 动作呈现
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R5
+      - R20
+causal_chain:
+  prerequisites: 前序章节承接
+  causes: 肖凡绘后装枪草图（FB-048 绘草图）：后膛闭锁、翻转/起落枪机、定装弹自后膛入。硬核机构描写（R19），注"仍黑火药、闭气靠铜裙/纸壳"（R5）。老柯初读疑其难，肖凡以"膛线枪都成了，这关也过"定调。
+  decision: 主角关键决策（见节拍）
+  consequences: 本章结果/转折（见余波）
+reader_experience:
+  opening_question: 图，定了。
+  anticipation: 读者对下一步的期待（见钩子）
+  payoff: 本章兑现的爽点/信息（见节拍爽点标记）
+  surprise: 转折/反转（见节拍爆发/转折）
+  fairness_evidence: 前文已埋设，非突兀（见伏笔）
+  emotional_curve: 压抑→紧张→峰值→余波
+information_plan:
+  reveal: 本章揭示的信息（见设定/伏笔）
+  conceal: 持续隐藏的长线（见伏笔状态）
+  misinformation: （无/见备注）
+  character_knowledge_changes: 角色认知变化（见余波）
+foreshadow:
+  plant: "[FB-048] 后装枪研发·绘草图（闭锁/枪机/后膛结构，仍黑火药） — 状态: 未回收(研发推进)"
+  reinforce: 既有伏笔延续（见四、伏笔登记）
+  payoff: 已回收伏笔（见伏笔状态：已回收）
+expected_deltas:
+  character: 角色处境/认知变化（见余波）
+  relationship: 关系变化（见角色表/余波）
+  assets: 资产/实力变化（见设定）
+  world_state: 局势/世界状态变化（见余波）
+  reader_state: 读者情绪/信息状态变化
+constraints:
+  must_happen: 本章核心事件（见摘要/节拍）
+  must_not_happen: 禁红线R1；禁红线R5；禁红线R19；禁红线R17
+  continuity: 承接前序不矛盾
+  ooc_guardrails: 人设不崩（见角色表备注/红线R1）
+ending:
+  hook_type: promise
+  hook: 图，定了。
+  next_chapter_promise: 引出后续章
+flexibility:
+  fixed: 核心冲突与节拍顺序固定
+  adjustable: 对话与细节锚点可调
+  fallback: 若字数不足，扩写节拍内细节锚点/对话
+narrative_strategy:
+  chapter_form: 线性叙事+节拍推进
+  pov: 肖凡限知（穿越者客观对照）
+  time_structure: 永熙二十二年(1389年)·肖凡19岁
+  dominant_technique: controlled_ellipsis
+  supporting_techniques:
+    - 细节锚点
+    - 红线约束
+    - 伏笔呼应
+  prose_rhythm: 张弛有度（见情绪弧）
+  information_density: 中（关键点明，长线藏）
+  dialogue_ratio: 0.35
+  sensory_focus: 具体感官替代抽象（见细节锚点/R12）
+  rationale: 贴合卷首说明基调与红线
+opening_design:
+  previous_plan_id: PLAN-291
+  continuity_anchor: 前序承接
+  entry_mode: spatial_arrival
+  first_scene_action: 肖凡铺大纸绘后装枪总图（FB-048 绘草图），标后膛、枪机、击发三区。
+  opening_question: 图，定了。
+  reader_orientation:
+    time: 永熙二十二年(1389年)·肖凡19岁
+    place: 铁砧坊内室，肖凡铺图。
+    active_pressure: 肖凡绘后装枪草图（FB-048 绘草图）：后膛闭锁、翻转/起落枪机、定装弹自后膛入。硬核机构描写（R19），注"仍黑火药
+  prohibited_patterns:
+    - 信息复述
+    - 无状态变化
+    - 重复冲突
+ending_design:
+  next_plan_id: PLAN-293
+  closure_mode: consequence
+  resolved_in_chapter: 本章可收束的线索
+  irreversible_change: 本章不可逆变化（见余波）
+  emotional_aftertaste: 余波情绪
+  retention_driver: 图，定了。
+  final_image: （末段画面见正文）
+  next_chapter_bridge: 钩子引出下章

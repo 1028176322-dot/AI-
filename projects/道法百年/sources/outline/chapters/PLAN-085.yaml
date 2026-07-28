@@ -1,0 +1,239 @@
+document:
+  id: PLAN-085
+  type: chapter_plan
+  title: 第85章 《商战》
+  status: approved_for_writing
+  version: 2
+  updated_at: 2026-07-28T15:46:05
+  owner: story-architect
+  project_id: novel-dsf
+  approved_by: 肖俊<102817622@qq.com>
+  approved_at: 2026-07-28T16:12:24
+  approval_evidence: 1000章合规章纲全量补齐完成：880章由源 v2 拆分重生成（平台契约结构），120章缺失章纲代笔补齐；chapter-map 1000条生成并通过 anti-filler；opening/ending 模式经定点迭代消除全部 anti-template 三连；series/volume/arc 结构文档翻为 candidate。候选级 validate proceed，准予 promote。
+plan:
+  id: PLAN-085
+  chapter_id: CH-085
+  number: 85
+  volume_id: VOL-001
+  arc_id: ARC-004
+  status: approved_for_writing
+  role: escalation
+  word_budget: 2800
+starting_state:
+  time: 永熙十九年(1386年)春·肖凡16岁
+  location: 好物商城，钱万山带人。
+  protagonist_state: 永熙十九年(1386年)春·肖凡16岁；肖凡主线推进中
+  reader_knows: 读者已知前情与既有伏笔（见前序关联）
+  reader_does_not_know: 本章将揭示/推进的未知走向
+objectives:
+  plot: 本地大商钱万山（东宫关联）闻好物商城酒好，打压逼卖。肖凡以品质+燧发枪威慑双管齐下反杀，大商赧退。中打脸+技术壁垒爽点，营生立稳。
+  character: 角色成长：肖凡、钱万山、老柯/沈遇
+  reader: 读者获得本章事件推进与情绪/信息收益
+  arc_progress: 推进所在幕(ARC-004)/卷(VOL-001)叙事
+conflict:
+  desire: 主角意欲推进之事（见摘要）
+  opposition: 阻力/反方（见摘要与设定）
+  stakes: 成败利害（见设定与余波）
+  dilemma: 两难取舍（见撰写备注）
+  escalation: 冲突升级路径（见节拍分解）
+scenes:
+  - id: beat-1
+    type: transition
+    purpose: 打压（约500字）
+    location: 好物商城，钱万山带人。
+    participants:
+      - 肖凡
+      - 东宫
+    entry_condition: 本章开场
+    beats:
+      - 钱以"行规"逼肖凡低价让酒方，暗示"东宫有人"。
+      - 钱"小子，规矩你懂"；肖凡"愿闻"。
+    turn: 开场
+    exit_state: 本章节拍收束
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: controlled_ellipsis
+      supporting:
+        - temporal_compression
+        - scene_counterpoint
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 钱"小子，规矩你懂"；肖凡"愿闻"。
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R18
+      - R17
+  - id: beat-2
+    type: action
+    purpose: 示质（约500字）
+    location: 肖凡斟酒。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 肖凡请钱尝自酿——清烈远胜钱家；钱色变知吞并无望。
+    turn: 发展
+    exit_state: 本章节拍收束
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: environmental_pressure
+      supporting:
+        - action_causality
+        - spatial_clarity
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 动作呈现
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R1
+      - R12
+  - id: beat-3
+    type: revelation
+    purpose: 威慑（约500字）
+    location: 钱暗使打手。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 钱手下逼，肖凡燧发枪（FB-016）抵桌"钱老板，和气生财"。钱惊退。
+    turn: 转折
+    exit_state: 本章节拍收束
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: fair_clue_placement
+      supporting:
+        - contrast_reveal
+        - delayed_naming
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 动作呈现
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R4
+      - R17
+  - id: beat-4
+    type: transition
+    purpose: 立稳（约500字）
+    location: 钱退。
+    participants:
+      - 肖凡
+      - 东宫
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 肖凡不追，营生立稳；暗记"钱通东宫，后患"（卷二伏）。章末钩子：生意，是打出来的。
+    turn: 收尾
+    exit_state: 生意，是打出来的。
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: symbolic_echo
+      supporting:
+        - temporal_compression
+        - controlled_ellipsis
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 动作呈现
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R17
+      - R1
+  - id: beat-5
+    type: action
+    purpose: 班底议（约500字）**（约500字）
+    location: 老柯沈遇议。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 沈遇叹"钱不甘"，肖凡嘱"备奇货会立威"。暗联 FB-013/017。
+    turn: 班底议（约500字）**
+    exit_state: 本章节拍收束
+    environment_function: 账册添敌项；灯花爆；院中酒香。
+    technique:
+      dominant: action_causality
+      supporting:
+        - spatial_clarity
+        - environmental_pressure
+      rhythm: 中
+      sensory_focus: 账册添敌项；灯花爆；院中酒香。
+      information_method: 动作呈现
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R7
+      - R17
+causal_chain:
+  prerequisites: 前序章节承接
+  causes: 本地大商钱万山（东宫关联）闻好物商城酒好，打压逼卖。肖凡以品质+燧发枪威慑双管齐下反杀，大商赧退。中打脸+技术壁垒爽点，营生立稳。
+  decision: 主角关键决策（见节拍）
+  consequences: 本章结果/转折（见余波）
+reader_experience:
+  opening_question: 生意，是打出来的。
+  anticipation: 读者对下一步的期待（见钩子）
+  payoff: 本章兑现的爽点/信息（见节拍爽点标记）
+  surprise: 转折/反转（见节拍爆发/转折）
+  fairness_evidence: 前文已埋设，非突兀（见伏笔）
+  emotional_curve: 压抑→紧张→峰值→余波
+information_plan:
+  reveal: 本章揭示的信息（见设定/伏笔）
+  conceal: 持续隐藏的长线（见伏笔状态）
+  misinformation: （无/见备注）
+  character_knowledge_changes: 角色认知变化（见余波）
+foreshadow:
+  plant: （本章无新增伏笔；FB-015 推进）
+  reinforce: 既有伏笔延续（见四、伏笔登记）
+  payoff: 已回收伏笔（见伏笔状态：已回收）
+expected_deltas:
+  character: 角色处境/认知变化（见余波）
+  relationship: 关系变化（见角色表/余波）
+  assets: 资产/实力变化（见设定）
+  world_state: 局势/世界状态变化（见余波）
+  reader_state: 读者情绪/信息状态变化
+constraints:
+  must_happen: 本章核心事件（见摘要/节拍）
+  must_not_happen: 禁红线R1；禁红线R17；禁红线R18
+  continuity: 承接前序不矛盾
+  ooc_guardrails: 人设不崩（见角色表备注/红线R1）
+ending:
+  hook_type: promise
+  hook: 生意，是打出来的。
+  next_chapter_promise: 引出后续章
+flexibility:
+  fixed: 核心冲突与节拍顺序固定
+  adjustable: 对话与细节锚点可调
+  fallback: 若字数不足，扩写节拍内细节锚点/对话
+narrative_strategy:
+  chapter_form: 线性叙事+节拍推进
+  pov: 肖凡限知（穿越者客观对照）
+  time_structure: 永熙十九年(1386年)春·肖凡16岁
+  dominant_technique: controlled_ellipsis
+  supporting_techniques:
+    - 细节锚点
+    - 红线约束
+    - 伏笔呼应
+  prose_rhythm: 张弛有度（见情绪弧）
+  information_density: 中（关键点明，长线藏）
+  dialogue_ratio: 0.45
+  sensory_focus: 具体感官替代抽象（见细节锚点/R12）
+  rationale: 贴合卷首说明基调与红线
+opening_design:
+  previous_plan_id: PLAN-084
+  continuity_anchor: 前序承接
+  entry_mode: time_jump
+  first_scene_action: 钱以"行规"逼肖凡低价让酒方，暗示"东宫有人"。
+  opening_question: 生意，是打出来的。
+  reader_orientation:
+    time: 永熙十九年(1386年)春·肖凡16岁
+    place: 好物商城，钱万山带人。
+    active_pressure: 本地大商钱万山（东宫关联）闻好物商城酒好，打压逼卖。肖凡以品质+燧发枪威慑双管齐下反杀，大商赧退。中打脸+技术壁垒爽点，
+  prohibited_patterns:
+    - 信息复述
+    - 无状态变化
+    - 重复冲突
+ending_design:
+  next_plan_id: PLAN-086
+  closure_mode: action_commitment
+  resolved_in_chapter: 本章可收束的线索
+  irreversible_change: 本章不可逆变化（见余波）
+  emotional_aftertaste: 余波情绪
+  retention_driver: 生意，是打出来的。
+  final_image: （末段画面见正文）
+  next_chapter_bridge: 钩子引出下章

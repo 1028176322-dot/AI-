@@ -1,0 +1,138 @@
+document:
+  id: PLAN-667
+  type: chapter_plan
+  title: 第667章 《心魔初劫》
+  status: approved_for_writing
+  version: 2
+  updated_at: 2026-07-28T15:46:06
+  owner: story-architect
+  project_id: novel-dsf
+  approved_by: 肖俊<102817622@qq.com>
+  approved_at: 2026-07-28T16:12:25
+  approval_evidence: 1000章合规章纲全量补齐完成：880章由源 v2 拆分重生成（平台契约结构），120章缺失章纲代笔补齐；chapter-map 1000条生成并通过 anti-filler；opening/ending 模式经定点迭代消除全部 anti-template 三连；series/volume/arc 结构文档翻为 candidate。候选级 validate proceed，准予 promote。
+plan:
+  id: PLAN-667
+  chapter_id: CH-667
+  number: 667
+  volume_id: VOL-005
+  arc_id: ARC-027
+  status: approved_for_writing
+  role: opening
+  word_budget: 2800
+starting_state:
+  time: 永熙三十年(1397年)·肖凡27岁
+  location: （见正文）
+  protagonist_state: 永熙三十年(1397年)·肖凡27岁；肖凡主线推进中
+  reader_knows: 读者已知前情与既有伏笔（见前序关联）
+  reader_does_not_know: 本章将揭示/推进的未知走向
+objectives:
+  plot: 归元前心魔劫（FB-005 代价重）：肖凡冲归元临界时被心魔袭，历"穿越者孤独/长生代价"幻象，以布局者心智守住（FB-081 推进）。严守"长生非永生、劫数重"，不写成龙傲天。
+  character: 角色成长：肖凡
+  reader: 读者获得本章事件推进与情绪/信息收益
+  arc_progress: 推进所在幕(ARC-027)/卷(VOL-005)叙事
+conflict:
+  desire: 主角意欲推进之事（见摘要）
+  opposition: 阻力/反方（见摘要与设定）
+  stakes: 成败利害（见设定与余波）
+  dilemma: 两难取舍（见撰写备注）
+  escalation: 冲突升级路径（见节拍分解）
+scenes:
+  - id: beat-1
+    type: action
+    purpose: 本章主场景（约450字）
+    location: （见正文）
+    participants:
+      - 肖凡
+    entry_condition: 承接前序
+    beats:
+      - 归元前心魔劫（FB-005 代价重）：肖凡冲归元临界时被心魔袭，历"穿越者孤独/长生代价"幻象，以布局者心智守住（FB-081 推进）。严守"长生非永生、劫数重
+    turn: 发展
+    exit_state: 本章收束
+    environment_function: （感官细节）
+    technique:
+      dominant: action_causality
+      supporting:
+        - spatial_clarity
+        - environmental_pressure
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 动作呈现
+      rationale: 贴合基调
+    red_line_refs: []
+causal_chain:
+  prerequisites: 前序章节承接
+  causes: 归元前心魔劫（FB-005 代价重）：肖凡冲归元临界时被心魔袭，历"穿越者孤独/长生代价"幻象，以布局者心智守住（FB-081 推进）。严守"长生非永生、劫数重"，不写成龙傲天。
+  decision: 主角关键决策（见节拍）
+  consequences: 本章结果/转折（见余波）
+reader_experience:
+  opening_question: 本章开场悬念
+  anticipation: 读者对下一步的期待（见钩子）
+  payoff: 本章兑现的爽点/信息（见节拍爽点标记）
+  surprise: 转折/反转（见节拍爆发/转折）
+  fairness_evidence: 前文已埋设，非突兀（见伏笔）
+  emotional_curve: 压抑→紧张→峰值→余波
+information_plan:
+  reveal: 本章揭示的信息（见设定/伏笔）
+  conceal: 持续隐藏的长线（见伏笔状态）
+  misinformation: （无/见备注）
+  character_knowledge_changes: 角色认知变化（见余波）
+foreshadow:
+  plant: "[FB-005] 心魔劫体现长生\\\\\\\\\\\\\\\"代价重、非永生\\\\\\\\\\\\\\\" — 状态: 推进(第667章)；[FB-081] 心魔劫中归元临界守稳 — 状态: 推进(第667章)"
+  reinforce: 既有伏笔延续（见四、伏笔登记）
+  payoff: 已回收伏笔（见伏笔状态：已回收）
+expected_deltas:
+  character: 角色处境/认知变化（见余波）
+  relationship: 关系变化（见角色表/余波）
+  assets: 资产/实力变化（见设定）
+  world_state: 局势/世界状态变化（见余波）
+  reader_state: 读者情绪/信息状态变化
+constraints:
+  must_happen: 本章核心事件（见摘要/节拍）
+  must_not_happen: 禁红线R17；禁红线R8；禁红线R14
+  continuity: 承接前序不矛盾
+  ooc_guardrails: 人设不崩（见角色表备注/红线R17）
+ending:
+  hook_type: promise
+  hook: （章末钩子见正文）
+  next_chapter_promise: 引出后续章
+flexibility:
+  fixed: 核心冲突与节拍顺序固定
+  adjustable: 对话与细节锚点可调
+  fallback: 若字数不足，扩写节拍内细节锚点/对话
+narrative_strategy:
+  chapter_form: 线性叙事+节拍推进
+  pov: 肖凡限知（穿越者客观对照）
+  time_structure: 永熙三十年(1397年)·肖凡27岁
+  dominant_technique: action_causality
+  supporting_techniques:
+    - 细节锚点
+    - 红线约束
+    - 伏笔呼应
+  prose_rhythm: 张弛有度（见情绪弧）
+  information_density: 中（关键点明，长线藏）
+  dialogue_ratio: 0.3
+  sensory_focus: 具体感官替代抽象（见细节锚点/R12）
+  rationale: 贴合卷首说明基调与红线
+opening_design:
+  previous_plan_id: PLAN-666
+  continuity_anchor: 前序承接
+  entry_mode: action_in_progress
+  first_scene_action: 归元前心魔劫（FB-005 代价重）：肖凡冲归元临界时被心魔袭，历"穿越者孤独/长生代价"幻象，以布局者心智守住（FB-081 推进）。严守"长生非永生、劫数重
+  opening_question: 开场悬念
+  reader_orientation:
+    time: 永熙三十年(1397年)·肖凡27岁
+    place: （见正文）
+    active_pressure: 归元前心魔劫（FB-005 代价重）：肖凡冲归元临界时被心魔袭，历"穿越者孤独/长生代价"幻象，以布局者心智守住（FB-
+  prohibited_patterns:
+    - 信息复述
+    - 无状态变化
+    - 重复冲突
+ending_design:
+  next_plan_id: PLAN-668
+  closure_mode: consequence
+  resolved_in_chapter: 本章可收束的线索
+  irreversible_change: 本章不可逆变化（见余波）
+  emotional_aftertaste: 余波情绪
+  retention_driver: 章末钩子
+  final_image: （末段画面见正文）
+  next_chapter_bridge: 钩子引出下章

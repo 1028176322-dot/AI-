@@ -1,0 +1,215 @@
+document:
+  id: PLAN-015
+  type: chapter_plan
+  title: 第15章 《假道之讽》
+  status: approved_for_writing
+  version: 2
+  updated_at: 2026-07-28T15:46:04
+  owner: story-architect
+  project_id: novel-dsf
+  approved_by: 肖俊<102817622@qq.com>
+  approved_at: 2026-07-28T16:12:23
+  approval_evidence: 1000章合规章纲全量补齐完成：880章由源 v2 拆分重生成（平台契约结构），120章缺失章纲代笔补齐；chapter-map 1000条生成并通过 anti-filler；opening/ending 模式经定点迭代消除全部 anti-template 三连；series/volume/arc 结构文档翻为 candidate。候选级 validate proceed，准予 promote。
+plan:
+  id: PLAN-015
+  chapter_id: CH-015
+  number: 15
+  volume_id: VOL-001
+  arc_id: ARC-001
+  status: approved_for_writing
+  role: setup
+  word_budget: 2800
+starting_state:
+  time: 永熙十七年(1384年)·肖凡14岁
+  location: 村口老槐下，假道士设坛。
+  protagonist_state: 永熙十七年(1384年)·肖凡14岁；肖凡主线推进中
+  reader_knows: 读者已知前情与既有伏笔（见前序关联）
+  reader_does_not_know: 本章将揭示/推进的未知走向
+objectives:
+  plot: 山下村落来一「假道士」以符水骗钱，村民信以为真。肖凡路过拆穿：用基础化学（石灰遇水发热、矾水变色）演示「神迹」为假，反将假道士噎住。村民醒悟，假道士狼狈走。小打脸+知识降维爽点。
+  character: 角色成长：肖凡、假道士(首次)
+  reader: 读者获得本章事件推进与情绪/信息收益
+  arc_progress: 推进所在幕(ARC-001)/卷(VOL-001)叙事
+conflict:
+  desire: 主角意欲推进之事（见摘要）
+  opposition: 阻力/反方（见摘要与设定）
+  stakes: 成败利害（见设定与余波）
+  dilemma: 两难取舍（见撰写备注）
+  escalation: 冲突升级路径（见节拍分解）
+scenes:
+  - id: beat-1
+    type: transition
+    purpose: 骗局（约450字）
+    location: 村口老槐下，假道士设坛。
+    participants:
+      - 肖凡
+    entry_condition: 本章开场
+    beats:
+      - 假道士焚符化水，称"神水"可驱疫，向村民讨钱。村民半信半疑掏铜板。
+    turn: 开场
+    exit_state: 本章节拍收束
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: controlled_ellipsis
+      supporting:
+        - temporal_compression
+        - scene_counterpoint
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 动作呈现
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R12
+      - R18
+  - id: beat-2
+    type: action
+    purpose: 肖凡路过（约450字）
+    location: 肖凡村边过，驻足观。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 肖凡一眼识破（现代化学常识）；不动声色挤进人群，佯作好奇孩童。
+    turn: 发展
+    exit_state: 本章节拍收束
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: environmental_pressure
+      supporting:
+        - action_causality
+        - spatial_clarity
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 动作呈现
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R1
+      - R2
+      - R17
+  - id: beat-3
+    type: revelation
+    purpose: 拆穿（约450字）
+    location: 肖凡"请教"假道士。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 肖凡讨碗清水，撒石灰——水自发热；再滴矾水——色变。笑问"道长这神水，可会自热变色？"假道士语塞。村民哗然。
+      - 肖凡"先生，这般神异，谁都会了"；假道士"你…你胡搅"。
+    turn: 转折
+    exit_state: 本章节拍收束
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: fair_clue_placement
+      supporting:
+        - contrast_reveal
+        - delayed_naming
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 肖凡"先生，这般神异，谁都会了"；假道士"你…你胡搅"。
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R1
+      - R12
+      - R18
+  - id: beat-4
+    type: transition
+    purpose: 狼狈（约400字）
+    location: 假道士收摊遁走。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 村民醒悟讨钱，假道士狼狈溜；肖凡不居功，混入人流。村中自此传"清虚观小道士有点门道"。
+    turn: 收尾
+    exit_state: 知识，便是这世道最利的刀。
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: symbolic_echo
+      supporting:
+        - temporal_compression
+        - controlled_ellipsis
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 动作呈现
+      rationale: 贴合本章基调与红线
+    red_line_refs:
+      - R17
+      - R1
+causal_chain:
+  prerequisites: 前序章节承接
+  causes: 山下村落来一「假道士」以符水骗钱，村民信以为真。肖凡路过拆穿：用基础化学（石灰遇水发热、矾水变色）演示「神迹」为假，反将假道士噎住。村民醒悟，假道士狼狈走。小打脸+知识降维爽点。
+  decision: 主角关键决策（见节拍）
+  consequences: 本章结果/转折（见余波）
+reader_experience:
+  opening_question: 知识，便是这世道最利的刀。
+  anticipation: 读者对下一步的期待（见钩子）
+  payoff: 本章兑现的爽点/信息（见节拍爽点标记）
+  surprise: 转折/反转（见节拍爆发/转折）
+  fairness_evidence: 前文已埋设，非突兀（见伏笔）
+  emotional_curve: 压抑→紧张→峰值→余波
+information_plan:
+  reveal: 本章揭示的信息（见设定/伏笔）
+  conceal: 持续隐藏的长线（见伏笔状态）
+  misinformation: （无/见备注）
+  character_knowledge_changes: 角色认知变化（见余波）
+foreshadow:
+  plant: （本章无新增伏笔）
+  reinforce: 既有伏笔延续（见四、伏笔登记）
+  payoff: 已回收伏笔（见伏笔状态：已回收）
+expected_deltas:
+  character: 角色处境/认知变化（见余波）
+  relationship: 关系变化（见角色表/余波）
+  assets: 资产/实力变化（见设定）
+  world_state: 局势/世界状态变化（见余波）
+  reader_state: 读者情绪/信息状态变化
+constraints:
+  must_happen: 本章核心事件（见摘要/节拍）
+  must_not_happen: 禁红线R1；禁红线R17；禁红线R12；禁红线R18
+  continuity: 承接前序不矛盾
+  ooc_guardrails: 人设不崩（见角色表备注/红线R1）
+ending:
+  hook_type: promise
+  hook: 知识，便是这世道最利的刀。
+  next_chapter_promise: 引出后续章
+flexibility:
+  fixed: 核心冲突与节拍顺序固定
+  adjustable: 对话与细节锚点可调
+  fallback: 若字数不足，扩写节拍内细节锚点/对话
+narrative_strategy:
+  chapter_form: 线性叙事+节拍推进
+  pov: 肖凡限知（穿越者客观对照）
+  time_structure: 永熙十七年(1384年)·肖凡14岁
+  dominant_technique: controlled_ellipsis
+  supporting_techniques:
+    - 细节锚点
+    - 红线约束
+    - 伏笔呼应
+  prose_rhythm: 张弛有度（见情绪弧）
+  information_density: 中（关键点明，长线藏）
+  dialogue_ratio: 0.35
+  sensory_focus: 具体感官替代抽象（见细节锚点/R12）
+  rationale: 贴合卷首说明基调与红线
+opening_design:
+  previous_plan_id: PLAN-014
+  continuity_anchor: 前序承接
+  entry_mode: spatial_arrival
+  first_scene_action: 假道士焚符化水，称"神水"可驱疫，向村民讨钱。村民半信半疑掏铜板。
+  opening_question: 知识，便是这世道最利的刀。
+  reader_orientation:
+    time: 永熙十七年(1384年)·肖凡14岁
+    place: 村口老槐下，假道士设坛。
+    active_pressure: 山下村落来一「假道士」以符水骗钱，村民信以为真。肖凡路过拆穿：用基础化学（石灰遇水发热、矾水变色）演示「神迹」为假，反将
+  prohibited_patterns:
+    - 信息复述
+    - 无状态变化
+    - 重复冲突
+ending_design:
+  next_plan_id: PLAN-016
+  closure_mode: consequence
+  resolved_in_chapter: 本章可收束的线索
+  irreversible_change: 本章不可逆变化（见余波）
+  emotional_aftertaste: 余波情绪
+  retention_driver: 知识，便是这世道最利的刀。
+  final_image: （末段画面见正文）
+  next_chapter_bridge: 钩子引出下章

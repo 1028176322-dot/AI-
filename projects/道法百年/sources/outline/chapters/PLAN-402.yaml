@@ -1,0 +1,256 @@
+document:
+  id: PLAN-402
+  type: chapter_plan
+  title: 第402章 《青溪定约》
+  status: approved_for_writing
+  version: 2
+  updated_at: 2026-07-28T15:46:05
+  owner: story-architect
+  project_id: novel-dsf
+  approved_by: 肖俊<102817622@qq.com>
+  approved_at: 2026-07-28T16:12:25
+  approval_evidence: 1000章合规章纲全量补齐完成：880章由源 v2 拆分重生成（平台契约结构），120章缺失章纲代笔补齐；chapter-map 1000条生成并通过 anti-filler；opening/ending 模式经定点迭代消除全部 anti-template 三连；series/volume/arc 结构文档翻为 candidate。候选级 validate proceed，准予 promote。
+plan:
+  id: PLAN-402
+  chapter_id: CH-402
+  number: 402
+  volume_id: VOL-003
+  arc_id: ARC-017
+  status: approved_for_writing
+  role: aftermath
+  word_budget: 2800
+starting_state:
+  time: 永熙二十五年(1392年)·肖凡22岁
+  location: 青溪山门正殿，礼成。
+  protagonist_state: 永熙二十五年(1392年)·肖凡22岁；肖凡主线推进中
+  reader_knows: 读者已知前情与既有伏笔（见前序关联）
+  reader_does_not_know: 本章将揭示/推进的未知走向
+objectives:
+  plot: 青溪派正式定约站队肖凡与四皇子，门内清洗通听雨者陆砚，借青溪灵脉助灵气火器实验。青溪定（FB-058 推进，FB-019 推进），政治+科技小爽点，R17 有度。
+  character: 角色成长：肖凡、玉矶子、苏墨凝
+  reader: 读者获得本章事件推进与情绪/信息收益
+  arc_progress: 推进所在幕(ARC-017)/卷(VOL-003)叙事
+conflict:
+  desire: 主角意欲推进之事（见摘要）
+  opposition: 阻力/反方（见摘要与设定）
+  stakes: 成败利害（见设定与余波）
+  dilemma: 两难取舍（见撰写备注）
+  escalation: 冲突升级路径（见节拍分解）
+scenes:
+  - id: beat-1
+    type: transition
+    purpose: 定约礼（约450字）
+    location: 青溪山门正殿，礼成。
+    participants:
+      - 肖凡
+      - 苏墨凝
+      - 四皇子
+    entry_condition: 本章开场
+    beats:
+      - 玉矶子(FB-019)与肖凡立定约简，青溪附四皇子线(FB-010)；苏墨凝(FB-023)监。
+      - 玉矶子"青溪永附四殿下"；肖凡"籍已护你"。
+    turn: 开场
+    exit_state: 本章节拍收束
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: controlled_ellipsis
+      supporting:
+        - temporal_compression
+        - scene_counterpoint
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 玉矶子"青溪永附四殿下"；肖凡"籍已护你"。
+      rationale: 贴合本章基调与红线
+    red_line_refs: []
+  - id: beat-2
+    type: action
+    purpose: 清内鬼（约450字）
+    location: 玉矶子清陆砚。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 玉矶子按门规逐陆砚(FB-019 内鬼)出派，不杀（留证听雨 FB-012）；肖凡不干涉。
+      - 玉矶子"陆砚，逐出门墙"；陆砚"冤……"被押出。
+    turn: 发展
+    exit_state: 本章节拍收束
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: environmental_pressure
+      supporting:
+        - action_causality
+        - spatial_clarity
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 玉矶子"陆砚，逐出门墙"；陆砚"冤……"被押出。
+      rationale: 贴合本章基调与红线
+    red_line_refs: []
+  - id: beat-3
+    type: revelation
+    purpose: 灵脉借（约450字）
+    location: 青溪后山灵脉。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 玉矶子许肖凡借青溪灵脉试灵气火器(FB-049)；章末钩子：约，定了。
+      - 玉矶子"后山灵脉，你试"；肖凡"助火器，也助你门人修炼"。
+    turn: 转折
+    exit_state: 约，定了。
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: fair_clue_placement
+      supporting:
+        - contrast_reveal
+        - delayed_naming
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: 玉矶子"后山灵脉，你试"；肖凡"助火器，也助你门人修炼"。
+      rationale: 贴合本章基调与红线
+    red_line_refs: []
+  - id: beat-4
+    type: transition
+    purpose: 双赢（约450字）
+    location: 肖凡思。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 肖凡明"青溪定=灵脉+眼线双得"；暗联 FB-058/019/049。
+      - （内心）"一门定，灵火有处试"。
+    turn: 收尾
+    exit_state: 本章节拍收束
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: symbolic_echo
+      supporting:
+        - temporal_compression
+        - controlled_ellipsis
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: （内心）"一门定，灵火有处试"。
+      rationale: 贴合本章基调与红线
+    red_line_refs: []
+  - id: beat-5
+    type: action
+    purpose: 暗联（约450字）**（约450字）
+    location: 肖凡翻册。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 肖凡联 FB-058/019/049，明"青溪定=幕四收束一环闭"。暗联。
+      - （内心）"四线收其三，只余内卫归"。
+    turn: 暗联（约450字）**
+    exit_state: 本章节拍收束
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: action_causality
+      supporting:
+        - spatial_clarity
+        - environmental_pressure
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: （内心）"四线收其三，只余内卫归"。
+      rationale: 贴合本章基调与红线
+    red_line_refs: []
+  - id: beat-6
+    type: action
+    purpose: 铺垫钩（约450字）**（约450字）
+    location: 肖凡思内卫。
+    participants:
+      - 肖凡
+    entry_condition: 承接上节拍/前序关联
+    beats:
+      - 肖凡思"青溪定，内卫该归位"；备第403章内卫归位。暗联 FB-059。
+      - （内心）"内卫归，四线全收"。
+    turn: 铺垫钩（约450字）**
+    exit_state: 本章节拍收束
+    environment_function: （感官细节见细节锚点）
+    technique:
+      dominant: spatial_clarity
+      supporting:
+        - action_causality
+        - environmental_pressure
+      rhythm: 中
+      sensory_focus: 具体感官
+      information_method: （内心）"内卫归，四线全收"。
+      rationale: 贴合本章基调与红线
+    red_line_refs: []
+causal_chain:
+  prerequisites: 前序章节承接
+  causes: 青溪派正式定约站队肖凡与四皇子，门内清洗通听雨者陆砚，借青溪灵脉助灵气火器实验。青溪定（FB-058 推进，FB-019 推进），政治+科技小爽点，R17 有度。
+  decision: 主角关键决策（见节拍）
+  consequences: 本章结果/转折（见余波）
+reader_experience:
+  opening_question: 约，定了。
+  anticipation: 读者对下一步的期待（见钩子）
+  payoff: 本章兑现的爽点/信息（见节拍爽点标记）
+  surprise: 转折/反转（见节拍爆发/转折）
+  fairness_evidence: 前文已埋设，非突兀（见伏笔）
+  emotional_curve: 压抑→紧张→峰值→余波
+information_plan:
+  reveal: 本章揭示的信息（见设定/伏笔）
+  conceal: 持续隐藏的长线（见伏笔状态）
+  misinformation: （无/见备注）
+  character_knowledge_changes: 角色认知变化（见余波）
+foreshadow:
+  plant: "[FB-058] 青溪派抉择（正式定约站队，清洗内鬼） — 状态: 推进（第402章定约）；[FB-019] 青溪派（定约附肖凡/四皇子，门内清通听雨者） — 状态: 推进（第402章定约）"
+  reinforce: 既有伏笔延续（见四、伏笔登记）
+  payoff: 已回收伏笔（见伏笔状态：已回收）
+expected_deltas:
+  character: 角色处境/认知变化（见余波）
+  relationship: 关系变化（见角色表/余波）
+  assets: 资产/实力变化（见设定）
+  world_state: 局势/世界状态变化（见余波）
+  reader_state: 读者情绪/信息状态变化
+constraints:
+  must_happen: 本章核心事件（见摘要/节拍）
+  must_not_happen: 禁红线R17；禁红线R18；禁红线R11
+  continuity: 承接前序不矛盾
+  ooc_guardrails: 人设不崩（见角色表备注/红线R17）
+ending:
+  hook_type: promise
+  hook: 约，定了。
+  next_chapter_promise: 引出后续章
+flexibility:
+  fixed: 核心冲突与节拍顺序固定
+  adjustable: 对话与细节锚点可调
+  fallback: 若字数不足，扩写节拍内细节锚点/对话
+narrative_strategy:
+  chapter_form: 线性叙事+节拍推进
+  pov: 肖凡限知（穿越者客观对照）
+  time_structure: 永熙二十五年(1392年)·肖凡22岁
+  dominant_technique: controlled_ellipsis
+  supporting_techniques:
+    - 细节锚点
+    - 红线约束
+    - 伏笔呼应
+  prose_rhythm: 张弛有度（见情绪弧）
+  information_density: 中（关键点明，长线藏）
+  dialogue_ratio: 0.35
+  sensory_focus: 具体感官替代抽象（见细节锚点/R12）
+  rationale: 贴合卷首说明基调与红线
+opening_design:
+  previous_plan_id: PLAN-401
+  continuity_anchor: 前序承接
+  entry_mode: time_jump
+  first_scene_action: 玉矶子(FB-019)与肖凡立定约简，青溪附四皇子线(FB-010)；苏墨凝(FB-023)监。
+  opening_question: 约，定了。
+  reader_orientation:
+    time: 永熙二十五年(1392年)·肖凡22岁
+    place: 青溪山门正殿，礼成。
+    active_pressure: 青溪派正式定约站队肖凡与四皇子，门内清洗通听雨者陆砚，借青溪灵脉助灵气火器实验。青溪定（FB-058 推进，FB-019
+  prohibited_patterns:
+    - 信息复述
+    - 无状态变化
+    - 重复冲突
+ending_design:
+  next_plan_id: PLAN-403
+  closure_mode: action_commitment
+  resolved_in_chapter: 本章可收束的线索
+  irreversible_change: 本章不可逆变化（见余波）
+  emotional_aftertaste: 余波情绪
+  retention_driver: 约，定了。
+  final_image: （末段画面见正文）
+  next_chapter_bridge: 钩子引出下章
