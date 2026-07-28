@@ -41,6 +41,8 @@ import auth_engine as AE
 import manifest as MF
 import audit_log
 import project_layout
+import task_packet
+import chapter_publish as style_chapter_publish
 
 
 SERVICE_ROLE = "publish_service"
@@ -136,12 +138,24 @@ def publish(project_root, task_id, role=SERVICE_ROLE, agent=SERVICE_ROLE, model=
     if auth["decision"] != "allow":
         raise PermissionError("AUTH DENY [%s]: %s" % (auth["code"], auth["message"]))
 
-    # 4. 校验来源 Build（approved draft）
-    src_list = (t.get("inputs") or {}).get("required") or []
-    draft = src_list[0] if src_list else None
-    if not draft or not os.path.isfile(os.path.join(project_root, _norm(draft))):
+    # 4. 校验来源 Build（approved draft）。新模板 required 保存概念名，
+    # 实际路径必须从 values / Task Packet 解析，不能把 "chapter_draft"
+    # 误当成文件路径。
+    task_inputs = t.get("inputs") or {}
+    input_values = task_inputs.get("values") or {}
+    draft = input_values.get("chapter_draft") or t.get("artifact")
+    if not draft:
+        resolved_draft, resolved = task_packet._resolve_input(
+            project_root, "chapter_draft", t)
+        draft = resolved_draft if resolved else None
+    if not draft or not os.path.isfile(
+            draft if os.path.isabs(draft)
+            else os.path.join(project_root, _norm(draft))):
         raise FileNotFoundError("来源 Build 缺失: %s" % draft)
-    with open(os.path.join(project_root, _norm(draft)), "r", encoding="utf-8") as f:
+    draft_abs = (
+        draft if os.path.isabs(draft)
+        else os.path.join(project_root, _norm(draft)))
+    with open(draft_abs, "r", encoding="utf-8") as f:
         content = f.read()
 
     # 5. revision_guard：已发布过则比对 canonical 当前 hash 与 manifest 记录
@@ -155,8 +169,46 @@ def publish(project_root, task_id, role=SERVICE_ROLE, agent=SERVICE_ROLE, model=
                 "疑似被绕过 Publish Service 直改；禁止发布" % (
                     target, cur_hash[:10], prev_entry.get("hash", "")[:10]))
 
-    # 6. 原子发布
-    _atomic_write(canon_abs, content)
+    # 6. strict-v2 only writes through the independent Broker. Broker absence,
+    # stale evidence or incomplete dependency bindings all fail closed.
+    if project_layout.is_style_strict(project_root):
+        regression_path, regression_ok = task_packet._resolve_input(
+            project_root, "regression_result", t)
+        manifest_path, manifest_ok = task_packet._resolve_input(
+            project_root, "protected_manifest", t)
+        guidance_path, guidance_ok = task_packet._resolve_input(
+            project_root, "style_guidance", t)
+        sync_path, sync_ok = task_packet._resolve_input(
+            project_root, "nkb_sync_proof", t)
+        outline_path, outline_ok = task_packet._resolve_input(
+            project_root, "outline", t)
+        review_path, review_ok = task_packet._resolve_input(
+            project_root, "chapter_review_report", t)
+        if not all((
+                regression_ok, manifest_ok, guidance_ok, sync_ok,
+                outline_ok, review_ok)):
+            raise ValueError(
+                "strict-v2 publish dependency evidence is incomplete")
+        if regression_path.lower().endswith(".json"):
+            import json
+            with open(regression_path, "r", encoding="utf-8") as stream:
+                regression = json.load(stream)
+        else:
+            regression = _gov.load_yaml(regression_path) or {}
+        result = style_chapter_publish.execute_publish(
+            project_root, task_id,
+            t.get("chapter_ref") or os.path.splitext(
+                os.path.basename(draft_abs))[0],
+            t.get("revision_cycle_id") or "RC-%s" % task_id,
+            draft_abs, canon_abs, regression,
+            manifest_path, guidance_path, regression_path, sync_path,
+            outline_path, review_path,
+            actor_id=agent)
+        if result.get("status") != "PUBLISH_READY":
+            raise ValueError(
+                "strict-v2 publish rejected: %s" % result)
+    else:
+        _atomic_write(canon_abs, content)
 
     # 7. 历史副本（供回滚）
     new_rev = (prev_entry["revision"] + 1) if prev_entry else 1
@@ -189,6 +241,10 @@ def rollback(project_root, task_id, target, to_revision, role=SERVICE_ROLE,
     写新 revision（不删历史），受六因子约束（需 canonical.rollback 的有效 grant）。
     """
     project_root = os.path.abspath(project_root)
+    if project_layout.is_style_strict(project_root):
+        raise PermissionError(
+            "strict-v2 canonical rollback must use "
+            "chapter-rollback-revision through Broker")
     target = _norm(target)
     # 授权门禁：canonical.rollback 服务动作
     auth = AE.authorize(role, target, task_id=task_id, project_root=project_root,

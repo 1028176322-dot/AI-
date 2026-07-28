@@ -1,0 +1,105 @@
+deployment:
+  id: DEPLOY-20260727-001
+  installer_version: 1.0.0
+  generated_at: 2026-07-27T21:22:35
+  project_id: novel-dushijishi
+  template: dushi@1.3.0
+  core_version: 2.1.0
+  nkb_schema: 1.3.0
+files:
+  - path: project.yaml
+    owner: project
+    strategy: generate
+    overwrite: never
+  - path: project.lock.yaml
+    owner: project
+    strategy: lock
+    overwrite: never
+  - path: deployment-manifest.yaml
+    owner: project
+    strategy: generate
+    overwrite: versioned
+  - path: AGENTS.md
+    owner: platform
+    strategy: managed
+    overwrite: versioned
+  - path: config/writing.yaml
+    owner: project
+    strategy: generate
+    overwrite: never
+  - path: config/quality-gates.yaml
+    owner: project
+    strategy: generate
+    overwrite: never
+  - path: config/context-budget.yaml
+    owner: project
+    strategy: generate
+    overwrite: never
+  - path: NKB/Canon.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/Characters.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/Locations.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/Organizations.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/Timeline.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/WorldState.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/Events.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/Foreshadow.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/Assets.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/Terminology.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/StoryState.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/ReaderState.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/Graph.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/Derived.yaml
+    owner: project
+    strategy: generate_from_schema
+    overwrite: never
+  - path: NKB/manifest.yaml
+    owner: project
+    strategy: generate
+    overwrite: never
+references:
+  - ../../platform/AI-Creative-Platform/core
+  - ../../platform/AI-Creative-Platform/templates
+derive:
+  - indexes/
+  - metrics/
+  - runtime/context/
+  - runtime/policies/

@@ -1,0 +1,6 @@
+schema_version: 1.0.0
+token_budget: 32000
+filter: enabled
+priority: nkb_first
+compress: enabled
+note: 上下文引擎预算；详见 core/context-engine。

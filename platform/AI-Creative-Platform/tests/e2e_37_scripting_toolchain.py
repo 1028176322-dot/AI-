@@ -55,11 +55,17 @@ def _build_tmp_project():
     shutil.copy(os.path.join(PROJ, "project.yaml"), os.path.join(tmp, "project.yaml"))
     # 复制一章 md（排除 审读/评分卡/大纲/批注）
     vol = os.path.join(PROJ, "第一卷_道生")
+    if not os.path.isdir(vol):
+        vol = os.path.join(PROJ, "chapters", "drafts")
     src = None
-    for fn in sorted(os.listdir(vol)):
-        if fn.endswith(".md") and "第" in fn and "章" in fn and "审读" not in fn \
-           and "评分卡" not in fn and "大纲" not in fn and "批注" not in fn:
-            src = os.path.join(vol, fn)
+    for current, dirs, files in os.walk(vol):
+        dirs.sort()
+        for fn in sorted(files):
+            if fn.endswith(".md") and "第" in fn and "章" in fn and "审读" not in fn \
+               and "评分卡" not in fn and "大纲" not in fn and "批注" not in fn:
+                src = os.path.join(current, fn)
+                break
+        if src:
             break
     assert src, "未找到示例章节"
     os.makedirs(os.path.join(tmp, "第一卷_道生"), exist_ok=True)
@@ -213,7 +219,7 @@ def main():
         cli = os.path.join(_PLAT2, "cli", "platform.py")
         env = dict(os.environ)
         env["PYTHONPATH"] = os.pathsep.join([_p for _p in sys.path if _p.startswith(_SCR2)]) + os.pathsep + env.get("PYTHONPATH", "")
-        proc = _sp.run([py, cli, "doctor"], capture_output=True, text=True,
+        proc = _sp.run([py, cli, "doctor", "--quick"], capture_output=True, text=True,
                        encoding="utf-8", errors="replace", env=env, cwd=PROJ_ROOT)
         out = proc.stdout + proc.stderr
         check("doctor 输出含 ScriptGov", "ScriptGov" in out, out[:400])

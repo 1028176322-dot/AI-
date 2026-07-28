@@ -26,7 +26,16 @@ fields:
   - name: issue_list
     type: list
     required: true
-    description: 元素 {category, span_id, description, severity}
+    description: 元素须含 category/location/span_id/短证据/reader_impact/violated_style_rule/requires_revision/revision_boundary/protected_facts；确定性信号必须标注 requires_ai_confirmation。
+  - name: semantic_evidence_count
+    type: integer
+    required: true
+  - name: deterministic_signal_count
+    type: integer
+    required: true
+  - name: literary_judgment_source
+    type: string
+    required: true
   - name: only_warnings
     type: boolean
     required: true

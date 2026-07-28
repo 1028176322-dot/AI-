@@ -29,6 +29,10 @@ fields:
     type: list
     required: true
     description: 元素 {span_id, before, after, reason}
+  - name: revision_mode
+    type: enum
+    required: true
+    enum: [ai_semantic_candidate, deterministic_preview_not_literary_revision]
   - name: applied_style_rules
     type: list
     required: false
@@ -36,6 +40,10 @@ fields:
   - name: protected_manifest_sha256
     type: string
     required: true
+  - name: style_guidance_sha256
+    type: string
+    required: true
+    description: 候选生成时绑定的运行风格指导；指导变化后候选必须 STALE
   - name: created_at
     type: timestamp
     required: true

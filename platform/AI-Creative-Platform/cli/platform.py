@@ -120,6 +120,8 @@ GOV_MODULE_MAP = {
     "report": "report_builder",
     "terminology": "terminology_check",
     "chapter": "chapter_cli",
+    "style": "style_cli",
+    "broker": "broker_cli",
     "selfcheck": "platform_selfcheck",
 }
 
@@ -268,7 +270,9 @@ def check_nkb(project_root, data, req):
 
 
 def check_template(platform_root, data, req):
-    genre = (data.get("template") or {}).get("id")
+    # 兼容两种位置：顶层 template.id（旧约定）或 platform.template.id（installer 生成）
+    tpl = data.get("template") or (data.get("platform") or {}).get("template") or {}
+    genre = tpl.get("id")
     if not genre:
         return False, "project.yaml 缺少 template.id"
     p = os.path.join(platform_root, "templates", genre, "profile.yaml")
@@ -988,6 +992,12 @@ def build_parser():
     gch2 = sub.add_parser("chapter", help="章节发布与生命周期（publish/workflow/canonical-writes/rollback）")
     gch2.add_argument("--project-root", default=None)
     gch2.add_argument("rest", nargs=argparse.REMAINDER)
+    gstyle = sub.add_parser(
+        "style", help="风格与去 AI 味 strict-v2 全链路")
+    gstyle.add_argument("rest", nargs=argparse.REMAINDER)
+    gbroker = sub.add_parser(
+        "broker", help="独立受控写 Broker 运维与 ACL 验证")
+    gbroker.add_argument("rest", nargs=argparse.REMAINDER)
     # ── Phase B 审查管线增强 ──
     gs2 = sub.add_parser("summary", help="章节/卷/弧/滚动摘要落盘（AI 填字段→脚本落盘）")
     gs2.add_argument("--project-root", default=None)
@@ -1035,6 +1045,7 @@ def main():
                       "index", "context", "policy", "validate", "query",
                       "summary", "delta", "review", "learn", "feedback", "reader-panel", "layout",
                       "report", "audit", "terminology", "chapter",
+                      "style", "broker",
                       "selfcheck"):
         _delegate_gov(args.cmd, args)
     else:

@@ -50,7 +50,11 @@ class BrokerBase(unittest.TestCase):
         self.nkb = os.path.join(self.root, "nkb")  # 越权根（禁止写）
         for d in (self.drafts, self.approved, self.analysis, self.nkb):
             os.makedirs(d, exist_ok=True)
-        self.writer = bmod.ControlledWriter(self.root, key_vault=bmod.BrokerKeyVault(key=KEY))
+        # Production defaults remain strict. These legacy fixtures predate the
+        # complete dependency bundle and therefore opt out explicitly.
+        self.writer = bmod.ControlledWriter(
+            self.root, key_vault=bmod.BrokerKeyVault(key=KEY),
+            strict_dependencies=False)
         self.fs = RealFS()
 
     def tearDown(self):
@@ -99,10 +103,12 @@ class IpcTest(BrokerBase):
     def test_ipc_authz_write_loop_and_forged_rejected(self):
         dp, dh = self._seed_draft()
         cp, ch = self._seed_candidate()
-        srv = bmod.BrokerServer(self.writer)
+        srv = bmod.BrokerServer(
+            self.writer, allow_legacy_test_context=True)
         port = srv.start()
         try:
-            cli = bmod.BrokerClient(port=port)
+            cli = bmod.BrokerClient(
+                port=port, legacy_test_context=True)
             authz = cli.authz("apply", _ctx("APPLY_READY"),
                               self._apply_resources(dp, dh, cp, ch))
             self.assertTrue(authz["ok"], authz)
@@ -134,7 +140,8 @@ class DisabledTests(BrokerBase):
                 "apply", _ctx("RUNNING"),  # 非 APPLY_READY → 授权失败
                 self._apply_resources(dp, dh, cp, ch), "should not be written")
         # 原稿未被改动
-        self.assertEqual(open(dp, encoding="utf-8").read(), "original draft")
+        with open(dp, encoding="utf-8") as stream:
+            self.assertEqual(stream.read(), "original draft")
 
     def test_disabled_capability_single_use_replay(self):
         """capability 单次消费：重放同一令牌第二次被拒。"""
@@ -166,12 +173,19 @@ class DisabledTests(BrokerBase):
         """符号链接与路径穿越均被拒（即便 capability 本身签名合法）。"""
         # ① 符号链接指向受控根之外
         outside = os.path.join(self.root, "escape.txt")
-        open(outside, "w", encoding="utf-8").write("x")
+        with open(outside, "w", encoding="utf-8") as stream:
+            stream.write("x")
         link = os.path.join(self.drafts, "evil_link.md")
-        os.symlink(outside, link)
-        cap_link = self._issue(link, target_expected="absent")
-        with self.assertRaises(bmod.PathEscalation):
-            self.writer._commit(cap_link, "x", "A", "S1", "T1")
+        try:
+            os.symlink(outside, link)
+        except OSError as exc:
+            # WinError 1314 is expected on Windows without symlink privilege.
+            if getattr(exc, "winerror", None) != 1314:
+                raise
+        else:
+            cap_link = self._issue(link, target_expected="absent")
+            with self.assertRaises(bmod.PathEscalation):
+                self.writer._commit(cap_link, "x", "A", "S1", "T1")
         # ② 路径穿越 ../
         traversal = os.path.join(self.drafts, "..", "escape.md")
         cap_trav = self._issue(traversal, target_expected="absent")
@@ -193,11 +207,12 @@ class AclTest(BrokerBase):
         out = bmod.apply_ntfs_acl(self.drafts, self.approved, "SVC_TaskRunner", "SVC_ChapterWriter")
         self.assertFalse(out["applied"], "dry-run must not apply")
         cmds = out["commands"]
-        self.assertEqual(len(cmds), 4)  # 2 目录 × (grant writer / deny taskrunner)
+        # 2 directories × (grant writer / clear old deny / deny runner).
+        self.assertEqual(len(cmds), 6)
         joined = "\n".join(cmds)
         self.assertIn("SVC_ChapterWriter", joined)
         self.assertIn("SVC_TaskRunner", joined)
-        self.assertIn("(OI)(CI)W", joined)
+        self.assertIn("(OI)(CI)M", joined)
 
 
 if __name__ == "__main__":

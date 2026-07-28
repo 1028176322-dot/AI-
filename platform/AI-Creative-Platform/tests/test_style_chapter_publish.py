@@ -72,7 +72,8 @@ class ChapterPublishTest(unittest.TestCase):
                                 protected_manifest_sha256="manifest_sha",
                                 style_guidance_sha256="style_sha",
                                 final_regression_mode="post_apply",
-                                final_regression_config_version="1.2.0")
+                                final_regression_config_version="1.2.0",
+                                chapter_review_report_sha256="review_sha")
         self.assertEqual(d["status"], "PUBLISH_READY")
         self.assertEqual(d["final_regression_mode"], "post_apply")
         self.assertEqual(d["final_regression_config_version"], "1.2.0")

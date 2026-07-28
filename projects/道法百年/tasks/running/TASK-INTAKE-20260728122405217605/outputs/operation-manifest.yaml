@@ -1,0 +1,77 @@
+schema: platform-operation-manifest@1.0.0
+task_id: TASK-INTAKE-20260728122405217605
+scope:
+  platform_root: D:/AI-Workspace/platform/AI-Creative-Platform
+  project_task_packet: D:/AI-Workspace/projects/道法百年/tasks/running/TASK-INTAKE-20260728122405217605
+  authorized:
+    - platform source
+    - task templates
+    - schemas and registries
+    - CLI
+    - tests
+    - implementation documentation
+  forbidden_and_untouched:
+    - projects/*/NKB/**
+    - projects/*/chapters/approved/**
+implementation_groups:
+  task_chain:
+    - core/task-system/templates/
+    - scripts/tasks/task_engine.py
+    - scripts/tasks/task_packet.py
+    - scripts/tasks/style_orchestrator.py
+  style_runtime:
+    - scripts/learning/style_guidance.py
+    - scripts/learning/diagnosis.py
+    - scripts/learning/style_revise.py
+    - scripts/learning/fidelity_review.py
+    - scripts/learning/quality_review.py
+    - scripts/learning/final_regression.py
+  learning_loop:
+    - scripts/learning/style_extract.py
+    - scripts/learning/reference_fingerprint.py
+    - scripts/learning/reference_learning.py
+    - scripts/learning/author_learning.py
+    - scripts/learning/feedback_learning.py
+    - scripts/platform/reader_panel.py
+  controlled_write:
+    - scripts/logs/broker.py
+    - scripts/logs/broker_cli.py
+    - scripts/logs/broker_windows_service.py
+    - scripts/logs/deploy_broker_windows.ps1
+    - scripts/learning/controlled_chapter_client.py
+    - scripts/learning/chapter_write.py
+    - scripts/learning/chapter_fix.py
+    - scripts/learning/chapter_apply.py
+    - scripts/learning/chapter_rollback.py
+    - scripts/learning/chapter_publish.py
+  contracts_and_registry:
+    - core/learning/schemas/
+    - registry/learning.yaml
+    - schemas/registry.yaml
+    - platform.yaml
+  verification:
+    - scripts/platform/platform_selfcheck.py
+    - tests/test_style_*.py
+    - tests/e2e_35_task_enforcement_chain.py
+    - tests/e2e_36_single_agent_policy.py
+    - tests/e2e_37_scripting_toolchain.py
+    - tests/e2e_38_review_pipeline.py
+    - tests/e2e_46_conversation_project_chain.py
+operations:
+  source_edits: apply_patch_only
+  git_commit: false
+  git_push: false
+  pull_request: false
+  subagents_used: false
+  admin_deployment_attempted: true
+  admin_command_executed: true
+  os_state_changed: true
+  os_changes:
+    - created local identity SVC_TaskRunner
+    - created local identity SVC_ChapterWriter
+    - granted SeServiceLogonRight to SVC_ChapterWriter
+    - installed and started AIStyleChapterWriter
+    - applied and verified reversible NTFS ACL on validation project
+rollback:
+  source: use normal version-control review/revert after preserving unrelated user changes
+  broker_os: deploy_broker_windows.ps1 -Mode Rollback

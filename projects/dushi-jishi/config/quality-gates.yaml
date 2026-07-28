@@ -1,0 +1,6 @@
+schema_version: 1.0.0
+initialization: required
+planning: required
+script_precheck: required
+ai_semantic_review: required
+regression_review: required

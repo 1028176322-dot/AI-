@@ -1,6 +1,6 @@
 task_template:
   type: style-revise
-  version: "1.0.0"
+  version: "2.0.0"
   required_role: writer
   description: 候选修订生产者；写 revision-candidate 到 analysis/style/，绝不写 chapters/
   required_inputs: [chapter_draft, diagnosis_report, applied_style_rules, protected_manifest]
@@ -19,3 +19,7 @@ task_template:
     required_session: current
   next_tasks:
     on_complete: [fidelity-review]
+  event_contracts:
+    on_complete:
+      required_outputs: [revision_candidate, revision_result]
+      required_bindings: [source_draft_sha256, candidate_sha256, protected_manifest_sha256]

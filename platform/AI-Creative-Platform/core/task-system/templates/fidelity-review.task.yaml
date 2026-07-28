@@ -1,6 +1,6 @@
 task_template:
   type: fidelity-review
-  version: "1.0.0"
+  version: "2.0.0"
   required_role: reviewer
   description: 保真度审查；校验 revision-candidate 与 protected-manifest 一致性
   required_inputs: [chapter_draft, revision_candidate, protected_manifest]
@@ -19,4 +19,11 @@ task_template:
     required_session: current
   next_tasks:
     on_pass: [style-quality-review]
-    on_fail: [style-rule-review]
+    on_fail: [style-revise]
+  event_contracts:
+    on_pass:
+      required_outputs: [fidelity_report]
+      required_bindings: [source_draft_sha256, candidate_sha256, protected_manifest_sha256]
+    on_fail:
+      required_outputs: [fidelity_report]
+      required_bindings: [source_draft_sha256, candidate_sha256, protected_manifest_sha256]

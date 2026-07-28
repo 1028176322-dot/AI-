@@ -1,0 +1,13 @@
+task:
+  id: TASK-004
+  key: worldbuilding
+  title: 世界观基础设计
+  role: worldbuilder
+  status: backlog
+  created_by: project_installer
+  template: project-design
+  description: 世界观基础设计（安装初始化任务，由任务系统顺序调度）
+  blocked_by:
+    - TASK-003
+  next:
+    - TASK-005

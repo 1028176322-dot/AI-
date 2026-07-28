@@ -1,0 +1,27 @@
+schema: style-strict-v2-e2e-report@1.0.0
+task_id: TASK-INTAKE-20260728122405217605
+result: PASS
+total: 20
+passed: 20
+failed: 0
+scenarios:
+  - clean chain reaches NKB sync and publish
+  - issue chain contains every revision gate
+  - quality failure enters human gate
+  - post-apply failure routes to rollback
+  - rollback conflict blocks automatic restore
+  - manifest conflict blocks diagnosis
+  - guidance drift makes candidate stale
+  - NKB drift makes publish stale
+  - outline drift makes publish stale
+  - publish without FINAL_PASSED is rejected
+  - OS bypass is fail-closed until deployed
+  - forged task context is rejected
+  - capability replay is rejected
+  - cross-project capability is rejected
+  - subagent context is rejected
+  - legacy project keeps legacy flow
+  - reference prose never enters learning artifacts
+  - source withdrawal recomputes candidates
+  - author feedback below three never promotes
+  - human observation never impersonates AI panel

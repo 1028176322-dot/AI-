@@ -11,6 +11,7 @@ import importlib.util
 import json
 import os
 import re
+import socket
 import sys
 
 
@@ -20,12 +21,37 @@ PLATFORM_ROOT = os.path.dirname(SCRIPTS_ROOT)
 for path in (
         os.path.join(SCRIPTS_ROOT, "_common"),
         os.path.join(SCRIPTS_ROOT, "tasks"),
+        os.path.join(SCRIPTS_ROOT, "learning"),
+        os.path.join(SCRIPTS_ROOT, "logs"),
+        os.path.join(SCRIPTS_ROOT, "project"),
         os.path.join(PLATFORM_ROOT, "cli")):
     if path not in sys.path:
         sys.path.insert(0, path)
 
 import _gov
 import task_templates as TT
+
+
+REQUIRED_STYLE_EVENTS = {
+    "on_complete", "on_clean", "on_warning", "on_issues", "on_pass",
+    "on_fail", "on_rolled_back", "on_conflict", "on_fail_baseline",
+    "on_fail_post_apply",
+}
+REQUIRED_STYLE_INPUTS = {
+    "protected_manifest", "style_guidance", "diagnosis_report",
+    "applied_style_rules", "revision_candidate", "revision_result",
+    "fidelity_report", "quality_policy", "quality_report",
+    "apply_readiness", "pre_apply_backup", "rollback_readiness",
+    "regression_result", "chapter_review_report",
+}
+REQUIRED_STYLE_COMMANDS = {
+    "style_guidance_build", "style_manifest_build", "style_diagnose",
+    "style_revise", "style_fidelity_review", "style_quality_review",
+    "style_apply", "style_final_regression", "style_rollback",
+    "style_author_feedback", "style_event_verify", "style_status",
+    "broker_serve", "broker_status", "broker_acl_plan",
+    "broker_acl_apply", "broker_acl_verify",
+}
 
 
 def _finding(findings, severity, check, detail, path=None):
@@ -135,6 +161,224 @@ def _check_templates(findings):
                              (task_type, event, target), entry["path"])
 
 
+def _check_style_system(findings):
+    try:
+        import style_orchestrator
+        import task_packet
+    except Exception as exc:
+        _finding(findings, "error", "style_import",
+                 "风格编排/Task Packet 无法导入: %s" % exc)
+        return
+
+    missing_events = sorted(
+        REQUIRED_STYLE_EVENTS - style_orchestrator.SUPPORTED_EVENTS)
+    if missing_events:
+        _finding(findings, "error", "style_event_handler",
+                 "风格事件没有统一处理器: %s" %
+                 ", ".join(missing_events))
+
+    declared_events = set()
+    for entry in TT.registry().values():
+        declared_events.update(
+            (entry["template"].get("next_tasks") or {}).keys())
+    unhandled = sorted(
+        (declared_events & REQUIRED_STYLE_EVENTS)
+        - style_orchestrator.SUPPORTED_EVENTS)
+    if unhandled:
+        _finding(findings, "error", "style_event_handler",
+                 "模板声明事件未被处理: %s" % ", ".join(unhandled))
+
+    with open(task_packet.__file__, "r", encoding="utf-8") as handle:
+        packet_source = handle.read()
+    unresolved = sorted(
+        name for name in REQUIRED_STYLE_INPUTS
+        if (
+            name not in task_packet.STYLE_FILE_INPUTS
+            and ('name == "%s"' % name) not in packet_source
+            and ('"%s"' % name) not in packet_source
+        ))
+    if unresolved:
+        _finding(findings, "error", "style_input_resolver",
+                 "Task Packet 缺确定性解析器: %s" %
+                 ", ".join(unresolved))
+
+    platform = _gov.load_yaml(
+        os.path.join(PLATFORM_ROOT, "platform.yaml")) or {}
+    commands = platform.get("commands") or {}
+    missing_commands = sorted(REQUIRED_STYLE_COMMANDS - set(commands))
+    if missing_commands:
+        _finding(findings, "error", "style_command_registry",
+                 "platform.yaml 缺命令登记: %s" %
+                 ", ".join(missing_commands))
+
+    cli = _load_cli_module()
+    module_map = getattr(cli, "GOV_MODULE_MAP", {})
+    for command in ("style", "broker"):
+        if command not in module_map:
+            _finding(findings, "error", "style_cli_delegate",
+                     "platform CLI 缺 %s 委托" % command)
+
+    learning_registry_path = os.path.join(
+        PLATFORM_ROOT, "registry", "learning.yaml")
+    learning = _gov.load_yaml(learning_registry_path) or {}
+    style = learning.get("style_system") or {}
+    schema_dir = os.path.join(
+        PLATFORM_ROOT, style.get("schema_dir") or
+        "core/learning/schemas")
+    for schema in style.get("schemas") or []:
+        if not os.path.isfile(os.path.join(schema_dir, schema)):
+            _finding(findings, "error", "style_schema_registry",
+                     "已登记风格 Schema 不存在: %s" % schema, schema)
+
+    publish = TT.load("chapter_publish")
+    required = set(publish.get("required_inputs") or [])
+    publish_required = {
+        "regression_result", "protected_manifest_sha256",
+        "style_guidance_sha256", "nkb_sync_proof",
+        "chapter_review_report",
+    }
+    missing_publish = sorted(publish_required - required)
+    if missing_publish:
+        _finding(findings, "error", "style_publish_gate",
+                 "发布模板缺强制证据: %s" %
+                 ", ".join(missing_publish))
+
+
+def _check_controlled_writes(findings):
+    try:
+        import scan_controlled_write
+        broker = os.path.normpath(os.path.join(
+            PLATFORM_ROOT, "scripts", "logs", "broker.py"))
+        allowed = {
+            broker,
+            os.path.normpath(scan_controlled_write.__file__),
+        }
+        for name in (
+                "diagnosis.py", "style_extract.py", "rule_review.py",
+                "style_revise.py", "manifest_build.py",
+                "quality_review.py", "final_regression.py",
+                "chapter_apply.py", "chapter_rollback.py",
+                "chapter_publish.py", "style_rule_promote.py",
+                "style_hitrate.py", "author_learning.py"):
+            allowed.add(os.path.normpath(os.path.join(
+                PLATFORM_ROOT, "scripts", "learning", name)))
+        violations = scan_controlled_write.scan_dirs(
+            scan_controlled_write._default_scan_dirs(PLATFORM_ROOT),
+            allow_files=allowed)
+        for path, line, _, source in violations:
+            _finding(findings, "error", "controlled_write_bypass",
+                     "受控正文疑似直写: %s:%d %s" %
+                     (os.path.relpath(path, PLATFORM_ROOT), line, source),
+                     os.path.relpath(path, PLATFORM_ROOT))
+    except Exception as exc:
+        _finding(findings, "error", "controlled_write_scan",
+                 "受控写扫描失败: %s" % exc)
+
+    required_clients = {
+        "scripts/learning/chapter_write.py",
+        "scripts/learning/chapter_fix.py",
+        "scripts/learning/chapter_apply.py",
+        "scripts/learning/chapter_rollback.py",
+        "scripts/learning/chapter_publish.py",
+    }
+    for relative in sorted(required_clients):
+        path = os.path.join(PLATFORM_ROOT, relative)
+        with open(path, "r", encoding="utf-8") as handle:
+            text = handle.read()
+        if "broker_write(" not in text:
+            _finding(findings, "error", "strict_broker_client",
+                     "strict-v2 正式写入未调用 Broker: %s" %
+                     relative, relative)
+
+
+def _workspace_project_roots(workspace_root):
+    path = os.path.join(workspace_root, "workspace.yaml")
+    data = _gov.load_yaml(path) if os.path.isfile(path) else {}
+    entries = ((data or {}).get("workspace") or {}).get("projects") or []
+    return [
+        os.path.abspath(os.path.join(workspace_root, entry))
+        for entry in entries
+        if os.path.isdir(os.path.join(workspace_root, entry))
+    ]
+
+
+def _is_style_strict(project_root):
+    path = os.path.join(project_root, "PROJECT_LAYOUT.yaml")
+    marker = _gov.load_yaml(path) if os.path.isfile(path) else {}
+    style = (marker or {}).get("style_system") or {}
+    return (
+        style.get("enabled") is True
+        and style.get("enforcement_profile") == "strict-v2"
+        and style.get("full_chapter_chain_required") is True)
+
+
+def _broker_reachable(project_root):
+    path = os.path.join(
+        project_root, "runtime", "learning", "broker-status.json")
+    if not os.path.isfile(path):
+        return False, "broker-status.json 不存在"
+    try:
+        body = json.load(open(path, "r", encoding="utf-8"))
+        port = int(body.get("port") or 0)
+        connection = socket.create_connection(
+            (body.get("host") or "127.0.0.1", port), timeout=1.5)
+        connection.sendall(b'{"op":"status"}\n')
+        response = json.loads(connection.recv(65536).decode("utf-8"))
+        connection.close()
+        return (
+            response.get("ok") is True
+            and response.get("state") == "RUNNING",
+            response)
+    except Exception as exc:
+        return False, str(exc)
+
+
+def _check_style_deployment(findings, workspace_root):
+    try:
+        from broker import verify_ntfs_acl
+    except Exception as exc:
+        _finding(findings, "error", "broker_deployment",
+                 "Broker ACL 验证器无法导入: %s" % exc)
+        return
+    for project_root in _workspace_project_roots(workspace_root):
+        if not _is_style_strict(project_root):
+            continue
+        label = os.path.basename(project_root)
+        report_path = os.path.join(
+            project_root, "runtime", "learning",
+            "broker-deployment.json")
+        yaml_report = os.path.join(
+            project_root, "runtime", "learning",
+            "broker-deployment.yaml")
+        if os.path.isfile(report_path):
+            report = json.load(open(
+                report_path, "r", encoding="utf-8-sig"))
+        elif os.path.isfile(yaml_report):
+            report = _gov.load_yaml(yaml_report) or {}
+            report_path = yaml_report
+        else:
+            report = {}
+        if report.get("deployment_state") != "DEPLOYED_VERIFIED":
+            _finding(findings, "error", "broker_deployment",
+                     "%s: BLOCKED_NOT_DEPLOYED（缺已验证部署报告）" %
+                     label, report_path)
+        reachable, detail = _broker_reachable(project_root)
+        if not reachable:
+            _finding(findings, "error", "broker_runtime",
+                     "%s: Broker 未运行或不可达: %s" %
+                     (label, detail))
+        acl = verify_ntfs_acl(
+            os.path.join(project_root, "chapters", "drafts"),
+            os.path.join(project_root, "chapters", "approved"),
+            "SVC_TaskRunner", "SVC_ChapterWriter")
+        if not acl.get("verified"):
+            _finding(findings, "error", "broker_acl",
+                     "%s: 身份或 ACL 复读验证未通过" % label)
+        if report.get("taskrunner_direct_write_denied") is not True:
+            _finding(findings, "error", "broker_os_bypass",
+                     "%s: 缺 TaskRunner 真实身份直写拒绝证明" % label)
+
+
 def _load_cli_module():
     path = os.path.join(PLATFORM_ROOT, "cli", "platform.py")
     spec = importlib.util.spec_from_file_location("_platform_cli_selfcheck", path)
@@ -241,11 +485,14 @@ def audit(workspace_root=None):
     _check_contract_registry(findings)
     _check_plugins(findings)
     _check_templates(findings)
+    _check_style_system(findings)
     _check_cli(findings)
     _check_python_syntax(findings)
     _check_portability(findings)
+    _check_controlled_writes(findings)
     if workspace_root:
         _check_workspace_registry(findings, workspace_root)
+        _check_style_deployment(findings, workspace_root)
     errors = sum(1 for f in findings if f["severity"] == "error")
     warnings = sum(1 for f in findings if f["severity"] == "warning")
     decision = "block" if errors else ("caution" if warnings else "proceed")
@@ -256,7 +503,7 @@ def audit(workspace_root=None):
             "decision": decision,
             "errors": errors,
             "warnings": warnings,
-            "checks": 7,
+            "checks": 10,
         },
         "gate": {
             "decision": decision,
@@ -266,7 +513,7 @@ def audit(workspace_root=None):
             "health": max(0, 100 - errors * 20 - warnings * 5),
         },
         "response": {
-            "checks": 7,
+            "checks": 10,
             "errors": errors,
             "warnings": warnings,
         },

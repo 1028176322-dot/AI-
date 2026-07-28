@@ -1,0 +1,13 @@
+task:
+  id: TASK-005
+  key: power_system
+  title: 力量体系设计
+  role: worldbuilder
+  status: backlog
+  created_by: project_installer
+  template: project-design
+  description: 力量体系设计（安装初始化任务，由任务系统顺序调度）
+  blocked_by:
+    - TASK-004
+  next:
+    - TASK-006

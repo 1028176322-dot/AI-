@@ -1,0 +1,12 @@
+task:
+  id: TASK-001
+  key: project_discovery
+  title: 项目需求采集
+  role: analyst
+  status: backlog
+  created_by: project_installer
+  template: project-design
+  description: 项目需求采集（安装初始化任务，由任务系统顺序调度）
+  blocked_by: []
+  next:
+    - TASK-002

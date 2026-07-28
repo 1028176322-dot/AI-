@@ -128,6 +128,23 @@ commands:
   feedback_integrate: platform feedback ingest
   reader_panel: platform reader-panel prepare
   layout_validate: platform layout validate
+  style_guidance_build: platform style guidance-build
+  style_manifest_build: platform style manifest-build
+  style_diagnose: platform style diagnose
+  style_revise: platform style revise
+  style_fidelity_review: platform style fidelity-review
+  style_quality_review: platform style quality-review
+  style_apply: platform style apply
+  style_final_regression: platform style final-regression
+  style_rollback: platform style rollback
+  style_author_feedback: platform style author-feedback
+  style_event_verify: platform style event-verify
+  style_status: platform style status
+  broker_serve: platform broker serve
+  broker_status: platform broker status
+  broker_acl_plan: platform broker acl-plan
+  broker_acl_apply: platform broker acl-apply
+  broker_acl_verify: platform broker acl-verify
 
 override_policy:
   # 不可覆盖：任何下层配置（题材模板 / 项目 / 任务运行时）均不得修改以下键。

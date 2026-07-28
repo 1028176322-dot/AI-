@@ -37,6 +37,27 @@ fields:
     type: boolean
     required: false
     description: 人工豁免（须 hard_gate=false 且策略允许）
+  - name: style_guidance_sha256
+    type: string
+    required: true
+  - name: hard_gate_failures
+    type: list
+    required: true
+  - name: quality_failures
+    type: list
+    required: true
+  - name: warnings
+    type: list
+    required: true
+  - name: waivable_failures
+    type: list
+    required: true
+  - name: non_waivable_failures
+    type: list
+    required: true
+  - name: semantic_evidence
+    type: list
+    required: true
   - name: created_at
     type: timestamp
     required: true

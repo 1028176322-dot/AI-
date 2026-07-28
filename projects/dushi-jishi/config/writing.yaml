@@ -1,0 +1,6 @@
+schema_version: 1.0.0
+target_words: 1800000
+volume_count: 6
+pov: third_person_limited
+audience: male_frequency
+note: 由 spec.writing 派生；不复制平台默认值。

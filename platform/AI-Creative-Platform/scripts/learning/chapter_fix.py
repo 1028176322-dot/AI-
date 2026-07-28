@@ -18,6 +18,13 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPTS_ROOT = os.path.dirname(HERE)
 if SCRIPTS_ROOT not in sys.path:
     sys.path.insert(0, SCRIPTS_ROOT)
+for _child in os.listdir(SCRIPTS_ROOT):
+    _path = os.path.join(SCRIPTS_ROOT, _child)
+    if os.path.isdir(_path) and _path not in sys.path:
+        sys.path.insert(0, _path)
+
+import project_layout
+from controlled_chapter_client import broker_write, resource, sha256_file
 
 
 def main():
@@ -32,8 +39,27 @@ def main():
                     help="当前草稿期望哈希（CAS 写用）；不提供则强制写入")
     args = ap.parse_args()
 
-    cw = os.path.join(os.path.dirname(HERE), "tasks", "controlled_write.py")
     target = "chapters/drafts/%s.md" % args.chapter
+    if project_layout.is_style_strict(args.project):
+        if not args.expected_sha256:
+            raise SystemExit(
+                "REJECTED: strict-v2 chapter_fix requires --expected-sha256")
+        target_abs = os.path.join(args.project, target)
+        current = sha256_file(target_abs)
+        if current != args.expected_sha256:
+            raise SystemExit(
+                "REJECTED: CAS mismatch current=%s expected=%s" %
+                (current, args.expected_sha256))
+        with open(args.content_file, "r", encoding="utf-8") as stream:
+            content = stream.read()
+        result = broker_write(
+            args.project, args.task_id, "chapter_write",
+            [resource("target", target_abs, args.expected_sha256)],
+            content)
+        print("BROKER WROTE: %s" % result.get("target"))
+        return
+
+    cw = os.path.join(os.path.dirname(HERE), "tasks", "controlled_write.py")
     cmd = [
         sys.executable or "python", cw,
         "--role", args.role,
@@ -42,6 +68,8 @@ def main():
         "--content-file", args.content_file,
         "--task-id", args.task_id,
     ]
+    if args.expected_sha256:
+        cmd.extend(["--expected-sha256", args.expected_sha256])
     ret = subprocess.run(cmd, check=False)
     sys.exit(ret.returncode)
 

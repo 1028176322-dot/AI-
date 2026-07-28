@@ -1,0 +1,88 @@
+task:
+  id: TASK-INTAKE-20260728122405217605
+  type: system_maintenance
+  project: novel-dsf
+  title: 修改并完整实现平台风格系统与去AI味全链路任务单：补齐事件编排、Task Packet、L0-L4风格指导、十二维参考学
+  version: 1
+  priority: high
+  chapter_ref: null
+  agent:
+    required_role: system-maintainer
+  permissions:
+    read:
+      - .gitattributes
+      - workspace.yaml
+      - AGENTS.md
+      - platform.yaml
+      - platform.lock.yaml
+      - cli/**
+      - core/**
+      - scripts/**
+      - registry/**
+      - schemas/**
+      - templates/**
+      - tests/**
+      - memory/晋升机制.md
+      - README.md
+      - ARCHITECTURE.md
+      - platform.bat
+      - platform.sh
+      - tasks/running/<id>/outputs/**
+    write:
+      - .gitattributes
+      - workspace.yaml
+      - platform.yaml
+      - platform.lock.yaml
+      - cli/**
+      - core/**
+      - scripts/**
+      - registry/**
+      - schemas/**
+      - templates/**
+      - tests/**
+      - memory/晋升机制.md
+      - README.md
+      - ARCHITECTURE.md
+      - platform.bat
+      - platform.sh
+      - tasks/running/<id>/outputs/**
+    forbidden:
+      - projects/*/NKB/**
+      - projects/*/chapters/approved/**
+  inputs:
+    required:
+      - change_brief
+      - explicit_user_approval
+    values:
+      change_brief: 修改并完整实现平台风格系统与去AI味全链路任务单：补齐事件编排、Task Packet、L0-L4风格指导、十二维参考学习、语义诊断与修订、Broker受控写入、作者和真人读者反馈闭环、CLI、自检、端到端测试和实施状态；用户已明确授权平台代码、契约、模板、测试和文档修改，不修改项目正式NKB或已批准章节。
+      explicit_user_approval: true
+      confirmation_source: user_request
+  expected_outputs:
+    - patch
+    - validation_report
+    - operation_manifest
+  acceptance:
+    criteria:
+      - 按 system-maintenance 模板契约完成
+  created: 2026-07-28T12:24:05
+  created_by: codex-root
+  urgency: normal
+  status: completed
+  owner: codex-root
+  claimed_at: 2026-07-28T12:24:12
+  lease_expire: 2026-07-28T20:00:00
+  workspace: tasks\running\TASK-INTAKE-20260728122405217605\outputs
+  artifact: tasks/running/TASK-INTAKE-20260728122405217605/outputs/platform-patch-summary.md
+  outputs:
+    patch: tasks/running/TASK-INTAKE-20260728122405217605/outputs/platform-patch-summary.md
+    validation_report: tasks/running/TASK-INTAKE-20260728122405217605/outputs/validation-report.yaml
+    operation_manifest: tasks/running/TASK-INTAKE-20260728122405217605/outputs/operation-manifest.yaml
+  submission:
+    checks:
+      full_regression: pass
+      broker_deployment: pass
+      selfcheck: pass
+    at: 2026-07-28T15:00:26
+  review:
+    decision: pass
+    at: 2026-07-28T15:01:55

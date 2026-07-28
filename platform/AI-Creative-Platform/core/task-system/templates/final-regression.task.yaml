@@ -1,9 +1,9 @@
 task_template:
   type: final-regression
-  version: "1.0.0"
+  version: "2.0.0"
   required_role: reviewer
   description: 最终回归审查（只读）；双模式 baseline / post_apply
-  required_inputs: [chapter_draft, nkb_snapshot, protected_manifest, outline]
+  required_inputs: [chapter_draft, nkb_snapshot, protected_manifest, outline, style_guidance, chapter_review_report, final_regression_mode]
   allowed_outputs: [regression_result]
   permissions:
     read: [chapters/drafts/**, NKB/**, analysis/style/**, outlines/**]
@@ -18,6 +18,16 @@ task_template:
     max_parallel_steps: 1
     required_session: current
   next_tasks:
-    on_pass: [chapter_publish]
+    on_pass: [nkb_update]
     on_fail_baseline: [chapter-fix]
     on_fail_post_apply: [chapter-rollback-revision]
+  event_contracts:
+    on_pass:
+      required_outputs: [regression_result]
+      required_bindings: [draft_sha256, nkb_snapshot_sha256, outline_sha256, protected_manifest_sha256, style_guidance_sha256, final_regression_mode, chapter_review_report_sha256]
+    on_fail_baseline:
+      required_outputs: [regression_result]
+      required_bindings: [draft_sha256, protected_manifest_sha256, final_regression_mode, chapter_review_report_sha256]
+    on_fail_post_apply:
+      required_outputs: [regression_result]
+      required_bindings: [draft_sha256, protected_manifest_sha256, final_regression_mode, chapter_review_report_sha256]

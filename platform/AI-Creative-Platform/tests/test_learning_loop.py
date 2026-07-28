@@ -24,8 +24,17 @@ import compliance_scan
 class LearningLoopTest(unittest.TestCase):
     def setUp(self):
         self.root = tempfile.mkdtemp(prefix="learning_loop_")
+        self._old_fingerprint_key = os.environ.get(
+            "FS_FINGERPRINT_KEY_DEFAULT")
+        os.environ["FS_FINGERPRINT_KEY_DEFAULT"] = (
+            "unit-test-reference-key-not-for-production")
 
     def tearDown(self):
+        if self._old_fingerprint_key is None:
+            os.environ.pop("FS_FINGERPRINT_KEY_DEFAULT", None)
+        else:
+            os.environ["FS_FINGERPRINT_KEY_DEFAULT"] = (
+                self._old_fingerprint_key)
         shutil.rmtree(self.root, ignore_errors=True)
 
     def _reference(self, name="sample.txt"):
@@ -45,7 +54,9 @@ class LearningLoopTest(unittest.TestCase):
             self._reference(), "xuanhuan", out_dir)
         self.assertFalse(report["raw_text_stored"])
         self.assertTrue(report["meta"]["source_hash"])
-        self.assertTrue(report["candidates"])
+        self.assertFalse(report["candidates"])
+        self.assertTrue(report["style_dimensions"])
+        self.assertTrue(report["legacy_candidates"])
         with open(path, "r", encoding="utf-8") as stream:
             self.assertNotIn("夜色压住山门", stream.read())
         ok, errors = reference_learning.validate_profile(path)
@@ -59,10 +70,9 @@ class LearningLoopTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             reference_learning.promote_project(
                 summary_path, self.root, approved=False)
-        memory, guidance = reference_learning.promote_project(
-            summary_path, self.root, approved=True)
-        self.assertTrue(os.path.isfile(memory))
-        self.assertTrue(os.path.isfile(guidance))
+        with self.assertRaisesRegex(ValueError, "没有候选规则"):
+            reference_learning.promote_project(
+                summary_path, self.root, approved=True)
 
     def test_review_feedback_becomes_guidance(self):
         finding = {

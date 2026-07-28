@@ -345,7 +345,7 @@ def main():
         real_ws = os.path.dirname(os.path.dirname(os.path.dirname(TOOLS)))  # tools->平台->platform->AI-Workspace
         try:
             r = subprocess.run([sys.executable, os.path.join(_PLAT2, "cli", "platform.py"),
-                                "--workspace", real_ws, "doctor"],
+                                "--workspace", real_ws, "doctor", "--quick"],
                                capture_output=True, text=True,
                                encoding="utf-8", errors="replace", timeout=420)
             dout = r.stdout + r.stderr

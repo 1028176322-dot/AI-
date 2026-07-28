@@ -1,0 +1,78 @@
+task:
+  id: TASK-INTAKE-20260728122405217605-SYSTEM-VERIFY
+  version: 1
+  project: novel-dsf
+  type: system_verify
+  title: TASK-INTAKE-20260728122405217605 后继 system_verify
+  status: completed
+  priority: high
+  created: 2026-07-28T15:00:26
+  created_by: task-system
+  goal: null
+  chapter_ref: null
+  conversation_request_id: null
+  dependencies:
+    - TASK-INTAKE-20260728122405217605
+  inputs:
+    required:
+      - patch
+      - validation_report
+      - operation_manifest
+    values:
+      source_task: TASK-INTAKE-20260728122405217605
+      source_artifact: tasks/running/TASK-INTAKE-20260728122405217605/outputs/platform-patch-summary.md
+      patch: tasks/running/TASK-INTAKE-20260728122405217605/outputs/platform-patch-summary.md
+      validation_report: tasks/running/TASK-INTAKE-20260728122405217605/outputs/validation-report.yaml
+      operation_manifest: tasks/running/TASK-INTAKE-20260728122405217605/outputs/operation-manifest.yaml
+  expected_outputs:
+    - validation_report
+    - findings
+  acceptance:
+    criteria:
+      - 按 system_verify 模板完成
+  permissions:
+    read:
+      - AGENTS.md
+      - platform.yaml
+      - platform.lock.yaml
+      - cli/**
+      - core/**
+      - scripts/**
+      - registry/**
+      - schemas/**
+      - templates/**
+      - tests/**
+      - README.md
+      - ARCHITECTURE.md
+      - platform.bat
+      - platform.sh
+    write:
+      - tasks/running/<id>/outputs/**
+      - analysis/platform-review/**
+    forbidden:
+      - projects/*/NKB/**
+      - projects/*/chapters/approved/**
+  agent:
+    required_role: system-maintainer
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  owner: codex-verifier
+  claimed_at: 2026-07-28T15:00:58
+  lease_expire: 2026-07-28T17:00:58
+  workspace: tasks\running\TASK-INTAKE-20260728122405217605-SYSTEM-VERIFY\outputs
+  artifact: tasks/running/TASK-INTAKE-20260728122405217605-SYSTEM-VERIFY/outputs/validation-report.yaml
+  outputs:
+    validation_report: tasks/running/TASK-INTAKE-20260728122405217605-SYSTEM-VERIFY/outputs/validation-report.yaml
+    findings: tasks/running/TASK-INTAKE-20260728122405217605-SYSTEM-VERIFY/outputs/findings.yaml
+  submission:
+    checks:
+      independent_verification: pass
+      broker_live: pass
+      regression: pass
+    at: 2026-07-28T15:01:55

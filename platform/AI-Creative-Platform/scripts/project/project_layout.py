@@ -17,6 +17,7 @@ import _gov
 
 
 LAYOUT_VERSION = "2.0.0"
+STYLE_ENFORCEMENT_VERSION = "strict-v2"
 REQUIRED_DIRS = [
     "NKB",
     "sources/references/inbox",
@@ -108,6 +109,9 @@ ALLOWED_TOP_LEVEL = {
     "learning", "runtime", "tasks", "operations", "audit", "versions",
     "publish", "overrides", "metrics", "lifecycle", "project", "summaries", "handoffs",
     "canonical_manifest.yaml",
+    # create 事务式安装（render/init_*）生成的标准顶层产物，需纳入严格目录契约
+    "checkpoints", "config", "indexes", "planning", "sessions",
+    "deployment-manifest.yaml", "project.lock.yaml",
 }
 STORAGE = {
     "raw_reference_books": "sources/references/inbox/",
@@ -153,6 +157,20 @@ def is_strict(project_root):
     return os.path.isfile(os.path.join(project_root, "PROJECT_LAYOUT.yaml"))
 
 
+def is_style_strict(project_root):
+    """Return true only for projects explicitly provisioned as strict-v2."""
+    marker_path = os.path.join(project_root, "PROJECT_LAYOUT.yaml")
+    if not os.path.isfile(marker_path):
+        return False
+    marker = _gov.load_yaml(marker_path) or {}
+    style = marker.get("style_system") or {}
+    return (
+        style.get("enabled") is True
+        and style.get("enforcement_profile") == STYLE_ENFORCEMENT_VERSION
+        and style.get("full_chapter_chain_required") is True
+    )
+
+
 def scaffold_layout(project_root, genre):
     for rel in REQUIRED_DIRS:
         os.makedirs(os.path.join(project_root, rel), exist_ok=True)
@@ -167,6 +185,12 @@ def scaffold_layout(project_root, genre):
             "enforcement_mode": "strict",
             "no_task_no_write": True,
             "session_required": True,
+        },
+        "style_system": {
+            "enabled": True,
+            "enforcement_profile": STYLE_ENFORCEMENT_VERSION,
+            "full_chapter_chain_required": True,
+            "broker_fail_closed": True,
         },
         "review": {
             "reader_panel_required": True,
@@ -185,7 +209,21 @@ def scaffold_layout(project_root, genre):
         "allowed_top_level": sorted(ALLOWED_TOP_LEVEL),
     }
     _gov.dump_yaml(os.path.join(project_root, "PROJECT_LAYOUT.yaml"), marker)
-    agents = """# Project Agent Rules
+    _gov.dump_yaml(os.path.join(
+        project_root, "runtime", "learning",
+        "broker-deployment.yaml"), {
+            "schema": "style-broker-deployment@1.0.0",
+            "deployment_state": "BLOCKED_NOT_DEPLOYED",
+            "reason": (
+                "Windows service identities and NTFS ACL require "
+                "administrator-approved deployment"),
+            "deployment_tool":
+                "scripts/logs/deploy_broker_windows.ps1",
+            "strict_writes_fail_closed": True,
+        })
+    agents = """# Single-Agent Execution Policy
+
+（单 Agent 串行执行；禁止子 Agent、委派与并行 Agent。以下规则覆盖会话/任务/编排器/工具四层。）
 
 1. 对话中的“写 N 章 / 审查第 A-B 章”等请求必须先执行 `platform task dispatch --request ...`，生成 Goal、Task 和 Task Packet 后才能工作。
 2. 所有写入必须关联当前 Session 中处于 claimed/running 的 Task。

@@ -1,0 +1,13 @@
+task:
+  id: TASK-003
+  key: genre_audience
+  title: 题材定位与读者定位
+  role: planner
+  status: backlog
+  created_by: project_installer
+  template: project-design
+  description: 题材定位与读者定位（安装初始化任务，由任务系统顺序调度）
+  blocked_by:
+    - TASK-002
+  next:
+    - TASK-004

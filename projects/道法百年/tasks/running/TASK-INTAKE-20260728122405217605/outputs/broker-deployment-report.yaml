@@ -1,0 +1,39 @@
+schema: style-broker-deployment@1.0.0
+task_id: TASK-INTAKE-20260728122405217605
+target: D:/AI-Workspace/platform/AI-Creative-Platform/runtime/broker-validation-project
+deployment_state: DEPLOYED_VERIFIED
+tooling:
+  windows_service_host: scripts/logs/broker_windows_service.py
+  deployment_script: scripts/logs/deploy_broker_windows.ps1
+  modes: [Plan, Apply, Verify, Rollback]
+  plan_verified: true
+  powershell_syntax_verified: true
+  native_service_dispatcher_entry_verified: true
+requested_os_changes:
+  local_accounts: [SVC_TaskRunner, SVC_ChapterWriter]
+  windows_service: AIStyleChapterWriter
+  acl:
+    writer: Modify on chapters/drafts and chapters/approved
+    taskrunner: Deny Modify on chapters/drafts and chapters/approved
+  direct_identity_probes:
+    - create file must fail
+    - delete file must fail
+actual_os_state:
+  local_accounts_created: true
+  windows_service_installed: true
+  windows_service_state: RUNNING
+  broker_reachable: true
+  broker_pid_at_verification: 8720
+  ntfs_acl_applied: true
+  ntfs_acl_readback_verified: true
+  acl_idempotent_single_deny_ace: true
+  probes_run: true
+  taskrunner_create_denied: true
+  taskrunner_delete_denied: true
+  secrets_written_to_project: false
+service_security:
+  strict_dependencies: true
+  trusted_context_source: task_session_ssot
+  endpoint: 127.0.0.1:48731
+  key_source: windows-service-environment
+rollback_available: true

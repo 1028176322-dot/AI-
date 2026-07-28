@@ -1,0 +1,30 @@
+autonomy_policy:
+  schema: design-expansion@1.0.0
+  project_id: novel-dushijishi
+  mode: balanced
+  delegated_domains:
+    - locations
+    - organizations
+    - terminology
+    - assets_and_abilities
+    - initial_state
+  author_decision_domains:
+    - story_core
+    - world_and_canon
+    - characters
+    - conflict_system
+    - arcs
+    - information_design
+    - reader_state
+    - outline
+  impact_requires_author:
+    - high
+    - fatal
+  default_candidate_status: pending_review
+  rules:
+    - 用户锁定事实不得由 AI 覆盖
+    - 高于授权影响等级的候选必须进入作者决策包
+    - 参考作品只允许学习方法，不得复制表达、专名或独特情节组合
+    - 任何 AI 补充必须先进入 design candidate，不得直接写 NKB
+  granted_at: 2026-07-27T22:21:11
+  grant_source: user_conversation

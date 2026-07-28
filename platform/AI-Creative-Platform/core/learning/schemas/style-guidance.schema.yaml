@@ -1,0 +1,47 @@
+schema:
+  id: style.guidance
+  version: "1.0.0"
+  description: L0-L4、写作手法与审查反补规则的确定性运行时组合。
+fields:
+  - name: schema_version
+    type: string
+    required: true
+  - name: project_id
+    type: string
+    required: true
+  - name: chapter_id
+    type: string
+    required: true
+  - name: revision_cycle_id
+    type: string
+    required: true
+  - name: source_bindings
+    type: object
+    required: true
+    description: 各层卡片、治理策略、NKB、章纲、writing strategy 与反馈证据的路径和 SHA-256。
+  - name: governance_constraints
+    type: list
+    required: true
+  - name: immutable_requirements
+    type: list
+    required: true
+  - name: effective_rules
+    type: list
+    required: true
+    description: 仅包含 ACTIVE/APPROVED 且作用域匹配的规则。
+  - name: suppressed_rules
+    type: list
+    required: true
+  - name: explicit_overrides
+    type: list
+    required: true
+  - name: writing_strategy
+    type: object
+    required: true
+  - name: review_feedback
+    type: object
+    required: true
+  - name: style_guidance_sha256
+    type: string
+    required: true
+    description: 对不含本字段的规范化 payload 计算的稳定 SHA-256。

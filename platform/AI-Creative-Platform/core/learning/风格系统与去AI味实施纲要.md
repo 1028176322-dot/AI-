@@ -5,6 +5,7 @@
 > 状态：v5.1（**架构方向审查已通过；六轮审查后补齐唯一剩余阻断——`protected-manifest` 生产者——正式冻结为实施基线；后续问题进 schema/测试/代码任务，不膨胀主文档**；当前未改代码、未提交、未推送）
 > 配套代码（现状核验见 §0，全部绑定至 `baseline_commit`）：`scripts/learning/reference_learning.py`、`scripts/learning/feedback_learning.py`、`scripts/platform/writing_strategy.py`、`core/contracts/nkb-components.schema.yaml`、`core/contracts/project-layout.schema.yaml`
 > 配套规范：`core/learning/自主学习与反馈闭环.md`
+> 当前实施状态：`core/learning/风格系统实施状态.md`（本冻结文档是设计 SSOT，不是完成报告）
 
 ---
 

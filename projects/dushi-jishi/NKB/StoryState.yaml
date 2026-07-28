@@ -1,0 +1,5 @@
+# NKB 组件：StoryState（schema 1.3.0）
+schema_version: 1.3.0
+project_id: novel-dushijishi
+records: []
+# 本作品私有事实；世界观/人物/故事须经规划确认（TASK-004~008）方可填充。

@@ -1,9 +1,22 @@
 task_template:
   type: chapter_publish
-  version: "1.1.0"
+  version: "2.0.0"
   required_role: publish_service
   description: 正式章节只能由 Publish Service 原子发布并更新 canonical manifest。
-  required_inputs: [chapter_draft, review_report]
+  required_inputs:
+    - chapter_draft
+    - chapter_review_report
+    - regression_result
+    - final_regression_mode
+    - draft_sha256
+    - nkb_revision
+    - nkb_snapshot_sha256
+    - outline_sha256
+    - protected_manifest_sha256
+    - style_guidance_sha256
+    - chapter_review_report_sha256
+    - publish_authorization
+    - nkb_sync_proof
   allowed_outputs: [published_chapter, canonical_manifest]
   permissions:
     read:
