@@ -1,0 +1,319 @@
+schema: reference-learning@2.0.0
+meta:
+  source_id: tangyin
+  source_name: 唐寅在异界.txt
+  source_hash: 44eb6eb5e717d619c2f5d7107dc5827da7c4723511c9d7c7ec6502a518bb5c4c
+  genre: 历史架空·穿越
+  analyzed_at: 2026-07-28T20:03:45
+  copyright_policy: statistics_and_principles_only
+  license_type: user-provided
+metrics:
+  characters: 6298568
+  chapters: 1533
+  chapter_length:
+    median: 3124
+    p25: 3092
+    p75: 3164
+  paragraph_length:
+    median: 54
+    p90: 101
+  sentence_length:
+    mean: 40.81
+    p90: 77
+  dialogue_ratio: 0.2098
+  opening_hook_density: 2.74
+  ending_hook_rate: 0.7339
+  emotion_curve:
+    - 3.38
+    - 2.973
+    - 3.371
+    - 3.107
+    - 3.318
+    - 2.994
+    - 3.08
+    - 3.081
+  emotion_variance: 0.0245
+  information_density: 0.312
+style_dimensions:
+  narrative_pov:
+    first_person_signal: 7907
+    third_person_signal: 35095
+    interiority_signal: 6553
+    semantic_confirmation_required: true
+  narrative_distance:
+    close_signal: 109321
+    far_signal: 2556
+    semantic_confirmation_required: true
+  syntactic_rhythm:
+    mean_sentence_chars: 42.619
+    sentence_length_stddev: 42.601
+    short_sentence_ratio: 0.140382
+    long_sentence_ratio: 0.536713
+    mean_paragraph_chars: 1661.354
+  information_function:
+    distribution:
+      plot_action: 0.662075
+      world_exposition: 0.014454
+      emotion: 0.012475
+      dialogue: 0.310996
+    semantic_confirmation_required: true
+  description_selection:
+    distribution:
+      environment: 0.303124
+      character: 0.177701
+      object: 0.100795
+      action: 0.418381
+    semantic_confirmation_required: true
+  sensory_preference:
+    distribution:
+      visual: 0.535547
+      auditory: 0.318416
+      olfactory: 0.056397
+      tactile: 0.069407
+      gustatory: 0.020232
+  emotion_expression:
+    direct_emotion_signal: 1358
+    behavioral_emotion_signal: 848
+    behavior_to_direct_ratio: 0.624
+    semantic_confirmation_required: true
+  dialogue_method:
+    dialogue_blocks_per_1000_chars: 8.19
+    mean_dialogue_chars: 65.048
+    action_insertion_signal: 23395
+    semantic_confirmation_required: true
+  metaphor_mechanism:
+    metaphors_per_1000_chars: 0.503
+    source_domain_requires_semantic_evidence: true
+    character_fit_requires_semantic_evidence: true
+  omission_method:
+    omission_signals_per_1000_chars: 1.295
+    omitted_information_type_requires_semantic_evidence: true
+  scene_closure:
+    last_sentence_length: 6
+    question_hook: false
+    choice_hook: false
+    action_hook: false
+    semantic_confirmation_required: true
+  prohibited_patterns:
+    template_expression_count: 71
+    hedge_density: 0.024276
+    repeated_sentence_opening_count: 81087
+semantic_evidence: {}
+fingerprint:
+  source_id: tangyin
+  source_digest: 44eb6eb5e717d619c2f5d7107dc5827da7c4723511c9d7c7ec6502a518bb5c4c
+  minhash_signature:
+    - 181600778250
+    - 1205556669196
+    - 63756478142
+    - 1108179430765
+    - 502894278583
+    - 169193685448
+    - 746349152471
+    - 377745641020
+    - 817200547008
+    - 73084965102
+    - 104629622056
+    - 327919461105
+    - 81635447720
+    - 951046689545
+    - 56020366902
+    - 51456540729
+    - 42730804365
+    - 103525421369
+    - 288855097159
+    - 1248223239654
+    - 364451123263
+    - 147725763604
+    - 89501969113
+    - 745637735214
+    - 159811947733
+    - 268814168318
+    - 152557996131
+    - 1198416132306
+    - 87151418287
+    - 484423530886
+    - 90177393022
+    - 45574114909
+    - 394982226585
+    - 222049528702
+    - 190846675731
+    - 352103116625
+    - 61591017380
+    - 342214987869
+    - 825835499512
+    - 339544394278
+    - 322719472418
+    - 442347082900
+    - 18443578711
+    - 19472199558
+    - 1425334783751
+    - 1142852214287
+    - 1559445530155
+    - 608492848
+    - 2104716627947
+    - 397714838727
+    - 275185596955
+    - 577127898863
+    - 110742273214
+    - 121545552322
+    - 245725243013
+    - 157441270809
+    - 450390447585
+    - 359691797618
+    - 558414141413
+    - 234945809074
+    - 217528310855
+    - 278613530269
+    - 183138694280
+    - 4582372236
+    - 1135741975229
+    - 354788280343
+    - 99127045006
+    - 277264796886
+    - 54297135497
+    - 158989805308
+    - 409874322189
+    - 127106587548
+    - 202980109451
+    - 227318685714
+    - 127263922055
+    - 41624477004
+    - 139386434097
+    - 406982873295
+    - 243745706120
+    - 38084723920
+    - 1480258488523
+    - 1447751276485
+    - 70083610744
+    - 41422602518
+    - 50642259014
+    - 311117785676
+    - 721756959302
+    - 219009718141
+    - 340419674019
+    - 306518570212
+    - 7565210525
+    - 1087122442373
+    - 42690979527
+    - 302282074083
+    - 16728041223
+    - 293199904728
+    - 465606284858
+    - 601934166308
+    - 253404663677
+    - 446154897237
+    - 261912595060
+    - 824453613516
+    - 853290746435
+    - 931816797820
+    - 1208777139866
+    - 1783912708236
+    - 98965780695
+    - 282763142172
+    - 589981816950
+    - 48640331464
+    - 199001732159
+    - 465757488837
+    - 135001925477
+    - 169985794937
+    - 833800864668
+    - 297227284033
+    - 165491320384
+    - 94606438700
+    - 92728823467
+    - 198080024022
+    - 40536877706
+    - 20180085264
+    - 81756988552
+    - 69386902813
+    - 171844099131
+    - 16701593118
+    - 109420100563
+    - 1476985603443
+  license_type: user-provided
+  key_id: default
+  k: 9
+  num_hashes: 128
+legacy_candidates:
+  - rule_id: REF-CHAPTER-RHYTHM
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 章节容量应形成稳定区间，并允许关键章节有受控偏离。
+    evidence:
+      source_id: tangyin
+      source_hash: 44eb6eb5e717d619c2f5d7107dc5827da7c4723511c9d7c7ec6502a518bb5c4c
+      metric: chapter_length
+      value:
+        median: 3124
+        p25: 3092
+        p75: 3164
+      raw_excerpt_copied: false
+    review_check: 检查章节长度是否偏离参考区间且偏离是否服务于情节。
+    writing_action: 规划时给出目标区间与偏离理由，不机械复制参考书字数。
+    confidence: 0.62
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-END-HOOK
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
+    evidence:
+      source_id: tangyin
+      source_hash: 44eb6eb5e717d619c2f5d7107dc5827da7c4723511c9d7c7ec6502a518bb5c4c
+      metric: ending_hook_rate
+      value: 0.7339
+      raw_excerpt_copied: false
+    review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
+    writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
+    confidence: 0.77
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-DIALOGUE-BALANCE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 对白应承担行动、关系或信息变化，而非脱离叙事独立堆积。
+    evidence:
+      source_id: tangyin
+      source_hash: 44eb6eb5e717d619c2f5d7107dc5827da7c4723511c9d7c7ec6502a518bb5c4c
+      metric: dialogue_ratio
+      value: 0.2098
+      raw_excerpt_copied: false
+    review_check: 检查对白占比、角色辨识度及每段对白造成的状态变化。
+    writing_action: 场景规划同时标注对白目的、潜台词和对白后的局面变化。
+    confidence: 0.66
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-EMOTION-WAVE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 情绪应随冲突和选择产生可辨认的波形，避免全章同强度。
+    evidence:
+      source_id: tangyin
+      source_hash: 44eb6eb5e717d619c2f5d7107dc5827da7c4723511c9d7c7ec6502a518bb5c4c
+      metric: emotion_variance
+      value: 0.0245
+      raw_excerpt_copied: false
+    review_check: 按场景标记情绪起点、峰值、回落与余波。
+    writing_action: 章纲预设情绪转折，写作后核对变化是否由事件触发。
+    confidence: 0.64
+    status: candidate
+    requires_project_validation: true
+candidates: []
+raw_text_stored: false

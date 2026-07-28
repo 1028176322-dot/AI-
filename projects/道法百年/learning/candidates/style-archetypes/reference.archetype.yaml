@@ -1,80 +1,86 @@
 schema: style-archetype@2.0.0
 genre: 历史架空·穿越
-source_count: 3
+source_count: 6
 source_ids:
   - qingyuniandu
   - zhuixu
   - yanyulou
+  - tangyin
+  - gueryuan
+  - zhenbei
 source_contribution_vector:
-  qingyuniandu: 0.333333
-  zhuixu: 0.333333
-  yanyulou: 0.333333
+  qingyuniandu: 0.166667
+  zhuixu: 0.166667
+  yanyulou: 0.166667
+  tangyin: 0.166667
+  gueryuan: 0.166667
+  zhenbei: 0.166667
 minimum_independent_sources: 3
 recommended_independent_sources: 5
 max_single_source_weight: 0.4
 dimensions:
   narrative_pov:
-    first_person_signal: 8039.333333
-    interiority_signal: 5170.666667
+    first_person_signal: 6528.166667
+    interiority_signal: 4803.833333
     semantic_confirmation_required: true
-    third_person_signal: 14145.333333
+    third_person_signal: 19480.0
   narrative_distance:
-    close_signal: 72485.333333
-    far_signal: 3431.666667
+    close_signal: 69815.666667
+    far_signal: 2875.166667
     semantic_confirmation_required: true
   syntactic_rhythm:
-    long_sentence_ratio: 0.481999
-    mean_paragraph_chars: 52.391667
-    mean_sentence_chars: 40.151667
-    sentence_length_stddev: 28.362333
-    short_sentence_ratio: 0.154737
+    long_sentence_ratio: 0.375889
+    mean_paragraph_chars: 747.713167
+    mean_sentence_chars: 34.272
+    sentence_length_stddev: 26.015333
+    short_sentence_ratio: 0.196411
   information_function:
     distribution:
-      dialogue: 0.390988
-      emotion: 0.019592
-      plot_action: 0.55733
-      world_exposition: 0.032089
+      dialogue: 0.410788
+      emotion: 0.017735
+      plot_action: 0.545869
+      world_exposition: 0.025608
     semantic_confirmation_required: true
   description_selection:
     distribution:
-      action: 0.351138
-      character: 0.205402
-      environment: 0.325142
-      object: 0.118319
+      action: 0.389598
+      character: 0.205152
+      environment: 0.290843
+      object: 0.114407
     semantic_confirmation_required: true
   sensory_preference:
     distribution:
-      auditory: 0.240494
-      gustatory: 0.036191
-      olfactory: 0.030006
-      tactile: 0.093109
-      visual: 0.6002
+      auditory: 0.280857
+      gustatory: 0.0293
+      olfactory: 0.035154
+      tactile: 0.091921
+      visual: 0.562768
   emotion_expression:
-    behavior_to_direct_ratio: 0.401333
-    behavioral_emotion_signal: 525.0
-    direct_emotion_signal: 1499.666667
+    behavior_to_direct_ratio: 0.688667
+    behavioral_emotion_signal: 698.666667
+    direct_emotion_signal: 1253.666667
     semantic_confirmation_required: true
   dialogue_method:
-    action_insertion_signal: 16927.666667
-    dialogue_blocks_per_1000_chars: 9.535
-    mean_dialogue_chars: 46.259667
+    action_insertion_signal: 15592.666667
+    dialogue_blocks_per_1000_chars: 10.505833
+    mean_dialogue_chars: 47.297
     semantic_confirmation_required: true
   metaphor_mechanism:
     character_fit_requires_semantic_evidence: true
-    metaphors_per_1000_chars: 0.682333
+    metaphors_per_1000_chars: 0.654833
     source_domain_requires_semantic_evidence: true
   omission_method:
-    omission_signals_per_1000_chars: 2.832
+    omission_signals_per_1000_chars: 2.613833
     omitted_information_type_requires_semantic_evidence: true
   scene_closure:
     action_hook: false
-    choice_hook: false
-    last_sentence_length: 3.333333
+    choice_hook: true
+    last_sentence_length: 9.333333
     question_hook: false
     semantic_confirmation_required: true
   prohibited_patterns:
-    hedge_density: 0.048587
-    repeated_sentence_opening_count: 72208.666667
-    template_expression_count: 28.333333
+    hedge_density: 0.032529
+    repeated_sentence_opening_count: 75992.0
+    template_expression_count: 33.5
 status: review_pending
 raw_text_stored: false

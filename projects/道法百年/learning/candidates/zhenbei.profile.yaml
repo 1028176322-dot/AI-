@@ -1,0 +1,340 @@
+schema: reference-learning@2.0.0
+meta:
+  source_id: zhenbei
+  source_name: 镇北王.txt
+  source_hash: 227dfa55c8f28632ac4bc1438a521186759b6e028088893edcff56e35ab3acb3
+  genre: 历史架空·穿越
+  analyzed_at: 2026-07-28T20:06:29
+  copyright_policy: statistics_and_principles_only
+  license_type: user-provided
+metrics:
+  characters: 3763570
+  chapters: 1775
+  chapter_length:
+    median: 2144
+    p25: 2116
+    p75: 2181
+  paragraph_length:
+    median: 17
+    p90: 40
+  sentence_length:
+    mean: 21.21
+    p90: 42
+  dialogue_ratio: 0.2672
+  opening_hook_density: 3.406
+  ending_hook_rate: 0.8806
+  emotion_curve:
+    - 2.842
+    - 3.108
+    - 2.893
+    - 2.904
+    - 2.674
+    - 3.178
+    - 3.361
+    - 2.906
+  emotion_variance: 0.0415
+  information_density: 1.043
+style_dimensions:
+  narrative_pov:
+    first_person_signal: 4450
+    third_person_signal: 22838
+    interiority_signal: 4816
+    semantic_confirmation_required: true
+  narrative_distance:
+    close_signal: 40905
+    far_signal: 3797
+    semantic_confirmation_required: true
+  syntactic_rhythm:
+    mean_sentence_chars: 23.683
+    sentence_length_stddev: 17.121
+    short_sentence_ratio: 0.28411
+    long_sentence_ratio: 0.2004
+    mean_paragraph_chars: 1252.648
+  information_function:
+    distribution:
+      plot_action: 0.44912
+      world_exposition: 0.036359
+      emotion: 0.016317
+      dialogue: 0.498205
+    semantic_confirmation_required: true
+  description_selection:
+    distribution:
+      environment: 0.232507
+      character: 0.165953
+      object: 0.080939
+      action: 0.520601
+    semantic_confirmation_required: true
+  sensory_preference:
+    distribution:
+      visual: 0.509326
+      auditory: 0.331817
+      olfactory: 0.026255
+      tactile: 0.109174
+      gustatory: 0.023429
+  emotion_expression:
+    direct_emotion_signal: 999
+    behavioral_emotion_signal: 705
+    behavior_to_direct_ratio: 0.706
+    semantic_confirmation_required: true
+  dialogue_method:
+    dialogue_blocks_per_1000_chars: 11.659
+    mean_dialogue_chars: 45.969
+    action_insertion_signal: 9210
+    semantic_confirmation_required: true
+  metaphor_mechanism:
+    metaphors_per_1000_chars: 0.495
+    source_domain_requires_semantic_evidence: true
+    character_fit_requires_semantic_evidence: true
+  omission_method:
+    omission_signals_per_1000_chars: 2.96
+    omitted_information_type_requires_semantic_evidence: true
+  scene_closure:
+    last_sentence_length: 19
+    question_hook: false
+    choice_hook: false
+    action_hook: false
+    semantic_confirmation_required: true
+  prohibited_patterns:
+    template_expression_count: 0
+    hedge_density: 0.019963
+    repeated_sentence_opening_count: 85400
+semantic_evidence: {}
+fingerprint:
+  source_id: zhenbei
+  source_digest: 227dfa55c8f28632ac4bc1438a521186759b6e028088893edcff56e35ab3acb3
+  minhash_signature:
+    - 459968483078
+    - 134874514380
+    - 10964902536
+    - 607972515675
+    - 850544396215
+    - 418351597485
+    - 843038728605
+    - 346768496707
+    - 2180126271057
+    - 733426555560
+    - 407327423072
+    - 2101592129121
+    - 570606215939
+    - 201039771950
+    - 1518649929799
+    - 519516802141
+    - 1652767786455
+    - 995687738611
+    - 1229405796740
+    - 812861553160
+    - 1564638410024
+    - 71908373226
+    - 333756923764
+    - 768324229939
+    - 178790196547
+    - 132424146399
+    - 1536094791909
+    - 329627926932
+    - 1066675562470
+    - 195785919468
+    - 807703878739
+    - 447387772252
+    - 180025181530
+    - 258749866480
+    - 109312286212
+    - 493252928219
+    - 423650680009
+    - 716220721197
+    - 293300654021
+    - 190471598843
+    - 239632450763
+    - 1130374497518
+    - 34832288241
+    - 155979887307
+    - 866497345649
+    - 37402058668
+    - 375135131659
+    - 55317296754
+    - 481212268526
+    - 1378414306331
+    - 84576049485
+    - 537057944253
+    - 3594870358722
+    - 157648524419
+    - 50939132465
+    - 1237027552930
+    - 1679804311076
+    - 596552673514
+    - 296196983469
+    - 392280894825
+    - 1177475486307
+    - 302291761407
+    - 1073582626794
+    - 216500659006
+    - 2968450882844
+    - 1150141433922
+    - 1398848011680
+    - 3287761073610
+    - 853484982278
+    - 2348444648122
+    - 730382972380
+    - 216786598044
+    - 23637112678
+    - 342365199075
+    - 793744633811
+    - 374033798340
+    - 974864785774
+    - 1986115151917
+    - 369230743946
+    - 1841515795887
+    - 250579052527
+    - 8832822541
+    - 356008823728
+    - 224711023800
+    - 113140282212
+    - 3075603323894
+    - 57083992389
+    - 196478867395
+    - 1716379378321
+    - 396671224788
+    - 36129611998
+    - 680224003127
+    - 21592398216
+    - 211170487763
+    - 355738932574
+    - 423967535551
+    - 328894218503
+    - 1002411399741
+    - 522501417017
+    - 1142726974001
+    - 87531522346
+    - 284515114689
+    - 226855473216
+    - 158417678979
+    - 862004854628
+    - 384879685363
+    - 802361181417
+    - 26616734632
+    - 1262777299047
+    - 1020347321570
+    - 528242860416
+    - 280451706050
+    - 64450418014
+    - 590558997733
+    - 1695943191484
+    - 262607746868
+    - 1674579576131
+    - 221258356681
+    - 850327754242
+    - 592288122638
+    - 777436692013
+    - 169362324144
+    - 22170253100
+    - 585366625625
+    - 685311108371
+    - 628018701715
+    - 271734767044
+    - 331826835057
+  license_type: user-provided
+  key_id: default
+  k: 9
+  num_hashes: 128
+legacy_candidates:
+  - rule_id: REF-CHAPTER-RHYTHM
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 章节容量应形成稳定区间，并允许关键章节有受控偏离。
+    evidence:
+      source_id: zhenbei
+      source_hash: 227dfa55c8f28632ac4bc1438a521186759b6e028088893edcff56e35ab3acb3
+      metric: chapter_length
+      value:
+        median: 2144
+        p25: 2116
+        p75: 2181
+      raw_excerpt_copied: false
+    review_check: 检查章节长度是否偏离参考区间且偏离是否服务于情节。
+    writing_action: 规划时给出目标区间与偏离理由，不机械复制参考书字数。
+    confidence: 0.62
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-END-HOOK
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
+    evidence:
+      source_id: zhenbei
+      source_hash: 227dfa55c8f28632ac4bc1438a521186759b6e028088893edcff56e35ab3acb3
+      metric: ending_hook_rate
+      value: 0.8806
+      raw_excerpt_copied: false
+    review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
+    writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
+    confidence: 0.81
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-DIALOGUE-BALANCE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 对白应承担行动、关系或信息变化，而非脱离叙事独立堆积。
+    evidence:
+      source_id: zhenbei
+      source_hash: 227dfa55c8f28632ac4bc1438a521186759b6e028088893edcff56e35ab3acb3
+      metric: dialogue_ratio
+      value: 0.2672
+      raw_excerpt_copied: false
+    review_check: 检查对白占比、角色辨识度及每段对白造成的状态变化。
+    writing_action: 场景规划同时标注对白目的、潜台词和对白后的局面变化。
+    confidence: 0.66
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-PARAGRAPH-CONTRAST
+    target: writing
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 长短段落的对比可服务信息承载与节奏加速。
+    evidence:
+      source_id: zhenbei
+      source_hash: 227dfa55c8f28632ac4bc1438a521186759b6e028088893edcff56e35ab3acb3
+      metric: paragraph_length
+      value:
+        median: 17
+        p90: 40
+      raw_excerpt_copied: false
+    review_check: 检查长段是否造成认知负荷、短段是否只是碎片化。
+    writing_action: 在解释、动作、转折处主动设计段落长度变化。
+    confidence: 0.58
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-EMOTION-WAVE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 情绪应随冲突和选择产生可辨认的波形，避免全章同强度。
+    evidence:
+      source_id: zhenbei
+      source_hash: 227dfa55c8f28632ac4bc1438a521186759b6e028088893edcff56e35ab3acb3
+      metric: emotion_variance
+      value: 0.0415
+      raw_excerpt_copied: false
+    review_check: 按场景标记情绪起点、峰值、回落与余波。
+    writing_action: 章纲预设情绪转折，写作后核对变化是否由事件触发。
+    confidence: 0.64
+    status: candidate
+    requires_project_validation: true
+candidates: []
+raw_text_stored: false

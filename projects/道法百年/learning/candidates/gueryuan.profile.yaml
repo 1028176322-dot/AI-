@@ -1,0 +1,319 @@
+schema: reference-learning@2.0.0
+meta:
+  source_id: gueryuan
+  source_name: 我开的真是孤儿院，不是杀手堂.txt
+  source_hash: 221d6b3d2c65ee2df05a48dfb869e8f95fb48bd413f3319e7f587be13d5d0bda
+  genre: 历史架空·穿越
+  analyzed_at: 2026-07-28T20:04:49
+  copyright_policy: statistics_and_principles_only
+  license_type: user-provided
+metrics:
+  characters: 2486065
+  chapters: 1066
+  chapter_length:
+    median: 2205
+    p25: 2141
+    p75: 2315
+  paragraph_length:
+    median: 16
+    p90: 29
+  sentence_length:
+    mean: 16.71
+    p90: 29
+  dialogue_ratio: 0.2307
+  opening_hook_density: 1.279
+  ending_hook_rate: 0.727
+  emotion_curve:
+    - 3.44
+    - 4.067
+    - 3.314
+    - 3.115
+    - 4.505
+    - 4.888
+    - 4.946
+    - 5.136
+  emotion_variance: 0.569
+  information_density: 0.388
+style_dimensions:
+  narrative_pov:
+    first_person_signal: 2694
+    third_person_signal: 16511
+    interiority_signal: 1942
+    semantic_confirmation_required: true
+  narrative_distance:
+    close_signal: 51212
+    far_signal: 603
+    semantic_confirmation_required: true
+  syntactic_rhythm:
+    mean_sentence_chars: 18.875
+    sentence_length_stddev: 11.283
+    short_sentence_ratio: 0.289766
+    long_sentence_ratio: 0.072224
+    mean_paragraph_chars: 1415.102
+  information_function:
+    distribution:
+      plot_action: 0.492026
+      world_exposition: 0.006568
+      emotion: 0.018845
+      dialogue: 0.48256
+    semantic_confirmation_required: true
+  description_selection:
+    distribution:
+      environment: 0.234005
+      character: 0.271054
+      object: 0.149749
+      action: 0.345192
+    semantic_confirmation_required: true
+  sensory_preference:
+    distribution:
+      visual: 0.531137
+      auditory: 0.313426
+      olfactory: 0.038252
+      tactile: 0.093619
+      gustatory: 0.023566
+  emotion_expression:
+    direct_emotion_signal: 666
+    behavioral_emotion_signal: 1064
+    behavior_to_direct_ratio: 1.598
+    semantic_confirmation_required: true
+  dialogue_method:
+    dialogue_blocks_per_1000_chars: 14.581
+    mean_dialogue_chars: 33.986
+    action_insertion_signal: 10168
+    semantic_confirmation_required: true
+  metaphor_mechanism:
+    metaphors_per_1000_chars: 0.884
+    source_domain_requires_semantic_evidence: true
+    character_fit_requires_semantic_evidence: true
+  omission_method:
+    omission_signals_per_1000_chars: 2.932
+    omitted_information_type_requires_semantic_evidence: true
+  scene_closure:
+    last_sentence_length: 21
+    question_hook: false
+    choice_hook: true
+    action_hook: false
+    semantic_confirmation_required: true
+  prohibited_patterns:
+    template_expression_count: 45
+    hedge_density: 0.005176
+    repeated_sentence_opening_count: 72839
+semantic_evidence: {}
+fingerprint:
+  source_id: gueryuan
+  source_digest: 221d6b3d2c65ee2df05a48dfb869e8f95fb48bd413f3319e7f587be13d5d0bda
+  minhash_signature:
+    - 222608561141
+    - 906749950254
+    - 778867561225
+    - 1775118633193
+    - 1988474596677
+    - 1548996013063
+    - 89732617763
+    - 1120446000955
+    - 710606712276
+    - 920931817577
+    - 1221284813606
+    - 298249624948
+    - 1580085389709
+    - 133223254348
+    - 986332568528
+    - 2772980960238
+    - 848352667224
+    - 987756987153
+    - 429640568709
+    - 297575894290
+    - 1504229423692
+    - 1785290431525
+    - 287447140755
+    - 957045538691
+    - 348554938407
+    - 482627007673
+    - 2117458294509
+    - 772310718100
+    - 272035327405
+    - 515129693329
+    - 333497920508
+    - 582421984623
+    - 3800225585091
+    - 2182131161680
+    - 682762241469
+    - 2086378362082
+    - 646376727703
+    - 1110033774684
+    - 191948741187
+    - 3154408262258
+    - 266611110695
+    - 191918157649
+    - 2960132696542
+    - 99002285439
+    - 1120919772592
+    - 2199122608429
+    - 231612188733
+    - 127534104084
+    - 1415644070638
+    - 119196364199
+    - 578220884071
+    - 1808599449059
+    - 474057433565
+    - 14295354697
+    - 139301396692
+    - 490419965029
+    - 4569458937328
+    - 2024517746263
+    - 2004692328482
+    - 706570080885
+    - 2056138704292
+    - 7277882074
+    - 202838712501
+    - 304672104076
+    - 467091945314
+    - 1033883462415
+    - 264190856580
+    - 1584132764725
+    - 1294276001073
+    - 1677110650855
+    - 1937544209922
+    - 378045102155
+    - 293602522898
+    - 1435366619438
+    - 1341944255850
+    - 1578804901452
+    - 198855701431
+    - 1990549919287
+    - 164878988855
+    - 282381075489
+    - 588629370409
+    - 102165075409
+    - 133731777357
+    - 118624192617
+    - 642874041066
+    - 520925851734
+    - 2115607493880
+    - 774181991516
+    - 617327605655
+    - 2147370123953
+    - 879552933917
+    - 1860015625084
+    - 4527859900829
+    - 2058034589306
+    - 221771981892
+    - 1321947591104
+    - 986063694169
+    - 1174826710537
+    - 139413785439
+    - 1137358222839
+    - 3055551262869
+    - 1248217755763
+    - 330863850288
+    - 724368875770
+    - 643970006517
+    - 43170427722
+    - 326108336652
+    - 131237609542
+    - 1722588657241
+    - 580650257892
+    - 196241247174
+    - 483177680967
+    - 899577441385
+    - 938326258097
+    - 93649300204
+    - 967422847596
+    - 3695313644928
+    - 1306777643694
+    - 295853940123
+    - 177565711138
+    - 1110314456293
+    - 2951672828
+    - 2249395497941
+    - 675860784449
+    - 454144931694
+    - 1278814907545
+    - 1001872612140
+    - 852981334546
+  license_type: user-provided
+  key_id: default
+  k: 9
+  num_hashes: 128
+legacy_candidates:
+  - rule_id: REF-CHAPTER-RHYTHM
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 章节容量应形成稳定区间，并允许关键章节有受控偏离。
+    evidence:
+      source_id: gueryuan
+      source_hash: 221d6b3d2c65ee2df05a48dfb869e8f95fb48bd413f3319e7f587be13d5d0bda
+      metric: chapter_length
+      value:
+        median: 2205
+        p25: 2141
+        p75: 2315
+      raw_excerpt_copied: false
+    review_check: 检查章节长度是否偏离参考区间且偏离是否服务于情节。
+    writing_action: 规划时给出目标区间与偏离理由，不机械复制参考书字数。
+    confidence: 0.62
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-END-HOOK
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
+    evidence:
+      source_id: gueryuan
+      source_hash: 221d6b3d2c65ee2df05a48dfb869e8f95fb48bd413f3319e7f587be13d5d0bda
+      metric: ending_hook_rate
+      value: 0.727
+      raw_excerpt_copied: false
+    review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
+    writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
+    confidence: 0.77
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-DIALOGUE-BALANCE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 对白应承担行动、关系或信息变化，而非脱离叙事独立堆积。
+    evidence:
+      source_id: gueryuan
+      source_hash: 221d6b3d2c65ee2df05a48dfb869e8f95fb48bd413f3319e7f587be13d5d0bda
+      metric: dialogue_ratio
+      value: 0.2307
+      raw_excerpt_copied: false
+    review_check: 检查对白占比、角色辨识度及每段对白造成的状态变化。
+    writing_action: 场景规划同时标注对白目的、潜台词和对白后的局面变化。
+    confidence: 0.66
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-EMOTION-WAVE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: 历史架空·穿越
+    principle: 情绪应随冲突和选择产生可辨认的波形，避免全章同强度。
+    evidence:
+      source_id: gueryuan
+      source_hash: 221d6b3d2c65ee2df05a48dfb869e8f95fb48bd413f3319e7f587be13d5d0bda
+      metric: emotion_variance
+      value: 0.569
+      raw_excerpt_copied: false
+    review_check: 按场景标记情绪起点、峰值、回落与余波。
+    writing_action: 章纲预设情绪转折，写作后核对变化是否由事件触发。
+    confidence: 0.64
+    status: candidate
+    requires_project_validation: true
+candidates: []
+raw_text_stored: false
