@@ -1,6 +1,6 @@
 schema: project-layout@2.0.0
 layout_version: 2.0.0
-created_at: 2026-07-27T18:48:25
+created_at: 2026-07-29T10:19:38
 genre: xuanhuan
 strict: true
 existing_project_migration_required: false
@@ -8,6 +8,11 @@ task_system:
   enforcement_mode: strict
   no_task_no_write: true
   session_required: true
+style_system:
+  enabled: true
+  enforcement_profile: strict-v2
+  full_chapter_chain_required: true
+  broker_fail_closed: true
 review:
   reader_panel_required: true
   feedback_to_writing_required: true
@@ -53,6 +58,11 @@ storage:
   audit_records: audit/
   summaries: summaries/
   version_snapshots: versions/snapshots/
+  style_profiles: learning/candidates/style-profiles/
+  style_archetypes: learning/candidates/style-archetypes/
+  style_analysis: analysis/style/
+  style_library: memory/project/style-library/
+  style_guidance: runtime/learning/style-guidance.yaml
 required_directories:
   - NKB
   - sources/references/inbox
@@ -92,12 +102,16 @@ required_directories:
   - analysis/design
   - analysis/outline
   - analysis/writing-strategy
+  - analysis/style
   - summaries/chapters
   - summaries/volumes
   - summaries/arcs
   - memory/project/reference-learning
   - memory/project/review-feedback
+  - memory/project/style-library
   - learning/candidates
+  - learning/candidates/style-profiles
+  - learning/candidates/style-archetypes
   - runtime/sessions
   - runtime/task-packets
   - runtime/context
@@ -143,17 +157,24 @@ allowed_top_level:
   - audit
   - canonical_manifest.yaml
   - chapters
+  - checkpoints
+  - config
+  - deployment-manifest.yaml
   - handoffs
+  - indexes
   - learning
   - lifecycle
   - memory
   - metrics
   - operations
   - overrides
+  - planning
   - project
+  - project.lock.yaml
   - project.yaml
   - publish
   - runtime
+  - sessions
   - sources
   - summaries
   - tasks
@@ -164,4 +185,4 @@ exceptions:
   - "txt/: 滞后导出稿(.txt)，与 md 权威源存在 SyncGov 债 #223 漂移；登记为例外，不参与严格布局统计，待平台升级稳定后由 SyncGov 重生成。"
   - "chapters/drafts/: 存放未过平台最新版审核的 6 卷工作稿；待平台升级后走正式审核再升 chapters/approved/。"
   - ".workbuddy/: 平台/agent 项目级技能与状态存储目录（基础设施），非用户内容，登记为例外。"
-note: 本项目由 legacy 状态按新立项严格流程原地迁移生成；既有 19KB AGENTS.md 为项目治理索引，保留未覆盖。
+note: 本项目由 legacy 状态按新立项严格流程原地迁移生成；既有 19KB AGENTS.md 为项目治理索引，经原生 scaffold 后从备份还原保留未覆盖；txt/.workbuddy 为例外目录（同旧契约）。于 2026-07-29 经原生 scaffold_layout 补齐缺失必需目录（memory/project/reference-learning、memory/project/review-feedback）与 sessions 兼容登记。

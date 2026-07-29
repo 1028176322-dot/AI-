@@ -1,0 +1,43 @@
+task:
+  id: SYS-FIX-LAYOUT-20260729
+  type: system_maintenance
+  required_role: system-maintainer
+  status: running
+  agent:
+    required_role: system-maintainer
+  description: 用户显式授权修复 novel-dsf 项目 layout 合规阻塞：(1)补建缺失必需目录 memory/project/reference-learning 与 memory/project/review-feedback；(2)将根目录错放的 sessions/SES-20260727-001.yaml 归位至 runtime/sessions/ 或暂存例外目录 .workbuddy；(3)为支持 reconcile 受管补目录，创建 deployment-manifest.yaml（仅声明缺失占位目录，不覆盖任何用户内容）。
+  inputs:
+    required:
+      - change_brief
+      - explicit_user_approval
+  permissions:
+    read:
+      - **
+    write:
+      - deployment-manifest.yaml
+      - memory/project/reference-learning/**
+      - memory/project/review-feedback/**
+      - sessions/**
+      - .workbuddy/**
+      - tasks/running/SYS-FIX-LAYOUT-20260729/outputs/**
+    forbidden:
+      - projects/*/NKB/**
+      - projects/*/chapters/approved/**
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    required_session: current
+  next_tasks:
+    on_submit:
+      - system_verify
+  version: 1
+  created: 2026-07-29T09:49:15
+  created_by: agent-unknown
+  urgency: normal
+  owner: system-maintainer
+  claimed_at: 2026-07-29T09:49:29
+  lease_expire: 2026-07-29T10:49:29
+  workspace: tasks\running\SYS-FIX-LAYOUT-20260729\outputs

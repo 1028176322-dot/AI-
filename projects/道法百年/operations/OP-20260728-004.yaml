@@ -1,0 +1,21 @@
+operation:
+  id: OP-20260728-004
+  session_id: SESSION-20260728-001
+  role: writer
+  project_id: novel-dsf
+  task_id: REQ-20260728205637451136-E4386F-PLAN-CH201-CHAPTER-WRITE
+action:
+  type: chapter.write
+  target: chapters/drafts/第二卷_京华/第201章_残部追踪.md
+inputs:
+  nkb_version: null
+  context_hash: null
+  contract_version: 2.0.0
+  policy_version: 1.3.0
+changes:
+  files:
+    - chapters/drafts/第二卷_京华/第201章_残部追踪.md
+  lines_changed: 40
+result:
+  status: success
+  regression_required: false
