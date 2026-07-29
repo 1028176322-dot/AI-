@@ -1,0 +1,25 @@
+task:
+  id: TASK-JINGSHI-NKB-APPROVE-001
+  type: nkb_update
+  title: 景氏 NKB 角色记录翻 approved（推荐名+默认底牌）
+  priority: high
+  agent:
+    required_role: knowledge_manager
+  permissions:
+    write:
+      - NKB/Characters.yaml
+      - tasks/claimed/TASK-JINGSHI-NKB-APPROVE-001.yaml
+    read:
+      - NKB/**
+      - sources/design/characters/**
+  inputs:
+    required:
+      - NKB/Characters.yaml
+  version: 1
+  created: 2026-07-29T23:10:00
+  created_by: writer-a
+  urgency: normal
+  status: claimed
+  owner: writer-a
+  claimed_at: 2026-07-29T23:10:00
+  lease_expire: 2026-07-30T03:10:00

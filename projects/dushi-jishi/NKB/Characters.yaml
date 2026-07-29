@@ -472,13 +472,13 @@ records:
       revealed_to_reader: false
       known_by_characters: []
   - id: CHAR-JINGSHI-ELDER-001
-    canonical_name: 景氏长老（草案·待定名）
+    canonical_name: 景氏长老·景崇山
     status: 景氏家族长老 / 景奕辰叔父辈，老牌心腹，握体制内底牌
     identity:
       current_age: 62
       role: 景氏家族代表 / 终极底牌持有者
       origin: 京城
-    background: 景奕辰父辈的兄弟或发小，景氏发家元老；掌握景奕辰不便直接持有的体制内关系与"致命把柄"，是景氏最后屏障。因资历对景奕辰既有倚仗也有制约，并带基于实力的理性傲慢。具体底牌内容待用户定。
+    background: 景奕辰父辈的兄弟或发小，景氏发家元老；掌握景奕辰不便直接持有的体制内关系与"致命把柄"，是景氏最后屏障。因资历对景奕辰既有倚仗也有制约，并带基于实力的理性傲慢。
     personality:
       stable_traits:
         - 深谋
@@ -501,7 +501,7 @@ records:
       register: 居高临下、点到即止
       prohibited_patterns:
         - 露底
-    name: 景氏长老（草案·待定名）
+    name: 景氏长老·景崇山
     type: character
     source:
       source_type: design_source
@@ -510,14 +510,14 @@ records:
       source_version: 1
       extracted_at: 2026-07-29
       extracted_by: writer-a
-      approval_status: derived
+      approval_status: approved
     fact_status:
       designed: true
       occurred: false
       revealed_to_reader: false
       known_by_characters: []
   - id: CHAR-JINGSHI-INTEL-001
-    canonical_name: 景氏情报主管（草案·待定名）
+    canonical_name: 景氏情报主管·沈彻
     status: 景氏情报与反侦察体系主管，主角"观澜"的镜像
     identity:
       current_age: 41
@@ -546,7 +546,7 @@ records:
       register: 精准、信息密度高
       prohibited_patterns:
         - 情绪化
-    name: 景氏情报主管（草案·待定名）
+    name: 景氏情报主管·沈彻
     type: character
     source:
       source_type: design_source
@@ -555,14 +555,14 @@ records:
       source_version: 1
       extracted_at: 2026-07-29
       extracted_by: writer-a
-      approval_status: derived
+      approval_status: approved
     fact_status:
       designed: true
       occurred: false
       revealed_to_reader: false
       known_by_characters: []
   - id: CHAR-JINGSHI-CFO-001
-    canonical_name: 景氏影子CFO（草案·待定名）
+    canonical_name: 景氏影子CFO·顾衍
     status: 景氏资本操盘手，海外壳公司与洗白路径核心
     identity:
       current_age: 44
@@ -592,7 +592,7 @@ records:
       register: 数字、条款化
       prohibited_patterns:
         - 含糊
-    name: 景氏影子CFO（草案·待定名）
+    name: 景氏影子CFO·顾衍
     type: character
     source:
       source_type: design_source
@@ -601,14 +601,14 @@ records:
       source_version: 1
       extracted_at: 2026-07-29
       extracted_by: writer-a
-      approval_status: derived
+      approval_status: approved
     fact_status:
       designed: true
       occurred: false
       revealed_to_reader: false
       known_by_characters: []
   - id: CHAR-JINGSHI-FRONT-001
-    canonical_name: 景氏台面掌门（草案·待定名）
+    canonical_name: 景氏台面掌门·程牧
     status: 景氏旗下 / 代持的"干净"前台企业掌门
     identity:
       current_age: 48
@@ -637,7 +637,7 @@ records:
       register: 官样、滴水不漏
       prohibited_patterns:
         - 失态
-    name: 景氏台面掌门（草案·待定名）
+    name: 景氏台面掌门·程牧
     type: character
     source:
       source_type: design_source
@@ -646,14 +646,14 @@ records:
       source_version: 1
       extracted_at: 2026-07-29
       extracted_by: writer-a
-      approval_status: derived
+      approval_status: approved
     fact_status:
       designed: true
       occurred: false
       revealed_to_reader: false
       known_by_characters: []
   - id: CHAR-JINGSHI-DOMESTIC-001
-    canonical_name: 景氏国内地下总负责（草案·待定名）
+    canonical_name: 景氏国内地下总负责·洪涛
     status: 景氏国内地下行动总负责人，老韩的上级
     identity:
       current_age: 50
@@ -683,7 +683,7 @@ records:
       register: 简短、命令式
       prohibited_patterns:
         - 废话
-    name: 景氏国内地下总负责（草案·待定名）
+    name: 景氏国内地下总负责·洪涛
     type: character
     source:
       source_type: design_source
@@ -692,20 +692,20 @@ records:
       source_version: 1
       extracted_at: 2026-07-29
       extracted_by: writer-a
-      approval_status: derived
+      approval_status: approved
     fact_status:
       designed: true
       occurred: false
       revealed_to_reader: false
       known_by_characters: []
   - id: CHAR-JINGSHI-UMBRELLA-001
-    canonical_name: 景氏京城大保护伞（草案·待定名）
+    canonical_name: 景氏京城大保护伞·高敬之
     status: 景氏在京城决策层的顶级政商保护伞
     identity:
       current_age: 57
       role: 景氏顶层政治保护 / 体制内关系
       origin: 京城
-    background: 比邵立（临江地方保护伞）更高层的京城决策圈关系，为景氏提供体制内庇护与政策便利；其倒台将引发京城权力格局重构。具体层级与身份待用户定。
+    background: 比邵立（临江地方保护伞）更高层的京城决策圈关系，为景氏提供体制内庇护与政策便利；其倒台将引发京城权力格局重构。
     personality:
       stable_traits:
         - 老练
@@ -728,7 +728,7 @@ records:
       register: 含蓄、留有余地
       prohibited_patterns:
         - 明确保证
-    name: 景氏京城大保护伞（草案·待定名）
+    name: 景氏京城大保护伞·高敬之
     type: character
     source:
       source_type: design_source
@@ -737,14 +737,14 @@ records:
       source_version: 1
       extracted_at: 2026-07-29
       extracted_by: writer-a
-      approval_status: derived
+      approval_status: approved
     fact_status:
       designed: true
       occurred: false
       revealed_to_reader: false
       known_by_characters: []
   - id: CHAR-JINGSHI-OVERSEAS-001
-    canonical_name: 景氏海外据点负责人（草案·待定名）
+    canonical_name: 景氏海外据点负责人·陈天阔
     status: 景氏海外据点负责人，与主角海外三支柱交锋
     identity:
       current_age: 43
@@ -773,7 +773,7 @@ records:
       register: 双语、世故
       prohibited_patterns:
         - 露怯
-    name: 景氏海外据点负责人（草案·待定名）
+    name: 景氏海外据点负责人·陈天阔
     type: character
     source:
       source_type: design_source
@@ -782,14 +782,14 @@ records:
       source_version: 1
       extracted_at: 2026-07-29
       extracted_by: writer-a
-      approval_status: derived
+      approval_status: approved
     fact_status:
       designed: true
       occurred: false
       revealed_to_reader: false
       known_by_characters: []
   - id: CHAR-JINGSHI-FOREIGN-PARTNER-001
-    canonical_name: 景氏境外合伙人（草案·待定名）
+    canonical_name: 景氏境外合伙人·阿南
     status: 景氏境外黑产 / 情报协作合伙人
     identity:
       current_age: 39
@@ -817,7 +817,7 @@ records:
       register: 油滑、利益挂帅
       prohibited_patterns:
         - 空谈忠诚
-    name: 景氏境外合伙人（草案·待定名）
+    name: 景氏境外合伙人·阿南
     type: character
     source:
       source_type: design_source
@@ -826,7 +826,7 @@ records:
       source_version: 1
       extracted_at: 2026-07-29
       extracted_by: writer-a
-      approval_status: derived
+      approval_status: approved
     fact_status:
       designed: true
       occurred: false
