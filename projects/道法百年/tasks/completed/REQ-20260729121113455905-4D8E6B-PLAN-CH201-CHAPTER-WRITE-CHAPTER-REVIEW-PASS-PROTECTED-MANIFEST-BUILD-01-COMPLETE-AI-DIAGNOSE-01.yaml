@@ -1,0 +1,86 @@
+task:
+  id: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01
+  version: 1
+  project: 道法百年
+  type: ai-diagnose
+  title: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01 on_complete 后继 ai-diagnose
+  priority: high
+  goal: null
+  chapter_ref: chapters/drafts/CH-201.md
+  conversation_request_id: REQ-20260729121113455905-4D8E6B
+  revision_cycle_id: RC-001
+  style_state: DIAGNOSED_WARNING
+  source_task: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01
+  source_event: on_complete
+  dependencies:
+    - REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01
+  inputs:
+    required:
+      - chapter_draft
+      - protected_manifest
+      - style_guidance
+    values:
+      chapter_draft: chapters/drafts/CH-201.md
+      protected_manifest: E:/AI-Workspace/projects/道法百年\analysis\style\CH-201\RC-001\protected-manifest.yaml
+      source_task: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01
+      source_event: on_complete
+      revision_cycle_id: RC-001
+      protected_manifest_sha256: d3179c0a298ae8fb4b92c7bf23394df337fe57b39873011f46de8fddd9530b92
+      source_draft_sha256: d640a53756a3d45780f974b4e697bcdcb7f28a7b9a2631c5dd8a7456a038c908
+  expected_outputs:
+    - diagnosis_report
+  acceptance:
+    criteria:
+      - 按 ai-diagnose 模板及事件契约完成
+  permissions:
+    read:
+      - chapters/drafts/**
+      - NKB/**
+      - analysis/style/**
+    write:
+      - analysis/style/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - chapters/drafts/**
+      - chapters/approved/**
+  agent:
+    required_role: writer
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  created: 2026-07-29T13:06:59
+  created_by: style-orchestrator
+  urgency: normal
+  status: completed
+  owner: 橘子
+  claimed_at: 2026-07-29T13:08:39
+  lease_expire: 2026-07-29T14:08:39
+  workspace: tasks\running\REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01\outputs
+  outputs:
+    diagnosis_report: E:/AI-Workspace/projects/道法百年\analysis\style\CH-201\REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01\diagnosis.json
+  output_hashes:
+    diagnosis_report_sha256: 5e736af20ecda9fcbeba4be5ec3472d5c2690c5cbd5951fd57e11b29e0bb4c1c
+  artifact: E:/AI-Workspace/projects/道法百年\analysis\style\CH-201\REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01\diagnosis.json
+  submission:
+    checks:
+
+    at: 2026-07-29T13:08:39
+    session_id: SESSION-20260729-001
+  style_event_history:
+    - event: on_warning
+      style_state: DIAGNOSED_WARNING
+      successors:
+        - REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01
+      actor: 橘子
+      role: writer
+      session_id: SESSION-20260729-001
+      emitted_at: 2026-07-29T13:08:39
+      output_hashes:
+        diagnosis_report_sha256: 5e736af20ecda9fcbeba4be5ec3472d5c2690c5cbd5951fd57e11b29e0bb4c1c

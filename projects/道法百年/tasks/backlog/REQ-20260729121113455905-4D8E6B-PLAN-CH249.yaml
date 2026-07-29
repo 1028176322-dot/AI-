@@ -1,0 +1,55 @@
+task:
+  id: REQ-20260729121113455905-4D8E6B-PLAN-CH249
+  type: plan_write
+  project: 道法百年
+  title: 规划 chapters/drafts/CH-249.md
+  version: 2
+  priority: high
+  chapter_ref: chapters/drafts/CH-249.md
+  dependencies:
+    - REQ-20260729121113455905-4D8E6B-PLAN-CH248-CHAPTER-WRITE-PUBLISH
+  agent:
+    required_role: story-architect
+  permissions:
+    read:
+      - NKB/**
+      - sources/outline/**
+      - chapters/approved/**
+    write:
+      - tasks/running/<id>/outputs/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  inputs:
+    required:
+      - outline
+      - nkb_snapshot
+      - project_status
+    values:
+      conversation_request: 写小说《道士也玩火力覆盖》第201章至第250章，共50章，严格按平台流程逐章推进
+      conversation_request_id: REQ-20260729121113455905-4D8E6B
+      chapter_number: 249
+  expected_outputs:
+    - chapter_plan
+    - handoff
+  acceptance:
+    criteria:
+      - Task Packet 输入完整
+      - 所有产物只能写入任务许可路径
+      - 写作后必须审查；strict-v2 必须经过风格闭环、最终回归、NKB 更新与同步后才可发布
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  conversation_request_id: REQ-20260729121113455905-4D8E6B
+  created: 2026-07-29T12:11:16
+  created_by: 橘子
+  urgency: normal
+  status: backlog

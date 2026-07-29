@@ -2,4 +2,13 @@ schema_version: 1.3.0
 project_id: novel-dsf
 # Locations (地点/场景) — 按 NKB schema 1.3.0 新增组件。
 # 初始为空，后续从已有文档迁移。
-records: []
+records:
+  - id: LOC-XISHI-HIDEOUT
+    name: 西市残部匿点
+    chapter: "第 201 章"
+    description: 听雨京中残部聚于西市暗巷第三进不挂牌院子，约十余人，每日戌时前后一人背街采买。
+    status: active
+    src: CH-201 正文
+    confidence: chapter
+    Version: 1
+    Updated: CH-201

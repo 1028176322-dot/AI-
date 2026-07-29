@@ -1,0 +1,92 @@
+task:
+  id: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01
+  version: 1
+  project: 道法百年
+  type: final-regression
+  title: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01 on_pass 后继 final-regression
+  priority: high
+  goal: null
+  chapter_ref: chapters/drafts/CH-201.md
+  conversation_request_id: REQ-20260729121113455905-4D8E6B
+  revision_cycle_id: RC-001
+  style_state: FINAL_PASSED
+  source_task: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01
+  source_event: on_pass
+  dependencies:
+    - REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01
+  inputs:
+    required:
+      - chapter_draft
+      - nkb_snapshot
+      - protected_manifest
+      - outline
+      - style_guidance
+      - chapter_review_report
+      - final_regression_mode
+    values:
+      chapter_draft: chapters/drafts/CH-201.md
+      protected_manifest: E:/AI-Workspace/projects/道法百年\analysis\style\CH-201\RC-001\protected-manifest.yaml
+      source_task: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01
+      source_event: on_pass
+      revision_cycle_id: RC-001
+      final_regression_mode: baseline
+      protected_manifest_sha256: 1698b20dc8dfe0c7c6dce4fe5019ad9652aafc8049fc65e929c886533721a1f9
+      source_draft_sha256: d640a53756a3d45780f974b4e697bcdcb7f28a7b9a2631c5dd8a7456a038c908
+  expected_outputs:
+    - regression_result
+  acceptance:
+    criteria:
+      - 按 final-regression 模板及事件契约完成
+  permissions:
+    read:
+      - chapters/drafts/**
+      - NKB/**
+      - analysis/style/**
+      - outlines/**
+    write:
+      - analysis/style/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - chapters/drafts/**
+      - chapters/approved/**
+  agent:
+    required_role: reviewer
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  created: 2026-07-29T13:19:05
+  created_by: style-orchestrator
+  urgency: normal
+  status: completed
+  owner: 橘子
+  claimed_at: 2026-07-29T13:22:42
+  lease_expire: 2026-07-29T14:22:42
+  workspace: tasks\running\REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01\outputs
+  outputs:
+    regression_result: E:/AI-Workspace/projects/道法百年\analysis\style\CH-201\RC-001\REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01.final-regression-result.json
+  output_hashes:
+    regression_result_sha256: 73173aa0d55fa2a6866437785c0b2addfe681b628442846815b5757cb8bd5081
+  artifact: E:/AI-Workspace/projects/道法百年\analysis\style\CH-201\RC-001\REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01.final-regression-result.json
+  submission:
+    checks:
+
+    at: 2026-07-29T13:22:42
+    session_id: SESSION-20260729-001
+  style_event_history:
+    - event: on_pass
+      style_state: FINAL_PASSED
+      successors:
+        - REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01
+      actor: 橘子
+      role: reviewer
+      session_id: SESSION-20260729-001
+      emitted_at: 2026-07-29T13:22:42
+      output_hashes:
+        regression_result_sha256: 73173aa0d55fa2a6866437785c0b2addfe681b628442846815b5757cb8bd5081

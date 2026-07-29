@@ -345,3 +345,14 @@ records:
     confidence: outline
     Version: 1
     Updated: 时间线
+  - id: CHAR-WANG-LUSHI
+    name: 王录事
+    identity: 内卫府西坊录事
+    personality: 缺立威由头、贪功、可被借力
+    motive: 曾于天上人间醉酒怨西坊背街贼案办不净、上司压着不深究
+    role_in_story: 肖凡借其刀肃清听雨残部
+    note: 内卫府西坊录事，借朝廷之刀完成肃清，不自知被肖凡布局。
+    src: CH-201 正文
+    confidence: chapter
+    Version: 1
+    Updated: CH-201

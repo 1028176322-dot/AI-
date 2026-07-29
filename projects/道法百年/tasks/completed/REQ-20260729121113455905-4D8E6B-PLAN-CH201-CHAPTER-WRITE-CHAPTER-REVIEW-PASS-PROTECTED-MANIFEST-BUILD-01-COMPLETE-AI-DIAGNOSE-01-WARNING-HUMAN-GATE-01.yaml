@@ -1,0 +1,85 @@
+task:
+  id: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01
+  version: 1
+  project: 道法百年
+  type: human_gate
+  title: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01 on_warning 后继 human_gate
+  priority: high
+  goal: null
+  chapter_ref: chapters/drafts/CH-201.md
+  conversation_request_id: REQ-20260729121113455905-4D8E6B
+  revision_cycle_id: RC-001
+  style_state: PASS
+  source_task: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01
+  source_event: on_warning
+  dependencies:
+    - REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01
+  inputs:
+    required:
+      - gate_context
+    values:
+      source_task: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01
+      source_event: on_warning
+      revision_cycle_id: RC-001
+      protected_manifest_sha256: 1698b20dc8dfe0c7c6dce4fe5019ad9652aafc8049fc65e929c886533721a1f9
+      source_draft_sha256: d640a53756a3d45780f974b4e697bcdcb7f28a7b9a2631c5dd8a7456a038c908
+  expected_outputs:
+    - gate_decision
+    - human_reader_report
+    - reader_calibration
+    - milestone_decision
+  acceptance:
+    criteria:
+      - 按 human_gate 模板及事件契约完成
+  permissions:
+    read:
+      - runtime/reader-panels/**
+      - analysis/reader/**
+      - tasks/**
+    write:
+      - runtime/reader-panels/**
+      - analysis/reader/**
+      - tasks/running/<id>/outputs/**
+    forbidden:
+      - NKB/**
+      - chapters/**
+      - platform/memory/**
+  agent:
+    required_role: learning-curator
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  created: 2026-07-29T13:08:39
+  created_by: style-orchestrator
+  urgency: normal
+  status: completed
+  owner: 橘子
+  claimed_at: 2026-07-29T13:19:05
+  lease_expire: 2026-07-29T14:19:05
+  workspace: tasks\running\REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01\outputs
+  outputs:
+    gate_decision: E:/AI-Workspace/projects/道法百年\tasks\running\REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01\outputs\gate_decision.yaml
+  output_hashes:
+    gate_decision_sha256: 8f2a8f62d170f3bd3c878c9a750b6b248412c8529c2b73db9900c6741d3a639e
+  artifact: E:/AI-Workspace/projects/道法百年\tasks\running\REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01\outputs\gate_decision.yaml
+  submission:
+    checks:
+
+    at: 2026-07-29T13:19:05
+    session_id: SESSION-20260729-001
+  style_event_history:
+    - event: on_pass
+      style_state: PASS
+      successors:
+        - REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01
+      actor: 橘子
+      role: learning-curator
+      session_id: SESSION-20260729-001
+      emitted_at: 2026-07-29T13:19:06
+      output_hashes:
+        gate_decision_sha256: 8f2a8f62d170f3bd3c878c9a750b6b248412c8529c2b73db9900c6741d3a639e

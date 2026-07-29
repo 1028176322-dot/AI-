@@ -1,0 +1,8 @@
+schema_version: 1.3.0
+project_id: novel-dsf
+generated_by: publish-driver
+components: [Assets, Canon, Characters, Derived, Events, Foreshadow, Graph, Locations, Organizations, ReaderState, StoryState, Terminology, Timeline, WorldState]
+nkb:
+  snapshot_id: NKB-GENESIS-001
+  snapshot_sha256: 006c039e3215f655bdc4ee0edb77e90b52cb16aca06715097ab93246c260e481
+  revision: v1

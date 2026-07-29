@@ -1,0 +1,79 @@
+task:
+  id: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW
+  version: 1
+  project: 道法百年
+  type: chapter_review
+  title: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE 后继 chapter_review
+  status: completed
+  priority: high
+  created: 2026-07-29T12:37:22
+  created_by: task-system
+  goal: null
+  chapter_ref: chapters/drafts/CH-201.md
+  conversation_request_id: REQ-20260729121113455905-4D8E6B
+  dependencies:
+    - REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE
+  inputs:
+    required:
+      - chapter_draft
+      - review_spec
+    values:
+      source_task: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE
+      source_artifact: chapters/drafts/CH-201.md
+      chapter_draft: chapters/drafts/CH-201.md
+  expected_outputs:
+    - review_report
+    - findings
+  acceptance:
+    criteria:
+      - 按 chapter_review 模板完成
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - analysis/review/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  agent:
+    required_role: reviewer
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  owner: 橘子
+  claimed_at: 2026-07-29T12:50:47
+  lease_expire: 2026-07-29T13:50:47
+  workspace: tasks\running\REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW\outputs
+  artifact: runtime/reviews/REVIEW-REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW/report.yaml
+  outputs:
+    review_report: runtime/reviews/REVIEW-REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW/report.yaml
+  submission:
+    checks:
+      review_gate: pass
+    at: 2026-07-29T12:56:35
+    session_id: SESSION-20260729-001
+  output_hashes:
+    review_report_sha256: 26d19606dadb589c50707d6d42a0855f0aa89d56e3db7748cddba037142740a5
+  style_state: PASS
+  style_event_history:
+    - event: on_pass
+      style_state: PASS
+      successors:
+        - REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01
+      actor: 橘子
+      role: reviewer
+      session_id: SESSION-20260729-001
+      emitted_at: 2026-07-29T12:56:35
+      output_hashes:
+        review_report_sha256: 26d19606dadb589c50707d6d42a0855f0aa89d56e3db7748cddba037142740a5

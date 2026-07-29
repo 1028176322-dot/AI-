@@ -7734,3 +7734,15 @@ canonical_manifest:
           hash: 8465e7c88b08f99ea19b8ec206bb814e2521fece910ff26fd80f333872034cf2
           source: review-artifact
           published_at: 2026-07-27T14:30:00
+    chapters/approved/CH-201.md:
+      path: chapters/approved/CH-201.md
+      status: published
+      revision: 1
+      hash: d640a53756a3d45780f974b4e697bcdcb7f28a7b9a2631c5dd8a7456a038c908
+      source: chapters/drafts/CH-201.md
+      published_at: 2026-07-29T14:45:51
+      versions:
+        - revision: 1
+          hash: d640a53756a3d45780f974b4e697bcdcb7f28a7b9a2631c5dd8a7456a038c908
+          source: chapters/drafts/CH-201.md
+          published_at: 2026-07-29T14:45:51

@@ -15,10 +15,10 @@ current:
     id: null
     name: null
   chapter:
-    current: chapters/drafts/第二卷_京华/第213章_国师收网三.md
+    current: chapters/drafts/CH-201.md
     title: null
     workflow_current_step: write
   blocked: false
   blocked_reason: null
 updated_by: task-system
-updated: 2026-07-29T00:16:48
+updated: 2026-07-29T12:19:00

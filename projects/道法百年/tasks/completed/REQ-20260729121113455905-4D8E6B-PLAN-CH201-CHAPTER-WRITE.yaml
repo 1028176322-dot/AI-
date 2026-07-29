@@ -1,0 +1,80 @@
+task:
+  id: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE
+  version: 1
+  project: 道法百年
+  type: chapter_write
+  title: REQ-20260729121113455905-4D8E6B-PLAN-CH201 后继 chapter_write
+  status: completed
+  priority: high
+  created: 2026-07-29T12:18:02
+  created_by: task-system
+  goal: null
+  chapter_ref: chapters/drafts/CH-201.md
+  conversation_request_id: REQ-20260729121113455905-4D8E6B
+  dependencies:
+    - REQ-20260729121113455905-4D8E6B-PLAN-CH201
+  inputs:
+    required:
+      - chapter_plan
+      - writing_strategy
+      - style_guidance
+      - final_context
+      - nkb_snapshot
+      - previous_chapter_handoff
+    values:
+      source_task: REQ-20260729121113455905-4D8E6B-PLAN-CH201
+      source_artifact: BUILD-unknown
+  expected_outputs:
+    - chapter_draft
+    - self_check
+    - writing_strategy_evidence
+    - candidate_facts
+    - handoff
+  acceptance:
+    criteria:
+      - 按 chapter_write 模板完成
+  permissions:
+    read:
+      - NKB/**
+      - sources/outline/**
+      - runtime/writing-strategies/**
+      - runtime/learning/**
+      - memory/project/style-library/**
+      - chapters/approved/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - chapters/drafts/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  agent:
+    required_role: writer
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  owner: 橘子
+  claimed_at: 2026-07-29T12:19:00
+  lease_expire: 2026-07-29T13:19:00
+  workspace: tasks\running\REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE\outputs
+  artifact: chapters/drafts/CH-201.md
+  outputs:
+    chapter_draft: chapters/drafts/CH-201.md
+    candidate_facts: tasks/running/REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE/outputs/candidate_facts.md
+    handoff: tasks/running/REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE/outputs/handoff.md
+    writing_strategy_evidence: tasks/running/REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE/outputs/writing_strategy_evidence.md
+    self_check: tasks/running/REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE/outputs/self_check.md
+  submission:
+    checks:
+      self_check: pass
+    at: 2026-07-29T12:37:22
+  review:
+    decision: pass
+    at: 2026-07-29T12:56:35

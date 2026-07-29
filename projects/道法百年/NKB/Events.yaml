@@ -218,3 +218,15 @@ records:
     confidence: outline
     Version: 1
     Updated: 大纲
+  - id: EVT-BORROW-BLADE-201
+    name: 借刀肃清听雨残部
+    chapter: "第 201 章"
+    cause: 肖凡不亲自亮刃，将残部出入时辰与采买背街路数递内卫府王录事
+    effect: 借朝廷刀肃清残部；故意留半条底，使余孽慌而钻更深网眼
+    participants:
+      - CHR-001
+      - CHAR-WANG-LUSHI
+    src: CH-201 正文
+    confidence: chapter
+    Version: 1
+    Updated: CH-201

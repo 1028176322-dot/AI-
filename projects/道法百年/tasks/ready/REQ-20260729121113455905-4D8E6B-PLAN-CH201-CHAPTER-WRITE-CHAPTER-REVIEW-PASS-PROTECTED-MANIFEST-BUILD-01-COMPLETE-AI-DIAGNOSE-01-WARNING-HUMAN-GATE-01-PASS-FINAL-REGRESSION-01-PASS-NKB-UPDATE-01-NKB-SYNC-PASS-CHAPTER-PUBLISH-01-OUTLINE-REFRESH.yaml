@@ -1,0 +1,67 @@
+task:
+  id: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01-NKB-SYNC-PASS-CHAPTER-PUBLISH-01-OUTLINE-REFRESH
+  version: 1
+  project: 道法百年
+  type: outline_refresh
+  title: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01-NKB-SYNC-PASS-CHAPTER-PUBLISH-01 审批后继 outline_refresh
+  status: ready
+  priority: high
+  created: 2026-07-29T14:45:51
+  created_by: task-system
+  goal: null
+  chapter_ref: chapters/drafts/CH-201.md
+  conversation_request_id: REQ-20260729121113455905-4D8E6B
+  dependencies:
+    - REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01-NKB-SYNC-PASS-CHAPTER-PUBLISH-01
+  inputs:
+    required:
+      - published_chapter
+      - canonical_manifest
+      - chapter_plan
+      - chapter_handoff
+      - nkb_snapshot
+      - planning_policy
+    values:
+      source_task: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01-NKB-SYNC-PASS-CHAPTER-PUBLISH-01
+      source_artifact: chapters/approved/CH-201.md
+      published_chapter: chapters/approved/CH-201.md
+      canonical_manifest: canonical_manifest.yaml
+  expected_outputs:
+    - revised_chapter_map
+    - revised_future_plans
+    - refresh_report
+    - handoff
+  acceptance:
+    criteria:
+      - 按 outline_refresh 模板完成
+  permissions:
+    read:
+      - chapters/approved/**
+      - canonical_manifest.yaml
+      - NKB/**
+      - handoffs/**
+      - sources/outline/**
+      - runtime/outline/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - sources/outline/maps/**
+      - sources/outline/chapters/**
+      - analysis/outline/**
+      - lifecycle/outline/**
+    forbidden:
+      - chapters/**
+      - NKB/**
+      - core/**
+      - registry/**
+      - templates/**
+      - sources/outline/series/**
+  agent:
+    required_role: story-architect
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current

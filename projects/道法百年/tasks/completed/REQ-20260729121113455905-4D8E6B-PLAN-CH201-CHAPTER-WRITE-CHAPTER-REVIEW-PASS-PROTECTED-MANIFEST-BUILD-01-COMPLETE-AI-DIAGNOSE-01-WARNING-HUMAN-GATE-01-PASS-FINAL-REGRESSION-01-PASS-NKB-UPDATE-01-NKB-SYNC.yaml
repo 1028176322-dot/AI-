@@ -1,0 +1,86 @@
+task:
+  id: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01-NKB-SYNC
+  version: 1
+  project: 道法百年
+  type: nkb_sync
+  title: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01 后继 nkb_sync
+  status: completed
+  priority: high
+  created: 2026-07-29T13:50:13
+  created_by: task-system
+  goal: null
+  chapter_ref: chapters/drafts/CH-201.md
+  conversation_request_id: REQ-20260729121113455905-4D8E6B
+  dependencies:
+    - REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01
+  inputs:
+    required:
+      - nkb_change
+      - operation_manifest
+      - nkb_snapshot_after
+    values:
+      source_task: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01
+      source_artifact: tasks/running/REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01/outputs/nkb_change.yaml
+      nkb_change: tasks/running/REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01/outputs/nkb_change.yaml
+      operation_manifest: tasks/running/REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01/outputs/operation_manifest.yaml
+      nkb_snapshot_after: NKB-GENESIS-001
+  expected_outputs:
+    - nkb_sync_proof
+    - validation_report
+  acceptance:
+    criteria:
+      - 按 nkb_sync 模板完成
+  permissions:
+    read:
+      - NKB/**
+      - operations/**
+      - tasks/**
+      - sources/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - analysis/nkb/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - chapters/**
+      - NKB/**
+  agent:
+    required_role: reviewer
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  owner: 橘子
+  claimed_at: 2026-07-29T13:50:13
+  lease_expire: 2026-07-29T14:50:13
+  workspace: tasks\running\REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01-NKB-SYNC\outputs
+  outputs:
+    nkb_sync_proof: analysis/style/CH-201/RC-001/nkb-sync-proof.yaml
+    validation_report: analysis/style/CH-201/RC-001/nkb-validation-report.yaml
+  output_hashes:
+    nkb_sync_proof_sha256: 7bd71249b837b367eb74c9b1a79ca0f28f7fada4994bb1a21d1dda81938e0b65
+    validation_report_sha256: f7f5b5a6ab73ec5fece4ac8b14375216bc37d5ab3ee7137df23ac0df4eef5b9c
+  artifact: analysis/style/CH-201/RC-001/nkb-sync-proof.yaml
+  submission:
+    checks:
+
+    at: 2026-07-29T13:50:13
+    session_id: SESSION-20260729-001
+  style_state: PASS
+  style_event_history:
+    - event: on_pass
+      style_state: PASS
+      successors:
+        - REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01-COMPLETE-AI-DIAGNOSE-01-WARNING-HUMAN-GATE-01-PASS-FINAL-REGRESSION-01-PASS-NKB-UPDATE-01-NKB-SYNC-PASS-CHAPTER-PUBLISH-01
+      actor: 橘子
+      role: reviewer
+      session_id: SESSION-20260729-001
+      emitted_at: 2026-07-29T13:50:14
+      output_hashes:
+        nkb_sync_proof_sha256: 7bd71249b837b367eb74c9b1a79ca0f28f7fada4994bb1a21d1dda81938e0b65
+        validation_report_sha256: f7f5b5a6ab73ec5fece4ac8b14375216bc37d5ab3ee7137df23ac0df4eef5b9c

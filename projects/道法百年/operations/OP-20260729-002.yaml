@@ -1,0 +1,21 @@
+operation:
+  id: OP-20260729-002
+  session_id: SES-unknown
+  role: writer
+  project_id: novel-dsf
+  task_id: REQ-20260729121113455905-4D8E6B-PLAN-CH201-CHAPTER-WRITE
+action:
+  type: chapter.write
+  target: chapters/drafts/CH-201.md
+inputs:
+  nkb_version: null
+  context_hash: null
+  contract_version: 2.0.0
+  policy_version: 1.3.0
+changes:
+  files:
+    - chapters/drafts/CH-201.md
+  lines_changed: 62
+result:
+  status: success
+  regression_required: false
