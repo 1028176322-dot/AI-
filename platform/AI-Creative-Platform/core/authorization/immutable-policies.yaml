@@ -82,8 +82,12 @@ protected_prefixes:
 grants:
   directory: operations/grants
   file_pattern: '^TASK-[\w-]+\.yaml$'
+  default_ttl_seconds: 86400           # 默认 24 小时，覆盖人工确认往返
+  minimum_ttl_seconds: 60
+  maximum_ttl_seconds: 604800          # 最长 7 天；terminal 态仍立即失效
   lifecycle:
     generated_on: [task_create, task_claim]
+    renewed_on: [active_publish_attempt]
     invalidated_on: [completed, failed, archive]   # terminal 态自动失效
   fields:
     task_id: 关联任务 ID

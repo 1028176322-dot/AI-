@@ -9,6 +9,8 @@ import time
 SCHEMA_ID = "style.diagnosis"
 SCHEMA_VERSION = "2.0.0"
 VALID_ACTIONS = ("revise", "skip", "human_review")
+STYLE_REVIEW_CATEGORIES = {
+    "style", "narrative", "dialogue", "pacing", "emotion", "reader"}
 
 _SENTENCE_SPLIT = re.compile(r"(?<=[。！？；.!?;])")
 _PATTERNS = {
@@ -184,26 +186,60 @@ def _semantic_issues(draft_text, evidence):
     return normalized
 
 
+def clearance_from_review(review_report, review_sha256=""):
+    """Reuse an evidence-complete chapter review as clean-style attestation."""
+    if not isinstance(review_report, dict):
+        return None
+    if review_report.get("verdict") not in ("pass", "pass_with_fixes"):
+        return None
+    blocking = [
+        item for item in review_report.get("findings") or []
+        if isinstance(item, dict)
+        and item.get("category") in STYLE_REVIEW_CATEGORIES
+        and item.get("severity") in ("fail", "block")
+    ]
+    if blocking:
+        return None
+    stages = review_report.get("stages") or []
+    return {
+        "source": "chapter_review",
+        "review_id": review_report.get("review_id"),
+        "task_id": review_report.get("task_id"),
+        "verdict": review_report.get("verdict"),
+        "review_sha256": review_sha256,
+        "reviewed_stages": stages,
+        "blocking_style_findings": 0,
+    }
+
+
 def ai_diagnose(
         chapter_id, revision_cycle_id, task_id, draft_text,
         nkb_snapshot=None, protected_manifest_sha256="", policy=None,
         diagnosed_at=None, semantic_evidence=None, style_guidance=None,
-        adjacent_chapters=None, require_semantic_evidence=False):
+        adjacent_chapters=None, require_semantic_evidence=False,
+        semantic_clearance=None):
     del policy
     source = draft_text[:]
     nkb_copy = (
         dict(nkb_snapshot) if isinstance(nkb_snapshot, dict)
         else nkb_snapshot)
-    if require_semantic_evidence and not semantic_evidence:
+    if (
+            require_semantic_evidence
+            and not semantic_evidence
+            and not semantic_clearance):
         raise ValueError(
-            "production diagnosis requires structured AI semantic evidence")
+            "production diagnosis requires structured AI semantic evidence "
+            "or an evidence-complete chapter review clearance")
     signals = _detect_signals(source, adjacent_chapters)
     semantic = _semantic_issues(source, semantic_evidence or [])
     actionable = [
         item for item in semantic
         if item.get("requires_revision") is True]
     has_issues = bool(actionable)
-    only_warnings = bool(signals or semantic) and not has_issues
+    only_warnings = (
+        bool(signals or semantic)
+        and not has_issues
+        and not semantic_clearance)
     severe = any(
         item.get("severity") == "high" for item in actionable)
     recommended = (
@@ -228,7 +264,9 @@ def ai_diagnose(
         "deterministic_signal_count": len(signals),
         "literary_judgment_source": (
             "ai_semantic_evidence" if semantic
+            else "chapter_review_clearance" if semantic_clearance
             else "none; deterministic signals are not literary judgments"),
+        "semantic_clearance": semantic_clearance,
         "style_guidance_sha256": (
             (style_guidance or {}).get("style_guidance_sha256", "")
             if isinstance(style_guidance, dict) else ""),

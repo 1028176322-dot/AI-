@@ -301,6 +301,13 @@ def main():
         nkb_update_id = "%s-NKB-UPDATE" % write_id
         check(task_engine.load_task(root, nkb_update_id)[0] == "ready",
               "NKB update task missing")
+        _, nkb_update_data = task_engine.load_task(root, nkb_update_id)
+        nkb_update_task = nkb_update_data["task"]
+        check(nkb_update_task.get("approved_event") == review_id,
+              "NKB update approved_event not bound")
+        check(((nkb_update_task.get("inputs") or {}).get("values") or {}).get(
+            "approved_event") == review_id,
+              "NKB update input approved_event not bound")
         check(task_engine.load_task(root, publish_id)[0] == "backlog",
               "publish must wait for NKB sync")
         task_engine.claim(

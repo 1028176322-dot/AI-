@@ -3,6 +3,7 @@
 import argparse
 import datetime
 import os
+import re
 import statistics
 import sys
 
@@ -41,7 +42,7 @@ HUMAN_DIMENSIONS = [
 ]
 REQUIRED_LENS_FIELDS = (
     "score", "observation", "evidence_location", "reading_effect",
-    "expectation", "recommended_fix", "confidence",
+    "evidence_excerpt", "expectation", "recommended_fix", "confidence",
 )
 
 
@@ -113,6 +114,8 @@ def prepare_panel(
         "- 同一主 Agent 串行切换观察镜头，不创建子 Agent。",
         "- 先无解释通读，再逐镜头复核；每个判断必须给正文位置、"
         "短证据和阅读影响。",
+        "- `evidence_excerpt` 可填一个连续原文片段，也可填按正文顺序排列的"
+        " 片段列表；跨句证据可用 `……`/`...` 分隔，禁止自行拼成伪原句。",
         "- AI 面板是预测证据，不能冒充真人反馈；真人数据必须走"
         " `ingest-human`。",
         "",
@@ -156,6 +159,39 @@ def _compute_gate(report):
         "Reader Panel Index=%s" % reader_index]
 
 
+def _normalized_evidence(value):
+    return re.sub(r"\s+", "", str(value or ""))
+
+
+def _evidence_fragments(excerpt):
+    if isinstance(excerpt, list):
+        values = excerpt
+    elif isinstance(excerpt, str):
+        values = re.split(r"(?:\.{3,}|…+)", excerpt)
+    else:
+        return []
+    return [
+        _normalized_evidence(value)
+        for value in values
+        if _normalized_evidence(value)
+    ]
+
+
+def _excerpt_locates(source_text, excerpt):
+    """Accept one literal excerpt or ordered literal fragments."""
+    source = _normalized_evidence(source_text)
+    fragments = _evidence_fragments(excerpt)
+    if not source or not fragments:
+        return False
+    offset = 0
+    for fragment in fragments:
+        found = source.find(fragment, offset)
+        if found < 0:
+            return False
+        offset = found + len(fragment)
+    return True
+
+
 def validate_panel(path, finalize=True):
     report = _gov.load_yaml(path) or {}
     errors = []
@@ -171,8 +207,15 @@ def validate_panel(path, finalize=True):
         errors.append("缺读者镜头：%s" % missing)
     source_text = None
     source_path = report.get("source")
-    if source_path and os.path.isfile(source_path):
-        with open(source_path, "r", encoding="utf-8") as handle:
+    resolved_source = source_path
+    if source_path and not os.path.isabs(source_path):
+        panel_dir = os.path.dirname(os.path.abspath(path))
+        project_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(panel_dir)))
+        resolved_source = os.path.join(
+            project_root, source_path.replace("/", os.sep))
+    if resolved_source and os.path.isfile(resolved_source):
+        with open(resolved_source, "r", encoding="utf-8") as handle:
             source_text = handle.read()
     for index, lens in enumerate(report.get("lenses") or [], 1):
         if not isinstance(lens, dict):
@@ -194,7 +237,7 @@ def validate_panel(path, finalize=True):
                 "lens %s score/confidence 非数值" % lens.get("id"))
         if source_text is not None:
             excerpt = lens.get("evidence_excerpt")
-            if not excerpt or str(excerpt) not in source_text:
+            if not _excerpt_locates(source_text, excerpt):
                 errors.append(
                     "lens %s evidence_excerpt 无法定位"
                     % lens.get("id"))

@@ -46,6 +46,29 @@ def _sha256_obj(obj):
     return hashlib.sha256(json.dumps(obj, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
 
 
+def _nkb_revision(nkb_snapshot):
+    """Read both current and legacy NKB snapshot layouts."""
+    if not isinstance(nkb_snapshot, dict):
+        return ""
+    for key in ("revision", "snapshot_id"):
+        value = nkb_snapshot.get(key)
+        if value not in (None, ""):
+            return value
+    nested = nkb_snapshot.get("nkb")
+    if isinstance(nested, dict):
+        for key in ("revision", "snapshot_id"):
+            value = nested.get(key)
+            if value not in (None, ""):
+                return value
+        snapshot = nested.get("snapshot")
+        if isinstance(snapshot, dict):
+            for key in ("revision", "snapshot_id"):
+                value = snapshot.get(key)
+                if value not in (None, ""):
+                    return value
+    return ""
+
+
 def _split_sentences(text):
     return [s.strip() for s in _SENT.split(text) if s.strip()]
 
@@ -136,7 +159,7 @@ def build_manifest(chapter_id, revision_cycle_id, producer_task_id, draft_text,
     conflicts = cd(draft_text, nkb_hard_facts=nkb_hard_facts, outline_text=outline_text)
     status = "MANIFEST_CONFLICT" if conflicts else "MANIFEST_READY"
 
-    nkb_rev = (nkb_snapshot or {}).get("revision", "") if isinstance(nkb_snapshot, dict) else ""
+    nkb_rev = _nkb_revision(nkb_snapshot)
     manifest = {
         "schema": SCHEMA_ID,
         "schema_version": SCHEMA_VERSION,

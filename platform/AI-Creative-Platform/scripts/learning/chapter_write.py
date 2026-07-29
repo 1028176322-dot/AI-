@@ -12,6 +12,7 @@
 """
 import argparse
 import os
+import re
 import subprocess
 import sys
 
@@ -25,6 +26,8 @@ for _child in os.listdir(SCRIPTS_ROOT):
         sys.path.insert(0, _path)
 
 import project_layout
+import task_engine
+import task_packet
 from controlled_chapter_client import broker_write, resource
 
 
@@ -32,6 +35,30 @@ def target_for(project, chapter):
     """Return the governed draft target for the current project generation."""
     extension = ".txt" if project_layout.is_style_strict(project) else ".md"
     return "chapters/drafts/%s%s" % (chapter, extension)
+
+
+def resolve_plan_path(project, chapter, task_id):
+    """Resolve the governed chapter plan from task inputs, then conventions."""
+    state, data = task_engine.load_task(project, task_id)
+    task = ((data or {}).get("task") or {}) if state else {}
+    if task:
+        resolved, ok = task_packet._resolve_input(
+            project, "chapter_plan", task)
+        if ok and isinstance(resolved, str) and os.path.isfile(resolved):
+            return resolved
+    match = re.search(r"(\d+)", str(chapter or ""))
+    candidates = []
+    if match:
+        candidates.append(os.path.join(
+            project, "sources", "outline", "chapters",
+            "PLAN-%03d.yaml" % int(match.group(1))))
+    candidates.append(os.path.join(
+        project, "sources", "outline", "chapters",
+        "PLAN-%s.yaml" % chapter))
+    for path in candidates:
+        if os.path.isfile(path):
+            return path
+    return candidates[0]
 
 
 def write_chapter(project, chapter, task_id, role, content_file):
@@ -46,9 +73,7 @@ def write_chapter(project, chapter, task_id, role, content_file):
         except Exception as exc:
             raise RuntimeError(
                 "word_budget_gate module unavailable: %s" % exc)
-        plan_path = os.path.join(
-            project, "sources", "outline", "chapters",
-            "PLAN-%s.yaml" % chapter)
+        plan_path = resolve_plan_path(project, chapter, task_id)
         ok, errors = enforce_word_budget(content_file, plan_path)
         if not ok:
             raise ValueError(

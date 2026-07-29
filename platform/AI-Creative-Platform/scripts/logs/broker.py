@@ -420,6 +420,35 @@ def _parse_lease(value):
         raise BrokerError("invalid task lease timestamp")
 
 
+def _trusted_session_policy(session, session_body):
+    """Normalize current and legacy session manifests, failing closed."""
+    runtime = (
+        session.get("agent_runtime")
+        or session.get("runtime_policy")
+        or {})
+    delegation = runtime.get(
+        "delegation_enabled",
+        runtime.get("delegation_allowed"))
+    background = runtime.get(
+        "background_execution_enabled",
+        runtime.get("parallel_agents_allowed"))
+    try:
+        single_agent = (
+            runtime.get("agent_mode") == "single"
+            and runtime.get("subagents_enabled") is False
+            and delegation is False
+            and background is False
+            and int(runtime.get("max_active_agents", 0)) == 1)
+    except (TypeError, ValueError):
+        single_agent = False
+    if not single_agent:
+        raise BrokerError("session violates single-agent policy")
+    loaded = session_body.get("loaded")
+    if isinstance(loaded, dict) and loaded:
+        return all(value is True for value in loaded.values())
+    return session.get("ready") is True
+
+
 def _dependency_binding(root, task):
     """Reconstruct write dependency truth from task inputs and evidence files."""
     values = ((task.get("inputs") or {}).get("values") or {})
@@ -501,13 +530,7 @@ def load_trusted_context(root, task_id, session_id, actor_id):
     lease = _parse_lease(task.get("lease_expire"))
     if lease and lease <= time.time():
         raise BrokerError("task lease expired")
-    runtime = session.get("agent_runtime") or {}
-    if (
-            runtime.get("agent_mode", "single") != "single"
-            or runtime.get("subagents_enabled") is not False
-            or runtime.get("delegation_enabled") is not False
-            or int(runtime.get("max_active_agents", 1)) != 1):
-        raise BrokerError("session violates single-agent policy")
+    session_ready = _trusted_session_policy(session, session_body)
     expected_role = (
         (task.get("agent") or {}).get("required_role") or "")
     required_inputs = ((task.get("inputs") or {}).get("required") or [])
@@ -532,9 +555,7 @@ def load_trusted_context(root, task_id, session_id, actor_id):
         template_valid=True,
         state=trusted_state,
         session_id=session_id,
-        session_ready=all(
-            value is True
-            for value in (session_body.get("loaded") or {}).values()),
+        session_ready=session_ready,
         subagent_policy="denied",
         lease_owner=owner,
         lease_expires_at=lease,

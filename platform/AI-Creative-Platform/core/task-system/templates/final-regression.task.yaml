@@ -19,10 +19,15 @@ task_template:
     required_session: current
   next_tasks:
     on_pass: [nkb_update]
+    # NKB 同步后的二次回归已经绑定最终快照，直接进入发布。
+    on_pass_post_nkb: [chapter_publish]
     on_fail_baseline: [chapter-fix]
     on_fail_post_apply: [chapter-rollback-revision]
   event_contracts:
     on_pass:
+      required_outputs: [regression_result]
+      required_bindings: [draft_sha256, nkb_snapshot_sha256, outline_sha256, protected_manifest_sha256, style_guidance_sha256, final_regression_mode, chapter_review_report_sha256]
+    on_pass_post_nkb:
       required_outputs: [regression_result]
       required_bindings: [draft_sha256, nkb_snapshot_sha256, outline_sha256, protected_manifest_sha256, style_guidance_sha256, final_regression_mode, chapter_review_report_sha256]
     on_fail_baseline:

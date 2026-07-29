@@ -34,6 +34,7 @@ SUPPORTED_EVENTS = {
     "on_warning",
     "on_issues",
     "on_pass",
+    "on_pass_post_nkb",
     "on_fail",
     "on_rolled_back",
     "on_conflict",
@@ -69,6 +70,7 @@ STATE_BY_EVENT = {
     ("style-quality-review", "on_fail"): "QUALITY_FAILED",
     ("chapter-apply-revision", "on_complete"): "APPLIED",
     ("final-regression", "on_pass"): "FINAL_PASSED",
+    ("final-regression", "on_pass_post_nkb"): "FINAL_PASSED",
     ("final-regression", "on_fail_baseline"): "CHAPTER_FIX_REQUIRED",
     ("final-regression", "on_fail_post_apply"): "ROLLBACK_READY",
     ("chapter-rollback-revision", "on_rolled_back"): "ROLLED_BACK",
@@ -311,6 +313,33 @@ def _successor_id(source_id, event, target, index):
         source_id, event_name.upper().replace("_", "-"), suffix, index)
 
 
+def _approved_review_event(root, source_task, max_nodes=64):
+    """Resolve the reviewed chapter event from the dependency lineage."""
+    import task_engine as TE
+
+    queue = [source_task]
+    seen = set()
+    while queue and len(seen) < max_nodes:
+        current = queue.pop(0)
+        current_id = current.get("id")
+        if not current_id or current_id in seen:
+            continue
+        seen.add(current_id)
+        if current.get("type") == "chapter_review":
+            history = current.get("style_event_history") or []
+            approved = any(
+                item.get("event") == "on_pass"
+                for item in history if isinstance(item, dict))
+            if approved:
+                return current_id
+        for dependency in current.get("dependencies") or []:
+            _, data = TE.load_task(root, dependency)
+            parent = (data or {}).get("task") or {}
+            if parent:
+                queue.append(parent)
+    return None
+
+
 def _create_successors(
         root, source_task, event, outputs, hashes, evidence,
         actor, model):
@@ -327,6 +356,13 @@ def _create_successors(
             "nkb_revision", "final_regression_mode",
             "chapter_review_report_sha256")
     })
+    if (source_task.get("type") == "nkb_sync"
+            and event == "on_pass"):
+        # NKB update may have advanced the canonical snapshot. The successor
+        # tail must bind the final snapshot before publish.
+        inherited["post_nkb_sync"] = True
+        if inherited.get("nkb_snapshot_after"):
+            inherited["nkb_snapshot"] = inherited["nkb_snapshot_after"]
     inherited["source_task"] = source_task.get("id")
     inherited["source_event"] = event
     inherited.setdefault(
@@ -352,6 +388,15 @@ def _create_successors(
 
     for index, target in enumerate(TT.next_types(
             source_task.get("type"), event), 1):
+        if target == "nkb_update" and not inherited.get(
+                "approved_event"):
+            approved_event = _approved_review_event(
+                root, source_task)
+            if not approved_event:
+                raise StyleEventError(
+                    "nkb_update successor requires an approved "
+                    "chapter_review event in lineage")
+            inherited["approved_event"] = approved_event
         task_id = (
             TE.stable_publish_task_id(source_task)
             if target == "chapter_publish" else None)
@@ -372,6 +417,8 @@ def _create_successors(
             "source_event": event,
             "revision_cycle_id": inherited["revision_cycle_id"],
         })
+        if inherited.get("post_nkb_sync"):
+            values["post_nkb_sync"] = True
         if target == "human_gate":
             values["gate_context"] = {
                 "schema": "human-gate-context@1.0.0",

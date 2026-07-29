@@ -81,6 +81,40 @@ class BrokerBase(unittest.TestCase):
         ]
 
 
+class TrustedSessionCompatibilityTest(unittest.TestCase):
+    def test_current_agent_runtime_is_accepted(self):
+        session = {
+            "agent_runtime": {
+                "agent_mode": "single",
+                "subagents_enabled": False,
+                "delegation_enabled": False,
+                "background_execution_enabled": False,
+                "max_active_agents": 1,
+            },
+        }
+        self.assertTrue(bmod._trusted_session_policy(
+            session, {"loaded": {"project_yaml": True}}))
+
+    def test_legacy_runtime_policy_is_accepted(self):
+        session = {
+            "runtime_policy": {
+                "agent_mode": "single",
+                "subagents_enabled": False,
+                "delegation_allowed": False,
+                "parallel_agents_allowed": False,
+                "max_active_agents": 1,
+            },
+            "ready": True,
+        }
+        self.assertTrue(
+            bmod._trusted_session_policy(session, {}))
+
+    def test_missing_policy_fails_closed(self):
+        with self.assertRaisesRegex(
+                bmod.BrokerError, "single-agent policy"):
+            bmod._trusted_session_policy({"ready": True}, {})
+
+
 class HappyPathTest(BrokerBase):
     def test_happy_apply_via_broker(self):
         dp, dh = self._seed_draft()

@@ -191,6 +191,7 @@ clone 仓库
 | `… doctor --quick` | 会话启动快速检查；跳过项目内容型深度体检 |
 | `… selfcheck` | 检查清单、Schema、Contract、Plugin、模板、CLI、源码与钩子完整性 |
 | `… task …` | 创建、运行、提交、审查与恢复受控任务 |
+| `… chapter-flow run/status …` | strict-v2 每章唯一执行入口：自动推进确定性阶段、语义阶段暂停、断点续跑 |
 | `python tests/run_all.py` | 串行执行隔离的全量回归测试 |
 | `… check [--project <id>]` | 单项目兼容性检查（requires vs 实际） |
 | `… init-project --name <目录> --type <genre>` | 脚手架新项目（空 NKB + overrides + 自动登记进 workspace.yaml） |

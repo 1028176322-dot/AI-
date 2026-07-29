@@ -79,6 +79,7 @@ governance:
   project_creation_policy: core/policies/workflow.policy.yaml
   git_coordination: core/governance/Git协调者唯一入口.md
   git_scope_policy: core/governance/git-scopes.json
+  chapter_execution: core/learning/章节全链路自动推进规范.md
 
 # 编辑≠发布：六因子授权 + Publish Service（根治「正式章节写权限断链」）
 #   core_dir           : 授权模型五 YAML（actions/resources/roles/state-permissions/immutable-policies）
@@ -160,6 +161,8 @@ commands:
   git_sync: platform git sync
   git_commit: platform git commit
   git_publish: platform git publish
+  chapter_flow_run: platform chapter-flow run
+  chapter_flow_status: platform chapter-flow status
 
 override_policy:
   # 不可覆盖：任何下层配置（题材模板 / 项目 / 任务运行时）均不得修改以下键。
@@ -169,6 +172,7 @@ override_policy:
     - runtime.delegation_allowed
     - runtime.parallel_agents_allowed
     - governance.authority
+    - governance.chapter_execution
     - quality_gates.task_execution
     - quality_gates.platform_bootstrap
   # 允许覆盖（优先级：Core Default < Genre Template < Project Override < Chapter Runtime）。

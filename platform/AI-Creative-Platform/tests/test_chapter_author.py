@@ -131,6 +131,31 @@ class ChapterAuthorContractTest(unittest.TestCase):
         finally:
             shutil.rmtree(root, ignore_errors=True)
 
+    def test_interactive_agent_inherits_running_task_owner(self):
+        root = tempfile.mkdtemp(prefix="chapter_author_inherit_")
+        try:
+            task_dir = os.path.join(root, "tasks", "running")
+            os.makedirs(task_dir, exist_ok=True)
+            _gov.dump_yaml(os.path.join(task_dir, "T-AUTHOR.yaml"), {
+                "task": {
+                    "id": "T-AUTHOR",
+                    "type": "chapter_write",
+                    "status": "running",
+                    "owner": "橘子",
+                },
+            })
+            self.assertEqual(
+                "橘子",
+                chapter_author._effective_agent(
+                    root, "T-AUTHOR", requested_agent=None))
+            self.assertEqual(
+                "explicit-agent",
+                chapter_author._effective_agent(
+                    root, "T-AUTHOR",
+                    requested_agent="explicit-agent"))
+        finally:
+            shutil.rmtree(root, ignore_errors=True)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

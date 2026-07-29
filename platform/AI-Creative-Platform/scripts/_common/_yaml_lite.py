@@ -21,10 +21,11 @@ _yaml_lite.py — 零依赖 YAML 子集解析器
   - 标量：整数 / 浮点 / 布尔 / null / 字符串（含单双引号）
   - 块序列：- item
   - 序列中的映射：- key: value（含后续缩进键）
-  - 行内流列表：[a, b, c]
+  - 行内流列表：[a, b, c] 与空映射：{}
+  - 折叠/字面块标量：>、>-、>+、|、|-、|+
   - 引号键："2.1.0":（插件版本表）
 
-不支持（本平台清单未使用）：锚点 &/*、多文档 ---、复杂流映射、字面块 |>、指令 %。
+不支持（本平台清单未使用）：锚点 &/*、多文档 ---、复杂非空流映射、指令 %。
 遇到不支持的构造会抛出 YAMLError，便于及时发现而非静默错读。
 """
 import re
@@ -60,6 +61,10 @@ def _strip_comment(s: str) -> str:
 
 def _scalar(tok: str):
     tok = tok.strip()
+    if tok == "{}":
+        return {}
+    if tok == "[]":
+        return []
     if tok == "" or tok in ("~", "null", "Null", "NULL"):
         return None
     if (tok[0] == '"' and tok[-1] == '"') or (tok[0] == "'" and tok[-1] == "'"):
@@ -208,10 +213,98 @@ def _parse_block(tokens, i, indent):
     return _parse_map(tokens, i, indent)
 
 
+_BLOCK_SCALAR = re.compile(
+    r"^(\s*(?:-\s+)?[^:#][^:]*:\s*)([>|])([+-]?)(?:\s+#.*)?$")
+_BLOCK_SEQUENCE_SCALAR = re.compile(
+    r"^(\s*-\s*)([>|])([+-]?)(?:\s+#.*)?$")
+
+
+def _fold_block(lines, style, chomping):
+    if style == "|":
+        value = "\n".join(lines)
+    else:
+        chunks = []
+        previous_blank = True
+        for line in lines:
+            if line == "":
+                chunks.append("\n")
+                previous_blank = True
+            else:
+                if chunks and not previous_blank:
+                    chunks.append(" ")
+                chunks.append(line)
+                previous_blank = False
+        value = "".join(chunks)
+    if chomping == "-":
+        return value.rstrip("\n")
+    if chomping == "+":
+        return value + "\n"
+    return value.rstrip("\n") + "\n"
+
+
+def _extract_block_scalars(raw_lines):
+    """Replace YAML block scalars with opaque scalar placeholders."""
+    placeholders = {}
+    output = []
+    index = 0
+    while index < len(raw_lines):
+        line = raw_lines[index]
+        match = (
+            _BLOCK_SCALAR.match(line)
+            or _BLOCK_SEQUENCE_SCALAR.match(line))
+        if not match:
+            output.append(line)
+            index += 1
+            continue
+        parent_indent = len(line) - len(line.lstrip(" "))
+        collected = []
+        cursor = index + 1
+        block_indent = None
+        while cursor < len(raw_lines):
+            candidate = raw_lines[cursor]
+            if candidate.strip() == "":
+                collected.append("")
+                cursor += 1
+                continue
+            candidate_indent = (
+                len(candidate) - len(candidate.lstrip(" ")))
+            if block_indent is None:
+                if candidate_indent <= parent_indent:
+                    break
+                block_indent = candidate_indent
+            elif candidate_indent < block_indent:
+                break
+            collected.append(candidate[min(
+                block_indent, candidate_indent):])
+            cursor += 1
+        placeholder = "__YAML_LITE_BLOCK_%d__" % len(placeholders)
+        placeholders[placeholder] = _fold_block(
+            collected, match.group(2), match.group(3))
+        output.append(match.group(1) + '"' + placeholder + '"')
+        index = cursor
+    return output, placeholders
+
+
+def _restore_placeholders(value, placeholders):
+    if isinstance(value, dict):
+        return {
+            _restore_placeholders(key, placeholders):
+            _restore_placeholders(item, placeholders)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [
+            _restore_placeholders(item, placeholders)
+            for item in value
+        ]
+    return placeholders.get(value, value)
+
+
 def load(text: str) -> dict:
     # 归一化换行符：Windows 编辑器/工具写出 CRLF 或裸 CR，避免分词器把多行读成单 token。
     text = text.replace("\r\n", "\n").replace("\r", "\n")
     raw_lines = text.replace("\t", "  ").split("\n")
+    raw_lines, placeholders = _extract_block_scalars(raw_lines)
     tokens = []
     for ln in raw_lines:
         stripped = _strip_comment(ln)
@@ -222,7 +315,7 @@ def load(text: str) -> dict:
     if not tokens:
         return {}
     value, _ = _parse_block(tokens, 0, tokens[0][0])
-    return value
+    return _restore_placeholders(value, placeholders)
 
 
 def load_file(path: str) -> dict:
@@ -281,15 +374,23 @@ def _emit_mapping(obj, spaces, lines):
         ks = _format_key(k)
         if v is None:
             lines.append(" " * spaces + ks + ":")
-        elif isinstance(v, dict) and v:
-            lines.append(" " * spaces + ks + ":")
-            _emit_mapping(v, spaces + 2, lines)
+        elif isinstance(v, dict):
+            if not v:
+                lines.append(" " * spaces + ks + ": {}")
+            else:
+                lines.append(" " * spaces + ks + ":")
+                _emit_mapping(v, spaces + 2, lines)
         elif isinstance(v, list):
             if not v:
                 lines.append(" " * spaces + ks + ": []")
             else:
                 lines.append(" " * spaces + ks + ":")
                 _emit_sequence(v, spaces + 2, lines)
+        elif isinstance(v, str) and ("\n" in v or "\r" in v):
+            normalized = v.replace("\r\n", "\n").replace("\r", "\n")
+            lines.append(" " * spaces + ks + ": |-")
+            for row in normalized.split("\n"):
+                lines.append(" " * (spaces + 2) + row)
         else:
             lines.append(" " * spaces + ks + ": " + _scalar_str(v))
 
@@ -302,15 +403,25 @@ def _emit_sequence(lst, spaces, lines):
             ks0 = _format_key(k0)
             if v0 is None:
                 lines.append(" " * spaces + "- " + ks0 + ":")
-            elif isinstance(v0, dict) and v0:
-                lines.append(" " * spaces + "- " + ks0 + ":")
-                _emit_mapping(v0, spaces + 2, lines)
+            elif isinstance(v0, dict):
+                if not v0:
+                    lines.append(" " * spaces + "- " + ks0 + ": {}")
+                else:
+                    lines.append(" " * spaces + "- " + ks0 + ":")
+                    _emit_mapping(v0, spaces + 4, lines)
             elif isinstance(v0, list):
                 if not v0:
                     lines.append(" " * spaces + "- " + ks0 + ": []")
                 else:
                     lines.append(" " * spaces + "- " + ks0 + ":")
-                    _emit_sequence(v0, spaces + 2, lines)
+                    _emit_sequence(v0, spaces + 4, lines)
+            elif isinstance(v0, str) and (
+                    "\n" in v0 or "\r" in v0):
+                normalized = v0.replace(
+                    "\r\n", "\n").replace("\r", "\n")
+                lines.append(" " * spaces + "- " + ks0 + ": |-")
+                for row in normalized.split("\n"):
+                    lines.append(" " * (spaces + 4) + row)
             else:
                 lines.append(" " * spaces + "- " + ks0 + ": " + _scalar_str(v0))
             rest = keys[1:]
@@ -319,6 +430,14 @@ def _emit_sequence(lst, spaces, lines):
                 for kk, vv in rest:
                     sub[kk] = vv
                 _emit_mapping(sub, spaces + 2, lines)
+        elif isinstance(item, dict):
+            lines.append(" " * spaces + "- {}")
+        elif isinstance(item, str) and ("\n" in item or "\r" in item):
+            normalized = item.replace(
+                "\r\n", "\n").replace("\r", "\n")
+            lines.append(" " * spaces + "- |-")
+            for row in normalized.split("\n"):
+                lines.append(" " * (spaces + 2) + row)
         else:
             lines.append(" " * spaces + "- " + _scalar_str(item))
 

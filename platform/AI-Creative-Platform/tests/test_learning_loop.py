@@ -90,6 +90,11 @@ class LearningLoopTest(unittest.TestCase):
         self.assertEqual(ledger["records"][0]["occurrences"], 2)
 
     def test_reader_panel_requires_all_evidence(self):
+        chapter = os.path.join(
+            self.root, "chapters", "drafts", "CH001.md")
+        os.makedirs(os.path.dirname(chapter), exist_ok=True)
+        with open(chapter, "w", encoding="utf-8") as stream:
+            stream.write("沈砚推开山门，钟声从雾里传来。")
         path, _ = reader_panel.prepare_panel(
             self.root, "TASK-REVIEW", "CH001", "chapters/drafts/CH001.md")
         ok, errors, report = reader_panel.validate_panel(path)
@@ -99,6 +104,7 @@ class LearningLoopTest(unittest.TestCase):
             lens.update({
                 "score": 75, "observation": "可理解",
                 "evidence_location": "第1段", "reading_effect": "继续阅读",
+                "evidence_excerpt": "沈砚推开山门",
                 "expectation": "希望看到选择结果",
                 "recommended_fix": "保持因果清晰", "confidence": 0.8,
             })

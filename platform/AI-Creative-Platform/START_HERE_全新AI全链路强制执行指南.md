@@ -4,7 +4,7 @@
 > **适用范围**：所有按 `strict-v2` 新建的小说项目；已有旧项目不强制迁移。
 > **目标**：从用户的一句话灵感开始，依次完成立项、资料准备、参考小说学习、设计、NKB Genesis、全书逐章详纲、章节写作、审查、修复、反补、真人读者验证、NKB 同步、正式发布，最后让合格正文以 TXT 落地。
 > **核心原则**：聊天内容是“任务请求”，不是“文件写入授权”；任何阶段没有通过门禁，都不得进入下一阶段。
-> **本次修订**：2026-07-29；补齐统一成稿、稳定批量依赖、参考规则消费、可信人工门禁和 Git 协作约束。
+> **本次修订**：2026-07-29；新增每章全链路自动推进唯一入口、断点续跑、审查证据复用及 NKB 最终快照重绑定。
 
 ---
 
@@ -102,6 +102,7 @@ Broker：<DEPLOYED_AND_VERIFIED 或 BLOCKED>
 | `PLATFORM_ROOT/core/learning/自主学习与反馈闭环.md` | 参考学习、审查反补、真人反馈 |
 | `PLATFORM_ROOT/core/learning/风格系统与去AI味实施纲要.md` | 风格学习、诊断、修订、回归 |
 | `PLATFORM_ROOT/core/learning/风格系统实施状态.md` | 已实现功能与当前边界 |
+| `PLATFORM_ROOT/core/learning/章节全链路自动推进规范.md` | 每章唯一执行入口、暂停/续跑和性能边界 |
 | `PLATFORM_ROOT/core/review/审查体系.md` | 审查维度和合格定义 |
 | `PLATFORM_ROOT/core/review/review-plan.yaml` | 审查编排与检查项 |
 | `PLATFORM_ROOT/core/task-system/templates/*.task.yaml` | 每类任务的输入、输出、权限和下一任务 |
@@ -988,8 +989,7 @@ Ready Check
 ```powershell
 .\platform.bat author begin `
   --project-root "<PROJECT_ROOT>" `
-  --task "<CHAPTER_WRITE_TASK_ID>" `
-  --agent "<当前AI标识>"
+  --task "<CHAPTER_WRITE_TASK_ID>"
 
 # begin 会认领/启动任务，并返回任务工作区内的 request_file、response_file。
 # 当前 AI 必须完整读取 request_file，按 chapter-author.schema.yaml 把五项结果
@@ -998,13 +998,17 @@ Ready Check
 .\platform.bat author ingest `
   --project-root "<PROJECT_ROOT>" `
   --task "<CHAPTER_WRITE_TASK_ID>" `
-  --response-file "<begin 返回的 response_file>" `
-  --agent "<同一AI标识>"
+  --response-file "<begin 返回的 response_file>"
 ```
 
 `begin/ingest` 与 `run` 经过完全相同的响应合同、字数、Broker 和 Task submit
 门禁。它不是“手工写正文绕过平台”，而是让当前对话 AI 成为受管语义执行端；
 响应只能写入已认领任务的 workspace，不能直接写 drafts/approved。
+
+`--agent` 可选：任务已经处于 claimed/running 时，执行器必须自动继承任务
+`owner`；任务尚未认领时才使用交互执行器默认身份。只有需要显式指定未认领任务
+的认领者时才传 `--agent`。显式传入与现有 owner 不同的身份仍会拒绝，不能借此
+接管其他 AI 的任务。
 
 适配器模式未配置、交互响应未 ingest、返回非 JSON、缺任一语义证据、字数不足、
 Task/Session/Broker 无效时一律阻塞。禁止退回临时脚本、直接聊天写文件或把 `model-router` 的
@@ -1014,6 +1018,66 @@ Task/Session/Broker 无效时一律阻塞。禁止退回临时脚本、直接聊
 同一 Task Packet 重试时，执行器复用已通过响应合同的缓存，避免重复计费和正文
 漂移。只有确认模型输出本身有误时才可加 `--regenerate`；输入文件变化会形成新的
 请求 hash，并自动重新生成。
+
+### 10.6 每章执行的唯一入口：chapter-flow
+
+完成 `chapter_plan` 并生成合法 `chapter_write` 任务后，所有 AI 必须使用：
+
+```powershell
+.\platform.bat chapter-flow run `
+  --project-root "<PROJECT_ROOT>" `
+  --chapter "CH-NNN" `
+  --agent "<当前AI标识>"
+```
+
+查看真实任务前沿：
+
+```powershell
+.\platform.bat chapter-flow status `
+  --project-root "<PROJECT_ROOT>" `
+  --chapter "CH-NNN"
+```
+
+`chapter-flow` 是每章 strict-v2 执行唯一入口。它会从 `tasks/` 的真实状态继续，
+自动完成可确定验证的环节，并把断点写入：
+
+```text
+runtime/chapter-pipeline/CH-NNN/state.json
+runtime/chapter-pipeline/CH-NNN/NEXT_ACTION.json
+```
+
+运行结果只有三类：
+
+- `COMPLETE`：章节已发布且 `outline_refresh` 已完成；缺少或未完成刷新时绝不返回完成。
+- `PAUSED`（退出码 10）：当前需要正文、语义审查、NKB 候选裁决、人工授权或大纲刷新。当前 AI 读取 `NEXT_ACTION.json`，只按其指向的 Task Packet 和平台任务执行器完成该语义动作，然后原命令续跑。
+- `BLOCK`（退出码 2）：输入、Session、Broker、绑定、canonical 校验或平台实现有故障；先修故障，禁止改走低层命令绕过。
+
+章节计划路径不再由成稿脚本硬拼 `PLAN-CH-NNN.yaml`。平台先解析 Task Packet 的
+`chapter_plan` 输入；没有显式输入时，再按章节数字解析为
+`sources/outline/chapters/PLAN-NNN.yaml`。非常规任务 ID 不影响找到正确章纲。
+
+干净路径中，下列工作由脚本自动执行且不得再让 AI 手工逐个驱动：
+
+```text
+protected-manifest-build
+→ ai-diagnose（复用已通过 chapter_review 的语义 clearance）
+→ final-regression
+→ NKB canonical validation / sync proof
+→ NKB 最终快照重绑定的 manifest + diagnose + final-regression
+→ Publish Service
+```
+
+Publish Service 的系统任务 grant 默认有效 24 小时，可由不可变授权策略在
+60 秒—7 天范围内配置。发布任务仍处于 ready/claimed/running 且目标路径与任务
+`publish_target` 完全一致时，Publish Service 可在发布尝试中安全续期；任务已
+完成、失败、归档、角色不符或目标变化时一律拒绝。这个系统 grant 不等于真人
+授权，不会替代、生成或续期 human gate 的签名决定。
+
+正文、深度审查、读者判断、候选事实取舍、真正的人类授权和未来大纲决策仍属于
+语义工作，脚本只生成一次性工作单，不伪造结论。`author`、`review`、`style`、
+`task event`、`chapter publish` 等低层命令只供平台实现、诊断和故障恢复使用；
+正常每章执行不得由 AI 自行设计或拼接这些命令；只有 `NEXT_ACTION.json` 明确
+要求某个任务专用执行器时，才可执行该单项，完成后立即返回 `chapter-flow`。
 
 ---
 
@@ -1269,11 +1333,14 @@ final-regression
 nkb_update
   → nkb_sync
       ├─ fail → nkb_update
-      └─ pass → chapter_publish
-                   ├─ fail → 阻塞，不得手工发布
-                   └─ pass → outline_refresh
-                                  ├─ fail → outline_refresh（循环）
-                                  └─ pass → 本章闭环完成，可进入下一章
+      └─ pass → protected-manifest-build(post_nkb_sync)
+                   → ai-diagnose（复用已通过审查的 clearance）
+                       → final-regression(on_pass_post_nkb)
+                           → chapter_publish
+                               ├─ fail → 阻塞，不得手工发布
+                               └─ pass → outline_refresh
+                                              ├─ fail → outline_refresh（循环）
+                                              └─ pass → 本章闭环完成，可进入下一章
 ```
 
 关键任务的角色与输出：
@@ -1470,6 +1537,7 @@ PROJECT_ROOT/canonical_manifest.yaml
 | 平台/项目体检 | `platform bootstrap`、`doctor`、`layout validate` |
 | 会话 | `platform session bootstrap/verify/close` |
 | 对话转任务 | `platform task dispatch` |
+| 每章全链路推进 | `platform chapter-flow run/status`（strict-v2 每章唯一执行入口） |
 | 受管自动成稿 | 命令适配器：`platform author validate/prepare/run`；对话 AI：`platform author begin/ingest` |
 | 设计 | `platform design ...` |
 | 大纲 | `platform outline prepare/validate/chapter-check` |
@@ -1491,7 +1559,7 @@ PROJECT_ROOT/canonical_manifest.yaml
 4. 新脚本必须有输入/输出合同、schema、fail-closed 校验、幂等性、审计、回滚和测试。
 5. 项目只保存参数、输入、结果和证据，不保存平台公共实现副本。
 6. 任何写 canonical 的脚本都必须接入 Task、Session、Broker、授权与 Operation Manifest。
-7. 不要把 `scripts/chapter_pipeline_driver.py` 当作 strict-v2 全链路唯一入口；它不能替代现行任务模板、风格链、NKB sync、真人门禁和 Broker 授权。
+7. strict-v2 每章只允许通过 `platform chapter-flow run/status` 调用驱动器；不得直接执行脚本文件。驱动器服从现行任务模板、Session、风格链、NKB sync、真人门禁和 Broker 授权，遇到语义步骤只暂停并生成工作单，绝不替代或跳过门禁。
 
 ### 17.1 批量章节与 Git 节奏
 
@@ -1539,6 +1607,7 @@ AI 在开始每章前逐项回答“是”：
 - [ ] 项目状态是 `ready_for_writing` 或 `writing`。
 - [ ] Broker 状态和 ACL 已验证。
 - [ ] 本章来自合法 Task，Session READY=true。
+- [ ] 正常执行使用 `platform chapter-flow run`，没有手工拼接 8 个 stage。
 - [ ] Task Packet 六个文件均已读取，输入无 pending。
 - [ ] 全书逐章详纲验证通过，本章 `PLAN-NNN.yaml` 通过 chapter-check。
 - [ ] NKB、上一章 approved 正文和 handoff 为最新版本。

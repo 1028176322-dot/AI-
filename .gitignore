@@ -42,3 +42,6 @@ platform/AI-Creative-Platform/runtime/staging/*
 
 # ---- agent local auxiliary memory (not part of the repo) ----
 .workbuddy/
+
+# ---- SVN metadata (coexist with Git; keep SVN's .svn out of Git) ----
+.svn/

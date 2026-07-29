@@ -20,3 +20,5 @@
     本 worktree 的 actor-id 必须由用户指定，只能通过
     `platform git status/sync/commit/publish` 提交
     `projects/dushi-jishi/**`；其他项目和平台内容只有读取、同步和使用权限。
+13. 逐章执行必须使用 `platform chapter-flow run/status`；正常流程禁止手工拼接
+    task/style/review/author/chapter 的低层命令。PAUSED 时只完成 NEXT_ACTION 后续跑。

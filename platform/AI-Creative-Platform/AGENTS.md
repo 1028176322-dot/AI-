@@ -14,6 +14,9 @@
 6. 选择项目后，必须读取该项目的 `project.yaml`。
 7. 所有任务必须通过 Task Packet 执行。
 8. 所有写入必须通过平台验证和登记。
+9. strict-v2 项目的逐章执行只能从 `platform chapter-flow run/status` 进入；
+   `task/style/review/author/chapter` 低层命令只用于平台实现、诊断和故障恢复，
+   不得由 AI 手工拼接章节主链。
 
 ## Agent 限制
 
@@ -36,6 +39,7 @@
 - 任务入口：当前 `task.yaml`
 - 会话入口：当前 `SESSION_MANIFEST.yaml`
 - 事实源：当前项目 `NKB/`
+- 逐章执行入口：`platform.yaml -> governance.chapter_execution`
 
 ## 规则覆盖关系
 

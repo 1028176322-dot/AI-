@@ -121,7 +121,11 @@ class StrictV2EndToEndTest(unittest.TestCase):
         self.assertEqual(
             self._next("nkb_update", "on_submit"), ["nkb_sync"])
         self.assertEqual(
-            self._next("nkb_sync", "on_pass"), ["chapter_publish"])
+            self._next("nkb_sync", "on_pass"),
+            ["protected-manifest-build"])
+        self.assertEqual(
+            self._next("final-regression", "on_pass_post_nkb"),
+            ["chapter_publish"])
 
     def test_02_issue_path_contains_all_revision_gates(self):
         chain = [

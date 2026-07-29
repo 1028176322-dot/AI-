@@ -133,6 +133,10 @@ def publish(project_root, task_id, role=SERVICE_ROLE, agent=SERVICE_ROLE, model=
     target = t.get("publish_target") or _norm(t.get("inputs", {}).get("required", [None])[0] or "")
     if not target:
         raise ValueError("发布任务 %s 缺 publish_target" % task_id)
+    # A live publish task may outlast the original grant while a human
+    # confirms the release. Renew only this task's immutable publish target;
+    # terminal, wrong-role and target-mismatch tasks remain fail-closed.
+    TE.renew_publish_grant(project_root, task_id, target)
     auth = AE.authorize(role, target, task_id=task_id, project_root=project_root,
                         intended_action="chapter.publish")
     if auth["decision"] != "allow":

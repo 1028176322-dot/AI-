@@ -75,6 +75,12 @@ def _manifest_build(arguments):
 def _diagnose(arguments):
     manifest = _load(arguments.manifest, {}) or {}
     guidance = _load(arguments.guidance, {}) or {}
+    chapter_review = _load(arguments.chapter_review, None)
+    semantic_clearance = (
+        diagnosis.clearance_from_review(
+            chapter_review,
+            _sha256_file(arguments.chapter_review))
+        if chapter_review else None)
     report = diagnosis.ai_diagnose(
         arguments.chapter, arguments.cycle, arguments.task,
         _text(arguments.draft),
@@ -83,6 +89,7 @@ def _diagnose(arguments):
             if manifest else ""),
         semantic_evidence=_load(arguments.semantic_evidence, []),
         style_guidance=guidance,
+        semantic_clearance=semantic_clearance,
         require_semantic_evidence=not arguments.preview_signals_only)
     path = diagnosis.persist(
         report, arguments.project_root,
@@ -323,6 +330,7 @@ def main():
     diagnose_parser.add_argument("--manifest", required=True)
     diagnose_parser.add_argument("--guidance", required=True)
     diagnose_parser.add_argument("--semantic-evidence")
+    diagnose_parser.add_argument("--chapter-review")
     diagnose_parser.add_argument(
         "--preview-signals-only", action="store_true")
 

@@ -1404,12 +1404,44 @@ def _grant_for_publish(root, publish_task_id, canonical_target):
 
     仅在审查通过（Build 冻结、待发布）时由本函数生成，确保发布门禁未过则无 grant。
     """
-    try:
-        import auth_engine as AE
-        AE.generate_grant(root, publish_task_id, "publish_service",
-                          "chapter.publish", "canonical", [canonical_target])
-    except Exception:
-        pass
+    import auth_engine as AE
+    return AE.generate_grant(
+        root, publish_task_id, "publish_service",
+        "chapter.publish", "canonical", [canonical_target])
+
+
+def renew_publish_grant(root, publish_task_id, canonical_target=None):
+    """Renew only a live chapter_publish task's exact canonical target."""
+    state, data = load_task(root, publish_task_id)
+    if state is None:
+        raise FileNotFoundError(publish_task_id)
+    task = (data or {}).get("task") or {}
+    if task.get("type") != "chapter_publish":
+        raise ValueError(
+            "grant renewal requires chapter_publish task: %s"
+            % publish_task_id)
+    if state not in ("ready", "claimed", "running"):
+        raise ValueError(
+            "grant renewal requires a live publish task, current=%s"
+            % state)
+    required_role = (task.get("agent") or {}).get("required_role")
+    if required_role != "publish_service":
+        raise ValueError(
+            "grant renewal requires publish_service ownership")
+    expected_target = task.get("publish_target")
+    if not expected_target:
+        raise ValueError("publish task has no publish_target")
+    if canonical_target and canonical_target != expected_target:
+        raise ValueError(
+            "publish target mismatch: task=%s request=%s"
+            % (expected_target, canonical_target))
+    path = _grant_for_publish(
+        root, publish_task_id, expected_target)
+    audit_log.record(
+        root, "grant_renew", agent="publish_service",
+        role="publish_service", task_id=publish_task_id,
+        result="success", detail="target=%s" % expected_target)
+    return path
 
 
 def _inputs_ready(root, t):

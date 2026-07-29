@@ -152,8 +152,23 @@ def grant_path(project_root, task_id):
 
 def generate_grant(
         project_root, task_id, role, action, resource_layer, targets,
-        ttl_seconds=900):
+        ttl_seconds=None):
     """生成动态任务授权文件（task_grant 因子实体）。terminal 态会自动失效。"""
+    cfg = _models()["grants_cfg"]
+    if ttl_seconds is None:
+        ttl_seconds = cfg.get("default_ttl_seconds", 86400)
+    if isinstance(ttl_seconds, bool):
+        raise ValueError("grant ttl_seconds must be an integer")
+    try:
+        ttl_seconds = int(ttl_seconds)
+        minimum = int(cfg.get("minimum_ttl_seconds", 60))
+        maximum = int(cfg.get("maximum_ttl_seconds", 604800))
+    except (TypeError, ValueError):
+        raise ValueError("grant TTL configuration must contain integers")
+    if ttl_seconds < minimum or ttl_seconds > maximum:
+        raise ValueError(
+            "grant ttl_seconds must be between %d and %d"
+            % (minimum, maximum))
     p = grant_path(project_root, task_id)
     os.makedirs(os.path.dirname(p), exist_ok=True)
     now = datetime.datetime.now()

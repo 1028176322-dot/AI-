@@ -49,6 +49,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PLATFORM_ROOT = os.path.dirname(HERE)
 _SCRIPTS = os.path.join(PLATFORM_ROOT, "scripts")
 if os.path.isdir(_SCRIPTS):
+    if _SCRIPTS not in sys.path:
+        sys.path.insert(0, _SCRIPTS)
     for _d in os.listdir(_SCRIPTS):
         _p = os.path.join(_SCRIPTS, _d)
         if os.path.isdir(_p) and _p not in sys.path:
@@ -125,6 +127,7 @@ GOV_MODULE_MAP = {
     "style": "style_cli",
     "broker": "broker_cli",
     "git": "git_scope_gateway",
+    "chapter-flow": "chapter_pipeline_driver",
     "selfcheck": "platform_selfcheck",
 }
 
@@ -909,6 +912,7 @@ def build_parser():
     gst.add_argument("rest", nargs=argparse.REMAINDER)
 
     gt = sub.add_parser("task", help="任务系统操作中心（create/claim/submit/review/...）")
+    gt.add_argument("--project-root", required=False)
     gt.add_argument("rest", nargs=argparse.REMAINDER)
 
     gv = sub.add_parser("ver", help="内容版本控制（commit/log/rollback）")
@@ -1011,6 +1015,9 @@ def build_parser():
     ggit = sub.add_parser(
         "git", help="单一远端 main 的项目范围同步、提交与发布网关")
     ggit.add_argument("rest", nargs=argparse.REMAINDER)
+    gflow = sub.add_parser(
+        "chapter-flow", help="strict-v2 章节全链路自动推进与断点续跑")
+    gflow.add_argument("rest", nargs=argparse.REMAINDER)
     # ── Phase B 审查管线增强 ──
     gs2 = sub.add_parser("summary", help="章节/卷/弧/滚动摘要落盘（AI 填字段→脚本落盘）")
     gs2.add_argument("--project-root", default=None)
@@ -1058,7 +1065,7 @@ def main():
                       "index", "context", "policy", "validate", "query",
                       "summary", "delta", "review", "learn", "feedback", "reader-panel", "layout",
                       "report", "audit", "terminology", "chapter",
-                      "style", "broker", "git",
+                      "style", "broker", "git", "chapter-flow",
                       "selfcheck"):
         _delegate_gov(args.cmd, args)
     else:

@@ -18,7 +18,8 @@ task_template:
     max_parallel_steps: 1
     required_session: current
   next_tasks:
-    on_pass: [chapter_publish]
+    # NKB 回补可能改变 revision/hash；发布前必须自动重绑最终快照。
+    on_pass: [protected-manifest-build]
     on_fail: [nkb_update]
   event_contracts:
     on_pass:

@@ -321,6 +321,19 @@ def _arm_task(project_root, task_id, agent, model_id):
             % state)
 
 
+def _effective_agent(
+        project_root, task_id, requested_agent=None,
+        fallback="interactive-author"):
+    """Use an explicit actor, otherwise inherit the live task lease owner."""
+    if requested_agent:
+        return requested_agent
+    state, data = task_engine.load_task(project_root, task_id)
+    if state is None:
+        raise AuthorExecutorError("task not found: %s" % task_id)
+    owner = ((data or {}).get("task") or {}).get("owner")
+    return owner or fallback
+
+
 def _running_output_root(project_root, task_id):
     state, data = task_engine.load_task(project_root, task_id)
     if state != "running":
@@ -401,8 +414,10 @@ def _finish_response(
     return result
 
 
-def run(project_root, task_id, agent="chapter-author",
+def run(project_root, task_id, agent=None,
         model_id=None, submit=True, regenerate=False):
+    agent = _effective_agent(
+        project_root, task_id, agent, fallback="chapter-author")
     session_bootstrap.require_session(project_root, agent=agent)
     request = build_request(project_root, task_id, model_id=model_id)
     model_id = request["model_id"]
@@ -424,9 +439,10 @@ def run(project_root, task_id, agent="chapter-author",
 
 
 def begin_interactive(
-        project_root, task_id, agent="interactive-author",
+        project_root, task_id, agent=None,
         model_id=None):
     """Start the task and create the governed exchange files for chat AI."""
+    agent = _effective_agent(project_root, task_id, agent)
     session_bootstrap.require_session(project_root, agent=agent)
     request = build_request(project_root, task_id, model_id=model_id)
     model_id = request["model_id"]
@@ -459,8 +475,9 @@ def begin_interactive(
 
 
 def ingest(project_root, task_id, response_file,
-           agent="interactive-author", model_id=None, submit=True):
+           agent=None, model_id=None, submit=True):
     """Ingest a contract response authored by the current conversational AI."""
+    agent = _effective_agent(project_root, task_id, agent)
     session_bootstrap.require_session(project_root, agent=agent)
     request = build_request(project_root, task_id, model_id=model_id)
     model_id = request["model_id"]
@@ -514,7 +531,9 @@ def main():
     execute = sub.add_parser("run")
     execute.add_argument("--project-root", required=True)
     execute.add_argument("--task", required=True)
-    execute.add_argument("--agent", default="chapter-author")
+    execute.add_argument(
+        "--agent", default=None,
+        help="defaults to the task owner, or chapter-author if unclaimed")
     execute.add_argument("--model", default=None)
     execute.add_argument("--no-submit", action="store_true")
     execute.add_argument(
@@ -523,13 +542,17 @@ def main():
     begin = sub.add_parser("begin")
     begin.add_argument("--project-root", required=True)
     begin.add_argument("--task", required=True)
-    begin.add_argument("--agent", default="interactive-author")
+    begin.add_argument(
+        "--agent", default=None,
+        help="defaults to the task owner, or interactive-author if unclaimed")
     begin.add_argument("--model", default=None)
     interactive = sub.add_parser("ingest")
     interactive.add_argument("--project-root", required=True)
     interactive.add_argument("--task", required=True)
     interactive.add_argument("--response-file", required=True)
-    interactive.add_argument("--agent", default="interactive-author")
+    interactive.add_argument(
+        "--agent", default=None,
+        help="defaults to the task owner, or interactive-author if unclaimed")
     interactive.add_argument("--model", default=None)
     interactive.add_argument("--no-submit", action="store_true")
     check = sub.add_parser("validate")
