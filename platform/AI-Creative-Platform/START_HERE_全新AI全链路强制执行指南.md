@@ -1500,6 +1500,17 @@ PROJECT_ROOT/canonical_manifest.yaml
 - 每 5 个已闭环章节推送一次远端；卷末、付费边界和高风险修订立即推送。
 - 多个 AI 必须使用独立 worktree/分支，由协调器串行合并；禁止共享同一 `main`
   工作树并发执行 Git 写操作。
+- worktree 必须由 `scripts/git/ai_git_worktree.ps1` 统一创建；默认
+  `BranchMode=Auto`，优先 `codex/<agent-id>`，仅在引用创建并回读探针失败时降级
+  `codex-<agent-id>`。所有调用强制启用 Git 长路径。
+- 完整诊断、部署副本和 Pull/Push 规则见
+  `core/governance/AI共享Git工作区指南.md`；新设备以仓库脚本为 SSOT。
+- `refs/codex/turn-diffs/**` 与 `refs/heads/codex/**` 不冲突，禁止修改
+  `packed-refs` 清理前者。失败时不得自动删除 `.git/index.lock`；它可能属于另一
+  个 AI，只能由协调者确认无 Git 进程后处理。
+- `origin/main` 是可陈旧的本地缓存，不是远端真相源。统一管理器必须以
+  `git ls-remote` 返回的精确 SHA 建树、Pull 和 Push 后复核，禁止根据
+  packed-refs 中的旧 `origin/main` 回退项目。
 - Git 批次不能改变平台串行依赖，也不能把 5 章 NKB 更新合并成一次。
 
 ---
