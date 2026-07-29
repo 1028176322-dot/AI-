@@ -1,0 +1,43 @@
+document:
+  id: CHAR-JINGSHI-CFO-001
+  type: character
+  title: 景氏影子CFO（草案·待定名）
+  status: candidate
+  version: 1
+  updated_at: 2026-07-29T20:30:00
+  owner: writer-a
+  project_id: novel-dushijishi
+  requires_user_decision: true
+  decision_note: 基于《邪帝校园行》反派势力技法(3/4)派生的候选，为主角"野锋资本"的经济镜像；具体人名、离岸架构与洗白路径由用户决策。
+character:
+  id: CHAR-JINGSHI-CFO-001
+  canonical_name: 景氏影子CFO（草案·待定名）
+  status: 景氏资本操盘手，海外壳公司与洗白路径核心
+  identity:
+    current_age: 44
+    role: 景氏影子 CFO / 资金调度核心
+    origin: 京城（常驻离岸枢纽）
+  background: 管理景氏海外壳公司、离岸架构、资金调度与洗白路径；是"体量压制但有投送掣肘"的资金面执行者——景氏无法公开全力，靠其暗中调度维系运转。对应主角"野锋资本"的经济镜像。
+  personality:
+    stable_traits:
+      - 精算
+      - 隐秘
+      - 风险厌恶（对暴露）
+    values:
+      - 资本安全
+    forbidden_behaviors:
+      - 留下资金痕迹
+  goal: 维持景氏资本流动、隔离风险、洗白脏钱
+  abilities:
+    - 资本运作
+    - 离岸架构
+    - 风险隔离
+  relationships:
+    - 与景奕辰：核心圈
+    - 与温言：资金协同
+    - 与台面掌门：前后台分工
+    - 与主角野锋资本：经济对抗
+  speech:
+    register: 数字、条款化
+    prohibited_patterns:
+      - 含糊

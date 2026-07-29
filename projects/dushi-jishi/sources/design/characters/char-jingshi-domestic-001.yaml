@@ -1,0 +1,43 @@
+document:
+  id: CHAR-JINGSHI-DOMESTIC-001
+  type: character
+  title: 景氏国内地下总负责（草案·待定名）
+  status: candidate
+  version: 1
+  updated_at: 2026-07-29T20:30:00
+  owner: writer-a
+  project_id: novel-dushijishi
+  requires_user_decision: true
+  decision_note: 基于《邪帝校园行》反派势力技法(3/6/8)派生的候选，为景氏国内武力支柱总节点（老韩上级）；具体人名与可被斩首/策反的破绽由用户决策。
+character:
+  id: CHAR-JINGSHI-DOMESTIC-001
+  canonical_name: 景氏国内地下总负责（草案·待定名）
+  status: 景氏国内地下行动总负责人，老韩的上级
+  identity:
+    current_age: 50
+    role: 景氏国内安全 / 地下网络总负责人
+    origin: 京城
+  background: 统管景氏在国内的地下行动网络（含清道夫组老韩、打手、地方关系），是景氏"武力支柱"的国内端。作为"核心可被斩首"的关键节点，也是主角可策反 / 斩首的突破口。
+  personality:
+    stable_traits:
+      - 强硬
+      - 务实
+      - 重地盘
+    values:
+      - 景氏指令至上
+    forbidden_behaviors:
+      - 擅自越权
+  goal: 维护景氏国内安全、执行强硬清场
+  abilities:
+    - 地下网络指挥
+    - 暴力执行
+    - 危机镇压
+  relationships:
+    - 与老韩：下属（清道夫组）
+    - 与京城大保护伞：受庇护
+    - 与景奕辰：直属
+    - 与主角夜枭：武力对抗
+  speech:
+    register: 简短、命令式
+    prohibited_patterns:
+      - 废话

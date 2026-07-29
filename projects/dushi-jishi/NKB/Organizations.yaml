@@ -15,6 +15,14 @@ records:
     members:
       - CHAR-JINGSHI-AIDE-001
       - CHAR-JINGSHI-CLEANER-001
+      - CHAR-JINGSHI-ELDER-001
+      - CHAR-JINGSHI-INTEL-001
+      - CHAR-JINGSHI-CFO-001
+      - CHAR-JINGSHI-FRONT-001
+      - CHAR-JINGSHI-DOMESTIC-001
+      - CHAR-JINGSHI-UMBRELLA-001
+      - CHAR-JINGSHI-OVERSEAS-001
+      - CHAR-JINGSHI-FOREIGN-PARTNER-001
     name: 景氏财团
     source:
       source_type: design_source

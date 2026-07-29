@@ -1,0 +1,42 @@
+document:
+  id: CHAR-JINGSHI-FOREIGN-PARTNER-001
+  type: character
+  title: 景氏境外合伙人（草案·待定名）
+  status: candidate
+  version: 1
+  updated_at: 2026-07-29T20:30:00
+  owner: writer-a
+  project_id: novel-dushijishi
+  requires_user_decision: true
+  decision_note: 基于《邪帝校园行》反派势力技法(2/4/8)派生的候选，为景氏境外本地协作方；其忠诚存疑、可被主角借力/策反的破绽由用户决策。
+character:
+  id: CHAR-JINGSHI-FOREIGN-PARTNER-001
+  canonical_name: 景氏境外合伙人（草案·待定名）
+  status: 景氏境外黑产 / 情报协作合伙人
+  identity:
+    current_age: 39
+    role: 景氏境外协作方 / 黑产合伙人
+    origin: 海外当地
+  background: 景氏在境外的本地协作方（洗钱通道、情报线、白手套），负责景氏海外脏活的地方落地；与海外据点负责人配合。其人忠诚存疑，是可被主角借力 / 策反的脆弱点。
+  personality:
+    stable_traits:
+      - 唯利
+      - 八面玲珑
+      -  opportunistic
+    values:
+      - 自身利益最大化
+    forbidden_behaviors:
+      - 背弃金主（除非出价更高）
+  goal: 为景氏提供境外落地能力与脏活执行
+  abilities:
+    - 本地黑产网络
+    - 跨境洗钱
+    - 情报供给
+  relationships:
+    - 与海外据点负责人：协作
+    - 与影子 CFO：资金通道
+    - 与主角：境外对抗（可被策反）
+  speech:
+    register: 油滑、利益挂帅
+    prohibited_patterns:
+      - 空谈忠诚

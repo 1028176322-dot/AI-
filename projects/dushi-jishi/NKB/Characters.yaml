@@ -471,3 +471,364 @@ records:
       occurred: false
       revealed_to_reader: false
       known_by_characters: []
+  - id: CHAR-JINGSHI-ELDER-001
+    canonical_name: 景氏长老（草案·待定名）
+    status: 景氏家族长老 / 景奕辰叔父辈，老牌心腹，握体制内底牌
+    identity:
+      current_age: 62
+      role: 景氏家族代表 / 终极底牌持有者
+      origin: 京城
+    background: 景奕辰父辈的兄弟或发小，景氏发家元老；掌握景奕辰不便直接持有的体制内关系与"致命把柄"，是景氏最后屏障。因资历对景奕辰既有倚仗也有制约，并带基于实力的理性傲慢。具体底牌内容待用户定。
+    personality:
+      stable_traits:
+        - 深谋
+        - 傲慢（基于实力）
+        - 家族至上
+      values:
+        - 景氏家族利益
+      forbidden_behaviors:
+        - 公开露面
+    goal: 维系景氏家族顶层权力，作为景奕辰对决主角的最后壁垒
+    abilities:
+      - 顶层政治资源
+      - 人脉纵深
+      - 内部制衡
+    relationships:
+      - 与景奕辰：家族倚仗与制约并存
+      - 与情报主管：并行核心圈
+      - 与主角：终极对立（秩序重建对立面）
+    speech:
+      register: 居高临下、点到即止
+      prohibited_patterns:
+        - 露底
+    name: 景氏长老（草案·待定名）
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-jingshi-elder-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: derived
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: CHAR-JINGSHI-INTEL-001
+    canonical_name: 景氏情报主管（草案·待定名）
+    status: 景氏情报与反侦察体系主管，主角"观澜"的镜像
+    identity:
+      current_age: 41
+      role: 景氏情报网 / 反侦察负责人
+      origin: 京城
+    background: 统管景氏的情报搜集、监控主角归国动向、反窃听反追踪；与主角"观澜"形成情报战对称对抗，是景氏"经济-军事-情报复合体"的情报支柱。其体系内部松散、存在可被渗透的缝隙。
+    personality:
+      stable_traits:
+        - 冷静
+        - 多疑
+        - 技术化
+      values:
+        - 信息即权力
+      forbidden_behaviors:
+        - 留下监控痕迹
+    goal: 监控威胁、保护景氏机密、反制主角情报网
+    abilities:
+      - 情报网络
+      - 反侦察
+      - 技术监控
+    relationships:
+      - 与景奕辰：直属
+      - 与温言：协同调度
+      - 与主角观澜：情报战对立
+    speech:
+      register: 精准、信息密度高
+      prohibited_patterns:
+        - 情绪化
+    name: 景氏情报主管（草案·待定名）
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-jingshi-intel-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: derived
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: CHAR-JINGSHI-CFO-001
+    canonical_name: 景氏影子CFO（草案·待定名）
+    status: 景氏资本操盘手，海外壳公司与洗白路径核心
+    identity:
+      current_age: 44
+      role: 景氏影子 CFO / 资金调度核心
+      origin: 京城（常驻离岸枢纽）
+    background: 管理景氏海外壳公司、离岸架构、资金调度与洗白路径；是"体量压制但有投送掣肘"的资金面执行者——景氏无法公开全力，靠其暗中调度维系运转。对应主角"野锋资本"的经济镜像。
+    personality:
+      stable_traits:
+        - 精算
+        - 隐秘
+        - 风险厌恶（对暴露）
+      values:
+        - 资本安全
+      forbidden_behaviors:
+        - 留下资金痕迹
+    goal: 维持景氏资本流动、隔离风险、洗白脏钱
+    abilities:
+      - 资本运作
+      - 离岸架构
+      - 风险隔离
+    relationships:
+      - 与景奕辰：核心圈
+      - 与温言：资金协同
+      - 与台面掌门：前后台分工
+      - 与主角野锋资本：经济对抗
+    speech:
+      register: 数字、条款化
+      prohibited_patterns:
+        - 含糊
+    name: 景氏影子CFO（草案·待定名）
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-jingshi-cfo-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: derived
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: CHAR-JINGSHI-FRONT-001
+    canonical_name: 景氏台面掌门（草案·待定名）
+    status: 景氏旗下 / 代持的"干净"前台企业掌门
+    identity:
+      current_age: 48
+      role: 景氏白手套上市平台 / 台面负责人
+      origin: 京城
+    background: 景氏在明面的"干净"代表，执掌代持或旗下的上市 / 投资平台，以合法商业作掩护；与影子 CFO 形成前后台分工。人设"体面企业家"，是景氏社会合法性的门面。
+    personality:
+      stable_traits:
+        - 体面
+        - 圆融
+        - 明面低调
+      values:
+        - 表象合规
+      forbidden_behaviors:
+        - 暴露幕后关联
+    goal: 维持景氏前台合法性、拓展明面商业版图
+    abilities:
+      - 资本运作（明面）
+      - 政商公关
+      - 品牌经营
+    relationships:
+      - 与影子 CFO：前后台
+      - 与景奕辰：幕后控制
+      - 与主角：商业明面交锋
+    speech:
+      register: 官样、滴水不漏
+      prohibited_patterns:
+        - 失态
+    name: 景氏台面掌门（草案·待定名）
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-jingshi-front-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: derived
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: CHAR-JINGSHI-DOMESTIC-001
+    canonical_name: 景氏国内地下总负责（草案·待定名）
+    status: 景氏国内地下行动总负责人，老韩的上级
+    identity:
+      current_age: 50
+      role: 景氏国内安全 / 地下网络总负责人
+      origin: 京城
+    background: 统管景氏在国内的地下行动网络（含清道夫组老韩、打手、地方关系），是景氏"武力支柱"的国内端。作为"核心可被斩首"的关键节点，也是主角可策反 / 斩首的突破口。
+    personality:
+      stable_traits:
+        - 强硬
+        - 务实
+        - 重地盘
+      values:
+        - 景氏指令至上
+      forbidden_behaviors:
+        - 擅自越权
+    goal: 维护景氏国内安全、执行强硬清场
+    abilities:
+      - 地下网络指挥
+      - 暴力执行
+      - 危机镇压
+    relationships:
+      - 与老韩：下属（清道夫组）
+      - 与京城大保护伞：受庇护
+      - 与景奕辰：直属
+      - 与主角夜枭：武力对抗
+    speech:
+      register: 简短、命令式
+      prohibited_patterns:
+        - 废话
+    name: 景氏国内地下总负责（草案·待定名）
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-jingshi-domestic-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: derived
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: CHAR-JINGSHI-UMBRELLA-001
+    canonical_name: 景氏京城大保护伞（草案·待定名）
+    status: 景氏在京城决策层的顶级政商保护伞
+    identity:
+      current_age: 57
+      role: 景氏顶层政治保护 / 体制内关系
+      origin: 京城
+    background: 比邵立（临江地方保护伞）更高层的京城决策圈关系，为景氏提供体制内庇护与政策便利；其倒台将引发京城权力格局重构。具体层级与身份待用户定。
+    personality:
+      stable_traits:
+        - 老练
+        - 谨慎
+        - 重筹码
+      values:
+        - 自身安全优先
+      forbidden_behaviors:
+        - 留下把柄
+    goal: 为景氏提供顶层政治庇护
+    abilities:
+      - 体制内影响力
+      - 政策疏通
+      - 危机摆平
+    relationships:
+      - 与景奕辰：庇护关系
+      - 与国内地下总负责：提供庇护
+      - 与主角：体制内对抗
+    speech:
+      register: 含蓄、留有余地
+      prohibited_patterns:
+        - 明确保证
+    name: 景氏京城大保护伞（草案·待定名）
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-jingshi-umbrella-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: derived
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: CHAR-JINGSHI-OVERSEAS-001
+    canonical_name: 景氏海外据点负责人（草案·待定名）
+    status: 景氏海外据点负责人，与主角海外三支柱交锋
+    identity:
+      current_age: 43
+      role: 景氏海外分支 / 据点负责人
+      origin: 海外（常驻）
+    background: 执掌景氏在东南亚 / 欧美的海外据点，与主角海外建立的"野锋资本 / 夜枭 / 观澜"三支柱直接交锋；是景氏海外投送的节点，也是主角海外阶段的主要对手。
+    personality:
+      stable_traits:
+        - 地缘老辣
+        - 利益导向
+        - 善变
+      values:
+        - 据点自保
+      forbidden_behaviors:
+        - 擅自挑衅主角
+    goal: 扩张景氏海外版图、压制主角海外势力
+    abilities:
+      - 海外经营
+      - 跨境调度
+      - 地方博弈
+    relationships:
+      - 与景奕辰：远程指挥
+      - 与境外合伙人：协作
+      - 与主角三支柱：海外对抗
+    speech:
+      register: 双语、世故
+      prohibited_patterns:
+        - 露怯
+    name: 景氏海外据点负责人（草案·待定名）
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-jingshi-overseas-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: derived
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: CHAR-JINGSHI-FOREIGN-PARTNER-001
+    canonical_name: 景氏境外合伙人（草案·待定名）
+    status: 景氏境外黑产 / 情报协作合伙人
+    identity:
+      current_age: 39
+      role: 景氏境外协作方 / 黑产合伙人
+      origin: 海外当地
+    background: 景氏在境外的本地协作方（洗钱通道、情报线、白手套），负责景氏海外脏活的地方落地；与海外据点负责人配合。其人忠诚存疑，是可被主角借力 / 策反的脆弱点。
+    personality:
+      stable_traits:
+        - 唯利
+        - 八面玲珑
+      values:
+        - 自身利益最大化
+      forbidden_behaviors:
+        - 背弃金主（除非出价更高）
+    goal: 为景氏提供境外落地能力与脏活执行
+    abilities:
+      - 本地黑产网络
+      - 跨境洗钱
+      - 情报供给
+    relationships:
+      - 与海外据点负责人：协作
+      - 与影子 CFO：资金通道
+      - 与主角：境外对抗（可被策反）
+    speech:
+      register: 油滑、利益挂帅
+      prohibited_patterns:
+        - 空谈忠诚
+    name: 景氏境外合伙人（草案·待定名）
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-jingshi-foreign-partner-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: derived
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
