@@ -1,0 +1,37 @@
+design_candidate:
+  id: ability-armed-ops-001
+  project_id: novel-dushijishi
+  domain: assets_and_abilities
+  target_document_type: ability
+  target_path: sources/design/assets/ability-armed-ops-001.yaml
+  proposal:
+    document:
+      id: ability-armed-ops-001
+      type: ability
+      title: 武装行动指挥
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T10:15:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    ability:
+      id: ability-armed-ops-001
+      canonical_name: 武装行动指挥
+      type: 武力组织与指挥能力（非超自然）
+      description: 组建并指挥可信武力小组，用于自保与对陆家、鼎丰的清算。
+  rationale: 用户指出主角需武装势力；其在美建立可信武力的能力基础。
+  basis: 用户指令 + ability-prison-skills-001
+  confidence: 0.85
+  authority_class: user_locked
+  impact: high
+  requires_user_decision: true
+  dependencies:
+    - ability-prison-skills-001
+    - org-protagonist-force-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  promoted_at: 2026-07-28T16:59:28

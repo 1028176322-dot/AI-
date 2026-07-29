@@ -1,0 +1,10 @@
+grant:
+  task_id: NKB-UPDATE-S1S2-001-NKB-SYNC-PASS-CHAPTER-PUBLISH-01
+  role: publish_service
+  action: chapter.publish
+  resource_layer: canonical
+  targets:
+    - chapters/approved/Characters.yaml
+  generated_at: 2026-07-29T09:55:21
+  expires_at: 2026-07-29T10:10:21
+  status: active

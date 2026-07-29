@@ -1,0 +1,44 @@
+design_candidate:
+  id: org-protagonist-commercial-001
+  project_id: novel-dushijishi
+  domain: organizations
+  target_document_type: organization
+  target_path: sources/design/organizations/org-protagonist-commercial-001.yaml
+  proposal:
+    document:
+      id: org-protagonist-commercial-001
+      type: organization
+      title: 野锋资本
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T11:40:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    organization:
+      id: org-protagonist-commercial-001
+      canonical_name: 野锋资本
+      type: 进出口与安保咨询复合型公司
+      status: 主角建立并掌控（海外）
+      goals:
+        - 成为主角回国复仇的资本中枢
+        - 以合法生意作掩护，筹措与调度资源
+      relationships:
+        - 与鼎丰集团：远端对抗
+        - 与主角武力小组：协同支撑
+        - 与主角情报网：情报支撑
+  rationale: 用户指出主角需商业势力支撑回国复仇；在美建立的资源、资本与情报中枢。
+  basis: 用户指令 + story-core-001（在美建立商业资源网）
+  confidence: 0.85
+  authority_class: user_locked
+  impact: high
+  requires_user_decision: true
+  dependencies:
+    - char-protagonist-001
+    - story-core-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  promoted_at: 2026-07-28T16:59:29

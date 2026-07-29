@@ -1,0 +1,16 @@
+document:
+  id: ABILITY-ARMED-OPS-001
+  type: ability
+  title: 武装行动指挥
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T10:15:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:28
+ability:
+  id: ABILITY-ARMED-OPS-001
+  canonical_name: 武装行动指挥
+  type: 武力组织与指挥能力（非超自然）
+  description: 组建并指挥可信武力小组，用于自保与对陆家、鼎丰的清算。

@@ -1,0 +1,42 @@
+design_candidate:
+  id: foreshadow-lookalike-001
+  project_id: novel-dushijishi
+  domain: information_design
+  target_document_type: foreshadow
+  target_path: sources/design/foreshadows/foreshadow-lookalike-001.yaml
+  proposal:
+    document:
+      id: foreshadow-lookalike-001
+      type: foreshadow
+      title: 替身预谋
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T09:30:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    foreshadow:
+      id: foreshadow-lookalike-001
+      content: 主角与陆峥长相相同并非偶然，背后是集团为死缓公子寻找替身的预谋。
+      status: planted
+      planted_at: 第一卷开篇
+      payoff_window: 第一至三卷
+      related_entities:
+        - char-protagonist-001
+        - char-luzheng-001
+        - char-lujingshan-001
+  rationale: 核心真相伏笔：替身并非偶然，高影响需作者确认。
+  basis: story-core-001 + 平衡模式首稿
+  confidence: 0.82
+  authority_class: author_approved
+  impact: high
+  requires_user_decision: true
+  dependencies:
+    - story-core-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  approval_evidence: lifecycle/design/AUTHOR_DECISIONS.yaml
+  promoted_at: 2026-07-28T16:59:29

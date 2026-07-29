@@ -1,0 +1,57 @@
+task:
+  id: TASK-INTAKE-20260729000708571135
+  type: chapter_fix
+  project: novel-dsf
+  title: 修复第003章：删除对最终反派景奕辰的提前具名（违规暴露 NKB 事实状态与伏笔时机），将诱饵归因统一为陆家，与第77行
+  version: 1
+  priority: high
+  chapter_ref: chapters/drafts/CH-003.md
+  agent:
+    required_role: writer
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - runtime/learning/**
+      - memory/project/style-library/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - chapters/drafts/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  inputs:
+    required:
+      - review_report
+      - chapter_draft
+      - style_guidance
+    values: null
+  expected_outputs:
+    - chapter_draft
+    - self_check
+    - handoff
+  acceptance:
+    criteria:
+      - 按 chapter-fix 模板契约完成
+  created: 2026-07-29T00:07:08
+  created_by: agent-unknown
+  urgency: normal
+  status: submitted
+  owner: writer-agent
+  claimed_at: 2026-07-29T00:07:23
+  lease_expire: 2026-07-29T01:07:23
+  workspace: tasks\running\TASK-INTAKE-20260729000708571135\outputs
+  artifact: BUILD-unknown
+  outputs:
+    chapter_draft: chapters/drafts/CH-003.md
+    candidate_facts: runtime/wip/facts_CH-003-jingfix.json
+    handoff: runtime/wip/handoff_CH-003-jingfix.yaml
+    writing_strategy_evidence: analysis/writing-strategy/EVIDENCE-CH-003.yaml
+  submission:
+    checks:
+
+    at: 2026-07-29T00:09:07

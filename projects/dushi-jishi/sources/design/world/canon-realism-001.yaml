@@ -1,0 +1,15 @@
+document:
+  id: CANON-REALISM-001
+  type: canon_rule
+  title: 现实逻辑约束
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:30:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:28
+rule:
+  id: CANON-REALISM-001
+  statement: 监狱生态、越狱、偷渡、跨境追凶须符合现实逻辑与代价；不魔改执法与边境管控，主角每次脱险都须有可信铺垫。
+  severity: major

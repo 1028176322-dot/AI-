@@ -1,5 +1,97 @@
-# NKB 组件：Foreshadow（schema 1.3.0）
 schema_version: 1.3.0
 project_id: novel-dushijishi
-records: []
-# 本作品私有事实；世界观/人物/故事须经规划确认（TASK-004~008）方可填充。
+records:
+  - id: FORESHADOW-BEHIND-LU-001
+    content: 陆家不过是景氏财团的钱袋子；替身计划背后另有一只更深的手——景奕辰才是真正操盘者。借陆家内部裂缝者与主角查到的资金流向，逐步露出景奕辰的影子。
+    status: planted
+    planted_at: 前期（扳倒陆家、洗清冤屈、察觉幕后之时）
+    payoff_window: 中期（景奕辰浮现）；主角后期亮真身时收束
+    related_entities:
+      - FACTION-DINGFENG-001
+      - FACTION-BEIJING-TOP-001
+      - CHAR-BEIJING-SCION-001
+    name: 陆家之上有其主
+    type: foreshadow
+    source:
+      source_type: design_source
+      source_file: sources\design\foreshadows\foreshadow-behind-lu-001.yaml
+      source_anchor: foreshadow
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: FORESHADOW-FAMILY-001
+    content: 家人灭门现场留有指向鼎丰的细微线索，随主角成长逐步显形。
+    status: planted
+    planted_at: 第一卷
+    payoff_window: 第二至四卷
+    related_entities:
+      - CHAR-PROTAGONIST-001
+      - FACTION-DINGFENG-001
+    name: 灭门线索
+    type: foreshadow
+    source:
+      source_type: design_source
+      source_file: sources\design\foreshadows\foreshadow-family-001.yaml
+      source_anchor: foreshadow
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: FORESHADOW-INSIDER-001
+    content: 鼎丰内部存在可被策反的裂缝（一名知情者），为后期翻盘埋线。
+    status: planted
+    planted_at: 第一卷
+    payoff_window: 第三至六卷
+    related_entities:
+      - FACTION-DINGFENG-001
+      - CHAR-PROTAGONIST-001
+    name: 内部裂缝
+    type: foreshadow
+    source:
+      source_type: design_source
+      source_file: sources\design\foreshadows\foreshadow-insider-001.yaml
+      source_anchor: foreshadow
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: FORESHADOW-LOOKALIKE-001
+    content: 主角与陆峥长相相同并非偶然，背后是集团为死缓公子寻找替身的预谋。
+    status: planted
+    planted_at: 第一卷开篇
+    payoff_window: 第一至三卷
+    related_entities:
+      - CHAR-PROTAGONIST-001
+      - CHAR-LUZHENG-001
+      - CHAR-LUJINGSHAN-001
+    name: 替身预谋
+    type: foreshadow
+    source:
+      source_type: design_source
+      source_file: sources\design\foreshadows\foreshadow-lookalike-001.yaml
+      source_anchor: foreshadow
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []

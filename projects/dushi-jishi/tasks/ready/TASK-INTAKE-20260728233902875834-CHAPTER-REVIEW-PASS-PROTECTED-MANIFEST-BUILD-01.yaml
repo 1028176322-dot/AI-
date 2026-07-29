@@ -1,0 +1,59 @@
+task:
+  id: TASK-INTAKE-20260728233902875834-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01
+  version: 1
+  project: novel-dushijishi
+  type: protected-manifest-build
+  title: TASK-INTAKE-20260728233902875834-CHAPTER-REVIEW on_pass 后继 protected-manifest-build
+  priority: high
+  goal: null
+  chapter_ref: chapters/drafts/CH-003.md
+  conversation_request_id: null
+  revision_cycle_id: RC-TASK-INTAKE-20260728233902875834-CHAPTER-REVIEW
+  style_state: MANIFEST_BUILDING
+  source_task: TASK-INTAKE-20260728233902875834-CHAPTER-REVIEW
+  source_event: on_pass
+  dependencies:
+    - TASK-INTAKE-20260728233902875834-CHAPTER-REVIEW
+  inputs:
+    required:
+      - chapter_draft
+      - nkb_snapshot
+      - outline
+    values:
+      chapter_draft: chapters/drafts/CH-003.md
+      source_task: TASK-INTAKE-20260728233902875834-CHAPTER-REVIEW
+      source_event: on_pass
+      revision_cycle_id: RC-TASK-INTAKE-20260728233902875834-CHAPTER-REVIEW
+  expected_outputs:
+    - protected_manifest
+    - conflict_report
+  acceptance:
+    criteria:
+      - 按 protected-manifest-build 模板及事件契约完成
+  permissions:
+    read:
+      - NKB/**
+      - outlines/**
+      - chapters/drafts/**
+    write:
+      - analysis/style/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - chapters/drafts/**
+      - chapters/approved/**
+  agent:
+    required_role: writer
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  created: 2026-07-28T23:58:31
+  created_by: style-orchestrator
+  urgency: normal
+  status: ready

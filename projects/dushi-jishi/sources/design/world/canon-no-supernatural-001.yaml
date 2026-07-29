@@ -1,0 +1,15 @@
+document:
+  id: CANON-NO-SUPERNATURAL-001
+  type: canon_rule
+  title: 禁止超自然设定
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:30:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:28
+rule:
+  id: CANON-NO-SUPERNATURAL-001
+  statement: 全书为写实犯罪复仇题材，禁止引入玄幻、异能、系统、穿越或任何超自然设定；一切冲突动机须锚定现实可核查的资本、权力、司法与人性。
+  severity: fatal

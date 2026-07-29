@@ -1,0 +1,23 @@
+document:
+  id: ORG-PROTAGONIST-COMMERCIAL-001
+  type: organization
+  title: 野锋资本
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T11:40:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:29
+organization:
+  id: ORG-PROTAGONIST-COMMERCIAL-001
+  canonical_name: 野锋资本
+  type: 进出口与安保咨询复合型公司
+  status: 主角建立并掌控（海外）
+  goals:
+    - 成为主角回国复仇的资本中枢
+    - 以合法生意作掩护，筹措与调度资源
+  relationships:
+    - 与鼎丰集团：远端对抗
+    - 与主角武力小组：协同支撑
+    - 与主角情报网：情报支撑

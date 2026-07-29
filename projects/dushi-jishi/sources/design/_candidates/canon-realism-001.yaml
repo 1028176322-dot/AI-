@@ -1,0 +1,35 @@
+design_candidate:
+  id: canon-realism-001
+  project_id: novel-dushijishi
+  domain: world_and_canon
+  target_document_type: canon_rule
+  target_path: sources/design/world/canon-realism-001.yaml
+  proposal:
+    document:
+      id: canon-realism-001
+      type: canon_rule
+      title: 现实逻辑约束
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T09:30:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    rule:
+      id: canon-realism-001
+      statement: 监狱生态、越狱、偷渡、跨境追凶须符合现实逻辑与代价；不魔改执法与边境管控，主角每次脱险都须有可信铺垫。
+      severity: major
+  rationale: 约束监狱、越狱、偷渡、跨境追凶须符合现实逻辑与代价。
+  basis: autonomy_policy + 用户偏好现实质感
+  confidence: 0.84
+  authority_class: author_approved
+  impact: medium
+  requires_user_decision: true
+  dependencies: []
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  approval_evidence: lifecycle/design/AUTHOR_DECISIONS.yaml
+  promoted_at: 2026-07-28T16:59:28

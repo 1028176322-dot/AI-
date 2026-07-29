@@ -1,0 +1,25 @@
+task:
+  id: TASK-CH-001-WRITE-001
+  type: chapter_write
+  title: 撰写 CH-001 正文
+  chapter_ref: CH-001
+  priority: high
+  agent:
+    required_role: writer
+  permissions:
+    write:
+      - chapters/drafts/CH-001.md
+    read:
+      - sources/**
+      - NKB/**
+  inputs:
+    required:
+      - sources/outline/chapters/PLAN-CH-001.yaml
+  version: 1
+  created: 2026-07-28T22:28:26
+  created_by: planner-agent
+  urgency: normal
+  status: claimed
+  owner: writer-agent
+  claimed_at: 2026-07-28T22:28:33
+  lease_expire: 2026-07-29T02:28:33

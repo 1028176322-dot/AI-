@@ -1,0 +1,36 @@
+design_candidate:
+  id: term-shenfen-001
+  project_id: novel-dushijishi
+  domain: terminology
+  target_document_type: terminology
+  target_path: sources/design/terminology/term-shenfen-001.yaml
+  proposal:
+    document:
+      id: term-shenfen-001
+      type: terminology
+      title: 身份替换
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T09:30:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    terminology:
+      id: term-shenfen-001
+      name: 身份替换
+      canonical: 以容貌相似冒充他人身份
+      forbidden:
+        - 替换身份无风险
+  rationale: 身份替换术语，低影响可代批。
+  basis: 委托域
+  confidence: 0.82
+  authority_class: delegated_approved
+  impact: low
+  requires_user_decision: false
+  dependencies: []
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  promoted_at: 2026-07-28T16:59:29

@@ -1,0 +1,65 @@
+task:
+  id: TASK-INTAKE-20260728233902875834
+  type: chapter_write
+  project: novel-dushijishi
+  title: 写第003章
+  version: 1
+  priority: high
+  chapter_ref: chapters/drafts/CH-003.md
+  agent:
+    required_role: writer
+  permissions:
+    read:
+      - NKB/**
+      - sources/outline/**
+      - runtime/writing-strategies/**
+      - runtime/learning/**
+      - memory/project/style-library/**
+      - chapters/approved/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - chapters/drafts/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  inputs:
+    required:
+      - chapter_plan
+      - writing_strategy
+      - style_guidance
+      - final_context
+      - nkb_snapshot
+      - previous_chapter_handoff
+    values: null
+  expected_outputs:
+    - chapter_draft
+    - self_check
+    - writing_strategy_evidence
+    - candidate_facts
+    - handoff
+  acceptance:
+    criteria:
+      - 按 chapter-write 模板契约完成
+  created: 2026-07-28T23:39:02
+  created_by: agent-unknown
+  urgency: normal
+  status: completed
+  owner: writer-agent
+  claimed_at: 2026-07-28T23:39:10
+  lease_expire: 2026-07-29T00:39:10
+  workspace: tasks\running\TASK-INTAKE-20260728233902875834\outputs
+  artifact: BUILD-unknown
+  outputs:
+    chapter_draft: chapters/drafts/CH-003.md
+    candidate_facts: runtime/wip/facts_CH-003.json
+    handoff: runtime/wip/handoff_CH-003.md
+    writing_strategy_evidence: analysis/writing-strategy/EVIDENCE-CH-003.yaml
+  submission:
+    checks: null
+    at: 2026-07-28T23:47:35
+  review:
+    decision: pass
+    at: 2026-07-28T23:58:31

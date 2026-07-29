@@ -1,0 +1,46 @@
+design_candidate:
+  id: faction-dingfeng-001
+  project_id: novel-dushijishi
+  domain: organizations
+  target_document_type: faction
+  target_path: sources/design/organizations/faction-dingfeng-001.yaml
+  proposal:
+    document:
+      id: faction-dingfeng-001
+      type: faction
+      title: 鼎丰集团
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T10:29:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    faction:
+      id: faction-dingfeng-001
+      canonical_name: 鼎丰集团
+      type: 大型民营资本集团（景奕辰的钱袋子/白手套）
+      status: 前期主要反派，鼎盛但终被主角掀翻
+      goals:
+        - 保住陆峥
+        - 掩盖罪行、维系政商特权
+        - 为景奕辰打理脏钱与提供掩护
+      relationships:
+        - 与主角：构陷与追杀（前期主要对手）
+        - 与司法及地方：利益共生
+        - 与景氏财团：主从（钱袋子）
+  rationale: 前期主要反派；实为景奕辰的钱袋子/白手套，引出最终反派。核心反派结构，需作者确认。
+  basis: story-core-001 + 用户指令（陆家为前期反派、钱袋子）
+  confidence: 0.85
+  authority_class: user_locked
+  impact: high
+  requires_user_decision: true
+  dependencies:
+    - char-lujingshan-001
+    - char-luzheng-001
+    - faction-beijing-top-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  promoted_at: 2026-07-28T16:59:28

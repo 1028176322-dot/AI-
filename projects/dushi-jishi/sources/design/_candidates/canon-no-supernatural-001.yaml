@@ -1,0 +1,35 @@
+design_candidate:
+  id: canon-no-supernatural-001
+  project_id: novel-dushijishi
+  domain: world_and_canon
+  target_document_type: canon_rule
+  target_path: sources/design/world/canon-no-supernatural-001.yaml
+  proposal:
+    document:
+      id: canon-no-supernatural-001
+      type: canon_rule
+      title: 禁止超自然设定
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T09:30:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    rule:
+      id: canon-no-supernatural-001
+      statement: 全书为写实犯罪复仇题材，禁止引入玄幻、异能、系统、穿越或任何超自然设定；一切冲突动机须锚定现实可核查的资本、权力、司法与人性。
+      severity: fatal
+  rationale: 护城河规则：全书写实，禁止任何超自然设定。
+  basis: autonomy_policy + 题材红线
+  confidence: 0.88
+  authority_class: author_approved
+  impact: fatal
+  requires_user_decision: true
+  dependencies: []
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  approval_evidence: lifecycle/design/AUTHOR_DECISIONS.yaml
+  promoted_at: 2026-07-28T16:59:28

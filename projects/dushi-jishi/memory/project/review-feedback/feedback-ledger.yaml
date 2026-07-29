@@ -1,0 +1,52 @@
+schema: review-feedback-ledger@1.0.0
+project: dushi-jishi
+records:
+  - id: FB-422A08302B
+    category: terminology
+    problem: 第001章使用“看守所”“所里那夜”等词，而 NKB Organizations 与设定将地点定为“临江第三监狱”，存在看守所与监狱术语混用。
+    root_cause: 写作未锁定 Terminology 唯一标准地点名，沿用了惯用口语。
+    writing_guardrail: 写作与修订均使用 Terminology 唯一标准名，禁止同义漂移。
+    review_regression_check: 统一使用 NKB 标准地点名“临江第三监狱”；若需描写收押前阶段，应显式标注时间线节点，不与已判决后的监狱阶段混淆。
+    occurrences: 1
+    chapters:
+      - chapters/drafts/CH-003.md
+    tasks:
+      - TASK-INTAKE-20260728233902875834
+    severities:
+      - warn
+    status: active
+    last_seen: 2026-07-29T00:13:24
+    promotion_candidate: false
+  - id: FB-6B8CFEF949
+    category: hard_consistency
+    problem: 第003章中号子里一名瘦高个囚犯点名“姓景的接你出去”，将最终反派景奕辰在第三章即行具名。
+    root_cause: 写作时未核对 NKB 实体状态与伏笔时机，把层级远高于陆家、藏在京城的顶层操盘者错误挂到号子诱饵上，既违反 known_by_characters 为空、revealed_to_reader 为 false，也违反 Foreshadow 中期浮现的节奏，且监禁人员逻辑上不可能知晓景。
+    writing_guardrail: 写作前核对相关 NKB、时间线和实体状态，正文不得用推测替代事实。
+    review_regression_check: 任何角色引用前先核对 Characters.yaml 的 known_by_characters 与 revealed_to_reader，以及 Foreshadow 的浮现时机；景奕辰只能经陆家资金流向在中期浮现，第三章不得点名、不得让其本人或代理人向囚犯放话“接你出去”。
+    occurrences: 1
+    chapters:
+      - chapters/drafts/CH-003.md
+    tasks:
+      - TASK-INTAKE-20260728233902875834
+    severities:
+      - block
+    status: active
+    last_seen: 2026-07-29T00:13:24
+    promotion_candidate: false
+  - id: FB-ED203131EA
+    category: other
+    problem: NKB 中陆峥、鼎丰的 fact_status 标 revealed_to_reader 为 false，但第001章陆野已当面见过陆峥、全章讲述鼎丰，语义矛盾。
+    root_cause: fact_status 的 revealed_to_reader 语义过宽，实际应为“真实身份或替身真相未揭”，而非“角色不存在或未出场”。
+    writing_guardrail: 把问题转成下一次写作前可执行、审查时可复测的检查动作。
+    review_regression_check: 重新界定 fact_status 各标记的真实语义，或拆分“已出场/已提及”与“身份真相已揭”两维，避免以后自动校验对正常出场章节误报违规。
+    occurrences: 1
+    chapters:
+      - chapters/drafts/CH-003.md
+    tasks:
+      - TASK-INTAKE-20260728233902875834
+    severities:
+      - info
+    status: active
+    last_seen: 2026-07-29T00:13:24
+    promotion_candidate: false
+updated_at: 2026-07-29T00:13:24

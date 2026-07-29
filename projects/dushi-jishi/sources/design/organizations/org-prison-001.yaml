@@ -1,0 +1,22 @@
+document:
+  id: ORG-PRISON-001
+  type: organization
+  title: 临江第三监狱
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:30:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:29
+organization:
+  id: ORG-PRISON-001
+  canonical_name: 临江第三监狱（虚构）
+  type: 关押重刑犯的监狱
+  status: 高压、帮派化
+  goals:
+    - 维持秩序
+    - 隐藏内部腐败
+  relationships:
+    - 与主角：囚禁与磨炼
+    - 与暴动：失控风险

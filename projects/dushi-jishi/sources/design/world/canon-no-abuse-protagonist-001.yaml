@@ -1,0 +1,15 @@
+document:
+  id: CANON-NO-ABUSE-PROTAGONIST-001
+  type: canon_rule
+  title: 禁无意义虐主
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:50:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:28
+rule:
+  id: CANON-NO-ABUSE-PROTAGONIST-001
+  statement: 不写无意义虐主——主角的苦难须服务于叙事与成长，不得为虐而虐、不得长时间剥夺其主动性与翻盘契机；即便身处绝境，也须保留其观察、谋划与反击的能动性，避免将主角写成纯粹的受难符号。
+  severity: major

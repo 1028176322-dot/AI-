@@ -1,0 +1,21 @@
+document:
+  id: FORESHADOW-BEHIND-LU-001
+  type: foreshadow
+  title: 陆家之上有其主
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T11:50:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:28
+foreshadow:
+  id: FORESHADOW-BEHIND-LU-001
+  content: 陆家不过是景氏财团的钱袋子；替身计划背后另有一只更深的手——景奕辰才是真正操盘者。借陆家内部裂缝者与主角查到的资金流向，逐步露出景奕辰的影子。
+  status: planted
+  planted_at: 前期（扳倒陆家、洗清冤屈、察觉幕后之时）
+  payoff_window: 中期（景奕辰浮现）；主角后期亮真身时收束
+  related_entities:
+    - FACTION-DINGFENG-001
+    - FACTION-BEIJING-TOP-001
+    - CHAR-BEIJING-SCION-001

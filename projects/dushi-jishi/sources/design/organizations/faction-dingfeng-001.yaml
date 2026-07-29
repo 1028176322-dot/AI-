@@ -1,0 +1,24 @@
+document:
+  id: FACTION-DINGFENG-001
+  type: faction
+  title: 鼎丰集团
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T10:29:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:28
+faction:
+  id: FACTION-DINGFENG-001
+  canonical_name: 鼎丰集团
+  type: 大型民营资本集团（景奕辰的钱袋子/白手套）
+  status: 前期主要反派，鼎盛但终被主角掀翻
+  goals:
+    - 保住陆峥
+    - 掩盖罪行、维系政商特权
+    - 为景奕辰打理脏钱与提供掩护
+  relationships:
+    - 与主角：构陷与追杀（前期主要对手）
+    - 与司法及地方：利益共生
+    - 与景氏财团：主从（钱袋子）

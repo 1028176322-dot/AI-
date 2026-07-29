@@ -1,0 +1,36 @@
+document:
+  id: ARC-011
+  type: arc_outline
+  title: ARC-011 临江暗线萌芽（下）
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:01
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-011
+  volume_id: VOL-003
+  chapter_range:
+    - 238
+    - 260
+  objective: 观澜在临江埋下第一个眼线
+  conflict_engine: 陆家异动 vs 主角远程布局
+  start_state: 暗线初萌
+  end_state: 国内线进入视野
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：观澜在临江埋下第一个眼线
+    - 决：主角主动推进
+    - 果：国内线进入视野
+  milestones:
+    - 观澜在临江埋下第一个眼线
+    - 陆家异动 vs 主角远程布局
+    - 国内线进入视野
+  character_decisions:
+    - 主角在临江暗线萌芽中做出关键取舍
+  reader_experience: 爽点/悬念：双线并行起始
+  payoff: 双线并行起始
+  handoff: 交棒至下一弧，推进主线/双线

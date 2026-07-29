@@ -1,0 +1,36 @@
+document:
+  id: ARC-031
+  type: arc_outline
+  title: ARC-031 国内多城深化（下）
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:01
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-031
+  volume_id: VOL-008
+  chapter_range:
+    - 708
+    - 730
+  objective: 国内多城深化经略
+  conflict_engine: 地方势力 vs 主角暗控
+  start_state: 暗控中
+  end_state: 多城经略深
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：国内多城深化经略
+    - 决：主角主动推进
+    - 果：多城经略深
+  milestones:
+    - 国内多城深化经略
+    - 地方势力 vs 主角暗控
+    - 多城经略深
+  character_decisions:
+    - 主角在国内多城深化中做出关键取舍
+  reader_experience: 爽点/悬念：幕后人织网
+  payoff: 幕后人织网
+  handoff: 交棒至下一弧，推进主线/双线

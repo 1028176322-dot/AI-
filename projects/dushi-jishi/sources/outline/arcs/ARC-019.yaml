@@ -1,0 +1,36 @@
+document:
+  id: ARC-019
+  type: arc_outline
+  title: ARC-019 全球铺开
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:01
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-019
+  volume_id: VOL-005
+  chapter_range:
+    - 426
+    - 448
+  objective: 湄江/莱茵/海湾全球节点铺开
+  conflict_engine: 地缘风险 vs 主角全球资本
+  start_state: 区域布局
+  end_state: 全球商业情报网
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：湄江/莱茵/海湾全球节点铺开
+    - 决：主角主动推进
+    - 果：全球商业情报网
+  milestones:
+    - 湄江/莱茵/海湾全球节点铺开
+    - 地缘风险 vs 主角全球资本
+    - 全球商业情报网
+  character_decisions:
+    - 主角在全球铺开中做出关键取舍
+  reader_experience: 爽点/悬念：势力全球化
+  payoff: 势力全球化
+  handoff: 交棒至下一弧，推进主线/双线

@@ -1,0 +1,36 @@
+document:
+  id: ARC-044
+  type: arc_outline
+  title: ARC-044 余烬
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:01
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-044
+  volume_id: VOL-011
+  chapter_range:
+    - 1013
+    - 1035
+  objective: 代价不可逆、陆野已非当年、落幕
+  conflict_engine: 代价沉淀 vs 平静
+  start_state: 落幕
+  end_state: 全书收束
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：代价不可逆、陆野已非当年、落幕
+    - 决：主角主动推进
+    - 果：全书收束
+  milestones:
+    - 代价不可逆、陆野已非当年、落幕
+    - 代价沉淀 vs 平静
+    - 全书收束
+  character_decisions:
+    - 主角在余烬中做出关键取舍
+  reader_experience: 爽点/悬念：情绪落点
+  payoff: 情绪落点
+  handoff: 交棒至下一弧，推进主线/双线

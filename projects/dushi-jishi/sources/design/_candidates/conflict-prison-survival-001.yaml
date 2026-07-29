@@ -1,0 +1,37 @@
+design_candidate:
+  id: conflict-prison-survival-001
+  project_id: novel-dushijishi
+  domain: conflict_system
+  target_document_type: conflict
+  target_path: sources/design/conflicts/conflict-prison-survival-001.yaml
+  proposal:
+    document:
+      id: conflict-prison-survival-001
+      type: conflict
+      title: 狱中生存对抗
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T09:30:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    conflict:
+      id: conflict-prison-survival-001
+      category: interpersonal
+      description: 主角在狱中对抗囚犯帮派与腐败狱警，求生存并积蓄力量。
+  rationale: 第一卷前半的生存冲突，中影响需作者确认。
+  basis: story-core-001 + 平衡模式首稿
+  confidence: 0.8
+  authority_class: author_approved
+  impact: medium
+  requires_user_decision: true
+  dependencies:
+    - char-protagonist-001
+    - org-prison-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  approval_evidence: lifecycle/design/AUTHOR_DECISIONS.yaml
+  promoted_at: 2026-07-28T16:59:28

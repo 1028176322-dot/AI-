@@ -1,5 +1,153 @@
-# NKB 组件：StoryState（schema 1.3.0）
 schema_version: 1.3.0
 project_id: novel-dushijishi
-records: []
-# 本作品私有事实；世界观/人物/故事须经规划确认（TASK-004~008）方可填充。
+records:
+  - id: ARC-PROTAGONIST-001
+    name: 从猎物到猎手
+    dimension: 能力加心智
+    stages:
+      - 猎物：入狱之初的无助与绝望
+      - 学徒：狱中向各路人才习技，渐成狠厉
+      - 逃亡者：暴动越狱、国内逃亡、偷渡出境
+      - 扎根者：在美从底层谋生，积累资本与人脉
+      - 构建者：建立商业资源网、情报网与可信武力，形成对抗鼎丰的势力根基
+      - 幕后人：前期扳倒陆家、洗清冤屈，却察觉幕后另有景氏财团；借美国身份隐于幕后归国，以势力为刃从暗处继续清算与追查
+      - 露真身者（分阶段身份披露）：海外商战中以神秘陆先生/幕后资本代号打脸对手（V3-V4，读者知、对手不知）；扳倒陆家时露出与当年替罪弃婴的关联（V6，国内线震惊，仍非公开真名）；中期锁定景奕辰，后期（V9）公开真实身份陆野，以商业、情报与武装三支柱与之展开全方面交战，最终扳倒景奕辰
+    type: arc
+    source:
+      source_type: design_source
+      source_file: sources\design\arcs\arc-protagonist-001.yaml
+      source_anchor: arc
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+    state: planned
+    active_conflicts: []
+    unresolved_questions: []
+    next_constraints: []
+  - id: CONFLICT-INNER-001
+    category: internal
+    description: 主角在狠厉求生与守住人性底线之间撕扯：为复仇能否越过不虐杀无辜的界限。
+    name: 狠厉与底线
+    type: conflict
+    source:
+      source_type: design_source
+      source_file: sources\design\conflicts\conflict-inner-001.yaml
+      source_anchor: conflict
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+    state: planned
+    active_conflicts:
+      - CONFLICT-INNER-001
+    unresolved_questions:
+      - 主角在狠厉求生与守住人性底线之间撕扯：为复仇能否越过不虐杀无辜的界限。
+    next_constraints: []
+  - id: CONFLICT-PRISON-SURVIVAL-001
+    category: interpersonal
+    description: 主角在狱中对抗囚犯帮派与腐败狱警，求生存并积蓄力量。
+    name: 狱中生存对抗
+    type: conflict
+    source:
+      source_type: design_source
+      source_file: sources\design\conflicts\conflict-prison-survival-001.yaml
+      source_anchor: conflict
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+    state: planned
+    active_conflicts:
+      - CONFLICT-PRISON-SURVIVAL-001
+    unresolved_questions:
+      - 主角在狱中对抗囚犯帮派与腐败狱警，求生存并积蓄力量。
+    next_constraints: []
+  - id: CONFLICT-PROTAGONIST-GROUP-001
+    category: systemic
+    description: 前期核心系统性冲突：主角对抗陆家/鼎丰与临江司法舞弊网（构陷、追杀、跨境清障），在扳倒陆家时洗清冤屈、揭开地方黑幕；此冲突引出更深层的景氏财团。
+    name: 主角 vs 陆家/鼎丰（前期）
+    type: conflict
+    source:
+      source_type: design_source
+      source_file: sources\design\conflicts\conflict-protagonist-group-001.yaml
+      source_anchor: conflict
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+    state: planned
+    active_conflicts:
+      - CONFLICT-PROTAGONIST-GROUP-001
+    unresolved_questions:
+      - 前期核心系统性冲突：主角对抗陆家/鼎丰与临江司法舞弊网（构陷、追杀、跨境清障），在扳倒陆家时洗清冤屈、揭开地方黑幕；此冲突引出更深层的景氏财团。
+    next_constraints: []
+  - id: CONFLICT-ULTIMATE-001
+    category: systemic
+    description: 后期核心冲突：主角以商业、情报与武装三支柱，与景奕辰展开全方面交战（资本博弈、情报战、武力清算），是全书终极系统性对抗。
+    name: 主角 vs 景奕辰（最终反派）
+    type: conflict
+    source:
+      source_type: design_source
+      source_file: sources\design\conflicts\conflict-ultimate-001.yaml
+      source_anchor: conflict
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+    state: planned
+    active_conflicts:
+      - CONFLICT-ULTIMATE-001
+    unresolved_questions:
+      - 后期核心冲突：主角以商业、情报与武装三支柱，与景奕辰展开全方面交战（资本博弈、情报战、武力清算），是全书终极系统性对抗。
+    next_constraints: []
+  - id: STORY-CORE-001
+    premise: 大型集团公子陆峥因连续奸杀多名女子被判处死刑缓期二年执行。主角与陆峥长相高度相似，被陆峥之父陆敬山主导构陷顶罪入狱，家人亦遭灭门、家破人亡。陆家看似是幕后黑手，实则是景奕辰的"钱袋子"——替身计划与临江司法舞弊网，真正操盘者是那位隐于幕后的景奕辰。主角在狱中从无助绝望，到向各路囚犯中的人才习得格斗、反侦察、识人、技艺，渐成狠厉；趁一次监狱暴动越狱，一路逃亡至边境，经走私偷渡进入美国。他在异国从底层谋生，逐步建立属于自己的商业、情报与武装三支柱势力根基。前期他扳倒陆家、洗清冤屈、揭开临江黑幕，却在清算中察觉陆家之上另有景氏财团；他未以真实身份归国，而是借在美根基隐于幕后，以势力为刃从暗处继续追查。中期景奕辰浮现；后期他方亮出真实身份，以三支柱为刃与景奕辰展开商业、情报与武力的全方面交战，最终将其扳倒。
+    theme: 被剥夺一切的人，绝境反铸其刃；对手的层级越高，刃越要一寸寸磨硬——从地方资本到景氏财团。清白在扳倒陆家时已然夺回；真正的复仇，是扳倒隐于幕后的景奕辰，为惨死家人讨还公道。
+    central_conflict: 个体对抗的敌人逐级上抬：前期是地方资本陆家与临江司法舞弊网（此时洗清冤屈）；中期揭开其上的景奕辰；后期以自建商业、情报与武装三支柱，与最终反派展开全方面交战。
+    story_promise: 读者跟随一个蒙冤的替罪羊，看他从牢笼里长出獠牙，在异国从零建立起商业、情报与武装三支柱势力；前期扳倒陆家、洗清冤屈，却惊觉幕后另有景氏财团——他不亮真身，借美国身份隐于幕后继续经营势力；中期锁定景奕辰，后期亮出真实身份、以三支柱为刃与之展开全方面交战；每一步都踩在真实的人性、制度与国境缝隙上，每次翻盘来自隐忍、算计与势力经营，而非运气。
+    ending_direction: 前期清算陆家、洗清冤屈、揭开临江黑幕，却察觉幕后另有景氏财团；中期以美国身份隐于幕后归国、锁定景奕辰；后期亮出真实身份、以三支柱全面交战，最终扳倒景奕辰、为家人讨还，但代价不可逆（亲人已逝、自身已异于当年那个陆野）。第一卷止于越狱成功、踏上边境偷渡之路。
+    state: designed
+    active_conflicts: []
+    unresolved_questions: []
+    next_constraints: []
+    name: 《替罪入狱后，我成了海外大佬》故事核心
+    type: story_core
+    source:
+      source_type: design_source
+      source_file: sources\design\story_core\story-core-001.yaml
+      source_anchor: story
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []

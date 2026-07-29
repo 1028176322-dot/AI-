@@ -1,0 +1,83 @@
+task:
+  id: NKB-UPDATE-S1S2-001-NKB-SYNC-PASS-CHAPTER-PUBLISH-01
+  version: 1
+  project: novel-dushijishi
+  type: chapter_publish
+  title: NKB-UPDATE-S1S2-001-NKB-SYNC on_pass 后继 chapter_publish
+  priority: high
+  goal: null
+  chapter_ref: null
+  conversation_request_id: null
+  revision_cycle_id: RC-NKB-UPDATE-S1S2-001-NKB-SYNC
+  style_state: PUBLISH_READY
+  source_task: NKB-UPDATE-S1S2-001-NKB-SYNC
+  source_event: on_pass
+  dependencies:
+    - NKB-UPDATE-S1S2-001-NKB-SYNC
+  inputs:
+    required:
+      - chapter_draft
+      - chapter_review_report
+      - regression_result
+      - final_regression_mode
+      - draft_sha256
+      - nkb_revision
+      - nkb_snapshot_sha256
+      - outline_sha256
+      - protected_manifest_sha256
+      - style_guidance_sha256
+      - chapter_review_report_sha256
+      - publish_authorization
+      - nkb_sync_proof
+    values:
+      chapter_draft: NKB/Characters.yaml
+      nkb_revision: rev-S1S2-20260729
+      nkb_snapshot_sha256: 9e0145cc9065d997403ffef2f92d6748610a12d63449e3914cee7e9beb0fd4f0
+      nkb_sync_proof: runtime/wip/nkb_sync_proof_S1S2.yaml
+      source_task: NKB-UPDATE-S1S2-001-NKB-SYNC
+      source_event: on_pass
+      revision_cycle_id: RC-NKB-UPDATE-S1S2-001-NKB-SYNC
+      publish_authorization: operations/grants/NKB-UPDATE-S1S2-001-NKB-SYNC-PASS-CHAPTER-PUBLISH-01.yaml
+  expected_outputs:
+    - published_chapter
+    - canonical_manifest
+  acceptance:
+    criteria:
+      - 按 chapter_publish 模板及事件契约完成
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+      - operations/grants/**
+    write:
+      - chapters/approved/**
+      - 第一卷_道生/**
+      - 第二卷_京华/**
+      - 第三卷_江湖/**
+      - 第四卷_国战/**
+      - 第五卷_长生/**
+      - 第六卷_乾坤/**
+      - canonical_manifest.yaml
+      - operations/grants/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+  agent:
+    required_role: publish_service
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+    service_identity: publish_service
+  publish_target: chapters/approved/Characters.yaml
+  knowledge_snapshot: rev-S1S2-20260729
+  created: 2026-07-29T09:55:21
+  created_by: style-orchestrator
+  urgency: normal
+  status: ready

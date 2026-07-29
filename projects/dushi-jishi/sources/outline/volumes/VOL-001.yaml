@@ -1,0 +1,51 @@
+document:
+  id: VOL-001
+  type: volume_outline
+  title: VOL-001 牢笼与逃亡
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:05
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+volume:
+  id: VOL-001
+  number: 1
+  chapter_range:
+    - 1
+    - 95
+  purpose: 临江主舞台：入狱→狱中→越狱→逃亡至边境
+  objective: 完成从猎物到逃亡者的质变
+  start_state: 绝望入狱
+  end_state: 踏上偷渡之路
+  main_characters:
+    - 陆野
+    - 景奕辰
+    - 陆敬山
+    - 陆峥
+  main_locations:
+    - 临江市
+    - 纽港市
+    - 京城
+    - 西南边境口岸
+    - 美国多城
+    - 全球节点
+  central_conflict: 个体 vs 构陷与监狱生态
+  antagonist_pressure: 陆家构陷网+监狱权力
+  milestones:
+    - 暴动爆发，混战开局
+    - 狱中至暗，几近丧命
+    - 趁乱越狱成功
+    - 逃亡启动，跨城拉开
+  midpoint_turn: 暴动爆发，混战开局
+  lowest_point: 狱中至暗，几近丧命
+  climax: 趁乱越狱成功
+  aftermath: 逃亡启动，跨城拉开
+  reader_promises: 开篇强冲突+复仇执念；首爽点前移
+  questions_opened: 谁是幕后构陷者
+  questions_answered: 陆家为何死咬主角
+  foreshadow_plan: 伏笔：弃婴身世、狱中人才
+  growth_deltas: 猎物→学徒→逃亡者
+  next_volume_entry: 下一卷登陆纽港，海外线开启

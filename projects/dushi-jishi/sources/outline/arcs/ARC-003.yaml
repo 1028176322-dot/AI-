@@ -1,0 +1,36 @@
+document:
+  id: ARC-003
+  type: arc_outline
+  title: ARC-003 狱中淬炼
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:00
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-003
+  volume_id: VOL-001
+  chapter_range:
+    - 49
+    - 72
+  objective: 在临江第三监狱向各路人才习技、立威
+  conflict_engine: 监狱生态的弱肉强食 vs 主角的狠厉与智计
+  start_state: 无助新囚
+  end_state: 成为狱中一方人物
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：在临江第三监狱向各路人才习技、立威
+    - 决：主角主动推进
+    - 果：成为狱中一方人物
+  milestones:
+    - 在临江第三监狱向各路人才习技、立威
+    - 监狱生态的弱肉强食 vs 主角的狠厉与智计
+    - 成为狱中一方人物
+  character_decisions:
+    - 主角在狱中淬炼中做出关键取舍
+  reader_experience: 爽点/悬念：三段小扬（打脸狱霸/小反杀/结交人才）
+  payoff: 三段小扬（打脸狱霸/小反杀/结交人才）
+  handoff: 交棒至下一弧，推进主线/双线

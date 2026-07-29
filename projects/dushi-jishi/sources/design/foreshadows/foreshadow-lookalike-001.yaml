@@ -1,0 +1,21 @@
+document:
+  id: FORESHADOW-LOOKALIKE-001
+  type: foreshadow
+  title: 替身预谋
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:30:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:29
+foreshadow:
+  id: FORESHADOW-LOOKALIKE-001
+  content: 主角与陆峥长相相同并非偶然，背后是集团为死缓公子寻找替身的预谋。
+  status: planted
+  planted_at: 第一卷开篇
+  payoff_window: 第一至三卷
+  related_entities:
+    - CHAR-PROTAGONIST-001
+    - CHAR-LUZHENG-001
+    - CHAR-LUJINGSHAN-001

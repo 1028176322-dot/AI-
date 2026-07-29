@@ -1,0 +1,7 @@
+approval_evidence:
+  explicit_user_approval: true
+  source: lifecycle/design/AUTHOR_DECISIONS.yaml
+  approved:
+    - arc-protagonist-001-rev
+  rejected: []
+  recorded_at: 2026-07-28T16:59:28

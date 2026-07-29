@@ -1,0 +1,21 @@
+author_decisions:
+  explicit_user_approval: true
+  decided_by: user
+  decided_at: 2026-07-28T15:25:23
+  _说明: 将下方列表改为你要批准/驳回的候选 id；未列出的保持待裁决。explicit_user_approval 必须为 true。
+  approved:
+    - ability-commercial-build-001
+    - arc-protagonist-001
+    - canon-no-supernatural-001
+    - canon-realism-001
+    - char-lujingshan-001
+    - char-luzheng-001
+    - conflict-inner-001
+    - conflict-prison-survival-001
+    - conflict-protagonist-group-001
+    - foreshadow-family-001
+    - foreshadow-insider-001
+    - foreshadow-lookalike-001
+    - reader-state-001
+    - world-lingang-001
+  rejected: []

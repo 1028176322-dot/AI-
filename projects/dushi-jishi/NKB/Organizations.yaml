@@ -1,5 +1,156 @@
-# NKB 组件：Organizations（schema 1.3.0）
 schema_version: 1.3.0
 project_id: novel-dushijishi
-records: []
-# 本作品私有事实；世界观/人物/故事须经规划确认（TASK-004~008）方可填充。
+records:
+  - id: FACTION-BEIJING-TOP-001
+    canonical_name: 景氏财团
+    type: 隐于幕后的顶级权贵资本集团
+    status: 幕后操盘，中期逐渐浮出水面
+    goals:
+      - 维系顶层权力与资本垄断
+      - 通过陆家等白手套洗白与扩张
+      - 清除一切威胁（含主角）
+    relationships:
+      - 与陆家/鼎丰：主从（钱袋子）
+      - 与主角：终极对抗
+    name: 景氏财团
+    source:
+      source_type: design_source
+      source_file: sources\design\organizations\faction-beijing-top-001.yaml
+      source_anchor: faction
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: FACTION-DINGFENG-001
+    canonical_name: 鼎丰集团
+    type: 大型民营资本集团（景奕辰的钱袋子/白手套）
+    status: 前期主要反派，鼎盛但终被主角掀翻
+    goals:
+      - 保住陆峥
+      - 掩盖罪行、维系政商特权
+      - 为景奕辰打理脏钱与提供掩护
+    relationships:
+      - 与主角：构陷与追杀（前期主要对手）
+      - 与司法及地方：利益共生
+      - 与景氏财团：主从（钱袋子）
+    name: 鼎丰集团
+    source:
+      source_type: design_source
+      source_file: sources\design\organizations\faction-dingfeng-001.yaml
+      source_anchor: faction
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters:
+        - CHAR-PROTAGONIST-001
+    reveal_notes: fact_status 语义说明：revealed_to_reader 为 false 指『鼎丰与景氏财团的深层主从关系』尚未揭晓，不等于未出场。陆野曾任鼎丰关联会所保安（CH-001），明知其名，known_by_characters 已修正为含 CHAR-PROTAGONIST-001。
+  - id: ORG-PRISON-001
+    canonical_name: 临江第三监狱（虚构）
+    type: 关押重刑犯的监狱
+    status: 高压、帮派化
+    goals:
+      - 维持秩序
+      - 隐藏内部腐败
+    relationships:
+      - 与主角：囚禁与磨炼
+      - 与暴动：失控风险
+    name: 临江第三监狱（虚构）
+    source:
+      source_type: design_source
+      source_file: sources\design\organizations\org-prison-001.yaml
+      source_anchor: organization
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+    background: 设定说明：主角先经临江看守所羁押（刑拘与审讯阶段，对应 CH-001『所里那夜』『看守所地砖』等回溯），判决生效后转入临江第三监狱服刑（对应 CH-001 起『号子/监舍/放风/管教』主线）。两阶段同属一套羁押体系，看守所指判决前、监狱指判决后，术语按叙事需要分别使用，二者不矛盾。
+  - id: ORG-PROTAGONIST-COMMERCIAL-001
+    canonical_name: 野锋资本
+    type: 进出口与安保咨询复合型公司
+    status: 主角建立并掌控（海外）
+    goals:
+      - 成为主角回国复仇的资本中枢
+      - 以合法生意作掩护，筹措与调度资源
+    relationships:
+      - 与鼎丰集团：远端对抗
+      - 与主角武力小组：协同支撑
+      - 与主角情报网：情报支撑
+    name: 野锋资本
+    source:
+      source_type: design_source
+      source_file: sources\design\organizations\org-protagonist-commercial-001.yaml
+      source_anchor: organization
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: ORG-PROTAGONIST-FORCE-001
+    canonical_name: 夜枭小队
+    type: 可信安保、行动小组
+    status: 主角指挥
+    goals:
+      - 自保与对陆家、鼎丰的武装清算执行层
+      - 在境外与归国行动中提供武力支撑
+    relationships:
+      - 与主角商业实体：协同
+      - 与鼎丰集团：对抗
+    name: 夜枭小队
+    source:
+      source_type: design_source
+      source_file: sources\design\organizations\org-protagonist-force-001.yaml
+      source_anchor: organization
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: ORG-PROTAGONIST-INTEL-001
+    canonical_name: 观澜
+    type: 隐秘情报网络（线人、技术侦察与数据分析）
+    status: 主角暗中掌控、隐秘运作
+    goals:
+      - 搜集并固定鼎丰与陆家的罪证链条
+      - 监控关键目标动向、预警风险
+      - 为主角商业实体与武力小组提供情报支撑与反侦察
+    relationships:
+      - 与鼎丰集团：对抗（信息战）
+      - 与主角商业实体：情报支撑
+      - 与主角武力小组：行动前情报保障
+    name: 观澜
+    source:
+      source_type: design_source
+      source_file: sources\design\organizations\org-protagonist-intel-001.yaml
+      source_anchor: organization
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []

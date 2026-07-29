@@ -1,0 +1,61 @@
+design_candidate:
+  id: faction-beijing-top-001
+  project_id: novel-dushijishi
+  domain: organizations
+  target_document_type: faction
+  target_path: sources/design/organizations/faction-beijing-top-001.yaml
+  proposal:
+    document:
+      id: faction-beijing-top-001
+      type: faction
+      title: 景氏财团
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T11:40:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    faction:
+      id: faction-beijing-top-001
+      canonical_name: 景氏财团
+      type: 隐于幕后的顶级权贵资本集团
+      status: 幕后操盘，中期逐渐浮出水面
+      goals:
+        - 维系顶层权力与资本垄断
+        - 通过陆家等白手套洗白与扩张
+        - 清除一切威胁（含主角）
+      relationships:
+        - 与陆家/鼎丰：主从（钱袋子）
+        - 与主角：终极对抗
+  rationale: 用户明确：陆家是景奕辰的钱袋子，陆家为前期反派、引出此最终反派。这是全书终极敌对势力。
+  basis: 用户指令 + story-core-001（层级上抬至最终反派）
+  confidence: 0.85
+  authority_class: user_locked
+  impact: fatal
+  requires_user_decision: true
+  dependencies:
+    - char-beijing-scion-001
+    - faction-dingfeng-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  writing_reference:
+    source: learning/ref-xiedi-antagonist-faction.md
+    note: 仅作"反派势力怎么立"的写法参考，非设定事实；势力名已定为景氏财团、核心人物已定为景奕辰，底牌内容仍由用户决策。
+    applicable_techniques:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+    guidance:
+      - 层级遮蔽(技法1)：前期只写前台代理(陆家/鼎丰)嚣张，顶级势力仅通过资源流/指令间接显现，中期才浮出。
+      - 遥制指挥链(技法2)：呈现'京城核心决策圈→执行代理(陆家)→行动组'的层级，主角攻破时顺藤摸瓜。
+      - 复合体(技法3)：展示其资本控制+私武装+情报网如何互为表里(反派镜像版三支柱)。
+      - 投送掣肘(技法4)：设定'体量碾压却不能公开全力'的体制/政治掣肘，解释主角能存活到后期。
+      - 战略威慑(技法5)：握有体制内致命底牌/顶层把柄，使对决是僵持而非秒杀，解释'全面交战'层级。
+      - 脆弱维度(技法6)：构建时就预埋可被攻破的缝隙(派系不齐心/信息轻视/经济命门/核心可斩首)，供后期主角三支柱针对。
+  status: promoted
+  promoted_at: 2026-07-28T16:59:28

@@ -1,0 +1,38 @@
+design_candidate:
+  id: reader-state-001
+  project_id: novel-dushijishi
+  domain: reader_state
+  target_document_type: reader_state
+  target_path: sources/design/reader_state/reader-state-001.yaml
+  proposal:
+    document:
+      id: reader-state-001
+      type: reader_state
+      title: 读者初始认知
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T09:30:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    reader_state:
+      id: reader-state-001
+      fact_id: fact-opening
+      epistemic_status: suspected
+      learned_at: 开篇
+      evidence: 主角入狱蒙冤、家人惨死；读者已知其冤，未知构陷全貌与陆峥替身阴谋。
+  rationale: 读者初始认知状态，高影响需作者确认。
+  basis: story-core-001 + 平衡模式首稿
+  confidence: 0.82
+  authority_class: author_approved
+  impact: high
+  requires_user_decision: true
+  dependencies:
+    - story-core-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  approval_evidence: lifecycle/design/AUTHOR_DECISIONS.yaml
+  promoted_at: 2026-07-28T16:59:29

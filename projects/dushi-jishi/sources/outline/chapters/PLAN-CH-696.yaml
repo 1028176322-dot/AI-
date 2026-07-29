@@ -1,0 +1,152 @@
+document:
+  id: PLAN-CH-696
+  type: chapter_plan
+  title: CH-696 章纲
+  status: approved_for_writing
+  version: 1
+  updated_at: 2026-07-28T18:17:53
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:04
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+plan:
+  id: PLAN-CH-696
+  chapter_id: CH-696
+  number: 696
+  volume_id: VOL-008
+  arc_id: ARC-030
+  status: approved_for_writing
+  role: reversal
+  word_budget: 2600
+starting_state:
+  time: 接续上章时间线
+  location: 地方势力 vs 主角暗控
+  protagonist_state: 依当前弧推进
+  reader_knows: 已知主线方向
+  reader_does_not_know: 幕后布局细节
+objectives:
+  plot: 国内多城深化：第13章推进（B-幕后人）
+  character: 主角在ARC-030中成长
+  reader: 幕后人织网
+  arc_progress: 多城经略深（卷内第13/24）
+conflict:
+  desire: 主角推进国内多城深化：第13章推进（B-幕后人）
+  opposition: 地方势力 vs 主角暗控
+  stakes: 清算/生存主线
+  dilemma: 取舍与风险
+  escalation: 压力递进
+causal_chain:
+  prerequisites:
+    - 上章状态
+  causes:
+    - 国内多城深化：第13章推进（B-幕后人）
+  decision: 主角主动出招
+  consequences:
+    - 国内多城深化状态变化
+reader_experience:
+  opening_question: 国内多城深化之后的悬念/转向
+  anticipation: 期待爽点/悬念落地
+  payoff: 幕后人织网
+  surprise: 反转或信息揭晓
+  fairness_evidence: 前文已埋
+  emotional_curve: 压-扬或扬-压依角色
+information_plan:
+  reveal:
+    - 部分真相
+  conceal:
+    - 景氏全貌
+  misinformation:
+    - 对手误判
+  character_knowledge_changes:
+    - 主角认知推进
+foreshadow:
+  plant:
+    - 埋后续钩
+  reinforce:
+    - 强化马甲线索
+  payoff:
+    - 回收前伏
+expected_deltas:
+  character: 心智/能力变化
+  relationship: 与伙伴/对手关系位移
+  assets: 势力资源增减
+  world_state: 局势微变
+  reader_state: 读者预期调整
+constraints:
+  must_happen:
+    - 国内多城深化：第13章推进（B-幕后人）
+  must_not_happen:
+    - OOC/破氛围
+  continuity: 接上章
+  ooc_guardrails: 主角不崩人设
+ending:
+  hook_type: reversal
+  hook: 国内多城深化之后的悬念/转向
+  next_chapter_promise: 下章推进主线
+flexibility:
+  fixed:
+    - 核心转折
+  adjustable:
+    - 场景细部
+  fallback:
+    - 备选桥段
+narrative_strategy:
+  chapter_form: scene_driven
+  pov: third_limited
+  time_structure: linear
+  dominant_technique: contrast_reveal
+  supporting_techniques:
+    - concrete_detail_selection
+  prose_rhythm: steady
+  information_density: 0.6
+  dialogue_ratio: 0.4
+  sensory_focus: visual
+  rationale: 匹配revelation场景与reversal节奏
+opening_design:
+  previous_plan_id: PLAN-CH-695
+  continuity_anchor: 承接上章落点
+  entry_mode: consequence
+  first_scene_action: 开章即入戏
+  opening_question: 国内多城深化之后的悬念/转向
+  reader_orientation:
+    time: 当前时点
+    place: 地方势力 vs 主角暗控
+    active_pressure: 主线压迫
+  prohibited_patterns:
+    - 无信息注水
+ending_design:
+  next_plan_id: PLAN-CH-697
+  closure_mode: action_commitment
+  resolved_in_chapter:
+    - 国内多城深化状态变化
+  irreversible_change: 本章不可逆推进
+  emotional_aftertaste: 余味钩子
+  retention_driver: 悬念回收
+  final_image: 收束画面
+  next_chapter_bridge: 国内多城深化之后的悬念/转向
+scenes:
+  - id: SCENE-CH-696-001
+    type: revelation
+    purpose: 国内多城深化：第13章推进（B-幕后人）
+    location: 地方势力 vs 主角暗控
+    participants:
+      - 陆野
+      - 对手/伙伴
+    entry_condition: 承接开章
+    beats:
+      - 起
+      - 承
+      - 转
+      - 合
+    turn: 中段转折
+    exit_state: 推进至落点
+    environment_function: 环境推动选择与后果
+    technique:
+      dominant: contrast_reveal
+      supporting:
+        - concrete_detail_selection
+      rhythm: steady
+      sensory_focus: visual
+      information_method: show_dont_tell
+      rationale: 适配revelation

@@ -1,0 +1,10 @@
+design_approval:
+  schema: design-approval@1.0.0
+  checked_at: 2026-07-28T20:56:13
+  decision: pass
+  reasons: []
+  evidence:
+    gap_matrix: analysis/design/DESIGN_GAP_MATRIX.yaml
+    design_review: analysis/design/DESIGN_REVIEW.yaml
+    approval_packet: lifecycle/design/APPROVAL_PACKET.yaml
+  genesis_allowed: true

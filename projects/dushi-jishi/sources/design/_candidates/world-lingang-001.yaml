@@ -1,0 +1,96 @@
+design_candidate:
+  id: world-lingang-001
+  project_id: novel-dushijishi
+  domain: world_and_canon
+  target_document_type: world
+  target_path: sources/design/world/world-lingang-001.yaml
+  proposal:
+    document:
+      id: world-lingang-001
+      type: world
+      title: 世界地理与区域地图（临江·逃亡沿线·京城·美国多城·全球节点）
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T15:40:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    world:
+      id: world-lingang-001
+      name: 本作多层级世界（国内主舞台 + 逃亡沿线 + 京城终局 + 美国多城 + 全球节点）
+      genre: 当代都市（写实犯罪复仇 · 跨国 · 多城）
+      summary: 本作跨度极大，非单城叙事，而是覆盖「国内主舞台—逃亡沿线多城—京城终局—美国发展多城—主角势力全球节点—归国多城经营」的多层级世界地图。临江市为国内主舞台（老城、港口与新城并存，资本、权力与人情交叠；监狱与司法舞弊网构成前期矛盾核心）；京城为虚构都城、大反派景氏财团大本营与最终决战舞台；主角越狱后沿国内多城中转撤至西南边境口岸偷渡；赴美后以纽港市（虚构东岸港城）为根基建立商业、情报、武装三支柱，并向西湾市、芝加城、休港市等美国多城扩张；三支柱进一步布局全球节点（东南亚湄江流域、欧洲莱茵金融城、中东海湾枢纽、非洲资源港城、南美自由港）；归国后以美国身份隐于幕后，在国内多座城市经略势力、锁定景氏，最终在京城与景奕辰展开全方面交战。所有地名均为虚构占位，可随 outline 调整。
+      regions:
+        - id: region-lingang
+          name: 临江市（虚构沿海一线城市）
+          role: 国内主舞台 / 前期矛盾核心
+          cities:
+            - 临江市
+          contains:
+            - 临江第三监狱
+            - 陆家/鼎丰集团
+            - 临江司法舞弊网
+        - id: region-jingcheng
+          name: 京城（虚构都城）
+          role: 大反派景氏财团大本营 / 终局决战舞台
+          cities:
+            - 京城
+          contains:
+            - 景氏财团总部
+            - 顶层权贵与资本网络
+        - id: region-escape-route
+          name: 国内逃亡沿线（临江→西南边境）
+          role: 越狱后多城中转逃亡通道，躲避追捕
+          cities:
+            - 砚州
+            - 云麓
+            - 黔邛
+            - 西南边境口岸
+          note: 均为虚构中转城；主角越狱后不直奔边境，而是经多省城中转、数次易容换线，最终由西南边境口岸偷渡出境。
+        - id: region-us-base
+          name: 纽港市（虚构美国东岸港城）— 海外根基
+          role: 三支柱发源地 / 海外大佬身份根基地
+          cities:
+            - 纽港市
+          contains:
+            - 野锋资本初创地
+            - 观澜北美情报起点
+            - 夜枭小队筹建地
+        - id: region-us-expand
+          name: 美国发展多城
+          role: 商业/情报/武装向美内陆与西岸扩张
+          cities:
+            - 西湾市
+            - 芝加城
+            - 休港市
+          note: 均为虚构美市（东岸根基之外的扩张节点），主角势力在美形成多城联动。
+        - id: region-global
+          name: 主角势力全球节点
+          role: 野锋资本(商业)/观澜(情报)/夜枭小队(武装)世界布局
+          nodes:
+            - 东南亚·湄江流域（走私与资源通道）
+            - 欧洲·莱茵金融城（资本离岸与洗白）
+            - 中东·海湾枢纽（能源与军火中转）
+            - 非洲·资源港城（矿产与武装补给）
+            - 南美·自由港（情报与航运中转）
+        - id: region-return
+          name: 归国经营多城（国内，暂不逐一命名）
+          role: 后期以美国身份隐于幕后，国内多城经略势力、锁定景氏
+          cities:
+            - 国内多座城市（待 outline 定名）
+          note: 与 region-jingcheng 衔接：归国经略最终收敛至京城终局。
+  rationale: 按用户2026-07-28两次反馈细化：在单城临江基础上，扩为多层级世界地图——新增京城(大反派大本营/终局)、国内逃亡沿线多城、美国发展多城、主角势力全球节点、归国多城经营，覆盖逃亡/在美发展/全球布局/京城决战四层跨度。城市均为虚构占位名。
+  basis: 用户反馈 + story-core-001 故事前提 + canon-no-supernatural-001
+  confidence: 0.85
+  authority_class: author_approved
+  impact: medium
+  requires_user_decision: true
+  dependencies:
+    - canon-no-supernatural-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  approval_evidence: lifecycle/design/AUTHOR_DECISIONS.yaml
+  promoted_at: 2026-07-28T16:59:29

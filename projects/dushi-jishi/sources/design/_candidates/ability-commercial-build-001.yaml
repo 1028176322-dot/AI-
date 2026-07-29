@@ -1,0 +1,38 @@
+design_candidate:
+  id: ability-commercial-build-001
+  project_id: novel-dushijishi
+  domain: assets_and_abilities
+  target_document_type: ability
+  target_path: sources/design/assets/ability-commercial-build-001.yaml
+  proposal:
+    document:
+      id: ability-commercial-build-001
+      type: ability
+      title: 商业经营与情报网建设
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T10:15:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    ability:
+      id: ability-commercial-build-001
+      canonical_name: 商业经营与情报网建设
+      type: 经营与情报能力（非超自然）
+      description: 从美国底层谋生起步，逐步建立企业、积累资本、搭建跨境情报渠道，用于挖掘鼎丰罪证与筹措、调度复仇资源；代价为长期隐忍经营与合规风险。
+  rationale: 用户指出主角需商业势力；其在美建立资本与情报中枢的能力基础。
+  basis: 用户指令 + char-protagonist-001（学习能力极强）
+  confidence: 0.85
+  authority_class: author_approved
+  impact: medium
+  requires_user_decision: true
+  dependencies:
+    - char-protagonist-001
+    - org-protagonist-commercial-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  approval_evidence: lifecycle/design/AUTHOR_DECISIONS.yaml
+  promoted_at: 2026-07-28T16:59:28

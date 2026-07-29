@@ -1,0 +1,15 @@
+document:
+  id: CONFLICT-ULTIMATE-001
+  type: conflict
+  title: 主角 vs 景奕辰（最终反派）
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T11:40:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:28
+conflict:
+  id: CONFLICT-ULTIMATE-001
+  category: systemic
+  description: 后期核心冲突：主角以商业、情报与武装三支柱，与景奕辰展开全方面交战（资本博弈、情报战、武力清算），是全书终极系统性对抗。

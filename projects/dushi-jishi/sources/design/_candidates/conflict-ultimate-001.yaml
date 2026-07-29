@@ -1,0 +1,40 @@
+design_candidate:
+  id: conflict-ultimate-001
+  project_id: novel-dushijishi
+  domain: conflict_system
+  target_document_type: conflict
+  target_path: sources/design/conflicts/conflict-ultimate-001.yaml
+  proposal:
+    document:
+      id: conflict-ultimate-001
+      type: conflict
+      title: 主角 vs 景奕辰（最终反派）
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T11:40:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    conflict:
+      id: conflict-ultimate-001
+      category: systemic
+      description: 后期核心冲突：主角以商业、情报与武装三支柱，与景奕辰展开全方面交战（资本博弈、情报战、武力清算），是全书终极系统性对抗。
+  rationale: 用户明确：后期开始商业、势力等全方面交战，最终反派为景奕辰。
+  basis: 用户指令 + story-core-001（后期全面交战）
+  confidence: 0.85
+  authority_class: user_locked
+  impact: fatal
+  requires_user_decision: true
+  dependencies:
+    - char-protagonist-001
+    - char-beijing-scion-001
+    - faction-beijing-top-001
+    - org-protagonist-commercial-001
+    - org-protagonist-intel-001
+    - org-protagonist-force-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  promoted_at: 2026-07-28T16:59:28

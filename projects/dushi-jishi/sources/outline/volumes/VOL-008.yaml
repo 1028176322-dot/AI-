@@ -1,0 +1,51 @@
+document:
+  id: VOL-008
+  type: volume_outline
+  title: VOL-008 合围经营
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:05
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+volume:
+  id: VOL-008
+  number: 8
+  chapter_range:
+    - 660
+    - 753
+  purpose: 国内多城经略 + 锁定要害 + 武装就位
+  objective: 合围前奏
+  start_state: 暗控中
+  end_state: 多城经略深+威慑立
+  main_characters:
+    - 陆野
+    - 景奕辰
+    - 陆敬山
+    - 陆峥
+  main_locations:
+    - 临江市
+    - 纽港市
+    - 京城
+    - 西南边境口岸
+    - 美国多城
+    - 全球节点
+  central_conflict: 合围 vs 景氏维稳
+  antagonist_pressure: 地方势力+景氏反制
+  milestones:
+    - 观澜锁定要害节点
+    - 夜枭调动险露
+    - 战略威慑立
+    - 总攻前布子完成
+  midpoint_turn: 观澜锁定要害节点
+  lowest_point: 夜枭调动险露
+  climax: 战略威慑立
+  aftermath: 总攻前布子完成
+  reader_promises: 幕后人织网爽；压迫渐起
+  questions_opened: 总攻能成功吗
+  questions_answered: —
+  foreshadow_plan: 伏笔：斩首清单
+  growth_deltas: 幕后人收网
+  next_volume_entry: 下一卷亮剑

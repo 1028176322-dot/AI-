@@ -1,0 +1,36 @@
+document:
+  id: ARC-012
+  type: arc_outline
+  title: ARC-012 情报成长
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:01
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-012
+  volume_id: VOL-003
+  chapter_range:
+    - 261
+    - 283
+  objective: 观澜情报网在美成形
+  conflict_engine: 情报战不对称 vs 主角耐心经营
+  start_state: 情报雏形
+  end_state: 北美情报网成
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：观澜情报网在美成形
+    - 决：主角主动推进
+    - 果：北美情报网成
+  milestones:
+    - 观澜情报网在美成形
+    - 情报战不对称 vs 主角耐心经营
+    - 北美情报网成
+  character_decisions:
+    - 主角在情报成长中做出关键取舍
+  reader_experience: 爽点/悬念：势力长线成长
+  payoff: 势力长线成长
+  handoff: 交棒至下一弧，推进主线/双线

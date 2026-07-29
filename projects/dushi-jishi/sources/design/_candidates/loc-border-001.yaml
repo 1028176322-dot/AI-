@@ -1,0 +1,36 @@
+design_candidate:
+  id: loc-border-001
+  project_id: novel-dushijishi
+  domain: locations
+  target_document_type: location
+  target_path: sources/design/locations/loc-border-001.yaml
+  proposal:
+    document:
+      id: loc-border-001
+      type: location
+      title: 西南边境口岸
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T09:30:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    location:
+      id: loc-border-001
+      canonical_name: 西南边境口岸（虚构）
+      type: 边境偷渡通道
+      status: 法外地带
+      accessibility: 主角逃亡过境的关键节点
+  rationale: 逃亡过境的关键节点，低影响可代批。
+  basis: 委托域
+  confidence: 0.82
+  authority_class: delegated_approved
+  impact: low
+  requires_user_decision: false
+  dependencies: []
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  promoted_at: 2026-07-28T16:59:29

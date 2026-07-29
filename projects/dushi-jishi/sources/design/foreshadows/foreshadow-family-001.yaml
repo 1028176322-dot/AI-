@@ -1,0 +1,20 @@
+document:
+  id: FORESHADOW-FAMILY-001
+  type: foreshadow
+  title: 灭门线索
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:30:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:29
+foreshadow:
+  id: FORESHADOW-FAMILY-001
+  content: 家人灭门现场留有指向鼎丰的细微线索，随主角成长逐步显形。
+  status: planted
+  planted_at: 第一卷
+  payoff_window: 第二至四卷
+  related_entities:
+    - CHAR-PROTAGONIST-001
+    - FACTION-DINGFENG-001

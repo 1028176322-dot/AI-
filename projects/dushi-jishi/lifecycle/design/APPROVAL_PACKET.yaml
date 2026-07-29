@@ -1,0 +1,210 @@
+approval_packet:
+  schema: design-expansion@1.0.0
+  project_id: novel-dushijishi
+  created_at: 2026-07-28T20:55:56
+  autonomy_mode: balanced
+  delegated_approvals:
+    - id: ability-armed-ops-001
+      domain: assets_and_abilities
+      impact: high
+      summary: 用户指出主角需武装势力；其在美建立可信武力的能力基础。
+      candidate_file: sources/design/_candidates/ability-armed-ops-001.yaml
+    - id: ability-commercial-build-001
+      domain: assets_and_abilities
+      impact: medium
+      summary: 用户指出主角需商业势力；其在美建立资本与情报中枢的能力基础。
+      candidate_file: sources/design/_candidates/ability-commercial-build-001.yaml
+    - id: ability-prison-skills-001
+      domain: assets_and_abilities
+      impact: low
+      summary: 主角狱中习得的复合生存能力，低影响可代批。
+      candidate_file: sources/design/_candidates/ability-prison-skills-001.yaml
+    - id: arc-protagonist-001-rev
+      domain: arcs
+      impact: high
+      summary: 吸收番茄爆款审查风险②：打脸爽文核心引擎是扮猪吃虎/马甲掉落的重复打脸，非一次性大招；原七阶段把reveal锁在V9浪费700章爽点武器。改为分阶段小露（V3-V4小1、V6小2）+V9终极露，保V9高潮同时让V2-V8每卷有打脸燃料。用户2026-07-28 16:41授权全量采纳+分阶段马甲。
+      candidate_file: sources/design/_candidates/arc-protagonist-001-rev.yaml
+    - id: arc-protagonist-001
+      domain: arcs
+      impact: high
+      summary: 主角多维成长弧，高影响需作者确认。
+      candidate_file: sources/design/_candidates/arc-protagonist-001.yaml
+    - id: canon-no-abuse-protagonist-001
+      domain: world_and_canon
+      impact: high
+      summary: 作者明确禁区：不虐主。
+      candidate_file: sources/design/_candidates/canon-no-abuse-protagonist-001.yaml
+    - id: canon-no-campus-001
+      domain: world_and_canon
+      impact: high
+      summary: 作者明确禁区：不写校园。
+      candidate_file: sources/design/_candidates/canon-no-campus-001.yaml
+    - id: canon-no-melodrama-romance-001
+      domain: world_and_canon
+      impact: high
+      summary: 作者明确禁区：不狗血感情线。
+      candidate_file: sources/design/_candidates/canon-no-melodrama-romance-001.yaml
+    - id: canon-no-supernatural-001
+      domain: world_and_canon
+      impact: fatal
+      summary: 护城河规则：全书写实，禁止任何超自然设定。
+      candidate_file: sources/design/_candidates/canon-no-supernatural-001.yaml
+    - id: canon-realism-001
+      domain: world_and_canon
+      impact: medium
+      summary: 约束监狱、越狱、偷渡、跨境追凶须符合现实逻辑与代价。
+      candidate_file: sources/design/_candidates/canon-realism-001.yaml
+    - id: char-beijing-scion-001
+      domain: characters
+      impact: fatal
+      summary: 用户明确的最终反派：景奕辰，前期由陆家引出，中期浮现，后期全面交战。
+      candidate_file: sources/design/_candidates/char-beijing-scion-001.yaml
+    - id: char-lujingshan-001
+      domain: characters
+      impact: high
+      summary: 前期主要对手、陆家掌门；表面是替身计划主导者，实则为景奕辰的钱袋子执行层，并非最终黑手。引出最终反派。
+      candidate_file: sources/design/_candidates/char-lujingshan-001.yaml
+    - id: char-luzheng-001
+      domain: characters
+      impact: high
+      summary: 构陷事件的源头反派（死缓公子），与主角长相相同，是身份替换对象；其死缓判决是全书起因，背景仅作事实性带过，不展开任何细节。
+      candidate_file: sources/design/_candidates/char-luzheng-001.yaml
+    - id: char-protagonist-001
+      domain: characters
+      impact: high
+      summary: 主角人设由用户设定提供（大学刚毕业、从大山走出、自幼随父打猎、蒙冤替罪、家破人亡、狱中蜕变），姓名已定（陆野），年龄暂拟待作者确认。山野狩猎底子解释其观察力、身体素质与学习能力，为其狱中快速习技提供因果；入城第一份工作（鼎丰关联会所保安）与被构陷由头（值班时与陆峥相遇、因长相相似被替身计划选中、伪造证据定性为真凶）已补，闭合全书因果。
+      candidate_file: sources/design/_candidates/char-protagonist-001.yaml
+    - id: conflict-inner-001
+      domain: conflict_system
+      impact: high
+      summary: 承载主题的内部道德冲突，高影响需作者确认。
+      candidate_file: sources/design/_candidates/conflict-inner-001.yaml
+    - id: conflict-prison-survival-001
+      domain: conflict_system
+      impact: medium
+      summary: 第一卷前半的生存冲突，中影响需作者确认。
+      candidate_file: sources/design/_candidates/conflict-prison-survival-001.yaml
+    - id: conflict-protagonist-group-001
+      domain: conflict_system
+      impact: high
+      summary: 前期核心系统性冲突，引出最终反派；高影响需作者确认。
+      candidate_file: sources/design/_candidates/conflict-protagonist-group-001.yaml
+    - id: conflict-ultimate-001
+      domain: conflict_system
+      impact: fatal
+      summary: 用户明确：后期开始商业、势力等全方面交战，最终反派为景奕辰。
+      candidate_file: sources/design/_candidates/conflict-ultimate-001.yaml
+    - id: faction-beijing-top-001
+      domain: organizations
+      impact: fatal
+      summary: 用户明确：陆家是景奕辰的钱袋子，陆家为前期反派、引出此最终反派。这是全书终极敌对势力。
+      candidate_file: sources/design/_candidates/faction-beijing-top-001.yaml
+    - id: faction-dingfeng-001
+      domain: organizations
+      impact: high
+      summary: 前期主要反派；实为景奕辰的钱袋子/白手套，引出最终反派。核心反派结构，需作者确认。
+      candidate_file: sources/design/_candidates/faction-dingfeng-001.yaml
+    - id: foreshadow-behind-lu-001
+      domain: information_design
+      impact: high
+      summary: 用户明确：陆家为前期反派、引出最终反派；需在中前期埋下“陆家之上另有其主”的伏笔。
+      candidate_file: sources/design/_candidates/foreshadow-behind-lu-001.yaml
+    - id: foreshadow-family-001
+      domain: information_design
+      impact: medium
+      summary: 家人灭门线索伏笔，中影响需作者确认。
+      candidate_file: sources/design/_candidates/foreshadow-family-001.yaml
+    - id: foreshadow-insider-001
+      domain: information_design
+      impact: medium
+      summary: 鼎丰内部分裂伏笔，为后期翻盘埋线，中影响需作者确认。
+      candidate_file: sources/design/_candidates/foreshadow-insider-001.yaml
+    - id: foreshadow-lookalike-001
+      domain: information_design
+      impact: high
+      summary: 核心真相伏笔：替身并非偶然，高影响需作者确认。
+      candidate_file: sources/design/_candidates/foreshadow-lookalike-001.yaml
+    - id: item-evidence-001
+      domain: assets_and_abilities
+      impact: medium
+      summary: 主角翻盘的关键杠杆资产，中影响可代批。
+      candidate_file: sources/design/_candidates/item-evidence-001.yaml
+    - id: loc-border-001
+      domain: locations
+      impact: low
+      summary: 逃亡过境的关键节点，低影响可代批。
+      candidate_file: sources/design/_candidates/loc-border-001.yaml
+    - id: loc-prison-001
+      domain: locations
+      impact: low
+      summary: 开篇核心地点与逃亡起点，低影响可代批。
+      candidate_file: sources/design/_candidates/loc-prison-001.yaml
+    - id: org-prison-001
+      domain: organizations
+      impact: low
+      summary: 主角被囚与磨炼的场所，低影响可代批。
+      candidate_file: sources/design/_candidates/org-prison-001.yaml
+    - id: org-protagonist-commercial-001
+      domain: organizations
+      impact: high
+      summary: 用户指出主角需商业势力支撑回国复仇；在美建立的资源、资本与情报中枢。
+      candidate_file: sources/design/_candidates/org-protagonist-commercial-001.yaml
+    - id: org-protagonist-force-001
+      domain: organizations
+      impact: high
+      summary: 用户指出主角需武装势力支撑回国复仇；组建可信武力小组用于自保与清算。
+      candidate_file: sources/design/_candidates/org-protagonist-force-001.yaml
+    - id: org-protagonist-intel-001
+      domain: organizations
+      impact: high
+      summary: 用户指出主角需情报势力支撑回国复仇；在美建立的隐秘情报网络，是挖掘真相、定位目标与规避风险的中枢。
+      candidate_file: sources/design/_candidates/org-protagonist-intel-001.yaml
+    - id: reader-state-001
+      domain: reader_state
+      impact: high
+      summary: 读者初始认知状态，高影响需作者确认。
+      candidate_file: sources/design/_candidates/reader-state-001.yaml
+    - id: story-core-001
+      domain: story_core
+      impact: high
+      summary: 用户于2026-07-28提供的核心设定：冤狱替罪、狱中淬炼、暴动逃亡、偷渡美国、查明真相、回国复仇；并明确反派层级——陆家为前期反派、景奕辰为最终反派、后期全方面交战。补充（同日晚）：前期扳倒陆家时即洗清冤屈；发现幕后另有景氏财团后不以真实身份回国、借美国身份隐于幕后，后期直面景奕辰时才亮出真实身份。
+      candidate_file: sources/design/_candidates/story-core-001.yaml
+    - id: term-dingzui-001
+      domain: terminology
+      impact: low
+      summary: 核心情节术语，低影响可代批。
+      candidate_file: sources/design/_candidates/term-dingzui-001.yaml
+    - id: term-jingwai-001
+      domain: terminology
+      impact: low
+      summary: 境外术语，低影响可代批。
+      candidate_file: sources/design/_candidates/term-jingwai-001.yaml
+    - id: term-shenfen-001
+      domain: terminology
+      impact: low
+      summary: 身份替换术语，低影响可代批。
+      candidate_file: sources/design/_candidates/term-shenfen-001.yaml
+    - id: term-sihuan-001
+      domain: terminology
+      impact: low
+      summary: 核心法律术语，低影响可代批。
+      candidate_file: sources/design/_candidates/term-sihuan-001.yaml
+    - id: term-toudu-001
+      domain: terminology
+      impact: low
+      summary: 偷渡术语，低影响可代批。
+      candidate_file: sources/design/_candidates/term-toudu-001.yaml
+    - id: world-lingang-001
+      domain: world_and_canon
+      impact: medium
+      summary: 按用户2026-07-28两次反馈细化：在单城临江基础上，扩为多层级世界地图——新增京城(大反派大本营/终局)、国内逃亡沿线多城、美国发展多城、主角势力全球节点、归国多城经营，覆盖逃亡/在美发展/全球布局/京城决战四层跨度。城市均为虚构占位名。
+      candidate_file: sources/design/_candidates/world-lingang-001.yaml
+    - id: world-state-opening-001
+      domain: initial_state
+      impact: low
+      summary: 开篇世界状态，低影响可代批。
+      candidate_file: sources/design/_candidates/world-state-opening-001.yaml
+  author_decisions: []
+  rejected_candidates: []
+  unresolved_conflicts: []
+  gate: proceed

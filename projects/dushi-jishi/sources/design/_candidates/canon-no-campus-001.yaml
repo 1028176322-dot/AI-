@@ -1,0 +1,34 @@
+design_candidate:
+  id: canon-no-campus-001
+  project_id: novel-dushijishi
+  domain: world_and_canon
+  target_document_type: canon_rule
+  target_path: sources/design/world/canon-no-campus-001.yaml
+  proposal:
+    document:
+      id: canon-no-campus-001
+      type: canon_rule
+      title: 禁校园题材与场景
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T09:50:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    rule:
+      id: canon-no-campus-001
+      statement: 全书不出现校园、学校、青春校园生活及学生恋爱等场景与人物线；主角已大学毕业，叙事聚焦社会现实与犯罪复仇，不回写校园经历。
+      severity: major
+  rationale: 作者明确禁区：不写校园。
+  basis: 用户明确禁区指令
+  confidence: 0.95
+  authority_class: user_locked
+  impact: high
+  requires_user_decision: true
+  dependencies: []
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  promoted_at: 2026-07-28T16:59:28

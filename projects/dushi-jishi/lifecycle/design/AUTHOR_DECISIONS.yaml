@@ -1,0 +1,9 @@
+author_decisions:
+  schema: design-expansion@1.0.0
+  explicit_user_approval: true
+  decided_by: user
+  decided_at: "2026-07-28T16:55:00"
+  approved:
+    - arc-protagonist-001-rev
+  rejected: []
+  note: "用户2026-07-28 16:41授权全量采纳+分阶段马甲；批准 arc-protagonist-001-rev（分阶段身份披露），覆盖原 arc-protagonist-001 七阶段。"

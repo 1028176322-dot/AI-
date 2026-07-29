@@ -1,0 +1,17 @@
+document:
+  id: TERM-JINGWAI-001
+  type: terminology
+  title: 境外
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:30:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:29
+terminology:
+  id: TERM-JINGWAI-001
+  name: 境外
+  canonical: 指中国关境以外（文中主要指美国）
+  forbidden:
+    - 境外即法外

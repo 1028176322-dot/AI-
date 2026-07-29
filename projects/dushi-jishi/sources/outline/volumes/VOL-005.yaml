@@ -1,0 +1,51 @@
+document:
+  id: VOL-005
+  type: volume_outline
+  title: VOL-005 全球布局与收网前奏
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:05
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+volume:
+  id: VOL-005
+  number: 5
+  chapter_range:
+    - 378
+    - 471
+  purpose: 全球节点铺开 + 临江收网前奏
+  objective: 全球化 + 国内总攻前夜
+  start_state: 全球布局
+  end_state: 全球网成+景氏暗影初现
+  main_characters:
+    - 陆野
+    - 景奕辰
+    - 陆敬山
+    - 陆峥
+  main_locations:
+    - 临江市
+    - 纽港市
+    - 京城
+    - 西南边境口岸
+    - 美国多城
+    - 全球节点
+  central_conflict: 全球经营 vs 地缘风险
+  antagonist_pressure: 各地地头蛇+景氏遮蔽
+  milestones:
+    - 湄江/莱茵节点打通
+    - 非洲补给遇伏
+    - 临江收网在即
+    - 景氏暗影初现
+  midpoint_turn: 湄江/莱茵节点打通
+  lowest_point: 非洲补给遇伏
+  climax: 临江收网在即
+  aftermath: 景氏暗影初现
+  reader_promises: 全球爽点；大爆前奏
+  questions_opened: 幕后真是景氏？
+  questions_answered: 陆家之上还有谁
+  foreshadow_plan: 伏笔：景氏冰山一角
+  growth_deltas: 构建者→幕后人
+  next_volume_entry: 下一卷扳倒陆家

@@ -1,0 +1,51 @@
+document:
+  id: VOL-007
+  type: volume_outline
+  title: VOL-007 壮大与深入
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:05
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+volume:
+  id: VOL-007
+  number: 7
+  chapter_range:
+    - 566
+    - 659
+  purpose: 三支柱再扩张 + 景氏线深入
+  objective: 势力决战化 + 锁定景氏
+  start_state: 体系初成
+  end_state: 全球深化+景氏要害显
+  main_characters:
+    - 陆野
+    - 景奕辰
+    - 陆敬山
+    - 陆峥
+  main_locations:
+    - 临江市
+    - 纽港市
+    - 京城
+    - 西南边境口岸
+    - 美国多城
+    - 全球节点
+  central_conflict: 深化 vs 景氏反情报
+  antagonist_pressure: 景氏保密网
+  milestones:
+    - 武装升级完成
+    - 情报网受挫
+    - 景氏要害锁定
+    - 战略布子完成
+  midpoint_turn: 武装升级完成
+  lowest_point: 情报网受挫
+  climax: 景氏要害锁定
+  aftermath: 战略布子完成
+  reader_promises: 势力成型爽；悬念升级
+  questions_opened: 景氏要害在哪
+  questions_answered: 景奕辰底牌
+  foreshadow_plan: 伏笔：总攻清单
+  growth_deltas: 幕后人深化
+  next_volume_entry: 下一卷合围

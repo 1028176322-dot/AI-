@@ -1,21 +1,24 @@
 inspiration_brief:
   schema: design-expansion@1.0.0
   project_id: novel-dushijishi
-  title: 都市纪事
+  title: 替罪入狱后，我成了海外大佬
   genre: dushi
-  raw_direction: 启动新都市小说《都市纪事》的设计阶段。锁定事实：书名《都市纪事》；题材=都市(dushi)；规划总章节数=1000；采用严格治理(strict)与单Agent执行。偏好：希望故事具备强读者黏性与清晰的长期爽点节奏；希望主角成长线与都市现实质感并重。核心创意方向（主角设定、世界观基调、核心卖点、核心读者体验、明确禁区）由作者在 design review 与 design approval 阶段补充并裁决；平台先按平衡模式(balanced)生成十二个设计域的初始候选，高影响决定进入作者决策包。
+  raw_direction: 启动新都市小说《替罪入狱后，我成了海外大佬》的设计阶段。锁定事实：书名《替罪入狱后，我成了海外大佬》；题材=都市(dushi)；规划总章节数=1000；采用严格治理(strict)与单Agent执行。偏好：希望故事具备强读者黏性与清晰的长期爽点节奏；希望主角成长线与都市现实质感并重。核心创意方向（主角设定、世界观基调、核心卖点、核心读者体验、明确禁区）由作者在 design review 与 design approval 阶段补充并裁决；平台先按平衡模式(balanced)生成十二个设计域的初始候选，高影响决定进入作者决策包。
   locked_facts:
-    - 启动新都市小说《都市纪事》的设计阶段
-    - 锁定事实：书名《都市纪事》
+    - 启动新都市小说《替罪入狱后，我成了海外大佬》的设计阶段
+    - 锁定事实：书名《替罪入狱后，我成了海外大佬》
     - 题材=都市(dushi)
-    - 规划总章节数=1000
+    - 规划总章节数下限=1000（大致量级，按剧情自然推导，不封顶；总章数不得低于 1000）
     - 采用严格治理(strict)与单Agent执行
     - 核心创意方向（主角设定、世界观基调、核心卖点、核心读者体验、明确禁区）由作者在 design review 与 design approval 阶段补充并裁决
     - 平台先按平衡模式(balanced)生成十二个设计域的初始候选，高影响决定进入作者决策包
   preferences:
     - 偏好：希望故事具备强读者黏性与清晰的长期爽点节奏
     - 希望主角成长线与都市现实质感并重
-  forbidden: []
+  forbidden:
+    - 不写校园（无校园/学校/学生恋爱场景与人物线）
+    - 不虐主（苦难须服务叙事与成长，不得为虐而虐、不得长期剥夺主角能动性）
+    - 不狗血感情线（无三角虐恋/恋爱救赎/为爱降智）
   open_questions:
     - 故事持续向读者兑现的核心体验是什么？
     - 主角最不可妥协的价值观与最大恐惧是什么？
@@ -24,6 +27,9 @@ inspiration_brief:
   autonomy_mode: balanced
   constraints:
     total_chapters: 1000
+    total_chapters_floor: 1000
+    total_chapters_binding: minimum_not_fixed
+    total_chapters_note: "1000 为规划下限/量级基准，非定数；按剧情自然推导，可向上扩展，但总章数不得低于 1000"
     outline_detail_policy: full_chapter_map_plus_full_detailed_chapter_plans
   reference_profiles: []
   source:

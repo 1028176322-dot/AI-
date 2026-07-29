@@ -1,0 +1,42 @@
+design_candidate:
+  id: org-prison-001
+  project_id: novel-dushijishi
+  domain: organizations
+  target_document_type: organization
+  target_path: sources/design/organizations/org-prison-001.yaml
+  proposal:
+    document:
+      id: org-prison-001
+      type: organization
+      title: 临江第三监狱
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T09:30:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    organization:
+      id: org-prison-001
+      canonical_name: 临江第三监狱（虚构）
+      type: 关押重刑犯的监狱
+      status: 高压、帮派化
+      goals:
+        - 维持秩序
+        - 隐藏内部腐败
+      relationships:
+        - 与主角：囚禁与磨炼
+        - 与暴动：失控风险
+  rationale: 主角被囚与磨炼的场所，低影响可代批。
+  basis: 委托域
+  confidence: 0.8
+  authority_class: delegated_approved
+  impact: low
+  requires_user_decision: false
+  dependencies:
+    - loc-prison-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  promoted_at: 2026-07-28T16:59:29

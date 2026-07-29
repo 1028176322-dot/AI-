@@ -1,0 +1,36 @@
+document:
+  id: ARC-026
+  type: arc_outline
+  title: ARC-026 全球再扩张（下）
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:01
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-026
+  volume_id: VOL-007
+  chapter_range:
+    - 590
+    - 613
+  objective: 三支柱借清算陆家获利、全球再扩张
+  conflict_engine: 整合红利 vs 对手反噬
+  start_state: 扩张期
+  end_state: 全球业务再上一层
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：三支柱借清算陆家获利、全球再扩张
+    - 决：主角主动推进
+    - 果：全球业务再上一层
+  milestones:
+    - 三支柱借清算陆家获利、全球再扩张
+    - 整合红利 vs 对手反噬
+    - 全球业务再上一层
+  character_decisions:
+    - 主角在全球再扩张中做出关键取舍
+  reader_experience: 爽点/悬念：势力仍在成长
+  payoff: 势力仍在成长
+  handoff: 交棒至下一弧，推进主线/双线

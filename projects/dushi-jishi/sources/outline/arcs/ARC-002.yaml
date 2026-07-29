@@ -1,0 +1,36 @@
+document:
+  id: ARC-002
+  type: arc_outline
+  title: ARC-002 替罪入狱（下）
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:00
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-002
+  volume_id: VOL-001
+  chapter_range:
+    - 25
+    - 48
+  objective: 男主陆野被陆家构陷顶罪、家破人亡，绝望入狱
+  conflict_engine: 构陷网的密不透风 vs 主角的清白与仇恨
+  start_state: 蒙冤弃婴、家破
+  end_state: 入狱，立下复仇执念
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：男主陆野被陆家构陷顶罪、家破人亡，绝望入狱
+    - 决：主角主动推进
+    - 果：入狱，立下复仇执念
+  milestones:
+    - 男主陆野被陆家构陷顶罪、家破人亡，绝望入狱
+    - 构陷网的密不透风 vs 主角的清白与仇恨
+    - 入狱，立下复仇执念
+  character_decisions:
+    - 主角在替罪入狱中做出关键取舍
+  reader_experience: 爽点/悬念：首章强冲突+复仇钩子落地
+  payoff: 首章强冲突+复仇钩子落地
+  handoff: 交棒至下一弧，推进主线/双线

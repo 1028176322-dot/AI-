@@ -1,5 +1,41 @@
-# NKB 组件：Locations（schema 1.3.0）
 schema_version: 1.3.0
 project_id: novel-dushijishi
-records: []
-# 本作品私有事实；世界观/人物/故事须经规划确认（TASK-004~008）方可填充。
+records:
+  - id: LOC-BORDER-001
+    canonical_name: 西南边境口岸（虚构）
+    type: 边境偷渡通道
+    status: 法外地带
+    accessibility: 主角逃亡过境的关键节点
+    name: 西南边境口岸（虚构）
+    source:
+      source_type: design_source
+      source_file: sources\design\locations\loc-border-001.yaml
+      source_anchor: location
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: LOC-PRISON-001
+    canonical_name: 临江第三监狱
+    type: 重刑监狱
+    status: 高墙内的丛林
+    accessibility: 主角被囚于此，是逃亡起点
+    name: 临江第三监狱
+    source:
+      source_type: design_source
+      source_file: sources\design\locations\loc-prison-001.yaml
+      source_anchor: location
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []

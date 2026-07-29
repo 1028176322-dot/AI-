@@ -1,0 +1,36 @@
+document:
+  id: ARC-027
+  type: arc_outline
+  title: ARC-027 壮大
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:01
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-027
+  volume_id: VOL-007
+  chapter_range:
+    - 614
+    - 636
+  objective: 三支柱全球深化、武装升级
+  conflict_engine: 规模瓶颈 vs 主角体系化
+  start_state: 体系初成
+  end_state: 全球深化
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：三支柱全球深化、武装升级
+    - 决：主角主动推进
+    - 果：全球深化
+  milestones:
+    - 三支柱全球深化、武装升级
+    - 规模瓶颈 vs 主角体系化
+    - 全球深化
+  character_decisions:
+    - 主角在壮大中做出关键取舍
+  reader_experience: 爽点/悬念：决战兵器成型中
+  payoff: 决战兵器成型中
+  handoff: 交棒至下一弧，推进主线/双线

@@ -1,0 +1,23 @@
+document:
+  id: FACTION-BEIJING-TOP-001
+  type: faction
+  title: 景氏财团
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T11:40:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:28
+faction:
+  id: FACTION-BEIJING-TOP-001
+  canonical_name: 景氏财团
+  type: 隐于幕后的顶级权贵资本集团
+  status: 幕后操盘，中期逐渐浮出水面
+  goals:
+    - 维系顶层权力与资本垄断
+    - 通过陆家等白手套洗白与扩张
+    - 清除一切威胁（含主角）
+  relationships:
+    - 与陆家/鼎丰：主从（钱袋子）
+    - 与主角：终极对抗

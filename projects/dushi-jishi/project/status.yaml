@@ -1,0 +1,24 @@
+project:
+  id: novel-dushijishi
+lifecycle:
+  stage: writing
+phases:
+  idea: completed
+  initiation: completed
+  design: completed
+  nkb_genesis: completed
+  readiness: completed
+  writing: active
+  publishing: pending
+current:
+  volume:
+    id: null
+    name: null
+  chapter:
+    current: chapters/drafts/CH-003.md
+    title: null
+    workflow_current_step: write
+  blocked: false
+  blocked_reason: null
+updated_by: task-system
+updated: 2026-07-28T23:39:10

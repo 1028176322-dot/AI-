@@ -8,6 +8,11 @@ task_system:
   enforcement_mode: strict
   no_task_no_write: true
   session_required: true
+style_system:
+  enabled: true
+  enforcement_profile: strict-v2
+  full_chapter_chain_required: true
+  broker_fail_closed: true
 review:
   reader_panel_required: true
   feedback_to_writing_required: true

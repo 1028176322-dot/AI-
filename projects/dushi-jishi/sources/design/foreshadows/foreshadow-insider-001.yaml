@@ -1,0 +1,20 @@
+document:
+  id: FORESHADOW-INSIDER-001
+  type: foreshadow
+  title: 内部裂缝
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:30:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:29
+foreshadow:
+  id: FORESHADOW-INSIDER-001
+  content: 鼎丰内部存在可被策反的裂缝（一名知情者），为后期翻盘埋线。
+  status: planted
+  planted_at: 第一卷
+  payoff_window: 第三至六卷
+  related_entities:
+    - FACTION-DINGFENG-001
+    - CHAR-PROTAGONIST-001

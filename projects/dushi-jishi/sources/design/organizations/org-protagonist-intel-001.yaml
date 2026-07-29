@@ -1,0 +1,24 @@
+document:
+  id: ORG-PROTAGONIST-INTEL-001
+  type: organization
+  title: 观澜
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T11:40:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:29
+organization:
+  id: ORG-PROTAGONIST-INTEL-001
+  canonical_name: 观澜
+  type: 隐秘情报网络（线人、技术侦察与数据分析）
+  status: 主角暗中掌控、隐秘运作
+  goals:
+    - 搜集并固定鼎丰与陆家的罪证链条
+    - 监控关键目标动向、预警风险
+    - 为主角商业实体与武力小组提供情报支撑与反侦察
+  relationships:
+    - 与鼎丰集团：对抗（信息战）
+    - 与主角商业实体：情报支撑
+    - 与主角武力小组：行动前情报保障

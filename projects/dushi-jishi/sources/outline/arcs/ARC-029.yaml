@@ -1,0 +1,36 @@
+document:
+  id: ARC-029
+  type: arc_outline
+  title: ARC-029 战略布子
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:01
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-029
+  volume_id: VOL-008
+  chapter_range:
+    - 660
+    - 683
+  objective: 针对景氏的全球资源调集
+  conflict_engine: 时间差 vs 主角先手
+  start_state: 资源调度
+  end_state: 总攻前布子
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：针对景氏的全球资源调集
+    - 决：主角主动推进
+    - 果：总攻前布子
+  milestones:
+    - 针对景氏的全球资源调集
+    - 时间差 vs 主角先手
+    - 总攻前布子
+  character_decisions:
+    - 主角在战略布子中做出关键取舍
+  reader_experience: 爽点/悬念：合围前奏
+  payoff: 合围前奏
+  handoff: 交棒至下一弧，推进主线/双线

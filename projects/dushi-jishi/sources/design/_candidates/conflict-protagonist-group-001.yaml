@@ -1,0 +1,37 @@
+design_candidate:
+  id: conflict-protagonist-group-001
+  project_id: novel-dushijishi
+  domain: conflict_system
+  target_document_type: conflict
+  target_path: sources/design/conflicts/conflict-protagonist-group-001.yaml
+  proposal:
+    document:
+      id: conflict-protagonist-group-001
+      type: conflict
+      title: 主角 vs 陆家/鼎丰（前期）
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T11:50:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    conflict:
+      id: conflict-protagonist-group-001
+      category: systemic
+      description: 前期核心系统性冲突：主角对抗陆家/鼎丰与临江司法舞弊网（构陷、追杀、跨境清障），在扳倒陆家时洗清冤屈、揭开地方黑幕；此冲突引出更深层的景氏财团。
+  rationale: 前期核心系统性冲突，引出最终反派；高影响需作者确认。
+  basis: story-core-001 + 用户指令（陆家为前期反派）
+  confidence: 0.84
+  authority_class: author_approved
+  impact: high
+  requires_user_decision: true
+  dependencies:
+    - char-protagonist-001
+    - faction-dingfeng-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  approval_evidence: lifecycle/design/AUTHOR_DECISIONS.yaml
+  promoted_at: 2026-07-28T16:59:28

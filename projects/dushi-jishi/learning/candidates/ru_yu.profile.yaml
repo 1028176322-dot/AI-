@@ -1,0 +1,319 @@
+schema: reference-learning@2.0.0
+meta:
+  source_id: ru_yu
+  source_name: 入狱十年，谁还见义勇.txt
+  source_hash: ddd2a62c856f8acdcf22caa2da68ee82fce0ac2eae748fd6a1483e6ca6770576
+  genre: urban
+  analyzed_at: 2026-07-28T20:29:34
+  copyright_policy: statistics_and_principles_only
+  license_type: user-provided
+metrics:
+  characters: 3304375
+  chapters: 1509
+  chapter_length:
+    median: 2149
+    p25: 2117
+    p75: 2204
+  paragraph_length:
+    median: 26
+    p90: 47
+  sentence_length:
+    mean: 28.15
+    p90: 49
+  dialogue_ratio: 0.3236
+  opening_hook_density: 2.542
+  ending_hook_rate: 0.7932
+  emotion_curve:
+    - 1.825
+    - 1.605
+    - 1.796
+    - 1.753
+    - 1.644
+    - 1.428
+    - 2.201
+    - 1.871
+  emotion_variance: 0.045
+  information_density: 1.36
+style_dimensions:
+  narrative_pov:
+    first_person_signal: 12705
+    third_person_signal: 16324
+    interiority_signal: 3852
+    semantic_confirmation_required: true
+  narrative_distance:
+    close_signal: 33957
+    far_signal: 4407
+    semantic_confirmation_required: true
+  syntactic_rhythm:
+    mean_sentence_chars: 27.235
+    sentence_length_stddev: 18.561
+    short_sentence_ratio: 0.244035
+    long_sentence_ratio: 0.325537
+    mean_paragraph_chars: 27.913
+  information_function:
+    distribution:
+      plot_action: 0.463722
+      world_exposition: 0.05206
+      emotion: 0.009651
+      dialogue: 0.474566
+    semantic_confirmation_required: true
+  description_selection:
+    distribution:
+      environment: 0.209802
+      character: 0.213473
+      object: 0.134749
+      action: 0.441976
+    semantic_confirmation_required: true
+  sensory_preference:
+    distribution:
+      visual: 0.590308
+      auditory: 0.254547
+      olfactory: 0.049332
+      tactile: 0.065474
+      gustatory: 0.040338
+  emotion_expression:
+    direct_emotion_signal: 510
+    behavioral_emotion_signal: 307
+    behavior_to_direct_ratio: 0.602
+    semantic_confirmation_required: true
+  dialogue_method:
+    dialogue_blocks_per_1000_chars: 10.32
+    mean_dialogue_chars: 47.634
+    action_insertion_signal: 12527
+    semantic_confirmation_required: true
+  metaphor_mechanism:
+    metaphors_per_1000_chars: 0.712
+    source_domain_requires_semantic_evidence: true
+    character_fit_requires_semantic_evidence: true
+  omission_method:
+    omission_signals_per_1000_chars: 0.11
+    omitted_information_type_requires_semantic_evidence: true
+  scene_closure:
+    last_sentence_length: 160
+    question_hook: false
+    choice_hook: false
+    action_hook: false
+    semantic_confirmation_required: true
+  prohibited_patterns:
+    template_expression_count: 1
+    hedge_density: 0.029344
+    repeated_sentence_opening_count: 87207
+semantic_evidence: {}
+fingerprint:
+  source_id: ru_yu
+  source_digest: ddd2a62c856f8acdcf22caa2da68ee82fce0ac2eae748fd6a1483e6ca6770576
+  minhash_signature:
+    - 214205532785
+    - 189456927391
+    - 323366947848
+    - 286058818465
+    - 1640201348868
+    - 836903994010
+    - 1226523785075
+    - 717340276159
+    - 229235433715
+    - 1701688563384
+    - 126311715891
+    - 486614630351
+    - 185366412428
+    - 1276157930397
+    - 119844666244
+    - 3677716487438
+    - 1396950211254
+    - 1010152376994
+    - 796849779431
+    - 1205780729483
+    - 79796753846
+    - 1089920390105
+    - 1396969966342
+    - 781785281577
+    - 195204186307
+    - 103876505370
+    - 296716181365
+    - 204233418034
+    - 588555202630
+    - 540617260202
+    - 305757519256
+    - 810922183687
+    - 278146082326
+    - 69044712050
+    - 319751691347
+    - 235110424990
+    - 2022805332481
+    - 1815827735025
+    - 2153025423595
+    - 78986467128
+    - 985549111441
+    - 204144657264
+    - 220805450336
+    - 281240259201
+    - 152375751594
+    - 1014751273458
+    - 594452487025
+    - 839515678973
+    - 175999667944
+    - 198853361962
+    - 166564879850
+    - 1294838689410
+    - 1852599930893
+    - 150942955727
+    - 791435774930
+    - 1229456907905
+    - 191056547845
+    - 742747676762
+    - 67669615052
+    - 46452475741
+    - 110497823518
+    - 203948765685
+    - 2513779357524
+    - 134241169626
+    - 1668358367046
+    - 236362017167
+    - 691930497479
+    - 525387950082
+    - 215384348247
+    - 28225387264
+    - 1578007186464
+    - 12062955527
+    - 1422941004206
+    - 310994049319
+    - 848444398880
+    - 359779688659
+    - 315190698296
+    - 1444379147149
+    - 538263672297
+    - 6795877947
+    - 581669131020
+    - 3370929988009
+    - 1497604658201
+    - 257670221017
+    - 315906302407
+    - 838174635556
+    - 779760040858
+    - 457252892648
+    - 1829436012425
+    - 579195675144
+    - 150840372027
+    - 1443219264340
+    - 369281300304
+    - 778141609208
+    - 679357480677
+    - 264759567531
+    - 243864625516
+    - 48281447752
+    - 110331483881
+    - 964110306226
+    - 177435106868
+    - 396815119014
+    - 336429017568
+    - 930012038509
+    - 404806833384
+    - 460683153284
+    - 3944747908
+    - 35363844464
+    - 503897694610
+    - 376171907457
+    - 413558787300
+    - 1095081819022
+    - 362839580373
+    - 247331109237
+    - 75019281293
+    - 1508897377299
+    - 167269637316
+    - 176577646006
+    - 593196699684
+    - 821705889794
+    - 197074596742
+    - 26394451172
+    - 128229148030
+    - 880238500856
+    - 462828883613
+    - 1302715046198
+    - 81057701619
+    - 221992565312
+  license_type: user-provided
+  key_id: default
+  k: 9
+  num_hashes: 128
+legacy_candidates:
+  - rule_id: REF-CHAPTER-RHYTHM
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: urban
+    principle: 章节容量应形成稳定区间，并允许关键章节有受控偏离。
+    evidence:
+      source_id: ru_yu
+      source_hash: ddd2a62c856f8acdcf22caa2da68ee82fce0ac2eae748fd6a1483e6ca6770576
+      metric: chapter_length
+      value:
+        median: 2149
+        p25: 2117
+        p75: 2204
+      raw_excerpt_copied: false
+    review_check: 检查章节长度是否偏离参考区间且偏离是否服务于情节。
+    writing_action: 规划时给出目标区间与偏离理由，不机械复制参考书字数。
+    confidence: 0.62
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-END-HOOK
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: urban
+    principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
+    evidence:
+      source_id: ru_yu
+      source_hash: ddd2a62c856f8acdcf22caa2da68ee82fce0ac2eae748fd6a1483e6ca6770576
+      metric: ending_hook_rate
+      value: 0.7932
+      raw_excerpt_copied: false
+    review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
+    writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
+    confidence: 0.79
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-DIALOGUE-BALANCE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: urban
+    principle: 对白应承担行动、关系或信息变化，而非脱离叙事独立堆积。
+    evidence:
+      source_id: ru_yu
+      source_hash: ddd2a62c856f8acdcf22caa2da68ee82fce0ac2eae748fd6a1483e6ca6770576
+      metric: dialogue_ratio
+      value: 0.3236
+      raw_excerpt_copied: false
+    review_check: 检查对白占比、角色辨识度及每段对白造成的状态变化。
+    writing_action: 场景规划同时标注对白目的、潜台词和对白后的局面变化。
+    confidence: 0.66
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-EMOTION-WAVE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: urban
+    principle: 情绪应随冲突和选择产生可辨认的波形，避免全章同强度。
+    evidence:
+      source_id: ru_yu
+      source_hash: ddd2a62c856f8acdcf22caa2da68ee82fce0ac2eae748fd6a1483e6ca6770576
+      metric: emotion_variance
+      value: 0.045
+      raw_excerpt_copied: false
+    review_check: 按场景标记情绪起点、峰值、回落与余波。
+    writing_action: 章纲预设情绪转折，写作后核对变化是否由事件触发。
+    confidence: 0.64
+    status: candidate
+    requires_project_validation: true
+candidates: []
+raw_text_stored: false

@@ -1,0 +1,36 @@
+document:
+  id: ARC-036
+  type: arc_outline
+  title: ARC-036 资本战（下）
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:01
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-036
+  volume_id: VOL-009
+  chapter_range:
+    - 825
+    - 847
+  objective: 野锋 vs 景氏资本版图
+  conflict_engine: 资本绞杀 vs 主角反绞杀
+  start_state: 交战
+  end_state: 资本压制
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：野锋 vs 景氏资本版图
+    - 决：主角主动推进
+    - 果：资本压制
+  milestones:
+    - 野锋 vs 景氏资本版图
+    - 资本绞杀 vs 主角反绞杀
+    - 资本压制
+  character_decisions:
+    - 主角在资本战中做出关键取舍
+  reader_experience: 爽点/悬念：商战爽点
+  payoff: 商战爽点
+  handoff: 交棒至下一弧，推进主线/双线

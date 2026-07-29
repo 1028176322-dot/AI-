@@ -1,0 +1,22 @@
+document:
+  id: ORG-PROTAGONIST-FORCE-001
+  type: organization
+  title: 夜枭小队
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T11:40:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:29
+organization:
+  id: ORG-PROTAGONIST-FORCE-001
+  canonical_name: 夜枭小队
+  type: 可信安保、行动小组
+  status: 主角指挥
+  goals:
+    - 自保与对陆家、鼎丰的武装清算执行层
+    - 在境外与归国行动中提供武力支撑
+  relationships:
+    - 与主角商业实体：协同
+    - 与鼎丰集团：对抗

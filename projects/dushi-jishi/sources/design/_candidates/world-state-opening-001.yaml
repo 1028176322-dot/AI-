@@ -1,0 +1,38 @@
+design_candidate:
+  id: world-state-opening-001
+  project_id: novel-dushijishi
+  domain: initial_state
+  target_document_type: world_state
+  target_path: sources/design/world_state/world-state-opening-001.yaml
+  proposal:
+    document:
+      id: world-state-opening-001
+      type: world_state
+      title: 开篇世界状态
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T09:30:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    world_state:
+      id: world-state-opening-001
+      state: 开篇主角刚入狱，无助绝望，家人被害消息传来；临江市表象平静，鼎丰权势滔天。
+      derived_from:
+        - story-core-001
+        - world-lingang-001
+  rationale: 开篇世界状态，低影响可代批。
+  basis: 委托域
+  confidence: 0.82
+  authority_class: delegated_approved
+  impact: low
+  requires_user_decision: false
+  dependencies:
+    - story-core-001
+    - world-lingang-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  promoted_at: 2026-07-28T16:59:29

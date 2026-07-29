@@ -1,0 +1,79 @@
+task:
+  id: TASK-INTAKE-20260728233902875834-CHAPTER-REVIEW
+  version: 1
+  project: novel-dushijishi
+  type: chapter_review
+  title: TASK-INTAKE-20260728233902875834 后继 chapter_review
+  status: completed
+  priority: high
+  created: 2026-07-28T23:47:35
+  created_by: task-system
+  goal: null
+  chapter_ref: chapters/drafts/CH-003.md
+  conversation_request_id: null
+  dependencies:
+    - TASK-INTAKE-20260728233902875834
+  inputs:
+    required:
+      - chapter_draft
+      - review_spec
+    values:
+      source_task: TASK-INTAKE-20260728233902875834
+      source_artifact: BUILD-unknown
+      chapter_draft: chapters/drafts/CH-003.md
+  expected_outputs:
+    - review_report
+    - findings
+  acceptance:
+    criteria:
+      - 按 chapter_review 模板完成
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - analysis/review/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  agent:
+    required_role: reviewer
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  owner: reviewer-agent
+  claimed_at: 2026-07-28T23:48:54
+  lease_expire: 2026-07-29T00:48:54
+  workspace: tasks\running\TASK-INTAKE-20260728233902875834-CHAPTER-REVIEW\outputs
+  outputs:
+    review_report: runtime/reviews/REVIEW-TASK-INTAKE-20260728233902875834-CHAPTER-REVIEW/report.yaml
+  output_hashes:
+    review_report_sha256: ed6617287aeb12a41914c54215633b23994e7e503980d745835127fb4d786424
+  artifact: runtime/reviews/REVIEW-TASK-INTAKE-20260728233902875834-CHAPTER-REVIEW/report.yaml
+  submission:
+    checks:
+      review_gate: pass
+    at: 2026-07-28T23:58:31
+    session_id: SES-20260728-001
+  style_state: PASS
+  style_event_history:
+    - event: on_pass
+      style_state: PASS
+      successors:
+        - TASK-INTAKE-20260728233902875834-CHAPTER-REVIEW-PASS-PROTECTED-MANIFEST-BUILD-01
+      actor: reviewer-agent
+      role: reviewer
+      session_id: SES-20260728-001
+      emitted_at: 2026-07-28T23:58:31
+      output_hashes:
+        review_report_sha256: ed6617287aeb12a41914c54215633b23994e7e503980d745835127fb4d786424

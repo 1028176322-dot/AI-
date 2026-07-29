@@ -1,0 +1,75 @@
+design_candidate:
+  id: char-beijing-scion-001
+  project_id: novel-dushijishi
+  domain: characters
+  target_document_type: character
+  target_path: sources/design/characters/char-beijing-scion-001.yaml
+  proposal:
+    document:
+      id: char-beijing-scion-001
+      type: character
+      title: 景奕辰（最终反派）
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T11:40:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    character:
+      id: char-beijing-scion-001
+      canonical_name: 景奕辰
+      status: 最终反派（不在场但操盘全局）
+      identity:
+        current_age: 38
+        role: 景氏财团公子爷 / 真正幕后操盘者
+        origin: 京城
+      background: 陆家是其钱袋子；替身计划与临江司法舞弊网真正的操盘者——为护住己方关键利益（含死缓盟友之子陆峥相关链条），借陆家之手构陷长相相似的主角顶罪。前期隐于幕后，中期随主角追查而逐渐浮出水面。
+      personality:
+        stable_traits:
+          - 城府极深
+          - 视人如棋
+          - 不容失控
+        values:
+          - 家族与顶层地位永固
+        forbidden_behaviors:
+          - 亲自下场暴露
+      goal: 维持顶层权力与资本垄断，清除主角与一切隐患，保住盘面不被掀翻
+      abilities:
+        - 顶层人脉与跨地域资源调度
+        - 操纵舆论、审批与司法于无形
+        - 多层级白手套运作
+      relationships:
+        - 与陆家/陆敬山：主从（钱袋子）
+        - 与陆峥：利益链条上的被保护方
+        - 与主角：终极对抗，前期互不知晓、中期被锁定
+      speech:
+        register: 温润而疏离、不动声色
+        prohibited_patterns:
+          - 直白狰狞
+  rationale: 用户明确的最终反派：景奕辰，前期由陆家引出，中期浮现，后期全面交战。
+  basis: 用户指令 + story-core-001（层级上抬）
+  confidence: 0.85
+  authority_class: user_locked
+  impact: fatal
+  requires_user_decision: true
+  dependencies:
+    - faction-beijing-top-001
+    - faction-dingfeng-001
+    - char-lujingshan-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  writing_reference:
+    source: learning/ref-xiedi-antagonist-faction.md
+    note: 仅作"最终反派人物怎么立"的写法参考，非设定事实；公子爷姓名已定为景奕辰，底牌内容仍由用户决策。
+    applicable_techniques:
+      - 4
+      - 5
+      - 7
+    guidance:
+      - 投送掣肘(技法4)：不在场操盘、借代理下手的设定正对应'不能公开全力'，强化其隐蔽与主角活得久的合理性。
+      - 战略威慑(技法5)：其'顶层把柄/体制内底牌'是威胁来源，也是主角需集齐对等筹码(海外罪证+资源)方能对抗的根因。
+      - 理性傲慢(技法7)：写其基于体量优势的'理性误判/轻视主角'，而非无脑坏；作为可被利用的心理弱点，避免脸谱化。
+  status: promoted
+  promoted_at: 2026-07-28T16:59:28

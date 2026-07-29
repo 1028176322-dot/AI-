@@ -1,0 +1,83 @@
+task:
+  id: NKB-UPDATE-S1S2-001-NKB-SYNC
+  version: 1
+  project: novel-dushijishi
+  type: nkb_sync
+  title: NKB-UPDATE-S1S2-001 后继 nkb_sync
+  status: completed
+  priority: high
+  created: 2026-07-29T09:47:11
+  created_by: task-system
+  goal: null
+  chapter_ref: null
+  conversation_request_id: null
+  dependencies:
+    - NKB-UPDATE-S1S2-001
+  inputs:
+    required:
+      - nkb_change
+      - operation_manifest
+      - nkb_snapshot_after
+    values:
+      source_task: NKB-UPDATE-S1S2-001
+      source_artifact: BUILD-unknown
+  expected_outputs:
+    - nkb_sync_proof
+    - validation_report
+  acceptance:
+    criteria:
+      - 按 nkb_sync 模板完成
+  permissions:
+    read:
+      - NKB/**
+      - operations/**
+      - tasks/**
+      - sources/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - analysis/nkb/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - chapters/**
+      - NKB/**
+  agent:
+    required_role: reviewer
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current
+  owner: reviewer-agent
+  claimed_at: 2026-07-29T09:53:22
+  lease_expire: 2026-07-29T10:53:22
+  workspace: tasks\running\NKB-UPDATE-S1S2-001-NKB-SYNC\outputs
+  outputs:
+    nkb_sync_proof: runtime/wip/nkb_sync_proof_S1S2.yaml
+    validation_report: runtime/wip/validation_report_S1S2.yaml
+  output_hashes:
+    nkb_sync_proof_sha256: 46b00b5dc4f0147391fe55201f9fde513777de1b249d65ca9f3b75813441310b
+    validation_report_sha256: 98fb9098dc190844cd0b8b366308fe095b574114f35f40b0236fad829dc02084
+  artifact: runtime/wip/nkb_sync_proof_S1S2.yaml
+  submission:
+    checks:
+      review_gate: pass
+    at: 2026-07-29T09:55:20
+    session_id: SES-20260728-001
+  style_state: PASS
+  style_event_history:
+    - event: on_pass
+      style_state: PASS
+      successors:
+        - NKB-UPDATE-S1S2-001-NKB-SYNC-PASS-CHAPTER-PUBLISH-01
+      actor: reviewer-agent
+      role: reviewer
+      session_id: SES-20260728-001
+      emitted_at: 2026-07-29T09:55:21
+      output_hashes:
+        nkb_sync_proof_sha256: 46b00b5dc4f0147391fe55201f9fde513777de1b249d65ca9f3b75813441310b
+        validation_report_sha256: 98fb9098dc190844cd0b8b366308fe095b574114f35f40b0236fad829dc02084

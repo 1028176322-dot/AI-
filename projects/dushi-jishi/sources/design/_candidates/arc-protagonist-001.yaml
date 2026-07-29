@@ -1,0 +1,45 @@
+design_candidate:
+  id: arc-protagonist-001
+  project_id: novel-dushijishi
+  domain: arcs
+  target_document_type: arc
+  target_path: sources/design/arcs/arc-protagonist-001.yaml
+  proposal:
+    document:
+      id: arc-protagonist-001
+      type: arc
+      title: 从猎物到猎手
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T11:50:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    arc:
+      id: arc-protagonist-001
+      name: 从猎物到猎手
+      dimension: 能力加心智
+      stages:
+        - 猎物：入狱之初的无助与绝望
+        - 学徒：狱中向各路人才习技，渐成狠厉
+        - 逃亡者：暴动越狱、国内逃亡、偷渡出境
+        - 扎根者：在美从底层谋生，积累资本与人脉
+        - 构建者：建立商业资源网、情报网与可信武力，形成对抗鼎丰的势力根基
+        - 幕后人：前期扳倒陆家、洗清冤屈，却察觉幕后另有景氏财团；借美国身份隐于幕后归国，以势力为刃从暗处继续清算与追查
+        - 露真身者：中期锁定景奕辰，后期亮出真实身份陆野，以商业、情报与武装三支柱与之展开全方面交战，最终扳倒景奕辰
+  rationale: 主角多维成长弧，高影响需作者确认。
+  basis: story-core-001 + 平衡模式首稿
+  confidence: 0.85
+  authority_class: author_approved
+  impact: high
+  requires_user_decision: true
+  dependencies:
+    - char-protagonist-001
+    - conflict-inner-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  approval_evidence: lifecycle/design/AUTHOR_DECISIONS.yaml
+  promoted_at: 2026-07-28T15:46:23

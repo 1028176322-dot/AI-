@@ -1,0 +1,16 @@
+document:
+  id: ABILITY-COMMERCIAL-BUILD-001
+  type: ability
+  title: 商业经营与情报网建设
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T10:15:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:28
+ability:
+  id: ABILITY-COMMERCIAL-BUILD-001
+  canonical_name: 商业经营与情报网建设
+  type: 经营与情报能力（非超自然）
+  description: 从美国底层谋生起步，逐步建立企业、积累资本、搭建跨境情报渠道，用于挖掘鼎丰罪证与筹措、调度复仇资源；代价为长期隐忍经营与合规风险。

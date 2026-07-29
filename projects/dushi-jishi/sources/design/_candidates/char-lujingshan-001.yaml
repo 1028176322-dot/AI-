@@ -1,0 +1,65 @@
+design_candidate:
+  id: char-lujingshan-001
+  project_id: novel-dushijishi
+  domain: characters
+  target_document_type: character
+  target_path: sources/design/characters/char-lujingshan-001.yaml
+  proposal:
+    document:
+      id: char-lujingshan-001
+      type: character
+      title: 陆敬山
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T11:40:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    character:
+      id: char-lujingshan-001
+      canonical_name: 陆敬山
+      status: 前期主要对手（陆家掌门；景氏财团的钱袋子执行层，非最终黑手）
+      identity:
+        current_age: 58
+        role: 鼎丰集团实际控制人
+        origin: 临江市
+      background: 陆家是景奕辰的钱袋子；为救死缓儿子陆峥，陆敬山主导“替身计划”——在临江物色与陆峥长相相似的青年构陷顶罪，选中刚毕业进城、毫无根基的山村青年（主角）。他以为能压下一切，却不料替身计划触动的是景奕辰更深层的棋局。
+      personality:
+        stable_traits:
+          - 掌控欲强
+          - 缜密
+          - 冷血
+        values:
+          - 家族与资本永固
+        forbidden_behaviors:
+          - 公开失态
+      goal: 借替身计划保住死缓儿子陆峥、掩盖陆家罪恶、清除隐患（含主角）；同时为景奕辰打理钱袋子，维系主从关系
+      abilities:
+        - 政商人脉
+        - 司法运作
+        - 资金调度
+      relationships:
+        - 与主角：替身计划的主导者与目标选定者，构陷者与被构陷者
+        - 与陆峥：父子兼共犯，替身计划的发起者与受益者
+        - 与景奕辰：主从（钱袋子），替身计划的深层操盘者
+        - 与地方势力：利益交换
+      speech:
+        register: 慢条斯理、含威
+        prohibited_patterns:
+          - 直白威胁
+  rationale: 前期主要对手、陆家掌门；表面是替身计划主导者，实则为景奕辰的钱袋子执行层，并非最终黑手。引出最终反派。
+  basis: story-core-001 + 用户指令（陆家为前期反派、钱袋子）
+  confidence: 0.8
+  authority_class: author_approved
+  impact: high
+  requires_user_decision: true
+  dependencies:
+    - faction-dingfeng-001
+    - faction-beijing-top-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  approval_evidence: lifecycle/design/AUTHOR_DECISIONS.yaml
+  promoted_at: 2026-07-28T16:59:28

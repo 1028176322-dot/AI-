@@ -1,0 +1,17 @@
+document:
+  id: WORLD-STATE-OPENING-001
+  type: world_state
+  title: 开篇世界状态
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:30:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:29
+world_state:
+  id: WORLD-STATE-OPENING-001
+  state: 开篇主角刚入狱，无助绝望，家人被害消息传来；临江市表象平静，鼎丰权势滔天。
+  derived_from:
+    - STORY-CORE-001
+    - WORLD-LINGANG-001

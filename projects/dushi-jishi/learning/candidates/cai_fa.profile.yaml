@@ -1,0 +1,340 @@
+schema: reference-learning@2.0.0
+meta:
+  source_id: cai_fa
+  source_name: 成为财阀少公子，鲸吞实业帝国 作者：此间人雄.txt
+  source_hash: 2fd47416185f26326059b5e8fa3e70395d3092c06342c0163fcf2658de5707ac
+  genre: urban
+  analyzed_at: 2026-07-28T20:32:31
+  copyright_policy: statistics_and_principles_only
+  license_type: user-provided
+metrics:
+  characters: 2385247
+  chapters: 923
+  chapter_length:
+    median: 2419
+    p25: 2265
+    p75: 2643
+  paragraph_length:
+    median: 23
+    p90: 49
+  sentence_length:
+    mean: 25.86
+    p90: 47
+  dialogue_ratio: 0.3258
+  opening_hook_density: 2.926
+  ending_hook_rate: 0.7801
+  emotion_curve:
+    - 1.945
+    - 2.448
+    - 2.049
+    - 2.002
+    - 1.479
+    - 1.734
+    - 2.022
+    - 2.784
+  emotion_variance: 0.1421
+  information_density: 1.03
+style_dimensions:
+  narrative_pov:
+    first_person_signal: 3781
+    third_person_signal: 9369
+    interiority_signal: 2280
+    semantic_confirmation_required: true
+  narrative_distance:
+    close_signal: 29426
+    far_signal: 1798
+    semantic_confirmation_required: true
+  syntactic_rhythm:
+    mean_sentence_chars: 24.613
+    sentence_length_stddev: 18.419
+    short_sentence_ratio: 0.244581
+    long_sentence_ratio: 0.22557
+    mean_paragraph_chars: 2695.19
+  information_function:
+    distribution:
+      plot_action: 0.490137
+      world_exposition: 0.02958
+      emotion: 0.007782
+      dialogue: 0.472501
+    semantic_confirmation_required: true
+  description_selection:
+    distribution:
+      environment: 0.291927
+      character: 0.213614
+      object: 0.089816
+      action: 0.404642
+    semantic_confirmation_required: true
+  sensory_preference:
+    distribution:
+      visual: 0.617061
+      auditory: 0.245349
+      olfactory: 0.043838
+      tactile: 0.07956
+      gustatory: 0.014193
+  emotion_expression:
+    direct_emotion_signal: 313
+    behavioral_emotion_signal: 160
+    behavior_to_direct_ratio: 0.511
+    semantic_confirmation_required: true
+  dialogue_method:
+    dialogue_blocks_per_1000_chars: 11.244
+    mean_dialogue_chars: 43.638
+    action_insertion_signal: 6850
+    semantic_confirmation_required: true
+  metaphor_mechanism:
+    metaphors_per_1000_chars: 0.637
+    source_domain_requires_semantic_evidence: true
+    character_fit_requires_semantic_evidence: true
+  omission_method:
+    omission_signals_per_1000_chars: 0.553
+    omitted_information_type_requires_semantic_evidence: true
+  scene_closure:
+    last_sentence_length: 42
+    question_hook: false
+    choice_hook: false
+    action_hook: true
+    semantic_confirmation_required: true
+  prohibited_patterns:
+    template_expression_count: 51
+    hedge_density: 0.022153
+    repeated_sentence_opening_count: 51055
+semantic_evidence: {}
+fingerprint:
+  source_id: cai_fa
+  source_digest: 2fd47416185f26326059b5e8fa3e70395d3092c06342c0163fcf2658de5707ac
+  minhash_signature:
+    - 544286640238
+    - 1118832092346
+    - 175696846254
+    - 176382178097
+    - 1583948240771
+    - 515356922661
+    - 1761915898221
+    - 372887136349
+    - 1634924280237
+    - 783210941915
+    - 439008658773
+    - 1591853214873
+    - 9539473392
+    - 1789867037242
+    - 603691419528
+    - 758720216769
+    - 4521243927618
+    - 2269856078841
+    - 4009184048802
+    - 165268676936
+    - 101467542342
+    - 1089920390105
+    - 856529151836
+    - 524960576199
+    - 903356336660
+    - 1591016863505
+    - 634064770811
+    - 5127860941771
+    - 200681316894
+    - 1627949991176
+    - 6467344473
+    - 407354983361
+    - 3110575015903
+    - 379945801717
+    - 514306621956
+    - 627343514055
+    - 720012825325
+    - 22424811446
+    - 1003698496338
+    - 428794765618
+    - 255309783168
+    - 508863175267
+    - 1126258374270
+    - 192749202442
+    - 1565442005604
+    - 76942486306
+    - 1171277764598
+    - 1158952632192
+    - 6288922244403
+    - 114356889935
+    - 354425013210
+    - 207575675268
+    - 66477470215
+    - 1088454469805
+    - 849908412932
+    - 1035234326361
+    - 307929134827
+    - 498547204937
+    - 1012220053219
+    - 204426736207
+    - 433769448294
+    - 936495168153
+    - 2581955667373
+    - 707079994931
+    - 1302705286885
+    - 428364590120
+    - 137978871354
+    - 1089733287974
+    - 13534070758
+    - 462582960046
+    - 3122463793811
+    - 477742767966
+    - 937052080012
+    - 78844735549
+    - 2110615292086
+    - 3166904215665
+    - 1359423164681
+    - 40453193361
+    - 21824206872
+    - 809359345632
+    - 1922613632011
+    - 895372335764
+    - 1625381279297
+    - 373731604181
+    - 2031316853974
+    - 1107138872240
+    - 311399995488
+    - 327191551112
+    - 553091751561
+    - 354190390524
+    - 247512882421
+    - 495928614579
+    - 456228334044
+    - 908182721559
+    - 252927196626
+    - 215576883553
+    - 475746369894
+    - 1290875648655
+    - 90174000746
+    - 1432651891956
+    - 201194486583
+    - 982895621687
+    - 1741445039909
+    - 899048823224
+    - 308172175536
+    - 162565119036
+    - 902916313294
+    - 1026819907711
+    - 855322988948
+    - 804856547789
+    - 205796642861
+    - 885448253996
+    - 1637038018391
+    - 432400712331
+    - 1724501023783
+    - 1695851834000
+    - 69631748053
+    - 254713989498
+    - 466639661991
+    - 1214422078487
+    - 200364161358
+    - 667950598215
+    - 286789335208
+    - 1219572849376
+    - 446804509937
+    - 223313127800
+    - 188917949387
+    - 143961740983
+  license_type: user-provided
+  key_id: default
+  k: 9
+  num_hashes: 128
+legacy_candidates:
+  - rule_id: REF-CHAPTER-RHYTHM
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: urban
+    principle: 章节容量应形成稳定区间，并允许关键章节有受控偏离。
+    evidence:
+      source_id: cai_fa
+      source_hash: 2fd47416185f26326059b5e8fa3e70395d3092c06342c0163fcf2658de5707ac
+      metric: chapter_length
+      value:
+        median: 2419
+        p25: 2265
+        p75: 2643
+      raw_excerpt_copied: false
+    review_check: 检查章节长度是否偏离参考区间且偏离是否服务于情节。
+    writing_action: 规划时给出目标区间与偏离理由，不机械复制参考书字数。
+    confidence: 0.62
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-END-HOOK
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: urban
+    principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
+    evidence:
+      source_id: cai_fa
+      source_hash: 2fd47416185f26326059b5e8fa3e70395d3092c06342c0163fcf2658de5707ac
+      metric: ending_hook_rate
+      value: 0.7801
+      raw_excerpt_copied: false
+    review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
+    writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
+    confidence: 0.78
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-DIALOGUE-BALANCE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: urban
+    principle: 对白应承担行动、关系或信息变化，而非脱离叙事独立堆积。
+    evidence:
+      source_id: cai_fa
+      source_hash: 2fd47416185f26326059b5e8fa3e70395d3092c06342c0163fcf2658de5707ac
+      metric: dialogue_ratio
+      value: 0.3258
+      raw_excerpt_copied: false
+    review_check: 检查对白占比、角色辨识度及每段对白造成的状态变化。
+    writing_action: 场景规划同时标注对白目的、潜台词和对白后的局面变化。
+    confidence: 0.66
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-PARAGRAPH-CONTRAST
+    target: writing
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: urban
+    principle: 长短段落的对比可服务信息承载与节奏加速。
+    evidence:
+      source_id: cai_fa
+      source_hash: 2fd47416185f26326059b5e8fa3e70395d3092c06342c0163fcf2658de5707ac
+      metric: paragraph_length
+      value:
+        median: 23
+        p90: 49
+      raw_excerpt_copied: false
+    review_check: 检查长段是否造成认知负荷、短段是否只是碎片化。
+    writing_action: 在解释、动作、转折处主动设计段落长度变化。
+    confidence: 0.58
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-EMOTION-WAVE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: urban
+    principle: 情绪应随冲突和选择产生可辨认的波形，避免全章同强度。
+    evidence:
+      source_id: cai_fa
+      source_hash: 2fd47416185f26326059b5e8fa3e70395d3092c06342c0163fcf2658de5707ac
+      metric: emotion_variance
+      value: 0.1421
+      raw_excerpt_copied: false
+    review_check: 按场景标记情绪起点、峰值、回落与余波。
+    writing_action: 章纲预设情绪转折，写作后核对变化是否由事件触发。
+    confidence: 0.64
+    status: candidate
+    requires_project_validation: true
+candidates: []
+raw_text_stored: false

@@ -1,5 +1,28 @@
-# NKB 组件：Assets（schema 1.3.0）
 schema_version: 1.3.0
 project_id: novel-dushijishi
-records: []
-# 本作品私有事实；世界观/人物/故事须经规划确认（TASK-004~008）方可填充。
+records:
+  - id: ITEM-EVIDENCE-001
+    canonical_name: 构陷铁证（账本与录音，暂以铁证代称）
+    type: 纸质与电子证据
+    status: 散落、待主角逐步拼合
+    abilities:
+      - 直接证明主角被构陷
+      - 指认鼎丰罪行
+    limitations:
+      - 持有即招杀身之祸
+      - 需跨境方能安全公开
+    name: 构陷铁证（账本与录音，暂以铁证代称）
+    source:
+      source_type: design_source
+      source_file: sources\design\assets\item-evidence-001.yaml
+      source_anchor: item
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+    state: 散落、待主角逐步拼合

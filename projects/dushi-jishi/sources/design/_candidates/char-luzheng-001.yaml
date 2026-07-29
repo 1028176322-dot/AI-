@@ -1,0 +1,62 @@
+design_candidate:
+  id: char-luzheng-001
+  project_id: novel-dushijishi
+  domain: characters
+  target_document_type: character
+  target_path: sources/design/characters/char-luzheng-001.yaml
+  proposal:
+    document:
+      id: char-luzheng-001
+      type: character
+      title: 陆峥
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T11:40:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    character:
+      id: char-luzheng-001
+      canonical_name: 陆峥
+      status: 核心反派（不在场但驱动主线）
+      identity:
+        current_age: 28
+        role: 鼎丰集团公子
+        origin: 临江市权贵家庭
+      background: 因连续奸杀多名女子被判处死刑，缓期二年执行；家族为保其性命启动替身计划。
+      personality:
+        stable_traits:
+          - 骄纵
+          - 冷酷
+          - 挥霍
+        values:
+          - 家族特权
+        forbidden_behaviors:
+          - 公开示弱
+      goal: 在死缓缓刑期内逃避死刑执行，借长相相似的替身（主角）脱罪
+      abilities:
+        - 家族庇护网
+        - 资源调度
+      relationships:
+        - 与主角：长相相同、被构陷顶罪与构陷的关系
+        - 与陆敬山：父子兼共犯，替身计划的受益者与配合者
+      speech:
+        register: 傲慢随意
+        prohibited_patterns:
+          - 自曝罪行
+  rationale: 构陷事件的源头反派（死缓公子），与主角长相相同，是身份替换对象；其死缓判决是全书起因，背景仅作事实性带过，不展开任何细节。
+  basis: story-core-001 + 平衡模式首稿
+  confidence: 0.82
+  authority_class: author_approved
+  impact: high
+  requires_user_decision: true
+  dependencies:
+    - faction-dingfeng-001
+    - char-lujingshan-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  approval_evidence: lifecycle/design/AUTHOR_DECISIONS.yaml
+  promoted_at: 2026-07-28T16:59:28

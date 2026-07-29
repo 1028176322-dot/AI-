@@ -1,0 +1,21 @@
+operation:
+  id: OP-20260729-001
+  session_id: SES-20260728-001
+  role: writer
+  project_id: novel-dushijishi
+  task_id: TASK-INTAKE-20260729000708571135
+action:
+  type: chapter.write
+  target: chapters/drafts/CH-003.md
+inputs:
+  nkb_version: null
+  context_hash: null
+  contract_version: 2.0.0
+  policy_version: 1.3.0
+changes:
+  files:
+    - chapters/drafts/CH-003.md
+  lines_changed: 145
+result:
+  status: success
+  regression_required: false

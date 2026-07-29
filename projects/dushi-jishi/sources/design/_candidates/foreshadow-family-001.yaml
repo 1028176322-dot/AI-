@@ -1,0 +1,40 @@
+design_candidate:
+  id: foreshadow-family-001
+  project_id: novel-dushijishi
+  domain: information_design
+  target_document_type: foreshadow
+  target_path: sources/design/foreshadows/foreshadow-family-001.yaml
+  proposal:
+    document:
+      id: foreshadow-family-001
+      type: foreshadow
+      title: 灭门线索
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T09:30:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    foreshadow:
+      id: foreshadow-family-001
+      content: 家人灭门现场留有指向鼎丰的细微线索，随主角成长逐步显形。
+      status: planted
+      planted_at: 第一卷
+      payoff_window: 第二至四卷
+      related_entities:
+        - char-protagonist-001
+        - faction-dingfeng-001
+  rationale: 家人灭门线索伏笔，中影响需作者确认。
+  basis: story-core-001 + 平衡模式首稿
+  confidence: 0.8
+  authority_class: author_approved
+  impact: medium
+  requires_user_decision: true
+  dependencies: []
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  approval_evidence: lifecycle/design/AUTHOR_DECISIONS.yaml
+  promoted_at: 2026-07-28T16:59:29

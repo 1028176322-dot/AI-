@@ -1,0 +1,17 @@
+document:
+  id: READER-STATE-001
+  type: reader_state
+  title: 读者初始认知
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:30:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:29
+reader_state:
+  id: READER-STATE-001
+  fact_id: WORLD-STATE-OPENING-001
+  epistemic_status: suspected
+  learned_at: 开篇
+  evidence: 主角入狱蒙冤、家人惨死；读者已知其冤，未知构陷全貌与陆峥替身阴谋。

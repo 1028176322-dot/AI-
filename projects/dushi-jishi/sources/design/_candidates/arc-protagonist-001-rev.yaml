@@ -1,0 +1,45 @@
+design_candidate:
+  id: arc-protagonist-001-rev
+  project_id: novel-dushijishi
+  domain: arcs
+  target_document_type: arc
+  target_path: sources/design/arcs/arc-protagonist-001.yaml
+  proposal:
+    document:
+      id: arc-protagonist-001
+      type: arc
+      title: 从猎物到猎手
+      status: candidate
+      version: 1.1.0
+      updated_at: 2026-07-28T16:50:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    arc:
+      id: arc-protagonist-001
+      name: 从猎物到猎手
+      dimension: 能力加心智
+      stages:
+        - 猎物：入狱之初的无助与绝望
+        - 学徒：狱中向各路人才习技，渐成狠厉
+        - 逃亡者：暴动越狱、国内逃亡、偷渡出境
+        - 扎根者：在美从底层谋生，积累资本与人脉
+        - 构建者：建立商业资源网、情报网与可信武力，形成对抗鼎丰的势力根基
+        - 幕后人：前期扳倒陆家、洗清冤屈，却察觉幕后另有景氏财团；借美国身份隐于幕后归国，以势力为刃从暗处继续清算与追查
+        - 露真身者（分阶段身份披露）：海外商战中以神秘陆先生/幕后资本代号打脸对手（V3-V4，读者知、对手不知）；扳倒陆家时露出与当年替罪弃婴的关联（V6，国内线震惊，仍非公开真名）；中期锁定景奕辰，后期（V9）公开真实身份陆野，以商业、情报与武装三支柱与之展开全方面交战，最终扳倒景奕辰
+  rationale: 吸收番茄爆款审查风险②：打脸爽文核心引擎是扮猪吃虎/马甲掉落的重复打脸，非一次性大招；原七阶段把reveal锁在V9浪费700章爽点武器。改为分阶段小露（V3-V4小1、V6小2）+V9终极露，保V9高潮同时让V2-V8每卷有打脸燃料。用户2026-07-28 16:41授权全量采纳+分阶段马甲。
+  basis: story-core-001（后期亮真身）+ PROPOSED-MACRO-STRUCTURE-REVIEW.md 风险② + 用户授权
+  confidence: 0.85
+  authority_class: author_approved
+  impact: high
+  requires_user_decision: true
+  dependencies:
+    - char-protagonist-001
+    - conflict-inner-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  approval_evidence: lifecycle/design/AUTHOR_DECISIONS.yaml
+  promoted_at: 2026-07-28T16:59:29

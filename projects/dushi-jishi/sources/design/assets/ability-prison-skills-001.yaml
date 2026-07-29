@@ -1,0 +1,16 @@
+document:
+  id: ABILITY-PRISON-SKILLS-001
+  type: ability
+  title: 狱中习得技能集
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:30:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:28
+ability:
+  id: ABILITY-PRISON-SKILLS-001
+  canonical_name: 狱中习得技能集
+  type: 复合生存能力
+  description: 格斗、反侦察、识人、基础黑客与语言，由囚犯中的各行人才传授；代价为长期高压下的精神损耗。

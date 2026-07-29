@@ -1,0 +1,43 @@
+design_candidate:
+  id: org-protagonist-force-001
+  project_id: novel-dushijishi
+  domain: organizations
+  target_document_type: organization
+  target_path: sources/design/organizations/org-protagonist-force-001.yaml
+  proposal:
+    document:
+      id: org-protagonist-force-001
+      type: organization
+      title: 夜枭小队
+      status: candidate
+      version: 1.0.0
+      updated_at: 2026-07-28T11:40:00
+      owner: ai-agent
+      project_id: novel-dushijishi
+    organization:
+      id: org-protagonist-force-001
+      canonical_name: 夜枭小队
+      type: 可信安保、行动小组
+      status: 主角指挥
+      goals:
+        - 自保与对陆家、鼎丰的武装清算执行层
+        - 在境外与归国行动中提供武力支撑
+      relationships:
+        - 与主角商业实体：协同
+        - 与鼎丰集团：对抗
+  rationale: 用户指出主角需武装势力支撑回国复仇；组建可信武力小组用于自保与清算。
+  basis: 用户指令 + story-core-001（在美建立可信武力）
+  confidence: 0.85
+  authority_class: user_locked
+  impact: high
+  requires_user_decision: true
+  dependencies:
+    - char-protagonist-001
+    - org-protagonist-commercial-001
+  potential_conflicts: []
+  originality:
+    reference_methods_only: true
+    copied_expression: false
+    copied_proper_nouns: []
+  status: promoted
+  promoted_at: 2026-07-28T16:59:29

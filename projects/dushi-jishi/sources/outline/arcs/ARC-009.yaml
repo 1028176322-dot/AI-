@@ -1,0 +1,36 @@
+document:
+  id: ARC-009
+  type: arc_outline
+  title: ARC-009 商业起步
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:00
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-009
+  volume_id: VOL-003
+  chapter_range:
+    - 190
+    - 213
+  objective: 第一桶金、创立野锋资本
+  conflict_engine: 资本冷酷 vs 主角商业直觉
+  start_state: 初创者
+  end_state: 野锋资本立
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：第一桶金、创立野锋资本
+    - 决：主角主动推进
+    - 果：野锋资本立
+  milestones:
+    - 第一桶金、创立野锋资本
+    - 资本冷酷 vs 主角商业直觉
+    - 野锋资本立
+  character_decisions:
+    - 主角在商业起步中做出关键取舍
+  reader_experience: 爽点/悬念：马甲引擎点火
+  payoff: 马甲引擎点火
+  handoff: 交棒至下一弧，推进主线/双线

@@ -1,11 +1,14 @@
 planning_policy:
   schema: outline-governance@2.0.0
   project_id: novel-dushijishi
-  total_chapters: 1000
+  total_chapters: 1035
+  total_chapters_floor: 1000
+  total_chapters_binding: minimum_not_fixed
+  total_chapters_note: "1000 为下限/基线，非封顶；按剧情自然推导，可向上扩展（向上扩展须受控重跑 outline prepare 以重映射章节地图与卷弧）"
   allowed_chapter_variance: 0
-  target_volume_size: 80
-  target_arc_size: 20
-  detailed_window: 1000
+  target_volume_size: 95
+  target_arc_size: 30
+  detailed_window: 1035
   all_chapters_detailed_required: true
   generation_batch_size: 20
   max_consecutive_transition_chapters: 2
@@ -14,10 +17,10 @@ planning_policy:
     trigger: each_approved_chapter
     refresh_from: approved_chapter_handoff
     preserve_executed_history: true
-    minimum_future_detailed_plans: 1000
+    minimum_future_detailed_plans: 1035
   generation_authority:
     creative_detail_owner: AI
     user_required_inputs:
       - total_chapters
     high_impact_decisions: follow sources/design/_intake/autonomy-policy.yaml
-  created_at: 2026-07-27T22:21:11
+  created_at: 2026-07-28T17:41:05

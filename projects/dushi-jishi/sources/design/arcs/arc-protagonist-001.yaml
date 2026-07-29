@@ -1,0 +1,23 @@
+document:
+  id: ARC-PROTAGONIST-001
+  type: arc
+  title: 从猎物到猎手
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T16:50:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:29
+arc:
+  id: ARC-PROTAGONIST-001
+  name: 从猎物到猎手
+  dimension: 能力加心智
+  stages:
+    - 猎物：入狱之初的无助与绝望
+    - 学徒：狱中向各路人才习技，渐成狠厉
+    - 逃亡者：暴动越狱、国内逃亡、偷渡出境
+    - 扎根者：在美从底层谋生，积累资本与人脉
+    - 构建者：建立商业资源网、情报网与可信武力，形成对抗鼎丰的势力根基
+    - 幕后人：前期扳倒陆家、洗清冤屈，却察觉幕后另有景氏财团；借美国身份隐于幕后归国，以势力为刃从暗处继续清算与追查
+    - 露真身者（分阶段身份披露）：海外商战中以神秘陆先生/幕后资本代号打脸对手（V3-V4，读者知、对手不知）；扳倒陆家时露出与当年替罪弃婴的关联（V6，国内线震惊，仍非公开真名）；中期锁定景奕辰，后期（V9）公开真实身份陆野，以商业、情报与武装三支柱与之展开全方面交战，最终扳倒景奕辰

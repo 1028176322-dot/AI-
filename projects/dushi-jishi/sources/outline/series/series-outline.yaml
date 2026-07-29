@@ -1,0 +1,49 @@
+document:
+  id: SERIES-001
+  type: series_outline
+  title: 《替罪入狱后，我成了海外大佬》全书大纲
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:05
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+series:
+  id: SERIES-001
+  total_chapters: 1035
+  premise: 现代青年陆野被临江豪门陆家构陷顶罪、家破人亡，入狱后在绝境中淬炼，越狱逃亡至海外，从底层白手起家建立商业/情报/武装三支柱，以美国身份隐于幕后归国清算陆家、洗清冤屈，却发现幕后另有京城景氏财团，最终亮明真身陆野，与景奕辰展开跨城跨国全方面决战。
+  story_promise: 一部跨城跨国的扮猪吃虎式复仇爽文：从单城牢笼到全球势力，从替罪弃婴到海外大佬，马甲层层掉落，复仇与雪恨一路兑现。
+  protagonist: 陆野（真身）/ 野锋资本幕后、观澜与夜枭之主（马甲）
+  central_conflict: 个体复仇清算 vs 陆家—景氏层层遮蔽的资本与权贵权力网
+  ending_direction: 第一卷止于越狱成功、踏上边境偷渡之路；全书终于京城决战扳倒景奕辰、为家人讨还公道，代价不可逆。
+  major_truths:
+    - 陆家只是景氏财团的前台白手套
+    - 主角真实身份陆野在终局才彻底摊牌
+    - 海外三支柱是扳倒景氏的决战兵器
+  major_arcs:
+    - 临江牢笼与逃亡
+    - 异乡生根与三支柱成形
+    - 国内清算与景氏浮现
+    - 亮剑与全面交战
+    - 终局清算
+  growth_tracks:
+    - 能力：从囚徒到全球势力之主
+    - 心智：从复仇执念到克制布局
+    - 身份：从隐身马甲到亮明真身
+  global_milestones:
+    - 越狱逃亡
+    - 野锋资本立
+    - 三支柱成形
+    - 扳倒陆家洗清冤屈
+    - 发现景氏
+    - 亮真身宣战
+    - 景奕辰败亡
+  pacing_policy: 双线并行（A势力构建/B国内清算）；每卷≥1中爆、每3-5卷1大爆；开篇前50字即强冲突+复仇钩子，杜绝长段纯虐。
+  forbidden_directions:
+    - 不校园
+    - 不虐主
+    - 不狗血
+    - 不写真实地名机构
+    - 现代词仅限经营理念

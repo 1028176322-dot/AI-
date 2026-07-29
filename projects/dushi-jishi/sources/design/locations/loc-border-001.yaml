@@ -1,0 +1,17 @@
+document:
+  id: LOC-BORDER-001
+  type: location
+  title: 西南边境口岸
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:30:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:29
+location:
+  id: LOC-BORDER-001
+  canonical_name: 西南边境口岸（虚构）
+  type: 边境偷渡通道
+  status: 法外地带
+  accessibility: 主角逃亡过境的关键节点

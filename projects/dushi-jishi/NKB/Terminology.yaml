@@ -1,5 +1,99 @@
-# NKB 组件：Terminology（seed 候选导入）
 schema_version: 1.3.0
 project_id: novel-dushijishi
 records:
-# 以上为题材候选种子，须经 TASK-008 NKB 审查确认后晋升正史。
+  - id: TERM-DINGZUI-001
+    name: 顶罪
+    canonical: 顶替他人承担罪责
+    forbidden:
+      - 顶罪等同自首
+    type: terminology
+    source:
+      source_type: design_source
+      source_file: sources\design\terminology\term-dingzui-001.yaml
+      source_anchor: terminology
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: TERM-JINGWAI-001
+    name: 境外
+    canonical: 指中国关境以外（文中主要指美国）
+    forbidden:
+      - 境外即法外
+    type: terminology
+    source:
+      source_type: design_source
+      source_file: sources\design\terminology\term-jingwai-001.yaml
+      source_anchor: terminology
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: TERM-SHENFEN-001
+    name: 身份替换
+    canonical: 以容貌相似冒充他人身份
+    forbidden:
+      - 替换身份无风险
+    type: terminology
+    source:
+      source_type: design_source
+      source_file: sources\design\terminology\term-shenfen-001.yaml
+      source_anchor: terminology
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: TERM-SIHUAN-001
+    name: 死缓
+    canonical: 死刑缓期二年执行
+    forbidden:
+      - 死缓等于不用死
+      - 死缓是轻判
+    type: terminology
+    source:
+      source_type: design_source
+      source_file: sources\design\terminology\term-sihuan-001.yaml
+      source_anchor: terminology
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: TERM-TOUDU-001
+    name: 偷渡
+    canonical: 非法越境
+    forbidden:
+      - 偷渡很轻松
+    type: terminology
+    source:
+      source_type: design_source
+      source_file: sources\design\terminology\term-toudu-001.yaml
+      source_anchor: terminology
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []

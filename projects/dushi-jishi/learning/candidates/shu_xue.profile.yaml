@@ -1,0 +1,319 @@
+schema: reference-learning@2.0.0
+meta:
+  source_id: shu_xue
+  source_name: 数学老师的复仇演绎.txt
+  source_hash: 8a577e94a6a144f9c6638cb54b033a388eec773d1b74e8bfdb88c075e192d09a
+  genre: urban
+  analyzed_at: 2026-07-28T20:40:11
+  copyright_policy: statistics_and_principles_only
+  license_type: user-provided
+metrics:
+  characters: 1433964
+  chapters: 677
+  chapter_length:
+    median: 2107
+    p25: 2057
+    p75: 2152
+  paragraph_length:
+    median: 20
+    p90: 36
+  sentence_length:
+    mean: 23.63
+    p90: 40
+  dialogue_ratio: 0.3113
+  opening_hook_density: 2.008
+  ending_hook_rate: 0.7814
+  emotion_curve:
+    - 2.153
+    - 2.962
+    - 3.314
+    - 2.706
+    - 2.209
+    - 2.734
+    - 2.918
+    - 3.682
+  emotion_variance: 0.2317
+  information_density: 0.971
+style_dimensions:
+  narrative_pov:
+    first_person_signal: 4540
+    third_person_signal: 8353
+    interiority_signal: 1942
+    semantic_confirmation_required: true
+  narrative_distance:
+    close_signal: 22198
+    far_signal: 1258
+    semantic_confirmation_required: true
+  syntactic_rhythm:
+    mean_sentence_chars: 24.589
+    sentence_length_stddev: 14.475
+    short_sentence_ratio: 0.165475
+    long_sentence_ratio: 0.173706
+    mean_paragraph_chars: 2113.993
+  information_function:
+    distribution:
+      plot_action: 0.576383
+      world_exposition: 0.033739
+      emotion: 0.020115
+      dialogue: 0.369763
+    semantic_confirmation_required: true
+  description_selection:
+    distribution:
+      environment: 0.292701
+      character: 0.173355
+      object: 0.148074
+      action: 0.385869
+    semantic_confirmation_required: true
+  sensory_preference:
+    distribution:
+      visual: 0.674288
+      auditory: 0.18892
+      olfactory: 0.037496
+      tactile: 0.074695
+      gustatory: 0.024601
+  emotion_expression:
+    direct_emotion_signal: 656
+    behavioral_emotion_signal: 94
+    behavior_to_direct_ratio: 0.143
+    semantic_confirmation_required: true
+  dialogue_method:
+    dialogue_blocks_per_1000_chars: 9.606
+    mean_dialogue_chars: 53.244
+    action_insertion_signal: 4591
+    semantic_confirmation_required: true
+  metaphor_mechanism:
+    metaphors_per_1000_chars: 0.424
+    source_domain_requires_semantic_evidence: true
+    character_fit_requires_semantic_evidence: true
+  omission_method:
+    omission_signals_per_1000_chars: 1.261
+    omitted_information_type_requires_semantic_evidence: true
+  scene_closure:
+    last_sentence_length: 14
+    question_hook: false
+    choice_hook: false
+    action_hook: false
+    semantic_confirmation_required: true
+  prohibited_patterns:
+    template_expression_count: 7
+    hedge_density: 0.03461
+    repeated_sentence_opening_count: 24113
+semantic_evidence: {}
+fingerprint:
+  source_id: shu_xue
+  source_digest: 8a577e94a6a144f9c6638cb54b033a388eec773d1b74e8bfdb88c075e192d09a
+  minhash_signature:
+    - 1251009587070
+    - 138347229993
+    - 2104635278981
+    - 1301363632867
+    - 2038813705406
+    - 403246755734
+    - 333763446531
+    - 1691772794168
+    - 7245469646224
+    - 595702024620
+    - 2094928682544
+    - 938770663276
+    - 1798073726061
+    - 4281003414259
+    - 232150140733
+    - 407272149065
+    - 1404100963333
+    - 74530856453
+    - 26129037102
+    - 1447326706139
+    - 1226132690462
+    - 635744626508
+    - 766573518900
+    - 397645186119
+    - 2500371132116
+    - 3199252795047
+    - 1238831908098
+    - 1265816716502
+    - 1291104573675
+    - 2572361645071
+    - 1617783211242
+    - 116897895615
+    - 233432639223
+    - 2140666711845
+    - 3285407377237
+    - 318316729825
+    - 475517071213
+    - 2319018964894
+    - 4368502362796
+    - 4650655688629
+    - 612834717017
+    - 180991548175
+    - 1547139714583
+    - 487495678235
+    - 8390746063972
+    - 750052548346
+    - 1342801949630
+    - 117387692995
+    - 1420839740150
+    - 3582057772347
+    - 1874545117678
+    - 1404049347924
+    - 268743788917
+    - 1797012197153
+    - 1018150383276
+    - 4763447501575
+    - 31526173441
+    - 2264878502456
+    - 2404744802577
+    - 1110377209257
+    - 2360796367299
+    - 723770635151
+    - 600170031763
+    - 127086443444
+    - 2719973987423
+    - 284569464925
+    - 1552850529740
+    - 1499609925108
+    - 941258978794
+    - 2885957410326
+    - 590063510494
+    - 2080789524903
+    - 1786402218991
+    - 3839759382307
+    - 34126096179
+    - 83777602186
+    - 1096437904479
+    - 134550297213
+    - 2329174776798
+    - 5769964378700
+    - 2541171810387
+    - 1256365642634
+    - 1081911057771
+    - 1409119802371
+    - 292186573235
+    - 410337531362
+    - 2926499720387
+    - 223588185869
+    - 144854068294
+    - 488281930744
+    - 2181536708990
+    - 564033482920
+    - 2466029304342
+    - 105700011386
+    - 935020222833
+    - 884919457321
+    - 258722574297
+    - 899128802716
+    - 1765016636361
+    - 421174590379
+    - 3224558456844
+    - 263483113690
+    - 3480039674421
+    - 1566354142702
+    - 517709661373
+    - 3008661898446
+    - 1025599590050
+    - 3329475655468
+    - 1122932596957
+    - 1546934453229
+    - 239749829115
+    - 1981972373720
+    - 4710799705299
+    - 3587161020379
+    - 12403580276
+    - 2827547025190
+    - 875090324494
+    - 18279478803
+    - 1433099657890
+    - 416063758801
+    - 193127060866
+    - 599810249091
+    - 2324044357695
+    - 95753917156
+    - 398466987107
+    - 3656573526740
+    - 287686272629
+    - 616773104173
+  license_type: user-provided
+  key_id: default
+  k: 9
+  num_hashes: 128
+legacy_candidates:
+  - rule_id: REF-CHAPTER-RHYTHM
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: urban
+    principle: 章节容量应形成稳定区间，并允许关键章节有受控偏离。
+    evidence:
+      source_id: shu_xue
+      source_hash: 8a577e94a6a144f9c6638cb54b033a388eec773d1b74e8bfdb88c075e192d09a
+      metric: chapter_length
+      value:
+        median: 2107
+        p25: 2057
+        p75: 2152
+      raw_excerpt_copied: false
+    review_check: 检查章节长度是否偏离参考区间且偏离是否服务于情节。
+    writing_action: 规划时给出目标区间与偏离理由，不机械复制参考书字数。
+    confidence: 0.62
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-END-HOOK
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: urban
+    principle: 连续阅读依赖章节末尾仍有未完成的行动、信息或情绪承诺。
+    evidence:
+      source_id: shu_xue
+      source_hash: 8a577e94a6a144f9c6638cb54b033a388eec773d1b74e8bfdb88c075e192d09a
+      metric: ending_hook_rate
+      value: 0.7814
+      raw_excerpt_copied: false
+    review_check: 检查章末是否产生具体下一步期待，而非只靠突兀断章。
+    writing_action: 章纲明确本章兑现与下一章承诺，正文末尾回扣该承诺。
+    confidence: 0.78
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-DIALOGUE-BALANCE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: urban
+    principle: 对白应承担行动、关系或信息变化，而非脱离叙事独立堆积。
+    evidence:
+      source_id: shu_xue
+      source_hash: 8a577e94a6a144f9c6638cb54b033a388eec773d1b74e8bfdb88c075e192d09a
+      metric: dialogue_ratio
+      value: 0.3113
+      raw_excerpt_copied: false
+    review_check: 检查对白占比、角色辨识度及每段对白造成的状态变化。
+    writing_action: 场景规划同时标注对白目的、潜台词和对白后的局面变化。
+    confidence: 0.66
+    status: candidate
+    requires_project_validation: true
+  - rule_id: REF-EMOTION-WAVE
+    target: both
+    scope:
+      content_type: both
+      scene_types: []
+      character_ids: []
+    genre: urban
+    principle: 情绪应随冲突和选择产生可辨认的波形，避免全章同强度。
+    evidence:
+      source_id: shu_xue
+      source_hash: 8a577e94a6a144f9c6638cb54b033a388eec773d1b74e8bfdb88c075e192d09a
+      metric: emotion_variance
+      value: 0.2317
+      raw_excerpt_copied: false
+    review_check: 按场景标记情绪起点、峰值、回落与余波。
+    writing_action: 章纲预设情绪转折，写作后核对变化是否由事件触发。
+    confidence: 0.64
+    status: candidate
+    requires_project_validation: true
+candidates: []
+raw_text_stored: false

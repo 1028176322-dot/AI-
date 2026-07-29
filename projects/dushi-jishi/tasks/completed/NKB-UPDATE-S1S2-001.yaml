@@ -1,0 +1,26 @@
+task:
+  id: NKB-UPDATE-S1S2-001
+  type: nkb_update
+  project: novel-dushijishi
+  title: S1/S2 NKB 设定澄清与 fact_status 语义修正
+  priority: high
+  role: knowledge-manager
+  version: 1
+  created: 2026-07-29T09:40:53
+  created_by: agent-unknown
+  urgency: normal
+  status: completed
+  owner: knowledge-manager-agent
+  claimed_at: 2026-07-29T09:41:07
+  lease_expire: 2026-07-29T10:41:07
+  workspace: tasks\running\NKB-UPDATE-S1S2-001\outputs
+  artifact: BUILD-unknown
+  outputs:
+    candidate_facts: runtime/wip/candidate_facts_S1S2.yaml
+    chapter_draft: NKB/Characters.yaml
+  submission:
+    checks: null
+    at: 2026-07-29T09:47:11
+  review:
+    decision: pass
+    at: 2026-07-29T09:49:16

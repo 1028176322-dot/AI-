@@ -1,0 +1,53 @@
+session:
+  id: SES-20260728-001
+  project_id: novel-dushijishi
+  role: writer
+  platform_version: 2.1.0
+  project_version: unknown
+  policy_version: 1.3.0
+  contracts_version: 1.4.0
+  created: 2026-07-28T22:42:47
+  loaded:
+    constitution: true
+    specification: true
+    project_yaml: true
+    nkb: true
+    role_policy: true
+    workflow: true
+permissions:
+  read:
+    - chapters/drafts/**
+    - artifacts/plans/**
+    - artifacts/context/**
+    - NKB/**
+    - outline/**
+    - chapters/**
+  write:
+    - chapters/drafts/**
+    - artifacts/plans/**
+    - artifacts/context/**
+  forbidden:
+    - core/**
+    - registry/**
+    - templates/**
+    - NKB/**
+    - approved/**
+    - chapters/**
+task_mode:
+  enforced: false
+  enforcement_mode: off
+  direct_execution_allowed: false
+agent_runtime:
+  primary_agent: current_session
+  agent_mode: single
+  subagents_enabled: false
+  delegation_enabled: false
+  parallel_execution_enabled: false
+  background_execution_enabled: false
+  max_active_agents: 1
+locks:
+  - agent_runtime.agent_mode
+  - agent_runtime.subagents_enabled
+  - agent_runtime.delegation_enabled
+  - agent_runtime.background_execution_enabled
+  - agent_runtime.max_active_agents

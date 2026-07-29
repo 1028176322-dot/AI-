@@ -1,0 +1,51 @@
+document:
+  id: VOL-004
+  type: volume_outline
+  title: VOL-004 扩张与渗透
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:05
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+volume:
+  id: VOL-004
+  number: 4
+  chapter_range:
+    - 284
+    - 377
+  purpose: 美国多城扩张 + 国内多城落子
+  objective: 商业/补给线延伸，归国经营起点
+  start_state: 区域布局
+  end_state: 西岸据点+国内多城暗线
+  main_characters:
+    - 陆野
+    - 景奕辰
+    - 陆敬山
+    - 陆峥
+  main_locations:
+    - 临江市
+    - 纽港市
+    - 京城
+    - 西南边境口岸
+    - 美国多城
+    - 全球节点
+  central_conflict: 扩张 vs 地缘对手
+  antagonist_pressure: 西岸财团+国内监管
+  milestones:
+    - 休港能源线打通
+    - 芝加据点遇袭
+    - 补给线贯通
+    - 全球后勤成形
+  midpoint_turn: 休港能源线打通
+  lowest_point: 芝加据点遇袭
+  climax: 补给线贯通
+  aftermath: 全球后勤成形
+  reader_promises: 资本碾压爽；归国经营钩
+  questions_opened: 国内暗线会被发现吗
+  questions_answered: —
+  foreshadow_plan: 伏笔：国内多城网
+  growth_deltas: 构建者深化
+  next_volume_entry: 下一卷全球布局

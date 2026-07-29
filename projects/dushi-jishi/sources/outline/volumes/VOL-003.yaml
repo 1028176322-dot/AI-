@@ -1,0 +1,51 @@
+document:
+  id: VOL-003
+  type: volume_outline
+  title: VOL-003 双线成形
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:05
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+volume:
+  id: VOL-003
+  number: 3
+  chapter_range:
+    - 190
+    - 283
+  purpose: 三支柱立 + 临江证据初搜
+  objective: 势力骨架 + 国内证据
+  start_state: 野锋初创
+  end_state: 观澜/夜枭成形+临江搜证
+  main_characters:
+    - 陆野
+    - 景奕辰
+    - 陆敬山
+    - 陆峥
+  main_locations:
+    - 临江市
+    - 纽港市
+    - 京城
+    - 西南边境口岸
+    - 美国多城
+    - 全球节点
+  central_conflict: 构建势力 vs 多方压制
+  antagonist_pressure: 竞争者+陆家反侦察
+  milestones:
+    - 夜枭第一次武装行动
+    - 情报网差点暴露
+    - 临江暗战小胜
+    - 三支柱其二成
+  midpoint_turn: 夜枭第一次武装行动
+  lowest_point: 情报网差点暴露
+  climax: 临江暗战小胜
+  aftermath: 三支柱其二成
+  reader_promises: 势力成长爽；国内小胜
+  questions_opened: 景氏是否已在临江？
+  questions_answered: 陆家罪证够吗
+  foreshadow_plan: 伏笔：马甲小1（神秘陆先生打脸）
+  growth_deltas: 构建者起步
+  next_volume_entry: 下一卷美多城扩张

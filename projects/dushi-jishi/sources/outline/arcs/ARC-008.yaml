@@ -1,0 +1,36 @@
+document:
+  id: ARC-008
+  type: arc_outline
+  title: ARC-008 蝼蚁谋生
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:00
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-008
+  volume_id: VOL-002
+  chapter_range:
+    - 167
+    - 189
+  objective: 纽港底层谋生、结识第一批人
+  conflict_engine: 生存压力 vs 主角韧性
+  start_state: 底层蝼蚁
+  end_state: 攒下第一票人脉
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：纽港底层谋生、结识第一批人
+    - 决：主角主动推进
+    - 果：攒下第一票人脉
+  milestones:
+    - 纽港底层谋生、结识第一批人
+    - 生存压力 vs 主角韧性
+    - 攒下第一票人脉
+  character_decisions:
+    - 主角在蝼蚁谋生中做出关键取舍
+  reader_experience: 爽点/悬念：扮猪吃虎基底
+  payoff: 扮猪吃虎基底
+  handoff: 交棒至下一弧，推进主线/双线

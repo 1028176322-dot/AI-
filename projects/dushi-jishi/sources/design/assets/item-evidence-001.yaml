@@ -1,0 +1,22 @@
+document:
+  id: ITEM-EVIDENCE-001
+  type: item
+  title: 构陷铁证
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:30:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:29
+item:
+  id: ITEM-EVIDENCE-001
+  canonical_name: 构陷铁证（账本与录音，暂以铁证代称）
+  type: 纸质与电子证据
+  status: 散落、待主角逐步拼合
+  abilities:
+    - 直接证明主角被构陷
+    - 指认鼎丰罪行
+  limitations:
+    - 持有即招杀身之祸
+    - 需跨境方能安全公开

@@ -1,0 +1,36 @@
+document:
+  id: ARC-023
+  type: arc_outline
+  title: ARC-023 扳倒陆家
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:01
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+arc:
+  id: ARC-023
+  volume_id: VOL-006
+  chapter_range:
+    - 520
+    - 542
+  objective: 扳倒陆家、洗清冤屈、揭临江黑幕
+  conflict_engine: 陆家垂死挣扎 vs 主角总攻
+  start_state: 清算在即
+  end_state: 洗清冤屈+发现景氏
+  causal_chain:
+    - 前置：上一弧状态
+    - 因：扳倒陆家、洗清冤屈、揭临江黑幕
+    - 决：主角主动推进
+    - 果：洗清冤屈+发现景氏
+  milestones:
+    - 扳倒陆家、洗清冤屈、揭临江黑幕
+    - 陆家垂死挣扎 vs 主角总攻
+    - 洗清冤屈+发现景氏
+  character_decisions:
+    - 主角在扳倒陆家中做出关键取舍
+  reader_experience: 爽点/悬念：洗清+马甲小2+景氏浮现
+  payoff: 洗清+马甲小2+景氏浮现
+  handoff: 交棒至下一弧，推进主线/双线

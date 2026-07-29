@@ -1,0 +1,53 @@
+task:
+  id: TASK-INTAKE-20260728235409671767-CHAPTER-REVIEW
+  version: 1
+  project: novel-dsf
+  type: chapter_review
+  title: TASK-INTAKE-20260728235409671767 后继 chapter_review
+  status: ready
+  priority: high
+  created: 2026-07-28T23:57:04
+  created_by: task-system
+  goal: null
+  chapter_ref: chapters/drafts/CH-003.md
+  conversation_request_id: null
+  dependencies:
+    - TASK-INTAKE-20260728235409671767
+  inputs:
+    required:
+      - chapter_draft
+      - review_spec
+    values:
+      source_task: TASK-INTAKE-20260728235409671767
+      source_artifact: BUILD-unknown
+      chapter_draft: chapters/drafts/CH-003.md
+  expected_outputs:
+    - review_report
+    - findings
+  acceptance:
+    criteria:
+      - 按 chapter_review 模板完成
+  permissions:
+    read:
+      - chapters/**
+      - NKB/**
+      - tasks/running/<id>/outputs/**
+    write:
+      - tasks/running/<id>/outputs/**
+      - analysis/review/**
+    forbidden:
+      - core/**
+      - registry/**
+      - templates/**
+      - NKB/**
+      - chapters/approved/**
+  agent:
+    required_role: reviewer
+  execution_policy:
+    agent_mode: single
+    delegation_allowed: false
+    subagent_allowed: false
+    parallel_execution_allowed: false
+    max_agents: 1
+    max_parallel_steps: 1
+    required_session: current

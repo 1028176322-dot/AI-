@@ -1,0 +1,21 @@
+operation:
+  id: OP-20260729-003
+  session_id: SES-20260728-001
+  role: knowledge-manager
+  project_id: novel-dushijishi
+  task_id: NKB-UPDATE-S1S2-001
+action:
+  type: generic.write
+  target: NKB/Characters.yaml
+inputs:
+  nkb_version: null
+  context_hash: null
+  contract_version: 2.0.0
+  policy_version: 1.3.0
+changes:
+  files:
+    - NKB/Characters.yaml
+  lines_changed: 198
+result:
+  status: success
+  regression_required: false

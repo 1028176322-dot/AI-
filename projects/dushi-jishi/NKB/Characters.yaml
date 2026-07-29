@@ -1,5 +1,197 @@
-# NKB 组件：Characters（schema 1.3.0）
 schema_version: 1.3.0
 project_id: novel-dushijishi
-records: []
-# 本作品私有事实；世界观/人物/故事须经规划确认（TASK-004~008）方可填充。
+records:
+  - id: CHAR-BEIJING-SCION-001
+    canonical_name: 景奕辰
+    status: 最终反派（不在场但操盘全局）
+    identity:
+      current_age: 38
+      role: 景氏财团公子爷 / 真正幕后操盘者
+      origin: 京城
+    background: 陆家是其钱袋子；替身计划与临江司法舞弊网真正的操盘者——为护住己方关键利益（含死缓盟友之子陆峥相关链条），借陆家之手构陷长相相似的主角顶罪。前期隐于幕后，中期随主角追查而逐渐浮出水面。
+    personality:
+      stable_traits:
+        - 城府极深
+        - 视人如棋
+        - 不容失控
+      values:
+        - 家族与顶层地位永固
+      forbidden_behaviors:
+        - 亲自下场暴露
+    goal: 维持顶层权力与资本垄断，清除主角与一切隐患，保住盘面不被掀翻
+    abilities:
+      - 顶层人脉与跨地域资源调度
+      - 操纵舆论、审批与司法于无形
+      - 多层级白手套运作
+    relationships:
+      - 与陆家/陆敬山：主从（钱袋子）
+      - 与陆峥：利益链条上的被保护方
+      - 与主角：终极对抗，前期互不知晓、中期被锁定
+    speech:
+      register: 温润而疏离、不动声色
+      prohibited_patterns:
+        - 直白狰狞
+    name: 景奕辰
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-beijing-scion-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+    reveal_notes: fact_status 语义说明：revealed_to_reader 为 false 且 known_by_characters 为空，指其『真实身份与幕后操盘者面目』完全未揭、任何角色均不知其存在（符合 forbidden_behaviors 亲自下场暴露）。此 flag 含义为『核心真相/存在未揭』，并非『角色不存在』。
+  - id: CHAR-LUJINGSHAN-001
+    canonical_name: 陆敬山
+    status: 前期主要对手（陆家掌门；景氏财团的钱袋子执行层，非最终黑手）
+    identity:
+      current_age: 58
+      role: 鼎丰集团实际控制人
+      origin: 临江市
+    background: 陆家是景奕辰的钱袋子；为救死缓儿子陆峥，陆敬山主导“替身计划”——在临江物色与陆峥长相相似的青年构陷顶罪，选中刚毕业进城、毫无根基的山村青年（主角）。他以为能压下一切，却不料替身计划触动的是景奕辰更深层的棋局。
+    personality:
+      stable_traits:
+        - 掌控欲强
+        - 缜密
+        - 冷血
+      values:
+        - 家族与资本永固
+      forbidden_behaviors:
+        - 公开失态
+    goal: 借替身计划保住死缓儿子陆峥、掩盖陆家罪恶、清除隐患（含主角）；同时为景奕辰打理钱袋子，维系主从关系
+    abilities:
+      - 政商人脉
+      - 司法运作
+      - 资金调度
+    relationships:
+      - 与主角：替身计划的主导者与目标选定者，构陷者与被构陷者
+      - 与陆峥：父子兼共犯，替身计划的发起者与受益者
+      - 与景奕辰：主从（钱袋子），替身计划的深层操盘者
+      - 与地方势力：利益交换
+    speech:
+      register: 慢条斯理、含威
+      prohibited_patterns:
+        - 直白威胁
+    name: 陆敬山
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-lujingshan-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+    reveal_notes: fact_status 语义说明：revealed_to_reader 为 false 指『陆敬山作为景氏钱袋子执行层与替身计划深层操盘』这一真相未完全揭晓，不等于未出场。陆野已知其为鼎丰实控人（CH-001 起）。known_by_characters 维持空，表示尚无角色知晓其替身计划全貌。
+  - id: CHAR-LUZHENG-001
+    canonical_name: 陆峥
+    status: 核心反派（不在场但驱动主线）
+    identity:
+      current_age: 28
+      role: 鼎丰集团公子
+      origin: 临江市权贵家庭
+    background: 因连续奸杀多名女子被判处死刑，缓期二年执行；家族为保其性命启动替身计划。
+    personality:
+      stable_traits:
+        - 骄纵
+        - 冷酷
+        - 挥霍
+      values:
+        - 家族特权
+      forbidden_behaviors:
+        - 公开示弱
+    goal: 在死缓缓刑期内逃避死刑执行，借长相相似的替身（主角）脱罪
+    abilities:
+      - 家族庇护网
+      - 资源调度
+    relationships:
+      - 与主角：长相相同、被构陷顶罪与构陷的关系
+      - 与陆敬山：父子兼共犯，替身计划的受益者与配合者
+    speech:
+      register: 傲慢随意
+      prohibited_patterns:
+        - 自曝罪行
+    name: 陆峥
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-luzheng-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters:
+        - CHAR-PROTAGONIST-001
+    reveal_notes: fact_status 语义说明：revealed_to_reader 为 false 指『死缓身份与替身计划全貌』这一核心真相尚未向读者揭晓，不等于角色未出场。陆野在会所已当面见过陆峥（CH-001），known_by_characters 已修正为含 CHAR-PROTAGONIST-001，表示陆野已知其名与长相。
+  - id: CHAR-PROTAGONIST-001
+    canonical_name: 陆野
+    status: 主角（在场、主动）
+    identity:
+      current_age: 22
+      role: 刚毕业的山村青年、城市新移民
+      origin: 大山深处村落，自幼随父进山打猎；靠苦读考入临江的大学，刚毕业留城谋生，旋即遭鼎丰构陷顶罪
+    background: 毕业后经同乡介绍进入鼎丰关联的高端会所担任保安；某次值班与来消遣的陆峥正面相遇，因长相酷似被陆家盯上。陆敬山为救死缓儿子启动替身计划，借主角值班之机伪造其"在场证据"与"作案嫌疑"，使其在陆峥所涉系列案中被定性为真凶、锒铛入狱；其家人随后遭集团灭口。
+    personality:
+      stable_traits:
+        - 隐忍
+        - 观察力极强（狩猎本能）
+        - 重情
+        - 适应力极强
+      values:
+        - 清白
+        - 家人
+      forbidden_behaviors:
+        - 欺凌无辜
+        - 背信弃义
+    goal: 洗清冤屈、查明构陷真相与幕后主使、为惨死家人复仇
+    identity_strategy:
+      - 前期扳倒陆家时即洗清冤屈、恢复清白之名
+      - 清算中察觉陆家之上的景氏财团后，不以真实身份陆野归国
+      - 借在美根基（野锋资本 / 观澜 / 夜枭小队）以“美国身份”隐于幕后回国，从暗处继续追查与布局
+      - 后期直面景奕辰时，方亮出真实身份陆野，以三支柱为刃全面交战
+    abilities:
+      - 山野狩猎练就的极强观察力与方向感（自幼随父进山打猎）
+      - 极佳的身体素质与耐力（常年爬山狩猎的底子）
+      - 极强的学习与适应能力（快速掌握新技能）
+      - 狱中习得格斗与反侦察（见 ABILITY-PRISON-SKILLS-001）
+      - 快速识人与模仿
+    relationships:
+      - 与陆峥：长相相同的死敌与身份替换对象
+      - 与陆敬山：不共戴天
+      - 与狱中师傅们：师徒兼相互利用
+    speech:
+      register: 平实克制、话少
+      prohibited_patterns:
+        - 长篇说教
+        - 浮夸炫技
+    name: 陆野
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-protagonist-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-28
+      extracted_by: build_nkb_genesis
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []

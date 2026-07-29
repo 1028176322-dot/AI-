@@ -1,0 +1,15 @@
+document:
+  id: CONFLICT-PROTAGONIST-GROUP-001
+  type: conflict
+  title: 主角 vs 陆家/鼎丰（前期）
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T11:50:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:28
+conflict:
+  id: CONFLICT-PROTAGONIST-GROUP-001
+  category: systemic
+  description: 前期核心系统性冲突：主角对抗陆家/鼎丰与临江司法舞弊网（构陷、追杀、跨境清障），在扳倒陆家时洗清冤屈、揭开地方黑幕；此冲突引出更深层的景氏财团。

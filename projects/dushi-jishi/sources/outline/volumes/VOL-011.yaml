@@ -1,0 +1,51 @@
+document:
+  id: VOL-011
+  type: volume_outline
+  title: VOL-011 终局
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T17:45:49
+  owner: story-architect
+  project_id: novel-dushijishi
+  approved_by: design-approval-gate
+  approved_at: 2026-07-28T20:56:05
+  approval_evidence: lifecycle/design/APPROVAL_PACKET.yaml
+volume:
+  id: VOL-011
+  number: 11
+  chapter_range:
+    - 942
+    - 1035
+  purpose: 京城决战·扳倒景奕辰
+  objective: 全书收束
+  start_state: 总攻
+  end_state: 景奕辰败亡+落幕
+  main_characters:
+    - 陆野
+    - 景奕辰
+    - 陆敬山
+    - 陆峥
+  main_locations:
+    - 临江市
+    - 纽港市
+    - 京城
+    - 西南边境口岸
+    - 美国多城
+    - 全球节点
+  central_conflict: 最终对决 vs 景氏覆灭
+  antagonist_pressure: 景氏最后资源
+  milestones:
+    - 多线总攻
+    - 清算前夜危机
+    - 景奕辰败亡
+    - 代价沉淀，落幕
+  midpoint_turn: 多线总攻
+  lowest_point: 清算前夜危机
+  climax: 景奕辰败亡
+  aftermath: 代价沉淀，落幕
+  reader_promises: 爽点兑现；情绪落点
+  questions_opened: 公道讨回否
+  questions_answered: 全部伏笔回收
+  foreshadow_plan: 伏笔：全部回收
+  growth_deltas: 露真身者（终）
+  next_volume_entry: —

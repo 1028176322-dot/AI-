@@ -1,0 +1,15 @@
+document:
+  id: CONFLICT-PRISON-SURVIVAL-001
+  type: conflict
+  title: 狱中生存对抗
+  status: approved
+  version: 1
+  updated_at: 2026-07-28T09:30:00
+  owner: ai-agent
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-28T16:59:28
+conflict:
+  id: CONFLICT-PRISON-SURVIVAL-001
+  category: interpersonal
+  description: 主角在狱中对抗囚犯帮派与腐败狱警，求生存并积蓄力量。
