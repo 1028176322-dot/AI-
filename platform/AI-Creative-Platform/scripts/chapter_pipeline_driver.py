@@ -54,6 +54,13 @@ SEMANTIC_TYPES = {
     "human-reader-validation",
     "outline_refresh",
 }
+# Planning still needs model judgment, but task ownership/lease transitions are
+# deterministic.  Arm these stages before yielding the semantic work order so
+# the AI never has to bypass chapter-flow merely to claim/start the task.
+AUTO_ARM_SEMANTIC_TYPES = {
+    "chapter_plan",
+    "plan_write",
+}
 WORK_ORDER_INSTRUCTIONS = {
     "SEMANTIC_AUTHOR_REQUIRED": (
         "读取 request_file，按其中 response_contract 一次性填写 "
@@ -270,7 +277,9 @@ def _write_checkpoint(root, chapter, body):
     return path
 
 
-def _work_order(root, chapter, task, code, instructions, files=None):
+def _work_order(
+        root, chapter, task, code, instructions, files=None,
+        task_state=None):
     directory = os.path.join(
         root, "runtime", "chapter-pipeline", chapter)
     os.makedirs(directory, exist_ok=True)
@@ -280,6 +289,7 @@ def _work_order(root, chapter, task, code, instructions, files=None):
         "chapter_id": chapter,
         "task_id": task.get("id"),
         "task_type": task.get("type"),
+        "task_state": task_state,
         "required_role": (
             (task.get("agent") or {}).get("required_role")),
         "code": code,
@@ -722,13 +732,18 @@ def _advance(root, row, chapter, agent, model):
     if task_type == "chapter_publish":
         return _handle_publish(root, row, agent, model)
     if task_type in SEMANTIC_TYPES:
+        if (
+                task_type in AUTO_ARM_SEMANTIC_TYPES
+                and row["state"] in ("ready", "claimed")):
+            row, _ = _arm(root, row, agent, model)
         task = row["task"]
         work_path, work = _work_order(
             root, chapter, task, "SEMANTIC_STAGE_REQUIRED",
             "此阶段需要当前主 AI 的语义判断；完成 Task Packet 的"
             " expected_outputs 后重新运行 chapter-flow。",
             {"task_packet": os.path.join(
-                root, "runtime", "task-packets", task["id"])})
+                root, "runtime", "task-packets", task["id"])},
+            task_state=row["state"])
         raise FlowBlocked(
             "SEMANTIC_STAGE_REQUIRED",
             "Semantic task cannot be fabricated by a script",

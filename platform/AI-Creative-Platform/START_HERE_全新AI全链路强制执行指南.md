@@ -176,6 +176,11 @@ Set-Location "<当前设备上的 PLATFORM_ROOT>"
 
 `broker acl-plan/acl-apply/acl-verify` 是统一部署脚本内部使用的低层诊断能力，不是新项目完整部署入口。
 
+统一入口启动 PowerShell 时会使用最小 Windows 子进程环境，不继承 AI 宿主注入的
+大段上下文、工具元数据或其他无关环境变量，避免超过 Windows 环境块上限。
+`Verify` 不编译仅 Apply/Rollback 才需要的 LSA 权限类型。不得为规避环境块错误
+改走手工 `ps1`、`acl-verify` 或拆分部署步骤。
+
 #### 3.2.2 权威脚本和固定实现
 
 CLI 只能调用仓库内这一个部署脚本：
@@ -424,6 +429,23 @@ PROJECT_ROOT/runtime/task-packets/<TASK_ID>/
 依赖请求级固定任务 `REQ-...-PUBLISH-CHNNN`，而不是依赖风格链内部动态
 生成的任务名。只有上一章 `chapter_publish` 真正 completed，下一章才会从
 backlog 进入 ready。任何 AI 都不得自行删除依赖、提前 promote 或并行写后章。
+
+若平台升级或 Git 合并后，同一个已存在请求只丢失了个别章节 seed，禁止再次
+`dispatch`（它会生成新的 request-id 和重复任务图），也禁止回滚当前已正确推进的
+章节。唯一恢复入口是：
+
+```powershell
+.\platform.bat task --project-root "<PROJECT_ROOT>" reconcile `
+  --request-id "<tasks/goals 中记录的原始 request-id>" `
+  --request "<原始请求，章节范围必须保持一致>" `
+  --project "<PROJECT_ID>" `
+  --agent "<当前AI标识>" `
+  --model "<当前模型标识>"
+```
+
+该命令按“原 request-id + 章节”复核整个范围：已有原 seed 保持原状态，已有后继
+谱系也视为已播种，只创建真正缺失的 seed；重复执行不会覆盖、降级或复制当前
+frontier。找不到原 request-id 时必须阻塞并查 `tasks/goals/`，不得自行编造。
 
 对话本身不授予以下权限：
 
@@ -1046,6 +1068,11 @@ runtime/chapter-pipeline/CH-NNN/state.json
 runtime/chapter-pipeline/CH-NNN/NEXT_ACTION.json
 ```
 
+当前 frontier 为 ready/claimed 的 `plan_write` 或 `chapter_plan` 时，驱动器先自动
+完成认领与启动，使任务进入 running，再以 `PAUSED` 交付语义工作单。AI 不再手工
+执行 `task claim/start`，但仍必须按 Task Packet 生成和提交章纲。此自动武装不适用
+于 `human_gate`、真人读者验证或任何人工授权，后者始终保持人工决策。
+
 运行结果只有三类：
 
 - `COMPLETE`：章节已发布且 `outline_refresh` 已完成；缺少或未完成刷新时绝不返回完成。
@@ -1536,7 +1563,7 @@ PROJECT_ROOT/canonical_manifest.yaml
 | 项目创建 | `platform project create` |
 | 平台/项目体检 | `platform bootstrap`、`doctor`、`layout validate` |
 | 会话 | `platform session bootstrap/verify/close` |
-| 对话转任务 | `platform task dispatch` |
+| 对话转任务 / 原请求缺洞恢复 | `platform task dispatch` / `platform task reconcile --request-id <原ID>` |
 | 每章全链路推进 | `platform chapter-flow run/status`（strict-v2 每章唯一执行入口） |
 | 受管自动成稿 | 命令适配器：`platform author validate/prepare/run`；对话 AI：`platform author begin/ingest` |
 | 设计 | `platform design ...` |

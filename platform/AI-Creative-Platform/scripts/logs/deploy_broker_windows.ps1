@@ -500,7 +500,10 @@ function Remove-LegacyDeploymentForCurrentProject {
     }
 }
 
-if (-not ("BrokerLsaRights" -as [type])) {
+if (
+    $Mode -in @("Apply", "Rollback") -and
+    -not ("BrokerLsaRights" -as [type])
+) {
     Add-Type -TypeDefinition @"
 using System;
 using System.ComponentModel;

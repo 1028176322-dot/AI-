@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 
 PLATFORM_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -85,6 +86,47 @@ class ChapterFlowDriverTest(unittest.TestCase):
             ["chapter_publish"],
             task_templates.next_types(
                 "final-regression", "on_pass_post_nkb"))
+
+    def test_ready_plan_is_armed_before_semantic_pause(self):
+        ready = {
+            "state": "ready",
+            "task": {
+                "id": "REQ-PLAN-CH202",
+                "type": "plan_write",
+                "chapter_ref": "CH-202",
+                "agent": {"required_role": "planner"},
+            },
+        }
+        running = {
+            "state": "running",
+            "task": dict(ready["task"]),
+        }
+        with mock.patch.object(
+                driver, "_arm", return_value=(running, "planner")) as arm:
+            with self.assertRaises(driver.FlowBlocked) as raised:
+                driver._advance(
+                    self.root, ready, "CH-202", "writer-a", "test-model")
+        arm.assert_called_once_with(
+            self.root, ready, "writer-a", "test-model")
+        self.assertEqual("SEMANTIC_STAGE_REQUIRED", raised.exception.code)
+        self.assertEqual(
+            "running",
+            raised.exception.work_order["task_state"])
+
+    def test_human_gate_is_not_automatically_armed(self):
+        row = {
+            "state": "ready",
+            "task": {
+                "id": "HUMAN-GATE-CH202",
+                "type": "human_gate",
+                "chapter_ref": "CH-202",
+            },
+        }
+        with mock.patch.object(driver, "_arm") as arm:
+            with self.assertRaises(driver.FlowBlocked):
+                driver._advance(
+                    self.root, row, "CH-202", "writer-a", "test-model")
+        arm.assert_not_called()
 
     def test_new_project_agents_enforces_chapter_flow(self):
         project_root = os.path.join(self.root, "new-project")

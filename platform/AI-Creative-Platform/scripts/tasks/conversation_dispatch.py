@@ -254,16 +254,106 @@ def _predicted_pipeline(plan_id, request_id=None, chapter=None):
     }
 
 
+def _normalize_request_id(value):
+    request_id = str(value or "").strip()
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", request_id):
+        raise ValueError(
+            "request_id must use 1..128 letters, digits, dot, underscore "
+            "or hyphen")
+    return request_id
+
+
+def _task_request_id(task):
+    values = ((task.get("inputs") or {}).get("values") or {})
+    return str(
+        task.get("conversation_request_id")
+        or values.get("conversation_request_id")
+        or "").strip()
+
+
+def _task_chapter_number(task):
+    values = ((task.get("inputs") or {}).get("values") or {})
+    value = values.get("chapter_number")
+    try:
+        if value is not None:
+            return int(value)
+    except (TypeError, ValueError):
+        pass
+    for field in ("chapter_ref", "id", "title"):
+        text = str(task.get(field) or "")
+        match = re.search(
+            r"(?:CH-?0*(\d+)|第\s*0*(\d+)\s*章)",
+            text, re.IGNORECASE)
+        if match:
+            return int(match.group(1) or match.group(2))
+    return None
+
+
+def _existing_lineage(project_root, request_id, number, desired_task_id):
+    """Return an existing task without mutating its state or Task Packet.
+
+    Exact IDs win.  If an upgrade/merge lost the original plan task after its
+    successors had already been created, any task in the same conversation
+    request and chapter proves that the lineage exists and prevents duplicate
+    seeding.
+    """
+    state, data = task_engine.load_task(project_root, desired_task_id)
+    if state and data:
+        return {
+            "state": state,
+            "task": data.get("task") or {},
+            "match": "exact",
+        }
+    candidates = []
+    for state_name in task_engine.STATES:
+        directory = os.path.join(project_root, "tasks", state_name)
+        if not os.path.isdir(directory):
+            continue
+        for name in os.listdir(directory):
+            if not name.endswith((".yaml", ".yml")):
+                continue
+            try:
+                body = _gov.load_yaml(os.path.join(directory, name)) or {}
+            except Exception:
+                continue
+            task = body.get("task") or {}
+            if (
+                    _task_request_id(task) == request_id
+                    and _task_chapter_number(task) == int(number)):
+                candidates.append({
+                    "state": state_name,
+                    "task": task,
+                    "match": "lineage",
+                })
+    if not candidates:
+        return None
+    order = {state: index for index, state in enumerate(task_engine.STATES)}
+    candidates.sort(key=lambda row: (
+        order.get(row["state"], len(order)),
+        str(row["task"].get("created") or ""),
+        str(row["task"].get("id") or "")))
+    return candidates[0]
+
+
 def dispatch(
         project_root, request, project_id,
-        author="conversation-dispatch", model="unknown", write=True):
+        author="conversation-dispatch", model="unknown", write=True,
+        request_id=None, reconcile=False):
     plan = parse_request(request, project_root)
-    stamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
-    digest = hashlib.sha256(
-        request.encode("utf-8")).hexdigest()[:6].upper()
-    request_id = "REQ-%s-%s" % (stamp, digest)
+    if reconcile and not request_id:
+        raise ValueError(
+            "reconcile requires the original request_id; generating a new "
+            "request would create a duplicate task graph")
+    if request_id:
+        request_id = _normalize_request_id(request_id)
+    else:
+        stamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+        digest = hashlib.sha256(
+            request.encode("utf-8")).hexdigest()[:6].upper()
+        request_id = "REQ-%s-%s" % (stamp, digest)
     plan["request_id"] = request_id
     plan["project_id"] = project_id
+    plan["mode"] = "reconcile" if reconcile else "dispatch"
 
     created = []
     previous_publish = None
@@ -284,7 +374,7 @@ def dispatch(
         task = _task(
             task_id, project_id, task_type, chapter_ref, dependencies,
             request_id, request)
-        created.append({
+        row = {
             "task_id": task_id,
             "type": task_type,
             "chapter": number,
@@ -292,11 +382,31 @@ def dispatch(
             "dependencies": dependencies,
             "predicted_pipeline": predicted,
             "_task": task,
-        })
+            "disposition": "create",
+        }
+        if reconcile:
+            existing = _existing_lineage(
+                project_root, request_id, number, task_id)
+            if existing:
+                row.update({
+                    "task_id": existing["task"].get("id") or task_id,
+                    "type": existing["task"].get("type") or task_type,
+                    "state": existing["state"],
+                    "disposition": "preserve_%s" % existing["match"],
+                    "seed_task_id": task_id,
+                })
+        created.append(row)
     plan["created_tasks"] = [
         {key: value for key, value in row.items() if key != "_task"}
         for row in created
     ]
+    plan["reconciliation"] = {
+        "created": sum(
+            row["disposition"] == "create" for row in created),
+        "preserved": sum(
+            row["disposition"].startswith("preserve_")
+            for row in created),
+    }
     if not write:
         return plan
 
@@ -319,9 +429,14 @@ def dispatch(
             "assumptions": plan["assumptions"],
         },
     }
-    goal_path = task_engine.create_goal(
-        project_root, goal, model=model, author=author)
+    goal_path = os.path.join(
+        project_root, "tasks", "goals", goal["id"] + ".yaml")
+    if not (reconcile and os.path.isfile(goal_path)):
+        goal_path = task_engine.create_goal(
+            project_root, goal, model=model, author=author)
     for row in created:
+        if row["disposition"].startswith("preserve_"):
+            continue
         state, _ = task_engine.create_task(
             project_root, row["_task"], model=model, author=author)
         row["state"] = state
@@ -339,11 +454,15 @@ def main():
     parser.add_argument("--agent", default="conversation-dispatch")
     parser.add_argument("--model", default="unknown")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--request-id")
+    parser.add_argument("--reconcile", action="store_true")
     arguments = parser.parse_args()
     result = dispatch(
         arguments.project_root, arguments.request, arguments.project,
         author=arguments.agent, model=arguments.model,
-        write=not arguments.dry_run)
+        write=not arguments.dry_run,
+        request_id=arguments.request_id,
+        reconcile=arguments.reconcile)
     print(_gov.dump_block(result))
 
 

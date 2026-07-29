@@ -15,6 +15,7 @@ verbs:
   route    列出某 role+capabilities 可接取任务
   list     列出全部/某状态任务
   show     查看任务详情
+  reconcile 按原 request-id 幂等补齐升级/合并丢失的章节 seed
 
 所有动作写 audit/ 并在关键转移联动 project/status.yaml。
 """
@@ -51,7 +52,7 @@ TEMPLATES_DIR = os.path.join(PLAT_ROOT, "core", "task-system", "templates")
 # 注：intake/run 的会话要求在其内部按“是否实际建/武装任务”动态判定。
 _MUTATION_VERBS = {"create", "goal", "promote", "claim", "start",
                    "submit", "review", "complete", "fail", "retry",
-                   "event"}
+                   "event", "reconcile"}
 
 
 def _load_template(name):
@@ -326,10 +327,14 @@ def main():
     ap = argparse.ArgumentParser(prog="task", description="任务系统操作中心")
     ap.add_argument("verb", choices=["create", "goal", "promote", "claim", "start",
                                      "submit", "review", "complete", "fail", "retry",
-                                     "route", "list", "show", "intake", "run", "dispatch",
+                                     "route", "list", "show", "intake", "run",
+                                     "dispatch", "reconcile",
                                      "next", "packet", "event"])
     ap.add_argument("--project-root", required=True)
     ap.add_argument("--request", help="自然语言请求（intake/run 用）")
+    ap.add_argument(
+        "--request-id",
+        help="原始对话 request-id（reconcile 必填，禁止生成新图）")
     ap.add_argument("--project", default="novel-dsf", help="项目 id（intake/run 用）")
     ap.add_argument("--yaml", help="任务/目标 YAML 文件路径")
     ap.add_argument("--json", help="内联 JSON（task 或 goal 字典）")
@@ -453,13 +458,17 @@ def main():
         _cmd_intake(args)
     elif v == "run":
         _cmd_run(args)
-    elif v == "dispatch":
+    elif v in ("dispatch", "reconcile"):
         if not args.request:
-            ap.error("dispatch requires --request")
+            ap.error("%s requires --request" % v)
+        if v == "reconcile" and not args.request_id:
+            ap.error("reconcile requires --request-id")
         try:
             plan = CD.dispatch(
                 root, args.request, args.project,
-                author=args.agent, model=args.model, write=True)
+                author=args.agent, model=args.model, write=True,
+                request_id=args.request_id,
+                reconcile=(v == "reconcile"))
         except (RuntimeError, ValueError) as exc:
             print("REJECTED: %s" % exc)
             sys.exit(1)

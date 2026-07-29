@@ -46,6 +46,12 @@ class BrokerDeploymentEntrypointTest(unittest.TestCase):
             remove_identities=False,
         )
         completed = mock.Mock(returncode=0)
+        oversized_host_environment = {
+            "AI_HOST_CONTEXT_%03d" % index: "x" * 2000
+            for index in range(200)
+        }
+        oversized_host_environment[
+            "ACP_BROKER_INITIATING_IDENTITY"] = r"DEVICE\TaskInvoker"
         with mock.patch.object(
                 broker_cli.os, "name", "nt"), mock.patch.object(
                 broker_cli.shutil, "which",
@@ -53,11 +59,10 @@ class BrokerDeploymentEntrypointTest(unittest.TestCase):
                              r"\v1.0\powershell.exe"), mock.patch.object(
                 broker_cli.subprocess, "run",
                 return_value=completed) as run, mock.patch.dict(
-                broker_cli.os.environ, {
-                    "ACP_BROKER_INITIATING_IDENTITY":
-                        r"DEVICE\TaskInvoker"}):
+                broker_cli.os.environ, oversized_host_environment):
             self.assertEqual(broker_cli._deploy(arguments), 0)
         command = run.call_args.args[0]
+        child_environment = run.call_args.kwargs["env"]
         self.assertTrue(any(
             value.endswith("deploy_broker_windows.ps1")
             for value in command))
@@ -69,6 +74,33 @@ class BrokerDeploymentEntrypointTest(unittest.TestCase):
         self.assertIn(r"DEVICE\TaskInvoker", command)
         self.assertNotIn("sc.exe", command)
         self.assertNotIn("icacls.exe", command)
+        self.assertNotIn("AI_HOST_CONTEXT_000", child_environment)
+        self.assertLess(
+            broker_cli._windows_environment_chars(child_environment),
+            30000)
+        self.assertIn("PATH", child_environment)
+
+    def test_sanitized_environment_keeps_windows_process_basics(self):
+        source = {
+            "SystemRoot": r"C:\Windows",
+            "COMSPEC": r"C:\Windows\System32\cmd.exe",
+            "TEMP": r"C:\Temp",
+        }
+        source.update({
+            "AI_TOOL_CONTEXT_%03d" % index: "y" * 2000
+            for index in range(200)
+        })
+        with mock.patch.dict(
+                broker_cli.os.environ, source, clear=True):
+            child = broker_cli._deployment_environment(
+                r"C:\Windows\System32\WindowsPowerShell\v1.0"
+                r"\powershell.exe",
+                r"C:\Python313\python.exe")
+        self.assertEqual(r"C:\Windows", child["SystemRoot"])
+        self.assertEqual(
+            r"C:\Windows\System32\cmd.exe", child["COMSPEC"])
+        self.assertNotIn("AI_TOOL_CONTEXT_000", child)
+        self.assertIn(r"C:\Windows\System32", child["PATH"])
 
     def test_non_windows_deployment_fails_closed(self):
         arguments = argparse.Namespace()
@@ -133,6 +165,7 @@ class BrokerDeploymentEntrypointTest(unittest.TestCase):
                 "AIStyleChapterWriter",
                 "Failed to delete governed legacy service",
                 "function Remove-LegacyAclEntry",
+                '$Mode -in @("Apply", "Rollback")',
                 "Read-back is authoritative",
                 "Test-ExplicitAclEntryPresent",
                 "taskrunner_direct_write_denied",

@@ -2,6 +2,7 @@
 """Deterministic tests for conversation-to-task governance."""
 import os
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -107,6 +108,84 @@ class ConversationDispatchTest(unittest.TestCase):
         self.assertEqual(plan["chapters"], [1, 2, 3])
         self.assertFalse(os.listdir(os.path.join(self.root, "tasks", "ready")))
         self.assertFalse(os.listdir(os.path.join(self.root, "tasks", "backlog")))
+
+    def test_reconcile_recreates_only_the_missing_seed_task(self):
+        original = conversation_dispatch.dispatch(
+            self.root, "写第1至3章", "dispatch-test",
+            author="test", model="test")
+        task_ids = [
+            item["task_id"] for item in original["created_tasks"]]
+        missing_state, missing_path = task_engine.find_task(
+            self.root, task_ids[1])
+        self.assertEqual("backlog", missing_state)
+        os.remove(missing_path)
+
+        repaired = conversation_dispatch.dispatch(
+            self.root, "写第1至3章", "dispatch-test",
+            author="test", model="test",
+            request_id=original["request_id"], reconcile=True)
+
+        self.assertEqual(
+            {"created": 1, "preserved": 2},
+            repaired["reconciliation"])
+        self.assertEqual("backlog", task_engine.load_task(
+            self.root, task_ids[1])[0])
+        dispositions = {
+            item["chapter"]: item["disposition"]
+            for item in repaired["created_tasks"]
+        }
+        self.assertEqual("create", dispositions[2])
+        self.assertEqual("preserve_exact", dispositions[1])
+        self.assertEqual("preserve_exact", dispositions[3])
+
+    def test_reconcile_preserves_an_already_advanced_lineage(self):
+        request_id = "REQ-UPGRADE-CH202"
+        alternate = conversation_dispatch._task(
+            "RECOVERED-PLAN-CH202", "dispatch-test", "plan_write",
+            "chapters/drafts/CH-202.md", [], request_id,
+            "写第202章")
+        task_engine.create_task(
+            self.root, alternate, model="test", author="test")
+
+        repaired = conversation_dispatch.dispatch(
+            self.root, "写第202章", "dispatch-test",
+            author="test", model="test",
+            request_id=request_id, reconcile=True)
+
+        item = repaired["created_tasks"][0]
+        self.assertEqual("preserve_lineage", item["disposition"])
+        self.assertEqual("RECOVERED-PLAN-CH202", item["task_id"])
+        self.assertIsNone(task_engine.load_task(
+            self.root, "%s-PLAN-CH202" % request_id)[0])
+
+    def test_reconcile_requires_safe_original_request_id(self):
+        with self.assertRaisesRegex(ValueError, "request_id"):
+            conversation_dispatch.dispatch(
+                self.root, "写第1章", "dispatch-test",
+                request_id="../new-graph", reconcile=True)
+
+    def test_platform_task_reconcile_is_the_callable_entrypoint(self):
+        original = conversation_dispatch.dispatch(
+            self.root, "写第1至2章", "dispatch-test",
+            author="test", model="test")
+        missing_id = original["created_tasks"][1]["task_id"]
+        _, missing_path = task_engine.find_task(self.root, missing_id)
+        os.remove(missing_path)
+        command = [
+            sys.executable,
+            os.path.join(PLATFORM_ROOT, "cli", "platform.py"),
+            "task", "--project-root", self.root, "reconcile",
+            "--request-id", original["request_id"],
+            "--request", "写第1至2章",
+            "--project", "dispatch-test",
+            "--agent", "test",
+            "--model", "test",
+        ]
+        completed = subprocess.run(
+            command, capture_output=True, text=True, encoding="utf-8")
+        self.assertEqual(0, completed.returncode, completed.stderr)
+        self.assertEqual(
+            "backlog", task_engine.load_task(self.root, missing_id)[0])
 
 
 if __name__ == "__main__":

@@ -128,6 +128,73 @@ def _acl_paths(arguments):
     )
 
 
+def _environment_value(name):
+    for key, value in os.environ.items():
+        if key.casefold() == name.casefold():
+            return str(value)
+    return ""
+
+
+def _windows_environment_chars(environment):
+    """Return the Windows CreateProcess environment-block character count."""
+    return 1 + sum(
+        len(str(key)) + len(str(value)) + 2
+        for key, value in environment.items())
+
+
+def _deployment_environment(powershell, python_executable):
+    """Build a small, explicit environment for the PowerShell deployment.
+
+    AI hosts can inject hundreds of kilobytes of conversational/tool context
+    into their own environment.  Windows CreateProcess and tools launched by
+    PowerShell have a finite environment block, so inheriting it makes Verify
+    fail before any Broker check runs.  Deployment needs only ordinary Windows
+    identity/profile variables and a short executable search path.
+    """
+    keep = (
+        "SystemRoot", "WINDIR", "COMSPEC", "PATHEXT",
+        "TEMP", "TMP", "USERPROFILE", "HOMEDRIVE", "HOMEPATH",
+        "APPDATA", "LOCALAPPDATA", "PROGRAMDATA",
+        "USERNAME", "USERDOMAIN", "COMPUTERNAME",
+        "PROCESSOR_ARCHITECTURE", "NUMBER_OF_PROCESSORS",
+        "ACP_BROKER_INITIATING_IDENTITY",
+    )
+    environment = {}
+    for name in keep:
+        value = _environment_value(name)
+        if value:
+            if len(value) > 4096:
+                raise SystemExit(
+                    "REJECTED: required Windows environment value is "
+                    "unexpectedly large: %s" % name)
+            environment[name] = value
+    system_root = (
+        environment.get("SystemRoot")
+        or environment.get("WINDIR")
+        or r"C:\Windows")
+    path_entries = [
+        os.path.dirname(os.path.abspath(powershell)),
+        os.path.dirname(os.path.abspath(python_executable)),
+        os.path.join(system_root, "System32"),
+        system_root,
+        os.path.join(system_root, "System32", "Wbem"),
+    ]
+    seen = set()
+    unique_entries = []
+    for entry in path_entries:
+        key = entry.casefold()
+        if entry and key not in seen:
+            seen.add(key)
+            unique_entries.append(entry)
+    environment["PATH"] = os.pathsep.join(unique_entries)
+    size = _windows_environment_chars(environment)
+    if size > 30000:
+        raise SystemExit(
+            "REJECTED: sanitized Broker deployment environment is still "
+            "too large (%d Windows characters)" % size)
+    return environment
+
+
 def _deploy(arguments):
     """Run the one canonical Windows deployment entrypoint.
 
@@ -165,7 +232,10 @@ def _deploy(arguments):
         command.append("-AutoElevate")
     if arguments.remove_identities:
         command.append("-RemoveIdentities")
-    completed = subprocess.run(command, check=False)
+    child_environment = _deployment_environment(
+        powershell, sys.executable)
+    completed = subprocess.run(
+        command, check=False, env=child_environment)
     return completed.returncode
 
 
