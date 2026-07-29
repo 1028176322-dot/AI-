@@ -216,6 +216,80 @@ def _safe_card(path, expected_layer):
     return card
 
 
+def _active_reference_card(root):
+    """Bridge governed ACTIVE legacy JSON candidates into the L4 composer.
+
+    Existing projects promoted reference-learning rules before L0-L4 YAML
+    cards existed.  Keeping this read-only bridge prevents those approved
+    abstractions from becoming inert while preserving their original source
+    file and lifecycle status.
+    """
+    path = os.path.join(
+        root, "memory", "project", "style-library",
+        "style-cards.json")
+    if not os.path.isfile(path):
+        return path, {}
+    try:
+        with open(path, "r", encoding="utf-8") as stream:
+            rows = json.load(stream)
+    except (OSError, ValueError):
+        return path, {}
+    if not isinstance(rows, list):
+        return path, {}
+    rules = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        candidate_id = row.get("candidate_id")
+        lifecycle_path = os.path.join(
+            os.path.dirname(path),
+            "%s.lifecycle.json" % candidate_id) if candidate_id else None
+        lifecycle = {}
+        if lifecycle_path and os.path.isfile(lifecycle_path):
+            try:
+                with open(
+                        lifecycle_path, "r",
+                        encoding="utf-8") as stream:
+                    lifecycle = json.load(stream) or {}
+            except (OSError, ValueError):
+                lifecycle = {}
+        status = lifecycle.get("current_state") or _rule_status(row)
+        if status not in ACTIVE_STATUSES:
+            continue
+        value = row.get("value")
+        field = (
+            ((row.get("scope") or {}).get("span_selector"))
+            or (value.get("dimension") if isinstance(value, dict) else None)
+            or row.get("rule_id"))
+        rules.append({
+            "rule_id": row.get("rule_id") or row.get("candidate_id"),
+            "field": field,
+            "status": status,
+            "scope": row.get("scope") or {
+                "content_type": "both",
+                "scene_types": [],
+                "character_ids": [],
+            },
+            "value": value,
+            "confidence": row.get("confidence"),
+            "evidence_count": row.get("evidence_count"),
+            "source_candidate_id": candidate_id,
+            "source_set_hash": row.get("source_set_hash"),
+        })
+    return path, {
+        "card_id": "L4-ACTIVE-REFERENCE-BRIDGE",
+        "layer": "L4",
+        "scope": {
+            "content_type": "both",
+            "scene_types": [],
+            "character_ids": [],
+        },
+        "project_constraints": [],
+        "style_preferences": [],
+        "style_targets": rules,
+    }
+
+
 def _outline_path(root):
     project = _load(os.path.join(root, "project.yaml"))
     rel = ((project.get("paths") or {}).get("outline") or "").lstrip("./")
@@ -294,6 +368,11 @@ def build(
         source_bindings.setdefault("style_cards", []).append(binding)
         if card:
             cards.append((layer, card))
+    reference_path, reference_card = _active_reference_card(project_root)
+    source_bindings["active_reference_rules"] = _tree_binding(
+        project_root, os.path.dirname(reference_path))
+    if reference_card:
+        cards.append(("L4", reference_card))
 
     strategy = _load(writing_strategy_path) if writing_strategy_path else {}
     diagnosis = _load(diagnosis_path) if diagnosis_path else {}

@@ -1,0 +1,12 @@
+schema_version: "1.0.0"
+
+# The platform never guesses how to invoke an AI product.  Each device exposes
+# one approved adapter as a JSON argv array in this environment variable, for
+# example: ["C:/approved-adapters/workbuddy-author.exe", "--stdio-json"].
+# shell=false is enforced and secrets must stay in the adapter environment.
+default:
+  transport: command
+  command_env: AI_CREATIVE_AUTHOR_COMMAND_JSON
+  timeout_seconds: 900
+
+models: {}

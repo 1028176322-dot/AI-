@@ -163,8 +163,15 @@ def looks_like_chapter_request(request):
 
 
 def _chapter_ref(project_root, number):
-    strict = os.path.isfile(
-        os.path.join(project_root, "PROJECT_LAYOUT.yaml"))
+    try:
+        import project_layout
+        style_strict = project_layout.is_style_strict(project_root)
+    except Exception:
+        style_strict = False
+    if style_strict:
+        return "chapters/drafts/CH-%03d.txt" % number
+    strict = os.path.isfile(os.path.join(
+        project_root, "PROJECT_LAYOUT.yaml"))
     if strict:
         return "chapters/drafts/CH-%03d.md" % number
     latest = index_builder.detect_latest_version(project_root, number)
@@ -217,18 +224,22 @@ def _task(
     }
 
 
-def _predicted_pipeline(plan_id):
+def _predicted_pipeline(plan_id, request_id=None, chapter=None):
     write = "%s-CHAPTER-WRITE" % plan_id
     review = "%s-CHAPTER-REVIEW" % write
     manifest = "%s-PROTECTED-MANIFEST-BUILD" % review
     diagnose = "%s-AI-DIAGNOSE" % manifest
+    publish_id = (
+        "%s-PUBLISH-CH%03d" % (request_id, int(chapter))
+        if request_id and chapter is not None
+        else "%s-PUBLISH" % write)
     return {
         "common": [plan_id, write, review, manifest, diagnose],
         "clean": [
             "%s-FINAL-REGRESSION" % diagnose,
             "%s-NKB-UPDATE" % diagnose,
             "%s-NKB-SYNC" % diagnose,
-            "%s-PUBLISH" % write,
+            publish_id,
         ],
         "issues": [
             "%s-STYLE-REVISE" % diagnose,
@@ -238,7 +249,7 @@ def _predicted_pipeline(plan_id):
             "%s-FINAL-REGRESSION" % diagnose,
             "%s-NKB-UPDATE" % diagnose,
             "%s-NKB-SYNC" % diagnose,
-            "%s-PUBLISH" % write,
+            publish_id,
         ],
     }
 
@@ -262,7 +273,8 @@ def dispatch(
             task_id = "%s-PLAN-CH%03d" % (request_id, number)
             dependencies = [previous_publish] if previous_publish else []
             task_type = "plan_write"
-            predicted = _predicted_pipeline(task_id)
+            predicted = _predicted_pipeline(
+                task_id, request_id=request_id, chapter=number)
             previous_publish = predicted["clean"][-1]
         else:
             task_id = "%s-REVIEW-CH%03d" % (request_id, number)

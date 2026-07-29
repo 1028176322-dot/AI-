@@ -46,6 +46,7 @@ registries:
   versions: registry/versions.yaml
   learning: registry/learning.yaml
   readers: registry/readers.yaml
+  author_executors: registry/author-executors.yaml
 
 schemas:
   index: schemas/registry.yaml        # 实体文件位于 core/contracts/（Q2：仅索引，不迁移）
@@ -120,6 +121,13 @@ commands:
   outline_validate: platform outline validate
   writing_strategy_build: platform craft build
   writing_strategy_evidence: platform craft evidence-check
+  chapter_author_prepare: platform author prepare
+  chapter_author_run: platform author run
+  chapter_author_begin: platform author begin
+  chapter_author_ingest: platform author ingest
+  chapter_author_validate: platform author validate
+  human_gate_inspect: platform human-gate inspect
+  human_gate_authorize: platform human-gate authorize
   project_open: platform project open
   project_doctor: platform project doctor
   session_bootstrap: platform session bootstrap

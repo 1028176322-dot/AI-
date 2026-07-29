@@ -3,10 +3,10 @@ task_template:
   version: "2.0.0"
   required_role: learning-curator
   description: 人工决策门；处理风格警告、质量豁免和真人读者观察。
-  required_inputs: [gate_context]
+  required_inputs: [gate_context, human_authorization]
   allowed_outputs: [gate_decision, human_reader_report, reader_calibration, milestone_decision]
   permissions:
-    read: [runtime/reader-panels/**, analysis/reader/**, tasks/**]
+    read: [runtime/reader-panels/**, analysis/reader/**, tasks/**, operations/grants/human/**]
     write: [runtime/reader-panels/**, analysis/reader/**, tasks/running/<id>/outputs/**]
     forbidden: [NKB/**, chapters/**, platform/memory/**]
   execution_policy:

@@ -28,6 +28,60 @@ import project_layout
 from controlled_chapter_client import broker_write, resource
 
 
+def target_for(project, chapter):
+    """Return the governed draft target for the current project generation."""
+    extension = ".txt" if project_layout.is_style_strict(project) else ".md"
+    return "chapters/drafts/%s%s" % (chapter, extension)
+
+
+def write_chapter(project, chapter, task_id, role, content_file):
+    """Validate and write one already-authored draft through the governed path."""
+    target = target_for(project, chapter)
+    if project_layout.is_style_strict(project):
+        with open(content_file, "r", encoding="utf-8") as stream:
+            content = stream.read()
+        # Word-budget hard gate: fail-closed before broker write.
+        try:
+            from word_budget_gate import enforce_word_budget
+        except Exception as exc:
+            raise RuntimeError(
+                "word_budget_gate module unavailable: %s" % exc)
+        plan_path = os.path.join(
+            project, "sources", "outline", "chapters",
+            "PLAN-%s.yaml" % chapter)
+        ok, errors = enforce_word_budget(content_file, plan_path)
+        if not ok:
+            raise ValueError(
+                "WORD-BUDGET GATE FAILED: %s" % "; ".join(errors))
+        target_abs = os.path.join(project, target)
+        result = broker_write(
+            project, task_id, "chapter_write",
+            [resource("target", target_abs, "absent")], content)
+        return {
+            "target": target,
+            "broker_target": result.get("target"),
+            "mode": "strict-v2",
+        }
+
+    # Existing projects retain the legacy governed writer until migrated.
+    controlled_write = os.path.join(
+        os.path.dirname(HERE), "tasks", "controlled_write.py")
+    command = [
+        sys.executable or "python", controlled_write,
+        "--role", role,
+        "--target", target,
+        "--project", project,
+        "--content-file", content_file,
+        "--task-id", task_id,
+    ]
+    completed = subprocess.run(command, check=False)
+    if completed.returncode != 0:
+        raise RuntimeError(
+            "legacy controlled write failed: exit=%d"
+            % completed.returncode)
+    return {"target": target, "mode": "legacy"}
+
+
 def main():
     ap = argparse.ArgumentParser(description="受控写章节草稿")
     ap.add_argument("--chapter", required=True, help="章节标识，如 CH-001")
@@ -38,43 +92,14 @@ def main():
                     help="含章节正文的临时文件路径")
     args = ap.parse_args()
 
-    target = "chapters/drafts/%s.md" % args.chapter
-    if project_layout.is_style_strict(args.project):
-        with open(args.content_file, "r", encoding="utf-8") as stream:
-            content = stream.read()
-        # Word-budget hard gate (CH-001 治理): fail-closed before broker write.
-        try:
-            from word_budget_gate import enforce_word_budget
-        except Exception:
-            print("ERROR: word_budget_gate module unavailable", file=sys.stderr)
-            sys.exit(2)
-        plan_path = os.path.join(
-            args.project, "sources", "outline", "chapters",
-            "PLAN-%s.yaml" % args.chapter)
-        ok, werrs = enforce_word_budget(args.content_file, plan_path)
-        if not ok:
-            print("WORD-BUDGET GATE FAILED: %s" % "; ".join(werrs),
-                  file=sys.stderr)
-            sys.exit(2)
-        target_abs = os.path.join(args.project, target)
-        result = broker_write(
-            args.project, args.task_id, "chapter_write",
-            [resource("target", target_abs, "absent")], content)
-        print("BROKER WROTE: %s" % result.get("target"))
-        return
-
-    # Existing projects retain the legacy governed writer until migrated.
-    cw = os.path.join(os.path.dirname(HERE), "tasks", "controlled_write.py")
-    cmd = [
-        sys.executable or "python", cw,
-        "--role", args.role,
-        "--target", target,
-        "--project", args.project,
-        "--content-file", args.content_file,
-        "--task-id", args.task_id,
-    ]
-    ret = subprocess.run(cmd, check=False)
-    sys.exit(ret.returncode)
+    try:
+        result = write_chapter(
+            args.project, args.chapter, args.task_id,
+            args.role, args.content_file)
+    except (OSError, RuntimeError, ValueError) as exc:
+        print("ERROR: %s" % exc, file=sys.stderr)
+        sys.exit(2)
+    print("CHAPTER WROTE: %s" % result["target"])
 
 
 if __name__ == "__main__":

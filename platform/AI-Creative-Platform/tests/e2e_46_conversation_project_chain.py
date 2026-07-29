@@ -294,7 +294,10 @@ def main():
         feedback = os.path.join(
             root, "runtime", "learning", "writing-guidance.yaml")
         check(os.path.isfile(feedback), "review finding did not feed writing")
-        publish_id = "%s-PUBLISH" % write_id
+        publish_id = task_engine.stable_publish_task_id({
+            "conversation_request_id": goal["request_id"],
+            "chapter_ref": draft_rel,
+        })
         nkb_update_id = "%s-NKB-UPDATE" % write_id
         check(task_engine.load_task(root, nkb_update_id)[0] == "ready",
               "NKB update task missing")

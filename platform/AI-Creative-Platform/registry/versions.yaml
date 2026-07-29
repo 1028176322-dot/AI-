@@ -24,6 +24,8 @@ core:
   memory_governor: 1.0.0
   asset_manager: 1.0.0
   model_router: 1.0.0
+  chapter_author: 1.0.0
+  human_gate_authorization: 1.0.0
   multi_project: 1.0.0
   experiment: 1.0.0
   bi: 1.0.0

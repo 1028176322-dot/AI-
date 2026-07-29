@@ -352,7 +352,10 @@ def _create_successors(
 
     for index, target in enumerate(TT.next_types(
             source_task.get("type"), event), 1):
-        task_id = _successor_id(
+        task_id = (
+            TE.stable_publish_task_id(source_task)
+            if target == "chapter_publish" else None)
+        task_id = task_id or _successor_id(
             source_task.get("id"), event, target, index)
         existing_state, _ = TE.load_task(root, task_id)
         if existing_state:
@@ -369,6 +372,16 @@ def _create_successors(
             "source_event": event,
             "revision_cycle_id": inherited["revision_cycle_id"],
         })
+        if target == "human_gate":
+            values["gate_context"] = {
+                "schema": "human-gate-context@1.0.0",
+                "kind": "quality_exception",
+                "source_task": source_task.get("id"),
+                "source_type": source_task.get("type"),
+                "source_event": event,
+                "chapter_ref": source_task.get("chapter_ref"),
+                "source_output_hashes": hashes,
+            }
         if target == "final-regression":
             values["final_regression_mode"] = (
                 "post_apply"
@@ -504,6 +517,15 @@ def finish_with_event(
     if failed_checks:
         raise StyleEventError(
             "event checks failed: %s" % ", ".join(failed_checks))
+
+    if task.get("type") == "human_gate":
+        try:
+            import human_gate_auth
+            human_gate_auth.verify_task_authorization(
+                project_root, task, outputs, event)
+        except Exception as exc:
+            raise StyleEventError(
+                "human gate authorization failed: %s" % exc)
 
     clean_outputs, hashes, evidence = _validate_outputs(
         project_root, template, event, outputs)

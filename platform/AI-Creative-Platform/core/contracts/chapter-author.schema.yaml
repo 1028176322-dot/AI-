@@ -1,0 +1,65 @@
+schema_id: chapter-author
+version: 1.0.0
+description: 统一成稿执行器与外部模型适配器或当前对话 AI 之间的请求、响应和落盘契约
+request:
+  schema: chapter-author-request@1.0.0
+  required:
+    - task_id
+    - project_root
+    - chapter_id
+    - model_id
+    - packet_root
+    - task_packet
+    - response_contract
+    - hard_rules
+  task_packet_required:
+    - task.yaml
+    - input-index.yaml
+    - context.md
+    - constraints.md
+    - output-contract.yaml
+    - execution-manifest.yaml
+response:
+  required:
+    - chapter_draft
+    - self_check
+    - writing_strategy_evidence
+    - candidate_facts
+    - handoff
+  types:
+    chapter_draft: string
+    self_check: mapping
+    writing_strategy_evidence: mapping
+    candidate_facts: mapping
+    handoff: mapping
+  nested_required:
+    self_check:
+      - constitution
+      - planning
+      - context
+    writing_strategy_evidence:
+      - writing_strategy_evidence
+    candidate_facts:
+      - knowledge_delta
+    handoff:
+      - nkb_handoff
+execution:
+  transports:
+    - command
+    - interactive_response_file
+  command_format: json_argv
+  shell: false
+  stdin: one_json_request
+  stdout: one_json_response
+  fail_closed_when_unconfigured: true
+  interactive:
+    begin_creates_request_in_running_task_workspace: true
+    ingest_requires_same_task_owner: true
+    direct_draft_write_forbidden: true
+  retry:
+    reuse_when_task_packet_hash_matches: true
+    explicit_regenerate_flag: --regenerate
+canonical_write:
+  strict_v2: chapters/drafts/CH-NNN.txt
+  legacy: chapters/drafts/CH-NNN.md
+  broker_required_for_strict_layout: true

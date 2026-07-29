@@ -9,6 +9,7 @@ schemas:
   - bi.schema.yaml
   - creative-strategy.schema.yaml
   - conversation-request.schema.yaml
+  - chapter-author.schema.yaml
   - chapter-knowledge-delta.schema.yaml
   - design-source.schema.yaml
   - design-expansion.schema.yaml
@@ -16,6 +17,7 @@ schemas:
   - experiment.schema.yaml
   - goal.schema.yaml
   - graph.schema.yaml
+  - human-gate-authorization.schema.yaml
   - idea.schema.yaml
   - impact.schema.yaml
   - market.schema.yaml

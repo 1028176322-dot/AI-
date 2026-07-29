@@ -76,12 +76,30 @@ class ConversationDispatchTest(unittest.TestCase):
         self.assertEqual(len(task_ids), 2)
         self.assertEqual(task_engine.load_task(self.root, task_ids[0])[0], "ready")
         self.assertEqual(task_engine.load_task(self.root, task_ids[1])[0], "backlog")
+        request_id = plan["request_id"]
+        expected_publish = "%s-PUBLISH-CH001" % request_id
+        self.assertEqual(
+            plan["created_tasks"][0]["predicted_pipeline"]["clean"][-1],
+            expected_publish)
+        _, second = task_engine.load_task(self.root, task_ids[1])
+        self.assertEqual(
+            second["task"]["dependencies"], [expected_publish])
         for task_id in task_ids:
             packet = os.path.join(
                 self.root, "runtime", "task-packets", task_id)
             self.assertTrue(os.path.isfile(os.path.join(packet, "task.yaml")))
             self.assertTrue(os.path.isfile(os.path.join(
                 packet, "execution-manifest.yaml")))
+
+    def test_stable_publish_id_ignores_style_route_shape(self):
+        task = {
+            "id": "DYNAMIC-ROUTE-NODE",
+            "conversation_request_id": "REQ-20260729-ABC",
+            "chapter_ref": "chapters/drafts/CH-202.txt",
+        }
+        self.assertEqual(
+            task_engine.stable_publish_task_id(task),
+            "REQ-20260729-ABC-PUBLISH-CH202")
 
     def test_dry_run_does_not_mutate_project(self):
         plan = conversation_dispatch.dispatch(

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import json
 import shutil
 import sys
 import tempfile
@@ -114,6 +115,73 @@ class StyleGuidanceTest(unittest.TestCase):
         ids = {
             row["rule_id"] for row in guidance["effective_rules"]}
         self.assertEqual(ids, {"ACTIVE"})
+
+    def test_active_legacy_reference_rules_enter_l4_guidance(self):
+        path = os.path.join(
+            self.root, "memory", "project", "style-library",
+            "style-cards.json")
+        with open(path, "w", encoding="utf-8") as stream:
+            json.dump([
+                {
+                    "candidate_id": "SRC-ACTIVE",
+                    "rule_id": "REFERENCE-RHYTHM",
+                    "status": "ACTIVE",
+                    "scope": {
+                        "content_type": "narration",
+                        "scene_types": ["battle"],
+                        "character_ids": [],
+                    },
+                    "value": {
+                        "dimension": "syntactic_rhythm",
+                        "instruction": "快慢句按行动压力切换",
+                    },
+                },
+                {
+                    "candidate_id": "SRC-PENDING",
+                    "rule_id": "REFERENCE-PENDING",
+                    "status": "EXTRACTED",
+                    "scope": {"content_type": "narration"},
+                    "value": {"instruction": "不得生效"},
+                },
+            ], stream, ensure_ascii=False)
+        guidance = style_guidance.build(
+            self.root, "CH001", "RC1",
+            scene_types=["battle"], task_id="T1")
+        ids = {
+            row["rule_id"] for row in guidance["effective_rules"]}
+        self.assertIn("REFERENCE-RHYTHM", ids)
+        self.assertNotIn("REFERENCE-PENDING", ids)
+        rule = next(
+            row for row in guidance["effective_rules"]
+            if row["rule_id"] == "REFERENCE-RHYTHM")
+        self.assertEqual(rule["source_layer"], "L4")
+
+    def test_legacy_lifecycle_revocation_overrides_stale_active_row(self):
+        library = os.path.join(
+            self.root, "memory", "project", "style-library")
+        with open(os.path.join(
+                library, "style-cards.json"),
+                "w", encoding="utf-8") as stream:
+            json.dump([{
+                "candidate_id": "SRC-REVOKED",
+                "rule_id": "STALE-ACTIVE",
+                "status": "ACTIVE",
+                "scope": {"content_type": "narration"},
+                "value": {"instruction": "不得生效"},
+            }], stream, ensure_ascii=False)
+        with open(os.path.join(
+                library, "SRC-REVOKED.lifecycle.json"),
+                "w", encoding="utf-8") as stream:
+            json.dump({
+                "candidate_id": "SRC-REVOKED",
+                "current_state": "REVOKED",
+            }, stream)
+        guidance = style_guidance.build(
+            self.root, "CH001", "RC1", task_id="T1")
+        self.assertNotIn(
+            "STALE-ACTIVE",
+            {row["rule_id"] for row in guidance["effective_rules"]})
+
 
 
 if __name__ == "__main__":

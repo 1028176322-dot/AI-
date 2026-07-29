@@ -88,6 +88,8 @@ GOV_MODULE_MAP = {
     "design": "design_expansion",
     "outline": "outline_governance",
     "craft": "writing_strategy",
+    "author": "chapter_author",
+    "human-gate": "human_gate_auth",
     "status": "status_update",
     "task": "task_cli",
     "ver": "version_commit",
@@ -893,6 +895,12 @@ def build_parser():
     goutline.add_argument("rest", nargs=argparse.REMAINDER)
     gcraft = sub.add_parser("craft", help="按章纲和场景自适应编排写作手法并校验正文执行证据")
     gcraft.add_argument("rest", nargs=argparse.REMAINDER)
+    gauthor = sub.add_parser(
+        "author", help="受管成稿：Task Packet→模型适配器→Broker 草稿")
+    gauthor.add_argument("rest", nargs=argparse.REMAINDER)
+    ghgate = sub.add_parser(
+        "human-gate", help="上下文绑定、可验签的人工裁决授权")
+    ghgate.add_argument("rest", nargs=argparse.REMAINDER)
 
     # ── 项目管理平面（Phase 1 必须项）──
     gst = sub.add_parser("status", help="项目状态管理：project/status.yaml（init/show/set/block）")
@@ -1042,7 +1050,7 @@ def main():
     elif args.cmd == "init-project":
         cmd_init_project(args)
     elif args.cmd in ("session", "perm", "contract", "gate", "handoff", "cwrite", "nkb",
-        "init", "charter", "psrc", "genesis", "ready", "design", "outline", "craft",
+        "init", "charter", "psrc", "genesis", "ready", "design", "outline", "craft", "author", "human-gate",
         "status", "task", "ver", "impact", "quality", "reader", "memory", "asset", "model", "projects", "project", "exp", "bi", "graph", "market", "compliance",
                       "index", "context", "policy", "validate", "query",
                       "summary", "delta", "review", "learn", "feedback", "reader-panel", "layout",

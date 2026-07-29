@@ -1095,7 +1095,9 @@ def review(root, task_id, decision, findings=None, reviewer="unknown",
                         sync_id = "%s-NKB-SYNC" % nkb_update_id
                         publish_dependencies = [sync_id]
                         publish_state = "backlog"
-                    pb_task_id = "%s-PUBLISH" % dep
+                    pb_task_id = (
+                        stable_publish_task_id(ddata["task"])
+                        or "%s-PUBLISH" % dep)
                     review_artifact = t.get("artifact") or task_id
                     pb_task = {
                         "task": {
@@ -1384,6 +1386,17 @@ def resolve_canonical_target(draft_rel, project_root):
     if vols:
         return "%s/%s" % (vols[0], fname)
     return "第一卷_道生/%s" % fname
+
+
+def stable_publish_task_id(task):
+    """Return a request-scoped publish ID that does not depend on route shape."""
+    request_id = (task or {}).get("conversation_request_id")
+    chapter_ref = str((task or {}).get("chapter_ref") or "")
+    match = re.search(r"(\d+)", chapter_ref)
+    if request_id and match:
+        return "%s-PUBLISH-CH%03d" % (
+            request_id, int(match.group(1)))
+    return None
 
 
 def _grant_for_publish(root, publish_task_id, canonical_target):

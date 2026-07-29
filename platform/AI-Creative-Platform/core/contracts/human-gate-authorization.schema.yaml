@@ -1,0 +1,40 @@
+schema_id: human-gate-authorization
+version: 1.0.0
+description: 人工门禁授权必须与明确任务、当前上下文哈希、决策和有效期绑定
+document_root: human_authorization
+required:
+  - schema
+  - authorization_id
+  - authorized_by
+  - issuer_type
+  - project_scope
+  - decision
+  - reason
+  - issued_at
+  - expires_at
+  - bindings
+  - nonce
+  - signature_sha256
+enums:
+  issuer_type:
+    - verified_human_surface
+  decision:
+    - pass
+    - revise
+    - reject
+binding:
+  required:
+    - task_id
+    - gate_context_sha256
+security:
+  algorithm: HMAC-SHA256
+  secret_env: AI_CREATIVE_HUMAN_APPROVAL_SECRET
+  minimum_secret_bytes: 32
+  maximum_validity_minutes: 1440
+  wildcard_scope_forbidden: true
+reader_milestone:
+  batch_authorization_forbidden: true
+  required_report:
+    evidence_mode: verified_human_input
+    minimum_participant_count: 3
+    minimum_reader_segments: 2

@@ -4,6 +4,7 @@
 > **适用范围**：所有按 `strict-v2` 新建的小说项目；已有旧项目不强制迁移。
 > **目标**：从用户的一句话灵感开始，依次完成立项、资料准备、参考小说学习、设计、NKB Genesis、全书逐章详纲、章节写作、审查、修复、反补、真人读者验证、NKB 同步、正式发布，最后让合格正文以 TXT 落地。
 > **核心原则**：聊天内容是“任务请求”，不是“文件写入授权”；任何阶段没有通过门禁，都不得进入下一阶段。
+> **本次修订**：2026-07-29；补齐统一成稿、稳定批量依赖、参考规则消费、可信人工门禁和 Git 协作约束。
 
 ---
 
@@ -418,6 +419,11 @@ PROJECT_ROOT/tasks/<state>/
 PROJECT_ROOT/runtime/task-packets/<TASK_ID>/
 ```
 
+批量写作使用稳定发布屏障串行推进：第 `N+1` 章的 `plan_write`
+依赖请求级固定任务 `REQ-...-PUBLISH-CHNNN`，而不是依赖风格链内部动态
+生成的任务名。只有上一章 `chapter_publish` 真正 completed，下一章才会从
+backlog 进入 ready。任何 AI 都不得自行删除依赖、提前 promote 或并行写后章。
+
 对话本身不授予以下权限：
 
 - 写正文；
@@ -632,6 +638,12 @@ runtime/writing-strategies/STRATEGY-CH-NNN.yaml
 
 发现参考内容与 canonical NKB 冲突时，NKB 胜出；参考规则被拒绝或降级，不修改 NKB 来迁就参考作品。
 
+已有项目若在 L0—L4 卡片体系上线前把已批准规则保存在
+`memory/project/style-library/style-cards.json`，guidance 生成器会只读桥接其中
+`status=ACTIVE/APPROVED` 的抽象规则到 L4。`EXTRACTED`、`review_pending`、
+`REJECTED`、`REVOKED` 等状态永不进入正文。桥接不是再次晋升，也不改变原始
+生命周期文件；新规则仍必须落入标准 `*.card.yaml` 治理链。
+
 ---
 
 ## 8. NKB Genesis：高质量生成、文件结构与更新边界
@@ -739,6 +751,9 @@ candidate_facts + approved_event
 ```
 
 若 `nkb_sync` 失败，必须回到 `nkb_update`；没有同步证明不得发布章节。
+该链按章节原子执行，不得把多章 `candidate_facts` 延后合并、卷末一次性同步，
+也不得为了节省模型调用而跳过。无新增事实也必须生成空增量证据并完成 canonical
+validation，确保“本章未改变 NKB”同样可审计。
 
 ---
 
@@ -885,6 +900,11 @@ L4 作者风格：memory/project/style-library/author.card.yaml
 参考实验规则：runtime/learning/reference-guidance.yaml（经 Context 注入）
 ```
 
+Task Packet 生成时会自动从当前 `PLAN-NNN.yaml` 的全部 `scenes[].type` 和
+`scenes[].participants` 派生 scene/character 作用域，再与任务显式作用域合并。
+禁止把所有章节固定成 `scene=daily` 或省略出场人物；否则相应 L2 场景卡和 L3
+人物声线卡不会被选中。
+
 ### 10.4 开头与结尾的硬要求
 
 开头必须由本章功能决定，例如：动作中切入、感官异常、对话冲突、后果承接、目标受阻、空间发现、时间压力。不得每章都用天气、醒来、总结、旁白解释或同一句式开场。
@@ -900,6 +920,100 @@ L4 作者风格：memory/project/style-library/author.card.yaml
 - 与近期章节的开头/结尾相似度不得超过阈值 `0.75`；
 - 同一 opening/ending mode 不得连续出现 3 次；
 - 不存在模板化套写、机械分段和无效填充。
+
+---
+
+### 10.5 受管自动成稿入口
+
+平台现在提供统一 Author Executor。它只接受合法 `chapter_write` Task，读取完整
+Task Packet，通过模型路由选择模型，再调用当前设备批准的模型适配器。适配器必须
+以 stdin JSON / stdout JSON 返回以下五项：
+
+```text
+chapter_draft
+self_check
+writing_strategy_evidence
+candidate_facts
+handoff
+```
+
+设备管理员必须把批准的适配器 argv 以 JSON 数组配置到
+`AI_CREATIVE_AUTHOR_COMMAND_JSON`。命令使用 `shell=false`，不得在注册表、
+项目、任务包或指南中写 API Key、token 或 shell 拼接命令。先验证：
+
+```text
+registry/author-executors.yaml
+core/contracts/chapter-author.schema.yaml
+```
+
+```powershell
+.\platform.bat author validate --model "<MODEL_ID>"
+```
+
+检查将发送给模型的受管请求但不生成正文：
+
+```powershell
+.\platform.bat author prepare `
+  --project-root "<PROJECT_ROOT>" `
+  --task "<CHAPTER_WRITE_TASK_ID>"
+```
+
+正式执行：
+
+```powershell
+.\platform.bat author run `
+  --project-root "<PROJECT_ROOT>" `
+  --task "<CHAPTER_WRITE_TASK_ID>" `
+  --agent "<当前AI标识>"
+```
+
+`author run` 确定性执行：
+
+```text
+Ready Check
+→ claim/start（仅在需要时）
+→ 生成/复读 Task Packet
+→ model-router
+→ 设备级批准适配器
+→ 五项响应合同校验
+→ 字数硬门禁
+→ Broker 写 chapters/drafts
+→ task submit
+→ 自动创建 chapter_review
+```
+
+如果当前 AI 运行在对话框中、无法作为本机 stdio 命令被适配器调用，不得因此
+绕开任务系统。改走同一 Author Executor 的交互式交换：
+
+```powershell
+.\platform.bat author begin `
+  --project-root "<PROJECT_ROOT>" `
+  --task "<CHAPTER_WRITE_TASK_ID>" `
+  --agent "<当前AI标识>"
+
+# begin 会认领/启动任务，并返回任务工作区内的 request_file、response_file。
+# 当前 AI 必须完整读取 request_file，按 chapter-author.schema.yaml 把五项结果
+# 写成一个 JSON 对象到 response_file，然后执行：
+
+.\platform.bat author ingest `
+  --project-root "<PROJECT_ROOT>" `
+  --task "<CHAPTER_WRITE_TASK_ID>" `
+  --response-file "<begin 返回的 response_file>" `
+  --agent "<同一AI标识>"
+```
+
+`begin/ingest` 与 `run` 经过完全相同的响应合同、字数、Broker 和 Task submit
+门禁。它不是“手工写正文绕过平台”，而是让当前对话 AI 成为受管语义执行端；
+响应只能写入已认领任务的 workspace，不能直接写 drafts/approved。
+
+适配器模式未配置、交互响应未 ingest、返回非 JSON、缺任一语义证据、字数不足、
+Task/Session/Broker 无效时一律阻塞。禁止退回临时脚本、直接聊天写文件或把 `model-router` 的
+“支持 chapter_write”误认为已经调用模型。不同 AI 产品只允许更换设备级适配器，
+不得各自重写章节流程。
+
+同一 Task Packet 重试时，执行器复用已通过响应合同的缓存，避免重复计费和正文
+漂移。只有确认模型输出本身有误时才可加 `--regenerate`；输入文件变化会形成新的
+请求 hash，并自动重新生成。
 
 ---
 
@@ -957,6 +1071,11 @@ writing_strategy_evidence
 candidate_facts
 handoff
 ```
+
+优先使用第 10.5 节的 `platform author run` 一次完成受管成稿、五项输出、
+Broker 落盘和 submit。若当前 AI 产品不能作为命令适配器调用，必须使用
+`platform author begin → ingest`；不能把 `chapter_write.py --content-file`
+伪装成自动生成命令。`chapter_write.py` 是底层受控落盘原语，不负责创作。
 
 写完正文后生成证据模板并填写：
 
@@ -1074,6 +1193,47 @@ AI 模拟读者只能作为预测证据，绝不能标成“真人反馈”。
 - 不得由 AI 虚构参与者或补造数据。
 
 真人样本不足或证据冲突时进入 human gate，不得自动宣告合格。
+
+#### 12.3.1 human gate 与 AI Reader Panel 的边界
+
+- 每章必须有 AI Reader Panel，但它是预测证据，不是人工放行。
+- `human_gate` 只在风格警告、保真冲突、质量例外、已发布内容冲击或真人读者
+  里程碑等模板分支出现，不是每章固定步骤。
+- 普通质量例外必须绑定当前任务及 `gate_context_sha256`，不能用聊天中的
+  “全部放行”替代。
+- 真人读者里程碑不得批量授权、不得跳过真实反馈报告。
+
+AI 可以只读检查待裁决内容：
+
+```powershell
+.\platform.bat human-gate inspect `
+  --project-root "<PROJECT_ROOT>" `
+  --task "<HUMAN_GATE_TASK_ID>"
+```
+
+授权必须由独立的受信人工审批界面执行。该界面临时持有设备级
+`AI_CREATIVE_HUMAN_APPROVAL_SECRET`，普通 Writer/Reviewer AI 进程不得获得
+这个秘密。普通质量例外可把多个明确 task id 绑定在一份短期授权中：
+
+```powershell
+.\platform.bat human-gate authorize `
+  --project-root "<PROJECT_ROOT>" `
+  --task "<HUMAN_GATE_TASK_ID_1>" `
+  --task "<HUMAN_GATE_TASK_ID_2>" `
+  --decision pass `
+  --authorized-by "<真实审批人>" `
+  --reason "<具体理由>" `
+  --expires-minutes 60
+```
+
+不允许通配符、章节范围或无上限授权；有效期只能是 1—1440 分钟。签名授权写入
+`operations/grants/human/`，并逐项绑定 task id、当前上下文 hash 和决定。文件被
+修改、上下文改变、到期、决定不匹配或签名无法验证时，事件路由 fail-closed。
+授权合同位于 `core/contracts/human-gate-authorization.schema.yaml`。
+
+真人读者里程碑即使有签名授权，也必须附带 `evidence_mode=verified_human_input`
+的 `human_reader_report`，满足至少 3 名参与者和至少 2 个分群；此类任务一次
+只能授权一个，不能和其他 gate 合并。
 
 ---
 
@@ -1291,7 +1451,10 @@ PROJECT_ROOT/canonical_manifest.yaml
 | 风格保真 fail | 回到 `style-revise` | 直接 apply |
 | final regression fail | baseline 回 chapter_fix；post_apply 回滚 | 标记通过 |
 | NKB sync fail | 回到 `nkb_update` | 发布 |
-| human gate 缺真人数据 | 等待真实数据或明确人工决定 | AI 冒充真人 |
+| human gate 无签名授权/上下文已变化 | 重新 inspect，由受信人工界面签发短期、精确范围授权 | AI 自制决定文件、复用旧授权、通配放行 |
+| human gate 缺真人数据 | 等待至少 3 人、2 分群的真实报告 | AI 冒充真人、用普通质量授权代替样本 |
+| Author Executor 未配置/响应合同失败 | 配置设备级适配器；对话 AI 改走 `author begin → ingest`；修复响应后重试 | 直接写草稿、用 `--content-file` 冒充自动成稿 |
+| 批量后章仍在 backlog | 核验上一章固定 `REQ-...-PUBLISH-CHNNN` 是否 completed | 删除依赖、手工 promote、并行写后章 |
 | 发布失败 | 保持草稿，修复授权/绑定/Broker 后重试 | 手工复制到 approved |
 | 规则冲突 | 按权威顺序报告并阻塞高风险动作 | 选择最方便的规则 |
 
@@ -1307,6 +1470,7 @@ PROJECT_ROOT/canonical_manifest.yaml
 | 平台/项目体检 | `platform bootstrap`、`doctor`、`layout validate` |
 | 会话 | `platform session bootstrap/verify/close` |
 | 对话转任务 | `platform task dispatch` |
+| 受管自动成稿 | 命令适配器：`platform author validate/prepare/run`；对话 AI：`platform author begin/ingest` |
 | 设计 | `platform design ...` |
 | 大纲 | `platform outline prepare/validate/chapter-check` |
 | NKB Genesis/准备度 | `platform genesis`、`ready` |
@@ -1314,6 +1478,7 @@ PROJECT_ROOT/canonical_manifest.yaml
 | 写作策略 | `platform craft build/evidence-*` |
 | 风格链 | `platform style ...` |
 | AI/真人读者 | `platform reader-panel ...` |
+| 人工裁决 | `platform human-gate inspect/authorize`；authorize 仅限受信人工审批界面 |
 | 审查反补 | `platform feedback ingest/validate` |
 | Broker/ACL | `platform broker deploy --mode Plan/Apply/Verify/Rollback`；低层 `acl-*` 仅供统一脚本内部使用 |
 | 章节发布 | `platform chapter ... publish` |
@@ -1327,6 +1492,15 @@ PROJECT_ROOT/canonical_manifest.yaml
 5. 项目只保存参数、输入、结果和证据，不保存平台公共实现副本。
 6. 任何写 canonical 的脚本都必须接入 Task、Session、Broker、授权与 Operation Manifest。
 7. 不要把 `scripts/chapter_pipeline_driver.py` 当作 strict-v2 全链路唯一入口；它不能替代现行任务模板、风格链、NKB sync、真人门禁和 Broker 授权。
+
+### 17.1 批量章节与 Git 节奏
+
+- 平台 Task、审查、NKB、发布和审计始终逐章原子闭环。
+- 每个完全发布并完成 `outline_refresh` 的章节形成一个 Git 提交，便于回滚和定位。
+- 每 5 个已闭环章节推送一次远端；卷末、付费边界和高风险修订立即推送。
+- 多个 AI 必须使用独立 worktree/分支，由协调器串行合并；禁止共享同一 `main`
+  工作树并发执行 Git 写操作。
+- Git 批次不能改变平台串行依赖，也不能把 5 章 NKB 更新合并成一次。
 
 ---
 
@@ -1343,6 +1517,8 @@ AI 在开始每章前逐项回答“是”：
 - [ ] 参考学习已获授权、审核和项目级批准。
 - [ ] 已读取 reference guidance、writing guidance、review regression。
 - [ ] 已生成本章 writing strategy 和 style guidance。
+- [ ] guidance 已记录本章全部场景类型、出场人物和 ACTIVE 参考规则来源。
+- [ ] 成稿来自 `platform author run`，或同一 AI 完成 `platform author begin → ingest`；不存在直接写 drafts。
 - [ ] 草稿目标明确为 `chapters/drafts/CH-NNN.txt`。
 - [ ] 开头/结尾由本章功能决定，并检查跨章重复。
 - [ ] 写作策略证据和字数预算检查通过。
@@ -1365,6 +1541,7 @@ AI 在开始每章前逐项回答“是”：
 - [ ] 所有章节 task chain 可追踪，无跳步完成。
 - [ ] 所有 NKB 更新有 operation manifest 和 sync proof。
 - [ ] 所有卷末、付费边界和重大修订里程碑完成人类读者门禁。
+- [ ] 所有 human gate 授权均签名、未过期、绑定具体 task/context；没有通配或 AI 自批。
 - [ ] 参考来源授权、指纹、撤回链完整，学习产物无原文泄漏。
 - [ ] 审查反馈已沉淀并在后续章节得到回归验证。
 - [ ] NKB、章纲、正文、summaries/handoffs 的最终状态一致。

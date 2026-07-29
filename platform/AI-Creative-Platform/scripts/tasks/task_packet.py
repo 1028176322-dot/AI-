@@ -309,6 +309,34 @@ def _resolve_input(root, name, task):
     return (None, False)
 
 
+def _style_scope_from_plan(root, task):
+    """Derive scene and character selectors from the governed chapter plan."""
+    values = ((task.get("inputs") or {}).get("values") or {})
+    scenes = set(values.get("scene_types") or [])
+    if values.get("scene_type"):
+        scenes.add(str(values["scene_type"]))
+    characters = set(values.get("character_ids") or [])
+    plan_path, plan_ok = _resolve_input(root, "chapter_plan", task)
+    if plan_ok and isinstance(plan_path, str) and os.path.isfile(plan_path):
+        body = _gov.load_yaml(plan_path) or {}
+        candidates = body.get("scenes") or (
+            (body.get("plan") or {}).get("scenes")) or []
+        for scene in candidates:
+            if not isinstance(scene, dict):
+                continue
+            if scene.get("type"):
+                scenes.add(str(scene["type"]))
+            for participant in scene.get("participants") or []:
+                if isinstance(participant, dict):
+                    participant = (
+                        participant.get("id")
+                        or participant.get("character_id")
+                        or participant.get("name"))
+                if participant:
+                    characters.add(str(participant))
+    return sorted(scenes or {"daily"}), sorted(characters)
+
+
 def build_packet(root, tid):
     st, data = TE.load_task(root, tid)
     if st is None:
@@ -332,18 +360,16 @@ def build_packet(root, tid):
                     if chapter_match else str(task.get("chapter_ref") or tid))
                 strategy_path, strategy_ok = _resolve_input(
                     root, "writing_strategy", task)
+                scene_types, character_ids = _style_scope_from_plan(
+                    root, task)
                 output = os.path.join(
                     root, "runtime", "learning", "style-guidance",
                     "%s.yaml" % tid)
                 style_guidance.build(
                     root, chapter_id,
                     str(task.get("revision_cycle_id") or tid),
-                    scene_types=[
-                        str(((task.get("inputs") or {}).get("values") or {})
-                            .get("scene_type") or "daily")],
-                    character_ids=(
-                        ((task.get("inputs") or {}).get("values") or {})
-                        .get("character_ids") or []),
+                    scene_types=scene_types,
+                    character_ids=character_ids,
                     task_id=tid,
                     writing_strategy_path=(
                         strategy_path if strategy_ok
