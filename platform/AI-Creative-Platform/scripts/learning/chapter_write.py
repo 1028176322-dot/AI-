@@ -42,6 +42,20 @@ def main():
     if project_layout.is_style_strict(args.project):
         with open(args.content_file, "r", encoding="utf-8") as stream:
             content = stream.read()
+        # Word-budget hard gate (CH-001 治理): fail-closed before broker write.
+        try:
+            from word_budget_gate import enforce_word_budget
+        except Exception:
+            print("ERROR: word_budget_gate module unavailable", file=sys.stderr)
+            sys.exit(2)
+        plan_path = os.path.join(
+            args.project, "sources", "outline", "chapters",
+            "PLAN-%s.yaml" % args.chapter)
+        ok, werrs = enforce_word_budget(args.content_file, plan_path)
+        if not ok:
+            print("WORD-BUDGET GATE FAILED: %s" % "; ".join(werrs),
+                  file=sys.stderr)
+            sys.exit(2)
         target_abs = os.path.join(args.project, target)
         result = broker_write(
             args.project, args.task_id, "chapter_write",

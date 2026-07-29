@@ -855,6 +855,8 @@ def build_parser():
     gx.add_argument("--contract-version", default="2.0.0")
     gx.add_argument("--policy-version", default="1.3.0")
     gx.add_argument("--session", default="SES-unknown")
+    gx.add_argument("--task-id", default=None,
+                    help="受保护内容产物(chapters/等)写操作必须绑定的任务 ID")
 
     gn = sub.add_parser("nkb", help="NKB 源文件/候选事实质量门禁校验")
     gn.add_argument("--project-root", help="项目根（自动推导 sources/ 与 NKB/candidates/）")

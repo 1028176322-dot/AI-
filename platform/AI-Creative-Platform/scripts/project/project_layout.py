@@ -217,8 +217,10 @@ def scaffold_layout(project_root, genre):
             "reason": (
                 "Windows service identities and NTFS ACL require "
                 "administrator-approved deployment"),
-            "deployment_tool":
-                "scripts/logs/deploy_broker_windows.ps1",
+            "deployment_tool": "platform broker deploy",
+            "deployment_command": (
+                "platform broker deploy --mode Apply "
+                "--project-root <PROJECT_ROOT> --auto-elevate"),
             "strict_writes_fail_closed": True,
         })
     agents = """# Single-Agent Execution Policy
@@ -239,6 +241,8 @@ def scaffold_layout(project_root, genre):
     每一章都必须具有完整场景级详细章纲并通过可写性和防注水门禁后，才允许写正文。
 11. 正文开写前必须执行 `platform craft build`；提交时必须附写作手法执行证据，
     开头、场景手法和结尾与章纲不匹配或近章模板化时不得通过审查。
+12. Broker 只能通过 `platform broker deploy --mode Plan/Apply/Verify/Rollback` 部署；
+    禁止 AI 直接组合本地账户、Windows 服务、注册表或 NTFS ACL 命令。
 """
     with open(os.path.join(project_root, "AGENTS.md"), "w", encoding="utf-8") as stream:
         stream.write(agents)

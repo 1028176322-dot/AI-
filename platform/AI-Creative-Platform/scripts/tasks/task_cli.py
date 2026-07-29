@@ -386,8 +386,10 @@ def main():
         print("✓ submit %s -> %s (review=%s)" % (args.task, st, rev))
     elif v == "review":
         findings = json.loads(args.findings) if args.findings else None
+        outputs = json.loads(args.outputs) if args.outputs else None
         st, info = TE.review(root, args.task, args.decision, findings=findings,
-                             reviewer=args.agent, role=args.role, model=args.model)
+                             reviewer=args.agent, role=args.role, model=args.model,
+                             outputs=outputs)
         print("✓ review %s -> %s (%s)" % (args.task, st, info))
     elif v == "complete":
         st, msg = TE.complete(root, args.task, model=args.model)

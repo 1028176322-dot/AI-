@@ -153,6 +153,8 @@ def _service_main(_argc, _argv):
             "host": _CONFIG.host,
             "port": port,
             "project_root": os.path.realpath(_CONFIG.project_root),
+            "deployment_id": _CONFIG.deployment_id,
+            "client_registry_path": _CONFIG.client_registry_path,
             "strict_dependencies": True,
             "trusted_context_source": "task_session_ssot",
             "endpoint_authentication":
@@ -191,6 +193,8 @@ def main():
     parser.add_argument("--project-root", required=True)
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=48731)
+    parser.add_argument("--deployment-id", required=True)
+    parser.add_argument("--client-registry-path", required=True)
     arguments = parser.parse_args()
     arguments.project_root = os.path.abspath(arguments.project_root)
     global _CONFIG
