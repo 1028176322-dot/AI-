@@ -141,6 +141,7 @@ commands:
   style_event_verify: platform style event-verify
   style_status: platform style status
   broker_serve: platform broker serve
+  broker_deploy: platform broker deploy
   broker_status: platform broker status
   broker_acl_plan: platform broker acl-plan
   broker_acl_apply: platform broker acl-apply

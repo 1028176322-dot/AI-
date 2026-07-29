@@ -39,6 +39,7 @@ TYPE_TO_COMP = {
     "character": "Characters",
     "canon_rule": "Canon",
     "world": "Canon",
+    "story_core": "StoryState",
     "item": "Assets",
     "foreshadow": "Foreshadow",
     "location": "Locations",
@@ -66,6 +67,9 @@ def _scan(directory):
     if not os.path.isdir(directory):
         return out
     for dp, _, fs in os.walk(directory):
+        # 跳过以下划线开头的暂存/草稿目录（_candidates/_intake 等）
+        if os.path.basename(dp).startswith("_"):
+            continue
         for f in fs:
             if f.endswith((".yaml", ".yml")):
                 out.append(os.path.join(dp, f))

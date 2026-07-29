@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 import sys
 
@@ -43,16 +44,61 @@ def resource(role, path, expected_sha256=None):
     }
 
 
-def _endpoint():
+def _deployment_status(project_root):
+    path = os.path.join(
+        project_root, "runtime", "learning", "broker-status.json")
+    if not os.path.isfile(path):
+        return {}
+    try:
+        with open(path, "r", encoding="utf-8-sig") as stream:
+            body = json.load(stream)
+        return body if isinstance(body, dict) else {}
+    except Exception as exc:
+        raise BrokerError(
+            "broker-status.json is unreadable: %s" % exc)
+
+
+def _registry_client_token(status):
+    """Read the per-project IPC token from the machine-local protected key."""
+    registry_path = status.get("client_registry_path")
+    if not registry_path or os.name != "nt":
+        return None
+    try:
+        import winreg
+        with winreg.OpenKey(
+                winreg.HKEY_LOCAL_MACHINE, registry_path,
+                0, winreg.KEY_READ) as key:
+            token, _ = winreg.QueryValueEx(key, "ClientToken")
+        return str(token) if token else None
+    except Exception as exc:
+        raise BrokerError(
+            "Broker client registry configuration is unavailable: %s" % exc)
+
+
+def _endpoint(project_root):
+    status = _deployment_status(project_root)
     raw = os.environ.get("STYLE_BROKER_PORT")
     if not raw:
+        raw = status.get("port")
+    if not raw:
         raise BrokerError(
-            "STYLE_BROKER_PORT is not configured; strict-v2 writes fail closed")
+            "Broker endpoint is not configured; run `platform broker deploy "
+            "--mode Apply`; strict-v2 writes fail closed")
     try:
         port = int(raw)
-    except ValueError:
-        raise BrokerError("STYLE_BROKER_PORT must be an integer")
-    return os.environ.get("STYLE_BROKER_HOST", "127.0.0.1"), port
+    except (TypeError, ValueError):
+        raise BrokerError("Broker port must be an integer")
+    host = (
+        os.environ.get("STYLE_BROKER_HOST")
+        or status.get("host")
+        or "127.0.0.1")
+    token = (
+        os.environ.get("STYLE_BROKER_CLIENT_TOKEN")
+        or _registry_client_token(status))
+    if not token:
+        raise BrokerError(
+            "Broker client token is unavailable; strict-v2 writes fail closed")
+    return host, port, token
 
 
 def identity(project_root, task_id, actor_id=None, session_id=None):
@@ -75,8 +121,9 @@ def broker_write(
         project_root, task_id, operation, resources, content,
         actor_id=None, session_id=None):
     """Authorize and write through Broker; no direct-write fallback."""
-    host, port = _endpoint()
-    client = BrokerClient(host=host, port=port)
+    host, port, token = _endpoint(project_root)
+    client = BrokerClient(
+        host=host, port=port, client_token=token)
     ctx = identity(
         project_root, task_id, actor_id=actor_id,
         session_id=session_id)

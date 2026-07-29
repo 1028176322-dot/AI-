@@ -27,7 +27,7 @@ components:
     references: [event_id]
   WorldState:
     required: [id, state, derived_from]
-    references: [derived_from]
+    references_many: [derived_from]
   Events:
     required: [id, name, chapter, participants, cause, effect, state_deltas, truth_status]
     references_many: [participants]

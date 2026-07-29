@@ -116,12 +116,12 @@ Broker：<DEPLOYED_AND_VERIFIED 或 BLOCKED>
 按顺序执行：
 
 ```powershell
-Set-Location "D:\AI-Workspace\platform\AI-Creative-Platform"
+Set-Location "<当前设备上的 PLATFORM_ROOT>"
 .\platform.bat bootstrap
 .\platform.bat doctor --quick
 .\platform.bat layout validate --project-root "<PROJECT_ROOT>"
+.\platform.bat broker deploy --mode Verify --project-root "<PROJECT_ROOT>"
 .\platform.bat broker status --project-root "<PROJECT_ROOT>"
-.\platform.bat broker acl-verify --project-root "<PROJECT_ROOT>" --taskrunner "SVC_TaskRunner" --writer "SVC_ChapterWriter"
 .\platform.bat ready --project-root "<PROJECT_ROOT>" --preflight
 ```
 
@@ -132,18 +132,158 @@ Set-Location "D:\AI-Workspace\platform\AI-Creative-Platform"
 - Broker 未部署或 ACL 未验证：禁止任何正式受控写和发布。
 - `ready --preflight` 若返回项目未准备好：只能执行当前生命周期允许的设计、NKB、准备度任务，禁止写正文。
 
-### 3.2 新项目的 Broker/ACL 是单项目门禁
+### 3.2 Broker 跨设备统一部署是单项目、单设备门禁
 
-新 strict-v2 项目初始状态默认是 `BLOCKED_NOT_DEPLOYED`。即使 Windows 服务已为其他项目安装，新项目仍必须对自己的目录执行并保存证据：
+新 strict-v2 项目初始状态默认是 `BLOCKED_NOT_DEPLOYED`。Broker 部署属于本机安全边界，不随 Git、项目复制或聊天会话迁移。即使：
+
+- 同一项目已在设备 A 部署；
+- 设备 B 已为另一个项目部署 Broker；
+- 项目目录中存在旧的 `broker-deployment.json`；
+
+当前“设备 × 项目”组合仍必须运行统一部署入口并取得本机验证证据，才能解除阻塞。
+
+#### 3.2.1 唯一允许的部署入口
+
+所有 AI、所有 Windows 设备只能调用：
 
 ```powershell
-.\platform.bat broker acl-plan --project-root "<PROJECT_ROOT>" --taskrunner "SVC_TaskRunner" --writer "SVC_ChapterWriter"
-.\platform.bat broker acl-apply --project-root "<PROJECT_ROOT>" --taskrunner "SVC_TaskRunner" --writer "SVC_ChapterWriter" --confirm-real-change
-.\platform.bat broker acl-verify --project-root "<PROJECT_ROOT>" --taskrunner "SVC_TaskRunner" --writer "SVC_ChapterWriter"
+Set-Location "<当前设备上的 PLATFORM_ROOT>"
+
+# 1. 只读预检：不需要管理员权限
+.\platform.bat broker deploy --mode Plan --project-root "<PROJECT_ROOT>"
+
+# 2. 自动部署：只允许在用户批准后执行；非管理员时只触发一次 Windows UAC
+.\platform.bat broker deploy --mode Apply --project-root "<PROJECT_ROOT>" --auto-elevate
+
+# 3. 独立复验：Apply 返回成功后仍必须执行
+.\platform.bat broker deploy --mode Verify --project-root "<PROJECT_ROOT>"
+
+# 4. 运行状态复读
 .\platform.bat broker status --project-root "<PROJECT_ROOT>"
 ```
 
-`acl-apply` 是真实系统权限变更，只能在用户已批准且 plan 确认目标为当前项目时执行。验证失败必须保持 fail-closed，不得改用普通文件写入绕过。
+禁止 AI 自己组合或直接使用以下方式部署：
+
+- `New-LocalUser`、`sc.exe create`、`reg.exe`、`icacls.exe`；
+- 直接执行 `broker acl-apply` 后就声称 Broker 已部署；
+- 自写 PowerShell、批处理、Python、安装器或 Windows 服务包装器；
+- 复制另一台设备的密钥、注册表项、服务账号密码或部署报告；
+- 使用固定 `AIStyleChapterWriter` 服务覆盖另一个项目；
+- 以管理员常驻进程、普通用户进程或临时 `broker serve` 代替正式服务；
+- 因部署失败而关闭 strict-v2、放宽 ACL 或恢复直接写。
+
+`broker acl-plan/acl-apply/acl-verify` 是统一部署脚本内部使用的低层诊断能力，不是新项目完整部署入口。
+
+#### 3.2.2 权威脚本和固定实现
+
+CLI 只能调用仓库内这一个部署脚本：
+
+```text
+scripts/logs/deploy_broker_windows.ps1
+```
+
+相关固定实现：
+
+```text
+scripts/logs/broker_cli.py                 # platform broker deploy 的 CLI 适配
+scripts/logs/broker_windows_service.py     # 原生 Windows Service 宿主
+scripts/logs/broker.py                     # 授权、capability、CAS、原子写
+scripts/learning/controlled_chapter_client.py # TaskRunner 唯一客户端
+```
+
+AI 不得复制、改名或在项目中生成脚本副本。确需变更部署逻辑时，只能修改上述平台实现、测试和本指南，再统一升级所有设备。
+
+CLI 仅为本次受控子进程使用 `ExecutionPolicy Bypass` 运行仓库内固定脚本，不修改设备级 PowerShell 执行策略；AI 禁止自行执行 `Set-ExecutionPolicy`。
+
+若 Codex、CI Agent 或企业设备管理器在启动 CLI **之前**就完成了外部提权，
+官方启动器必须仅在该部署子进程中设置
+`ACP_BROKER_INITIATING_IDENTITY=<提权前的实际任务调用身份>`。CLI 只负责把该身份
+透传给同一权威部署脚本，用于给受保护的客户端注册表授予只读权限；它不是密钥，
+不得写入项目配置。普通 AI 不得自行填写、猜测或扩大该身份，也不得借此给用户组、
+Everyone 或无关账号授权。未使用外部提权时不设置此变量，由 `--auto-elevate`
+自动保留当前调用身份。
+
+#### 3.2.3 Apply 自动完成的工作
+
+统一脚本会确定性完成：
+
+1. 校验 Windows、项目根、`PROJECT_LAYOUT.yaml`、Python 和必要平台文件。
+2. 依据当前设备上的规范化项目根生成 8 位 `deployment_id`。
+3. 若发现旧固定服务部署，只在报告项目根和 Windows Service `ImagePath` 都精确绑定当前项目时自动迁移；绑定不一致立即拒绝，绝不删除其他项目服务。
+4. 派生本项目独立身份与服务名：
+   - `ACP_TR_<deployment_id>`：TaskRunner，只读章节目录；
+   - `ACP_CW_<deployment_id>`：ChapterWriter，只供 Broker 使用；
+   - `AIStyleCW_<deployment_id>`：本项目 Windows 服务。
+5. 派生并占用本项目 loopback 端口；冲突时在受控范围内自动选择下一端口。
+6. 在当前设备使用加密安全随机数生成 Broker 签名密钥、IPC token 和两个本地账号密码；不得要求 AI 编造秘密。
+7. 创建/更新本项目两个低权限本地身份并授予最小权限。
+8. 安装以 ChapterWriter 身份运行、开机自动启动、失败自动重启的 Windows 服务。
+9. 将 Broker key 仅注入 Windows 服务环境。
+10. 将客户端 token 写入 ACL 保护的：
+   `HKLM\SOFTWARE\AI-Creative-Platform\Brokers\<deployment_id>`。
+11. 对 `chapters/drafts/`、`chapters/approved/` 应用并复读 NTFS ACL。
+12. 以真实 TaskRunner 身份执行“创建文件必须失败”和“删除文件必须失败”探测。
+13. 启动服务，验证 loopback Broker、ACL、身份、注册表客户端配置和项目绑定。
+14. 原子写入部署报告；任一环节失败即返回非零并保持 strict-v2 fail-closed。
+
+签名密钥、IPC token、账号密码不得写入项目、Git、Task Packet、聊天、日志或部署报告。
+
+#### 3.2.4 跨设备前提和边界
+
+每台设备必须满足：
+
+- Windows 10/11 或 Windows Server；
+- 项目位于本机 NTFS 卷，不支持把受控章节目录放在 FAT/exFAT、网络共享、NAS 或不提供 Windows ACL 的文件系统；
+- 当前平台仓库包含统一脚本并处于同一受支持版本；
+- Python 可由 `platform.bat` 启动；
+- 用户可以批准一次管理员/UAC 操作；
+- Windows 本地账户、服务控制管理器、注册表和 loopback 未被组织策略禁止。
+
+跨设备自动化的含义是“同一命令在每台合规设备上独立生成本机身份、密钥和证据”，不是把设备 A 的安全状态复制到设备 B。非 Windows 设备当前必须返回 `REJECTED`；在平台正式实现并批准新的隔离后端前，AI 不得自行改用 Docker、systemd、chmod、sudo 或云服务。
+
+#### 3.2.5 部署证据与通过标准
+
+必须读取并核验：
+
+```text
+PROJECT_ROOT/runtime/learning/broker-deployment.json
+PROJECT_ROOT/runtime/learning/broker-verification.json
+PROJECT_ROOT/runtime/learning/broker-status.json
+```
+
+失败的 Verify 只更新 `broker-verification.json`，不得覆盖上一次有效部署报告；这样既保留回滚/迁移证据，也不会把失败伪装成已部署。
+
+只有同时满足以下条件才是 `DEPLOYED_VERIFIED`：
+
+- 报告的 `project_root` 是当前项目；
+- `deployment_id`、服务名、端口和两个账号均存在；
+- Windows 服务状态是 `Running`；
+- Broker status probe 可达且绑定当前项目；
+- 客户端注册表项存在、token 非空且只有受准身份可读；
+- drafts/approved ACL 复读通过；
+- TaskRunner 真实身份直写、直删均被拒绝；
+- 报告没有保存任何秘密。
+
+旧报告、另一设备报告、仅 `broker status` 成功、仅服务存在或仅 ACL 成功，都不足以解除门禁。
+
+#### 3.2.6 验证失败与统一回滚
+
+验证失败时，先保存错误并保持项目阻塞；不得切换部署方式。需要撤销本项目部署时，只能执行：
+
+```powershell
+.\platform.bat broker deploy `
+  --mode Rollback `
+  --project-root "<PROJECT_ROOT>" `
+  --auto-elevate
+```
+
+确认本项目派生身份不再使用、并且用户明确要求删除身份时，才可追加：
+
+```powershell
+--remove-identities
+```
+
+回滚只允许删除部署报告中记录的当前项目服务、ACL 授权、注册表客户端配置和可选派生身份；不得删除其他项目服务、账号或目录。回滚后状态必须是 `ROLLED_BACK/BLOCKED_NOT_DEPLOYED`，禁止继续写作或发布。
 
 ### 3.3 会话启动
 
@@ -210,7 +350,7 @@ PROJECT_ROOT/runtime/sessions/<SESSION_ID>/SESSION_BRIEF.md
 1. 在 `WORKSPACE_ROOT/workspace.yaml` 和平台项目注册表中确认项目已登记。
 2. 读取 `PROJECT_ROOT/AGENTS.md`、`project.yaml`、`PROJECT_LAYOUT.yaml`。
 3. 执行 `layout validate`。
-4. 为该项目执行 Broker ACL plan/apply/verify。
+4. 为当前“设备 × 项目”执行 `broker deploy Plan → Apply → Verify`。
 5. 从 P0 生命周期开始，不得直接创建 NKB 或正文。
 
 ### 4.2 顶层目录用途
@@ -1145,7 +1285,7 @@ PROJECT_ROOT/canonical_manifest.yaml
 | 参考未授权/未审核 | 隔离在 inbox/candidates | 用于正文或审查规则 |
 | 全书详纲缺章 | 补齐并 `outline validate` | 只写近期几章后开写 |
 | 当前章 plan 缺失/过期 | `outline chapter-check`，刷新计划 | 临场自由发挥 |
-| Broker/ACL 未验证 | plan/apply/verify 或请求用户授权 | 普通文件写入绕过 |
+| Broker/ACL 未验证 | 只走 `broker deploy Plan → Apply → Verify`；Apply 前取得用户/UAC 授权 | 手工组合服务、账号、注册表或 ACL；普通文件写入绕过 |
 | writing evidence 不通过 | 修改草稿/策略证据后复验 | submit |
 | chapter review fail | `chapter_fix → chapter_review` | 直接风格修订或发布 |
 | 风格保真 fail | 回到 `style-revise` | 直接 apply |
@@ -1175,7 +1315,7 @@ PROJECT_ROOT/canonical_manifest.yaml
 | 风格链 | `platform style ...` |
 | AI/真人读者 | `platform reader-panel ...` |
 | 审查反补 | `platform feedback ingest/validate` |
-| Broker/ACL | `platform broker ...` |
+| Broker/ACL | `platform broker deploy --mode Plan/Apply/Verify/Rollback`；低层 `acl-*` 仅供统一脚本内部使用 |
 | 章节发布 | `platform chapter ... publish` |
 
 复用规则：

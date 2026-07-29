@@ -5,12 +5,13 @@ param(
     [string]$Mode,
     [Parameter(Mandatory = $true)]
     [string]$ProjectRoot,
-    [Parameter(Mandatory = $true)]
     [string]$PythonExecutable,
-    [string]$TaskRunnerAccount = "SVC_TaskRunner",
-    [string]$WriterAccount = "SVC_ChapterWriter",
-    [string]$ServiceName = "AIStyleChapterWriter",
-    [int]$Port = 48731,
+    [string]$TaskRunnerAccount,
+    [string]$WriterAccount,
+    [string]$ServiceName,
+    [string]$InitiatingIdentity,
+    [int]$Port = 0,
+    [switch]$AutoElevate,
     [switch]$RemoveIdentities
 )
 
@@ -20,11 +21,128 @@ $PlatformRoot = [IO.Path]::GetFullPath(
     (Join-Path $PSScriptRoot "..\.."))
 $BrokerCli = Join-Path $PSScriptRoot "broker_cli.py"
 $ServiceHost = Join-Path $PSScriptRoot "broker_windows_service.py"
-$PythonHome = Split-Path -Parent $PythonExecutable
 $ReportPath = Join-Path $ProjectRoot `
     "runtime\learning\broker-deployment.json"
+$VerificationPath = Join-Path $ProjectRoot `
+    "runtime\learning\broker-verification.json"
 $Drafts = Join-Path $ProjectRoot "chapters\drafts"
 $Approved = Join-Path $ProjectRoot "chapters\approved"
+
+if (-not (Test-Path -LiteralPath $ProjectRoot -PathType Container)) {
+    throw "Project root not found: $ProjectRoot"
+}
+if (-not (Test-Path -LiteralPath (
+    Join-Path $ProjectRoot "PROJECT_LAYOUT.yaml") -PathType Leaf)) {
+    throw "PROJECT_LAYOUT.yaml not found; unmanaged projects cannot deploy Broker"
+}
+$projectDrive = [IO.Path]::GetPathRoot($ProjectRoot)
+if ($projectDrive -notmatch "^[A-Za-z]:\\$") {
+    throw (
+        "Project root must be on a local Windows drive; UNC/network paths " +
+        "are not supported")
+}
+$driveInfo = [IO.DriveInfo]::new($projectDrive)
+if ([string]$driveInfo.DriveFormat -ne "NTFS") {
+    throw (
+        "Project root must be on NTFS; detected " +
+        "$($driveInfo.DriveFormat)")
+}
+
+function Get-DeploymentId {
+    param([string]$Value)
+    $normalized = [IO.Path]::GetFullPath($Value).TrimEnd(
+        [IO.Path]::DirectorySeparatorChar).ToLowerInvariant()
+    $sha = [Security.Cryptography.SHA256]::Create()
+    try {
+        $bytes = [Text.Encoding]::UTF8.GetBytes($normalized)
+        $hash = $sha.ComputeHash($bytes)
+        $hex = [BitConverter]::ToString($hash) -replace "-", ""
+        return $hex.Substring(0, 8)
+    } finally {
+        $sha.Dispose()
+    }
+}
+
+function Resolve-PythonExecutable {
+    param([string]$Requested)
+    $candidates = @()
+    if (-not [string]::IsNullOrWhiteSpace($Requested)) {
+        $candidates += $Requested
+    }
+    $candidates += (Join-Path $PlatformRoot ".venv\Scripts\python.exe")
+    $command = Get-Command python.exe -ErrorAction SilentlyContinue
+    if ($command) {
+        $candidates += $command.Source
+    }
+    foreach ($candidate in $candidates) {
+        if (-not [string]::IsNullOrWhiteSpace($candidate) -and
+            (Test-Path -LiteralPath $candidate -PathType Leaf)) {
+            return [IO.Path]::GetFullPath($candidate)
+        }
+    }
+    throw (
+        "Python runtime not found. Use the canonical CLI " +
+        "`platform broker deploy`, or pass -PythonExecutable explicitly.")
+}
+
+$PythonExecutable = Resolve-PythonExecutable $PythonExecutable
+$PythonHome = Split-Path -Parent $PythonExecutable
+$DeploymentId = Get-DeploymentId $ProjectRoot
+$ExistingReport = $null
+if (Test-Path -LiteralPath $ReportPath -PathType Leaf) {
+    try {
+        $ExistingReport = Get-Content -LiteralPath $ReportPath -Raw |
+            ConvertFrom-Json
+    } catch {
+        $ExistingReport = $null
+    }
+}
+$ExistingDeployment = if (
+    $ExistingReport -and
+    [string]$ExistingReport.deployment_id -eq $DeploymentId) {
+    $ExistingReport
+} else {
+    $null
+}
+if ([string]::IsNullOrWhiteSpace($TaskRunnerAccount)) {
+    $TaskRunnerAccount = if ($ExistingDeployment.taskrunner_account) {
+        [string]$ExistingDeployment.taskrunner_account
+    } else {
+        "ACP_TR_$DeploymentId"
+    }
+}
+if ([string]::IsNullOrWhiteSpace($WriterAccount)) {
+    $WriterAccount = if ($ExistingDeployment.writer_account) {
+        [string]$ExistingDeployment.writer_account
+    } else {
+        "ACP_CW_$DeploymentId"
+    }
+}
+if ([string]::IsNullOrWhiteSpace($ServiceName)) {
+    $ServiceName = if ($ExistingDeployment.service_name) {
+        [string]$ExistingDeployment.service_name
+    } else {
+        "AIStyleCW_$DeploymentId"
+    }
+}
+if ($Port -eq 0) {
+    $Port = if ($ExistingDeployment.port) {
+        [int]$ExistingDeployment.port
+    } else {
+        48000 + (
+            [Convert]::ToInt32($DeploymentId.Substring(0, 4), 16) % 8000)
+    }
+}
+if ($Port -lt 1024 -or $Port -gt 65535) {
+    throw "Port must be between 1024 and 65535"
+}
+$RegistrySubPath = "SOFTWARE\AI-Creative-Platform\Brokers\$DeploymentId"
+$RegistryProviderPath = "HKLM:\$RegistrySubPath"
+$CurrentIdentity = (
+    [Security.Principal.WindowsIdentity]::GetCurrent().Name)
+if ([string]::IsNullOrWhiteSpace($InitiatingIdentity)) {
+    $InitiatingIdentity = $CurrentIdentity
+}
 
 function Test-Administrator {
     $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
@@ -36,6 +154,213 @@ function Test-Administrator {
 function Require-Administrator {
     if (-not (Test-Administrator)) {
         throw "Administrator privileges are required for $Mode"
+    }
+}
+
+function Stop-GovernedService {
+    param([string]$Name)
+    $service = Get-Service -Name $Name -ErrorAction SilentlyContinue
+    if (-not $service -or $service.Status -eq "Stopped") {
+        return
+    }
+    try {
+        Stop-Service -Name $Name -Force -ErrorAction Stop
+    } catch {
+        # Stop-Service can race with a service that has already stopped.
+    }
+    for ($attempt = 0; $attempt -lt 40; $attempt++) {
+        $service = Get-Service -Name $Name -ErrorAction SilentlyContinue
+        if (-not $service -or $service.Status -eq "Stopped") {
+            return
+        }
+        Start-Sleep -Milliseconds 250
+    }
+    throw "Service $Name did not reach STOPPED state"
+}
+
+function Invoke-ElevatedSelf {
+    function ConvertTo-PowerShellLiteral {
+        param([string]$Value)
+        return "'" + $Value.Replace("'", "''") + "'"
+    }
+    $command = (
+        "& " + (ConvertTo-PowerShellLiteral $PSCommandPath) +
+        " -Mode " + (ConvertTo-PowerShellLiteral $Mode) +
+        " -ProjectRoot " + (ConvertTo-PowerShellLiteral $ProjectRoot) +
+        " -PythonExecutable " +
+            (ConvertTo-PowerShellLiteral $PythonExecutable) +
+        " -TaskRunnerAccount " +
+            (ConvertTo-PowerShellLiteral $TaskRunnerAccount) +
+        " -WriterAccount " +
+            (ConvertTo-PowerShellLiteral $WriterAccount) +
+        " -ServiceName " + (ConvertTo-PowerShellLiteral $ServiceName) +
+        " -InitiatingIdentity " +
+            (ConvertTo-PowerShellLiteral $InitiatingIdentity) +
+        " -Port " + [string]$Port
+    )
+    if ($RemoveIdentities) {
+        $command += " -RemoveIdentities"
+    }
+    $command += "; exit `$LASTEXITCODE"
+    $encoded = [Convert]::ToBase64String(
+        [Text.Encoding]::Unicode.GetBytes($command))
+    $arguments = (
+        "-NoProfile -ExecutionPolicy Bypass -EncodedCommand " + $encoded)
+    $child = Start-Process -FilePath "powershell.exe" `
+        -ArgumentList $arguments -Verb RunAs -WindowStyle Hidden `
+        -Wait -PassThru
+    exit $child.ExitCode
+}
+
+function New-HexSecret {
+    param([int]$ByteCount = 32)
+    $bytes = New-Object byte[] $ByteCount
+    $generator = [Security.Cryptography.RandomNumberGenerator]::Create()
+    try {
+        $generator.GetBytes($bytes)
+    } finally {
+        $generator.Dispose()
+    }
+    return (
+        [BitConverter]::ToString($bytes) -replace "-", "").ToLowerInvariant()
+}
+
+function New-AccountPassword {
+    return "Aa1!$(New-HexSecret -ByteCount 24)"
+}
+
+function Find-AvailableLoopbackPort {
+    param([int]$StartingPort)
+    for ($offset = 0; $offset -lt 128; $offset++) {
+        $candidate = $StartingPort + $offset
+        if ($candidate -gt 65535) {
+            break
+        }
+        $listener = $null
+        try {
+            $listener = [Net.Sockets.TcpListener]::new(
+                [Net.IPAddress]::Loopback, $candidate)
+            $listener.Start()
+            return $candidate
+        } catch {
+            continue
+        } finally {
+            if ($listener) {
+                $listener.Stop()
+            }
+        }
+    }
+    throw "No available loopback port found from $StartingPort"
+}
+
+function Write-ClientRegistryConfiguration {
+    param([string]$ClientToken)
+    New-Item -Path $RegistryProviderPath -Force | Out-Null
+    New-ItemProperty -Path $RegistryProviderPath -Name "ClientToken" `
+        -Value $ClientToken -PropertyType String -Force | Out-Null
+    New-ItemProperty -Path $RegistryProviderPath -Name "Host" `
+        -Value "127.0.0.1" -PropertyType String -Force | Out-Null
+    New-ItemProperty -Path $RegistryProviderPath -Name "Port" `
+        -Value $Port -PropertyType DWord -Force | Out-Null
+    New-ItemProperty -Path $RegistryProviderPath -Name "ProjectRoot" `
+        -Value $ProjectRoot -PropertyType String -Force | Out-Null
+    New-ItemProperty -Path $RegistryProviderPath -Name "ServiceName" `
+        -Value $ServiceName -PropertyType String -Force | Out-Null
+
+    $acl = Get-Acl -Path $RegistryProviderPath
+    $acl.SetAccessRuleProtection($true, $false)
+    foreach ($entry in @(
+        @("NT AUTHORITY\SYSTEM", "FullControl"),
+        @("BUILTIN\Administrators", "FullControl"),
+        @("$env:COMPUTERNAME\$TaskRunnerAccount", "ReadKey"),
+        @($InitiatingIdentity, "ReadKey")
+    )) {
+        $rights = [Enum]::Parse(
+            [Security.AccessControl.RegistryRights], $entry[1])
+        $rule = [Security.AccessControl.RegistryAccessRule]::new(
+            $entry[0],
+            $rights,
+            [Security.AccessControl.InheritanceFlags]::None,
+            [Security.AccessControl.PropagationFlags]::None,
+            [Security.AccessControl.AccessControlType]::Allow)
+        $acl.AddAccessRule($rule)
+    }
+    Set-Acl -Path $RegistryProviderPath -AclObject $acl
+}
+
+function Remove-LegacyDeploymentForCurrentProject {
+    $legacyDeployments = @()
+    if ($ExistingReport -and -not $ExistingDeployment) {
+        $legacyReportedRoot = [string]$ExistingReport.project_root
+        if (-not [string]::IsNullOrWhiteSpace($legacyReportedRoot)) {
+            $legacyRoot = [IO.Path]::GetFullPath($legacyReportedRoot)
+            if ($legacyRoot -ne $ProjectRoot) {
+                throw (
+                    "Legacy deployment report belongs to another project " +
+                    "root; automatic migration is refused")
+            }
+        }
+        $legacyDeployments += @{
+            service = [string]$ExistingReport.service_name
+            runner = [string]$ExistingReport.taskrunner_account
+            writer = [string]$ExistingReport.writer_account
+        }
+    }
+    if ($ServiceName -ne "AIStyleChapterWriter") {
+        $legacyDeployments += @{
+            service = "AIStyleChapterWriter"
+            runner = "SVC_TaskRunner"
+            writer = "SVC_ChapterWriter"
+        }
+    }
+
+    $legacyRunners = @()
+    $legacyWriters = @()
+    foreach ($legacy in $legacyDeployments) {
+        $legacyService = [string]$legacy.service
+        $legacyRunner = [string]$legacy.runner
+        $legacyWriter = [string]$legacy.writer
+        if (-not [string]::IsNullOrWhiteSpace($legacyRunner)) {
+            $legacyRunners += $legacyRunner
+        }
+        if (-not [string]::IsNullOrWhiteSpace($legacyWriter)) {
+            $legacyWriters += $legacyWriter
+        }
+        if ([string]::IsNullOrWhiteSpace($legacyService) -or
+            $legacyService -eq $ServiceName) {
+            continue
+        }
+        $legacyServicePath = (
+            "HKLM:\SYSTEM\CurrentControlSet\Services\$legacyService")
+        if (Test-Path -Path $legacyServicePath) {
+            $imagePath = [string](
+                Get-ItemProperty -Path $legacyServicePath).ImagePath
+            if (-not $imagePath.Contains($ProjectRoot)) {
+                throw (
+                    "Legacy service exists but is not bound to this project; " +
+                    "automatic migration is refused")
+            }
+            Stop-GovernedService -Name $legacyService
+            & sc.exe delete $legacyService | Out-Null
+            if ($LASTEXITCODE -ne 0) {
+                throw "Failed to delete governed legacy service $legacyService"
+            }
+            Start-Sleep -Seconds 1
+        }
+    }
+    foreach ($path in @($Drafts, $Approved)) {
+        foreach ($legacyRunner in ($legacyRunners | Select-Object -Unique)) {
+            & icacls.exe $path /remove:d $legacyRunner | Out-Null
+            if ($LASTEXITCODE -ne 0) {
+                throw "Failed to remove legacy TaskRunner ACL: $legacyRunner"
+            }
+        }
+        foreach ($legacyWriter in ($legacyWriters | Select-Object -Unique)) {
+            & icacls.exe $path /remove:g $legacyWriter | Out-Null
+            if ($LASTEXITCODE -ne 0) {
+                throw "Failed to remove legacy writer ACL: $legacyWriter"
+            }
+        }
     }
 }
 
@@ -169,15 +494,39 @@ function Write-DeploymentReport {
     $directory = Split-Path -Parent $ReportPath
     New-Item -ItemType Directory -Force -Path $directory | Out-Null
     $Body.schema = "style-broker-deployment@1.0.0"
+    $Body.deployment_id = $DeploymentId
     $Body.project_root = $ProjectRoot
     $Body.service_name = $ServiceName
+    $Body.port = $Port
     $Body.taskrunner_account = $TaskRunnerAccount
     $Body.writer_account = $WriterAccount
+    $Body.installed_by = $InitiatingIdentity
+    $Body.client_registry_path = $RegistrySubPath
     $Body.generated_at = [DateTimeOffset]::Now.ToString("o")
     $temporary = "$ReportPath.tmp"
     $Body | ConvertTo-Json -Depth 12 |
         Set-Content -LiteralPath $temporary -Encoding UTF8
     Move-Item -LiteralPath $temporary -Destination $ReportPath -Force
+}
+
+function Write-VerificationReport {
+    param([hashtable]$Body)
+    $directory = Split-Path -Parent $VerificationPath
+    New-Item -ItemType Directory -Force -Path $directory | Out-Null
+    $Body.schema = "style-broker-verification@1.0.0"
+    $Body.deployment_id = $DeploymentId
+    $Body.project_root = $ProjectRoot
+    $Body.service_name = $ServiceName
+    $Body.port = $Port
+    $Body.taskrunner_account = $TaskRunnerAccount
+    $Body.writer_account = $WriterAccount
+    $Body.client_registry_path = $RegistrySubPath
+    $Body.generated_at = [DateTimeOffset]::Now.ToString("o")
+    $temporary = "$VerificationPath.tmp"
+    $Body | ConvertTo-Json -Depth 12 |
+        Set-Content -LiteralPath $temporary -Encoding UTF8
+    Move-Item -LiteralPath $temporary `
+        -Destination $VerificationPath -Force
 }
 
 function Get-AclVerification {
@@ -210,6 +559,49 @@ function Get-ServiceVerification {
     }
 }
 
+function Get-ClientRegistryVerification {
+    if (-not (Test-Path -Path $RegistryProviderPath)) {
+        return @{
+            verified = $false
+            reason = "client registry key is missing"
+        }
+    }
+    $values = Get-ItemProperty -Path $RegistryProviderPath
+    $acl = Get-Acl -Path $RegistryProviderPath
+    $runner = "$env:COMPUTERNAME\$TaskRunnerAccount"
+    $runnerCanRead = $false
+    $initiatorCanRead = $false
+    foreach ($rule in $acl.Access) {
+        if ([string]$rule.IdentityReference -ieq $runner -and
+            $rule.AccessControlType -eq "Allow" -and
+            ([string]$rule.RegistryRights).Contains("ReadKey")) {
+            $runnerCanRead = $true
+        }
+        if ([string]$rule.IdentityReference -ieq $InitiatingIdentity -and
+            $rule.AccessControlType -eq "Allow" -and
+            ([string]$rule.RegistryRights).Contains("ReadKey")) {
+            $initiatorCanRead = $true
+        }
+    }
+    $verified = (
+        -not [string]::IsNullOrWhiteSpace([string]$values.ClientToken) -and
+        [string]$values.Host -eq "127.0.0.1" -and
+        [int]$values.Port -eq $Port -and
+        [IO.Path]::GetFullPath([string]$values.ProjectRoot) -eq $ProjectRoot -and
+        [string]$values.ServiceName -eq $ServiceName -and
+        $runnerCanRead -and
+        $initiatorCanRead)
+    return @{
+        verified = $verified
+        registry_path = $RegistrySubPath
+        runner_read = $runnerCanRead
+        initiating_identity = $InitiatingIdentity
+        initiating_identity_read = $initiatorCanRead
+        token_present = (
+            -not [string]::IsNullOrWhiteSpace([string]$values.ClientToken))
+    }
+}
+
 if ($Mode -eq "Plan") {
     $plan = & $PythonExecutable $BrokerCli acl-plan `
         --project-root $ProjectRoot `
@@ -222,55 +614,79 @@ if ($Mode -eq "Plan") {
         service_identity = ".\$WriterAccount"
         taskrunner_identity = ".\$TaskRunnerAccount"
         service_host = $ServiceHost
+        deployment_id = $DeploymentId
         port = $Port
-        required_secret_environment = @(
-            "STYLE_BROKER_KEY",
-            "STYLE_BROKER_CLIENT_TOKEN",
-            "STYLE_TASKRUNNER_PASSWORD",
-            "STYLE_WRITER_SERVICE_PASSWORD"
-        )
+        secrets = (
+            "Apply generates device-local random secrets automatically; " +
+            "the Broker key stays in the Windows service environment and " +
+            "the client token is stored in an ACL-protected HKLM key.")
+        client_registry_path = $RegistrySubPath
         acl_plan = ($plan -join "`n")
         rollback = @(
             "Stop and delete service $ServiceName",
             "Remove explicit ACL entries for both service identities",
+            "Delete HKLM:\$RegistrySubPath",
             "Optionally remove the two local identities"
         )
     } | ConvertTo-Json -Depth 8
     exit 0
 }
 
-Require-Administrator
+if ($Mode -in @("Apply", "Rollback")) {
+    if (-not (Test-Administrator) -and $AutoElevate) {
+        Invoke-ElevatedSelf
+    }
+    Require-Administrator
+}
 
 if ($Mode -eq "Apply") {
-    foreach ($name in @(
-        "STYLE_BROKER_KEY",
-        "STYLE_BROKER_CLIENT_TOKEN",
-        "STYLE_TASKRUNNER_PASSWORD",
-        "STYLE_WRITER_SERVICE_PASSWORD"
-    )) {
-        if ([string]::IsNullOrWhiteSpace(
-            [Environment]::GetEnvironmentVariable($name))) {
-            throw "Required secret environment variable is missing: $name"
-        }
-    }
+    $env:STYLE_BROKER_KEY = New-HexSecret -ByteCount 32
+    $env:STYLE_BROKER_CLIENT_TOKEN = New-HexSecret -ByteCount 32
+    $runnerPlainPassword = New-AccountPassword
+    $writerPlainPassword = New-AccountPassword
     if (-not (Test-Path -LiteralPath $PythonExecutable -PathType Leaf)) {
         throw "Python executable not found: $PythonExecutable"
     }
+    & $PythonExecutable $ServiceHost --help | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw (
+            "Selected Python cannot load the Broker service runtime; " +
+            "deployment stopped before changing identities or ACLs")
+    }
     New-Item -ItemType Directory -Force -Path $Drafts, $Approved |
         Out-Null
+    Remove-LegacyDeploymentForCurrentProject
+    $existing = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
+    if ($existing) {
+        $existingServicePath = (
+            "HKLM:\SYSTEM\CurrentControlSet\Services\$ServiceName")
+        $existingImagePath = [string](
+            Get-ItemProperty -Path $existingServicePath).ImagePath
+        if (-not $existingImagePath.Contains($ProjectRoot)) {
+            throw (
+                "Derived service name is already bound to another project; " +
+                "use an explicitly approved non-conflicting service name")
+        }
+    }
 
     $runnerPassword = ConvertTo-SecureString `
-        $env:STYLE_TASKRUNNER_PASSWORD -AsPlainText -Force
+        $runnerPlainPassword -AsPlainText -Force
     $writerPassword = ConvertTo-SecureString `
-        $env:STYLE_WRITER_SERVICE_PASSWORD -AsPlainText -Force
+        $writerPlainPassword -AsPlainText -Force
     $runnerUser = Get-LocalUser -Name $TaskRunnerAccount `
         -ErrorAction SilentlyContinue
     if (-not $runnerUser) {
         New-LocalUser -Name $TaskRunnerAccount `
             -Password $runnerPassword `
-            -Description "AI platform low-privilege task runner" `
+            -Description (
+                "AI platform TaskRunner deployment $DeploymentId") `
             -PasswordNeverExpires | Out-Null
     } else {
+        if (-not ([string]$runnerUser.Description).Contains($DeploymentId)) {
+            throw (
+                "TaskRunner account name is already owned by another " +
+                "deployment")
+        }
         Set-LocalUser -Name $TaskRunnerAccount `
             -Password $runnerPassword -PasswordNeverExpires $true
     }
@@ -279,9 +695,15 @@ if ($Mode -eq "Apply") {
     if (-not $writerUser) {
         New-LocalUser -Name $WriterAccount `
             -Password $writerPassword `
-            -Description "AI platform ChapterWriter Broker" `
+            -Description (
+                "AI platform ChapterWriter deployment $DeploymentId") `
             -PasswordNeverExpires | Out-Null
     } else {
+        if (-not ([string]$writerUser.Description).Contains($DeploymentId)) {
+            throw (
+                "ChapterWriter account name is already owned by another " +
+                "deployment")
+        }
         Set-LocalUser -Name $WriterAccount `
             -Password $writerPassword -PasswordNeverExpires $true
     }
@@ -290,43 +712,53 @@ if ($Mode -eq "Apply") {
     if ($LASTEXITCODE -ne 0) {
         throw "Writer service identity cannot read the Python runtime"
     }
+    & icacls.exe $PlatformRoot /grant:r `
+        "${WriterAccount}:(OI)(CI)RX" | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw "Writer service identity cannot read the platform runtime"
+    }
     Grant-ServiceLogonRight -Account $WriterAccount
 
-    $existing = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
     if ($existing) {
-        if ($existing.Status -ne "Stopped") {
-            Stop-Service -Name $ServiceName -Force
-        }
+        Stop-GovernedService -Name $ServiceName
         & sc.exe delete $ServiceName | Out-Null
         Start-Sleep -Seconds 1
     }
+    $Port = Find-AvailableLoopbackPort -StartingPort $Port
+    Write-ClientRegistryConfiguration `
+        -ClientToken $env:STYLE_BROKER_CLIENT_TOKEN
     $binPath = (
         ('"{0}" "{1}" --service-name "{2}" ' +
-         '--project-root "{3}" --host 127.0.0.1 --port {4}') -f
-        $PythonExecutable, $ServiceHost, $ServiceName, $ProjectRoot, $Port)
-    $createOutput = & sc.exe create $ServiceName `
-        binPath= $binPath `
-        start= auto `
-        obj= ".\$WriterAccount" `
-        password= $env:STYLE_WRITER_SERVICE_PASSWORD 2>&1
-    if ($LASTEXITCODE -ne 0) {
-        throw ("Windows service creation failed: " +
-            ($createOutput -join "`n"))
+         '--project-root "{3}" --host 127.0.0.1 --port {4} ' +
+         '--deployment-id "{5}" --client-registry-path "{6}"') -f
+        $PythonExecutable, $ServiceHost, $ServiceName, $ProjectRoot, $Port,
+        $DeploymentId, $RegistrySubPath)
+    $writerCredential = [PSCredential]::new(
+        ".\$WriterAccount", $writerPassword)
+    try {
+        New-Service -Name $ServiceName `
+            -BinaryPathName $binPath `
+            -StartupType Automatic `
+            -Credential $writerCredential `
+            -Description (
+                "AI Creative Platform strict-v2 ChapterWriter Broker") |
+            Out-Null
+    } catch {
+        throw "Windows service creation failed: $($_.Exception.Message)"
     }
-    & sc.exe description $ServiceName `
-        "AI Creative Platform strict-v2 ChapterWriter Broker" | Out-Null
+    $runnerPlainPassword = $null
+    $writerPlainPassword = $null
     & sc.exe failure $ServiceName `
         "reset= 86400" "actions= restart/5000/restart/15000/none/0" |
         Out-Null
 
-    $serviceKey = "HKLM\SYSTEM\CurrentControlSet\Services\$ServiceName"
-    $environmentValue = "STYLE_BROKER_KEY=$($env:STYLE_BROKER_KEY)\0" +
-        "STYLE_BROKER_CLIENT_TOKEN=$($env:STYLE_BROKER_CLIENT_TOKEN)"
-    & reg.exe add $serviceKey /v Environment /t REG_MULTI_SZ `
-        /d $environmentValue /f | Out-Null
-    if ($LASTEXITCODE -ne 0) {
-        throw "Service environment injection failed"
-    }
+    $serviceRegistryPath = (
+        "HKLM:\SYSTEM\CurrentControlSet\Services\$ServiceName")
+    New-ItemProperty -Path $serviceRegistryPath -Name "Environment" `
+        -PropertyType MultiString -Value @(
+            "STYLE_BROKER_KEY=$($env:STYLE_BROKER_KEY)",
+            "STYLE_BROKER_CLIENT_TOKEN=$($env:STYLE_BROKER_CLIENT_TOKEN)"
+        ) -Force | Out-Null
 
     & $PythonExecutable $BrokerCli acl-apply `
         --project-root $ProjectRoot `
@@ -384,11 +816,13 @@ if ($Mode -eq "Apply") {
 
     $acl = Get-AclVerification
     $service = Get-ServiceVerification
+    $clientRegistry = Get-ClientRegistryVerification
     $verified = (
         $acl.verified -and
         $service.exists -and
         $service.windows_status -eq "Running" -and
         $service.broker_reachable -and
+        $clientRegistry.verified -and
         $directWriteDenied -and
         $directDeleteDenied)
     Write-DeploymentReport @{
@@ -400,15 +834,19 @@ if ($Mode -eq "Apply") {
         }
         acl = $acl
         service = $service
+        client_registry = $clientRegistry
         taskrunner_direct_write_denied = $directWriteDenied
         taskrunner_direct_delete_denied = $directDeleteDenied
         taskrunner_write_probe_exit_code = $process.ExitCode
         taskrunner_delete_probe_exit_code = $deleteProcess.ExitCode
         secrets_persisted_in_project = $false
+        secrets_generated_on_device = $true
+        broker_key_location = (
+            "Windows Service environment (SCM/registry ACL protected)")
+        client_token_location = "HKLM:\$RegistrySubPath"
         rollback_command = (
-            "powershell -File `"$PSCommandPath`" -Mode Rollback " +
-            "-ProjectRoot `"$ProjectRoot`" " +
-            "-PythonExecutable `"$PythonExecutable`"")
+            "platform broker deploy --mode Rollback " +
+            "--project-root `"$ProjectRoot`" --auto-elevate")
     }
     if (-not $verified) {
         throw "Deployment verification did not pass"
@@ -420,12 +858,22 @@ if ($Mode -eq "Apply") {
 if ($Mode -eq "Verify") {
     $acl = Get-AclVerification
     $service = Get-ServiceVerification
+    $clientRegistry = Get-ClientRegistryVerification
+    $priorWriteDenied = (
+        $ExistingDeployment -and
+        $ExistingDeployment.taskrunner_direct_write_denied -eq $true)
+    $priorDeleteDenied = (
+        $ExistingDeployment -and
+        $ExistingDeployment.taskrunner_direct_delete_denied -eq $true)
     $verified = (
         $acl.verified -and
         $service.exists -and
         $service.windows_status -eq "Running" -and
-        $service.broker_reachable)
-    Write-DeploymentReport @{
+        $service.broker_reachable -and
+        $clientRegistry.verified -and
+        $priorWriteDenied -and
+        $priorDeleteDenied)
+    $verificationBody = @{
         mode = "Verify"
         deployment_state = if ($verified) {
             "DEPLOYED_VERIFIED"
@@ -434,13 +882,38 @@ if ($Mode -eq "Verify") {
         }
         acl = $acl
         service = $service
-        taskrunner_direct_write_denied = $null
-        note = "Run Apply to execute the direct-write identity probe."
+        client_registry = $clientRegistry
+        taskrunner_direct_write_denied = $priorWriteDenied
+        taskrunner_direct_delete_denied = $priorDeleteDenied
+        note = (
+            "Verify preserves the latest Apply identity probes; " +
+            "run Apply when either proof is absent.")
     }
-    Get-Content -LiteralPath $ReportPath -Raw
+    if ($ExistingDeployment) {
+        foreach ($name in @(
+            "secrets_persisted_in_project",
+            "secrets_generated_on_device",
+            "broker_key_location",
+            "client_token_location",
+            "rollback_command",
+            "taskrunner_write_probe_exit_code",
+            "taskrunner_delete_probe_exit_code"
+        )) {
+            $property = $ExistingDeployment.PSObject.Properties[$name]
+            if ($property) {
+                $verificationBody[$name] = $property.Value
+            }
+        }
+        $verificationBody["apply_report_generated_at"] = (
+            $ExistingDeployment.generated_at)
+    }
+    Write-VerificationReport $verificationBody
     if (-not $verified) {
+        Get-Content -LiteralPath $VerificationPath -Raw
         exit 1
     }
+    Write-DeploymentReport $verificationBody
+    Get-Content -LiteralPath $ReportPath -Raw
     exit 0
 }
 
@@ -457,6 +930,10 @@ if ($Mode -eq "Rollback") {
         & icacls.exe $path /remove:g $WriterAccount | Out-Null
     }
     & icacls.exe $PythonHome /remove:g $WriterAccount | Out-Null
+    & icacls.exe $PlatformRoot /remove:g $WriterAccount | Out-Null
+    if (Test-Path -Path $RegistryProviderPath) {
+        Remove-Item -Path $RegistryProviderPath -Recurse -Force
+    }
     Revoke-ServiceLogonRight -Account $WriterAccount
     if ($RemoveIdentities) {
         foreach ($name in @($TaskRunnerAccount, $WriterAccount)) {
@@ -468,6 +945,8 @@ if ($Mode -eq "Rollback") {
     Write-DeploymentReport @{
         mode = "Rollback"
         deployment_state = "ROLLED_BACK"
+        client_registry_removed = (
+            -not (Test-Path -Path $RegistryProviderPath))
         identities_removed = [bool]$RemoveIdentities
     }
     Get-Content -LiteralPath $ReportPath -Raw

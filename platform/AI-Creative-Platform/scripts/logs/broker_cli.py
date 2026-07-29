@@ -3,7 +3,9 @@
 import argparse
 import json
 import os
+import shutil
 import socket
+import subprocess
 import sys
 import time
 
@@ -121,6 +123,47 @@ def _acl_paths(arguments):
     )
 
 
+def _deploy(arguments):
+    """Run the one canonical Windows deployment entrypoint.
+
+    Deployment stays in the checked-in PowerShell script because service
+    identities, SCM registration, LSA rights, registry ACLs and NTFS ACLs are
+    Windows operations.  The Python CLI removes interpreter/path guesswork for
+    callers and makes every AI use the same implementation.
+    """
+    if os.name != "nt":
+        raise SystemExit(
+            "REJECTED: strict-v2 Broker deployment currently supports "
+            "Windows + NTFS only; no alternate deployment is authorized")
+    powershell = shutil.which("powershell.exe")
+    if not powershell:
+        raise SystemExit("REJECTED: powershell.exe was not found")
+    script = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "deploy_broker_windows.ps1")
+    command = [
+        powershell, "-NoProfile", "-NonInteractive",
+        "-ExecutionPolicy", "Bypass", "-File", script,
+        "-Mode", arguments.mode,
+        "-ProjectRoot", os.path.abspath(arguments.project_root),
+        "-PythonExecutable", os.path.abspath(sys.executable),
+    ]
+    initiating_identity = os.environ.get(
+        "ACP_BROKER_INITIATING_IDENTITY", "").strip()
+    if initiating_identity:
+        if any(char in initiating_identity for char in "\r\n\0"):
+            raise SystemExit(
+                "REJECTED: invalid ACP_BROKER_INITIATING_IDENTITY")
+        command.extend([
+            "-InitiatingIdentity", initiating_identity])
+    if arguments.auto_elevate:
+        command.append("-AutoElevate")
+    if arguments.remove_identities:
+        command.append("-RemoveIdentities")
+    completed = subprocess.run(command, check=False)
+    return completed.returncode
+
+
 def main():
     parser = argparse.ArgumentParser(prog="broker")
     subparsers = parser.add_subparsers(dest="action", required=True)
@@ -132,6 +175,20 @@ def main():
 
     status = subparsers.add_parser("status")
     status.add_argument("--project-root", required=True)
+
+    deployment = subparsers.add_parser(
+        "deploy",
+        help="跨设备统一部署入口（Plan/Apply/Verify/Rollback）")
+    deployment.add_argument(
+        "--mode", required=True,
+        choices=("Plan", "Apply", "Verify", "Rollback"))
+    deployment.add_argument("--project-root", required=True)
+    deployment.add_argument(
+        "--auto-elevate", action="store_true",
+        help="Apply/Rollback 非管理员运行时请求一次 Windows UAC")
+    deployment.add_argument(
+        "--remove-identities", action="store_true",
+        help="Rollback 时同时删除本项目派生的两个本地身份")
 
     plan = subparsers.add_parser("acl-plan")
     plan.add_argument("--project-root", required=True)
@@ -151,6 +208,8 @@ def main():
         "--confirm-real-change", action="store_true", required=True)
 
     arguments = parser.parse_args()
+    if arguments.action == "deploy":
+        sys.exit(_deploy(arguments))
     if arguments.action == "serve":
         _serve(arguments)
         return

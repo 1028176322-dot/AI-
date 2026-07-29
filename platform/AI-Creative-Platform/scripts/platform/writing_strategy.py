@@ -18,6 +18,11 @@ for child in os.listdir(SCRIPTS_ROOT):
 import _gov
 import outline_governance
 
+try:
+    from word_budget_gate import enforce_word_budget
+except Exception:  # pragma: no cover - gate module optional in some envs
+    enforce_word_budget = None
+
 
 TECHNIQUE_COMPATIBILITY = {
     "action": {
@@ -367,7 +372,8 @@ def prepare_evidence(root, chapter, draft):
     return path, evidence
 
 
-def validate_evidence(path, root=None, chapter=None):
+def validate_evidence(path, root=None, chapter=None,
+                      draft_path=None, plan_path=None):
     errors = []
     data = _gov.load_yaml(path) if os.path.isfile(path) else {}
     body = (data or {}).get("writing_strategy_evidence") or {}
@@ -395,6 +401,11 @@ def validate_evidence(path, root=None, chapter=None):
             errors.append("cross-chapter boundary similarity exceeds threshold")
     except (TypeError, ValueError):
         errors.append("computed boundary similarity invalid")
+    # Word-budget hard gate (CH-001 字数缺口治理): enforce measured length.
+    if draft_path and plan_path and enforce_word_budget is not None:
+        ok, werrs = enforce_word_budget(draft_path, plan_path)
+        if not ok:
+            errors.extend(werrs)
     gate = body.get("gate") or {}
     if gate.get("decision") != "proceed":
         errors.append("evidence gate is not proceed")
@@ -417,6 +428,12 @@ def main():
     check_parser.add_argument("--project-root", required=True)
     check_parser.add_argument("--chapter", required=True)
     check_parser.add_argument("--evidence", required=True)
+    check_parser.add_argument(
+        "--draft", default=None,
+        help="draft file to measure against word_budget (enables word gate)")
+    check_parser.add_argument(
+        "--plan", default=None,
+        help="chapter plan YAML containing word_budget (enables word gate)")
     args = parser.parse_args()
     try:
         if args.action == "build":

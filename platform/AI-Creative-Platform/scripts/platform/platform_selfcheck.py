@@ -12,6 +12,7 @@ import json
 import os
 import re
 import socket
+import stat
 import sys
 
 
@@ -49,7 +50,7 @@ REQUIRED_STYLE_COMMANDS = {
     "style_revise", "style_fidelity_review", "style_quality_review",
     "style_apply", "style_final_regression", "style_rollback",
     "style_author_feedback", "style_event_verify", "style_status",
-    "broker_serve", "broker_status", "broker_acl_plan",
+    "broker_serve", "broker_deploy", "broker_status", "broker_acl_plan",
     "broker_acl_apply", "broker_acl_verify",
 }
 
@@ -291,15 +292,54 @@ def _check_controlled_writes(findings):
                      relative, relative)
 
 
+def _resolve_manifest_entry(
+        manifest_path, entry, allowed_root, base_dir=None):
+    """Resolve a portable manifest path against its declared base directory."""
+    if not isinstance(entry, str) or not entry.strip():
+        raise ValueError("路径必须是非空字符串")
+    entry = entry.strip()
+    if os.path.isabs(entry):
+        raise ValueError("路径必须是相对路径，禁止绑定设备绝对路径: %s" % entry)
+
+    manifest_path = os.path.realpath(os.path.abspath(manifest_path))
+    base_dir = os.path.realpath(os.path.abspath(
+        base_dir or os.path.dirname(manifest_path)))
+    resolved = os.path.realpath(os.path.join(base_dir, entry))
+    allowed_root = os.path.realpath(os.path.abspath(allowed_root))
+    try:
+        common = os.path.commonpath((allowed_root, resolved))
+    except ValueError:
+        common = ""
+    if os.path.normcase(common) != os.path.normcase(allowed_root):
+        raise ValueError("路径越出工作区边界: %s" % entry)
+    return resolved
+
+
+def _directory_state(path):
+    """Return (is_directory, error); keep access errors distinct from absence."""
+    try:
+        return stat.S_ISDIR(os.stat(path).st_mode), None
+    except FileNotFoundError:
+        return False, None
+    except OSError as exc:
+        return None, str(exc)
+
+
 def _workspace_project_roots(workspace_root):
     path = os.path.join(workspace_root, "workspace.yaml")
     data = _gov.load_yaml(path) if os.path.isfile(path) else {}
     entries = ((data or {}).get("workspace") or {}).get("projects") or []
-    return [
-        os.path.abspath(os.path.join(workspace_root, entry))
-        for entry in entries
-        if os.path.isdir(os.path.join(workspace_root, entry))
-    ]
+    roots = []
+    for entry in entries:
+        try:
+            resolved = _resolve_manifest_entry(
+                path, entry, workspace_root)
+        except ValueError:
+            continue
+        is_directory, _ = _directory_state(resolved)
+        if is_directory:
+            roots.append(resolved)
+    return roots
 
 
 def _is_style_strict(project_root):
@@ -318,7 +358,8 @@ def _broker_reachable(project_root):
     if not os.path.isfile(path):
         return False, "broker-status.json 不存在"
     try:
-        body = json.load(open(path, "r", encoding="utf-8"))
+        with open(path, "r", encoding="utf-8") as stream:
+            body = json.load(stream)
         port = int(body.get("port") or 0)
         connection = socket.create_connection(
             (body.get("host") or "127.0.0.1", port), timeout=1.5)
@@ -351,8 +392,10 @@ def _check_style_deployment(findings, workspace_root):
             project_root, "runtime", "learning",
             "broker-deployment.yaml")
         if os.path.isfile(report_path):
-            report = json.load(open(
-                report_path, "r", encoding="utf-8-sig"))
+            with open(
+                    report_path, "r",
+                    encoding="utf-8-sig") as stream:
+                report = json.load(stream)
         elif os.path.isfile(yaml_report):
             report = _gov.load_yaml(yaml_report) or {}
             report_path = yaml_report
@@ -367,16 +410,26 @@ def _check_style_deployment(findings, workspace_root):
             _finding(findings, "error", "broker_runtime",
                      "%s: Broker 未运行或不可达: %s" %
                      (label, detail))
+        taskrunner_account = (
+            report.get("taskrunner_account") or "SVC_TaskRunner")
+        writer_account = (
+            report.get("writer_account") or "SVC_ChapterWriter")
         acl = verify_ntfs_acl(
             os.path.join(project_root, "chapters", "drafts"),
             os.path.join(project_root, "chapters", "approved"),
-            "SVC_TaskRunner", "SVC_ChapterWriter")
+            taskrunner_account, writer_account)
         if not acl.get("verified"):
             _finding(findings, "error", "broker_acl",
                      "%s: 身份或 ACL 复读验证未通过" % label)
         if report.get("taskrunner_direct_write_denied") is not True:
             _finding(findings, "error", "broker_os_bypass",
                      "%s: 缺 TaskRunner 真实身份直写拒绝证明" % label)
+        if report.get("taskrunner_direct_delete_denied") is not True:
+            _finding(findings, "error", "broker_os_bypass",
+                     "%s: 缺 TaskRunner 真实身份直删拒绝证明" % label)
+        if not (report.get("client_registry") or {}).get("verified"):
+            _finding(findings, "error", "broker_client_registry",
+                     "%s: Broker 客户端注册表配置未通过复读验证" % label)
 
 
 def _load_cli_module():
@@ -433,14 +486,33 @@ def _check_workspace_registry(findings, workspace_root):
     ws_entries = ((ws.get("workspace") or {}).get("projects") or [])
     reg = _gov.load_yaml(reg_path) or {}
     reg_entries = [p.get("path") for p in reg.get("projects") or [] if p.get("path")]
-    ws_paths = {os.path.normcase(os.path.abspath(os.path.join(workspace_root, p))): p
-                for p in ws_entries}
-    reg_paths = {os.path.normcase(os.path.abspath(os.path.join(PLATFORM_ROOT, p))): p
-                 for p in reg_entries}
+    def resolve_entries(manifest_path, entries, check, base_dir=None):
+        resolved_entries = {}
+        for entry in entries:
+            try:
+                absolute = _resolve_manifest_entry(
+                    manifest_path, entry, workspace_root,
+                    base_dir=base_dir)
+            except ValueError as exc:
+                _finding(findings, "error", check, str(exc), str(entry))
+                continue
+            resolved_entries[os.path.normcase(absolute)] = entry
+        return resolved_entries
+
+    ws_paths = resolve_entries(
+        ws_path, ws_entries, "workspace_project_path")
+    reg_paths = resolve_entries(
+        reg_path, reg_entries, "project_registry_path",
+        base_dir=PLATFORM_ROOT)
     for absolute, rel in ws_paths.items():
-        if not os.path.isdir(absolute):
+        is_directory, access_error = _directory_state(absolute)
+        if is_directory is False:
             _finding(findings, "error", "workspace_project",
                      "workspace 登记项目不存在: %s" % rel, rel)
+        elif is_directory is None:
+            _finding(findings, "error", "workspace_project_access",
+                     "workspace 登记项目无法访问: %s (%s)" %
+                     (rel, access_error), rel)
         if absolute not in reg_paths:
             _finding(findings, "error", "project_registry_drift",
                      "workspace 有登记但 registry/projects.yaml 无对应项: %s" % rel, rel)
