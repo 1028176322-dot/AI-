@@ -1495,22 +1495,39 @@ PROJECT_ROOT/canonical_manifest.yaml
 
 ### 17.1 批量章节与 Git 节奏
 
+- 所有 Git 角色、项目写范围、`main` 更新、分叉和锁处置必须先读取
+  `platform.yaml -> governance.git_coordination` 指向的
+  `core/governance/Git协调者唯一入口.md`；这是唯一权威，其他章节只作索引。
+- 所有对话最终只发布到同一个远端 `origin/main`；禁止创建、复用或推送 writer
+  远端分支、任务交付分支。
+- 每个对话必须使用用户/启动器分配的 `ACP_GIT_ACTOR_ID`。项目写作者只可修改、
+  提交和发布 `git-scopes.json` 中登记的 `projects/<project-id>/**`；其他项目和
+  平台文件只能读取、同步和使用。
+- 同一设备的并发对话必须使用独立 worktree/index 和本地分支。这里的本地分支仅是
+  并发隔离载体，不是远端发布目标。
+- worktree 只由 `scripts/git/ai_git_worktree.ps1` 的
+  `Diagnose/Ensure/OpenBash/OpenGui` 动作管理。旧 `Pull/Push` 动作强制拒绝。
+- 同步、提交、发布的唯一入口是
+  `platform git status/sync/commit/publish`。禁止直接运行原生 Git 写命令。
+- `platform git commit` 必须绑定真实 Task ID 并显式列出路径；网关检查工作树和
+  暂存区全部路径。`platform git publish` 会逐个复核待发布 commit 的路径，并只
+  以普通 fast-forward 更新 `origin/main`。
+- 多设备同时发布时，先成功者更新 `main`，后一个会收到
+  `REMOTE_CAS_REJECTED`。禁止强推；再次执行 `platform git sync` 后，网关只在
+  本地 commit 全部合法且双方路径不重叠时受控 rebase，并在前后复核。路径重叠或
+  冲突时恢复原 HEAD，交由 Git 协调者评估。
+- 修改执行者可以按授权范围修改文件，但不得暂存、提交或上传；按精确文件清单交给
+  Git 协调者。协调者只处理 Git 交付和异常，不顺手修改内容。
 - 平台 Task、审查、NKB、发布和审计始终逐章原子闭环。
 - 每个完全发布并完成 `outline_refresh` 的章节形成一个 Git 提交，便于回滚和定位。
 - 每 5 个已闭环章节推送一次远端；卷末、付费边界和高风险修订立即推送。
-- 多个 AI 必须使用独立 worktree/分支，由协调器串行合并；禁止共享同一 `main`
-  工作树并发执行 Git 写操作。
-- worktree 必须由 `scripts/git/ai_git_worktree.ps1` 统一创建；默认
-  `BranchMode=Auto`，优先 `codex/<agent-id>`，仅在引用创建并回读探针失败时降级
-  `codex-<agent-id>`。所有调用强制启用 Git 长路径。
-- 完整诊断、部署副本和 Pull/Push 规则见
-  `core/governance/AI共享Git工作区指南.md`；新设备以仓库脚本为 SSOT。
+- worktree 诊断见 `core/governance/AI共享Git工作区指南.md`；角色和路径权限仍以
+  《Git协调者唯一入口》及 `git-scopes.json` 为准。
 - `refs/codex/turn-diffs/**` 与 `refs/heads/codex/**` 不冲突，禁止修改
   `packed-refs` 清理前者。失败时不得自动删除 `.git/index.lock`；它可能属于另一
   个 AI，只能由协调者确认无 Git 进程后处理。
-- `origin/main` 是可陈旧的本地缓存，不是远端真相源。统一管理器必须以
-  `git ls-remote` 返回的精确 SHA 建树、Pull 和 Push 后复核，禁止根据
-  packed-refs 中的旧 `origin/main` 回退项目。
+- `origin/main` 本地引用可能陈旧。网关以远端回读的精确 SHA 进行同步和发布后
+  复核，禁止根据 `packed-refs` 中的旧值回退项目。
 - Git 批次不能改变平台串行依赖，也不能把 5 章 NKB 更新合并成一次。
 
 ---

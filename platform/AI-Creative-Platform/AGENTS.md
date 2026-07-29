@@ -6,22 +6,32 @@
 ## 强制入口
 
 1. 进入平台后首先读取 `platform.yaml`。
-2. 禁止通过目录猜测平台结构。
-3. 禁止绕过 `platform` CLI 直接创建或初始化项目。
-4. 未完成 Platform Bootstrap，不得执行项目任务。
-5. 选择项目后，必须读取该项目的 `project.yaml`。
-6. 所有任务必须通过 Task Packet 执行。
-7. 所有写入必须通过平台验证和登记。
+2. 执行任何 Git 操作前，必须读取
+   `platform.yaml -> governance.git_coordination` 指向的唯一协调入口。
+3. 禁止通过目录猜测平台结构。
+4. 禁止绕过 `platform` CLI 直接创建或初始化项目。
+5. 未完成 Platform Bootstrap，不得执行项目任务。
+6. 选择项目后，必须读取该项目的 `project.yaml`。
+7. 所有任务必须通过 Task Packet 执行。
+8. 所有写入必须通过平台验证和登记。
 
 ## Agent 限制
 
 - 只允许一个主 Agent。
 - 禁止创建、委派或并行运行子 Agent。
 - Planner、Writer、Reviewer、Fixer 是同一 Agent 的串行角色阶段。
+- 所有对话只使用远端 `origin/main`，但同一设备仍必须隔离 worktree/index。
+- Git 写操作只能通过 `platform git status/sync/commit/publish`。项目写作者只能
+  提交权限表登记的负责项目；修改执行者不得提交；只读身份只能同步；Git 协调者
+  不得修改内容。
+- 远端尚无 Git 网关时，仅 `git-coordinator` 可按唯一协调入口执行一次精确自举；
+  远端回读成功后该例外自动失效。
 
 ## 权威入口
 
 - 平台入口：`platform.yaml`
+- Git 协调入口：`platform.yaml -> governance.git_coordination`
+- Git 权限事实源：`platform.yaml -> governance.git_scope_policy`
 - 项目入口：`projects/<project-id>/project.yaml`
 - 任务入口：当前 `task.yaml`
 - 会话入口：当前 `SESSION_MANIFEST.yaml`

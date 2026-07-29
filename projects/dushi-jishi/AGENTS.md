@@ -16,3 +16,7 @@
     每一章都必须具有完整场景级详细章纲并通过可写性和防注水门禁后，才允许写正文。
 11. 正文开写前必须执行 `platform craft build`；提交时必须附写作手法执行证据，
     开头、场景手法和结尾与章纲不匹配或近章模板化时不得通过审查。
+12. 任何 Git 操作必须先读取平台 `platform.yaml -> governance.git_coordination`；
+    本 worktree 的 actor-id 必须由用户指定，只能通过
+    `platform git status/sync/commit/publish` 提交
+    `projects/dushi-jishi/**`；其他项目和平台内容只有读取、同步和使用权限。

@@ -77,6 +77,8 @@ governance:
   base_policy: core/policies/compliance.policy.yaml
   runtime_policy: core/policies/agent-execution.policy.yaml
   project_creation_policy: core/policies/workflow.policy.yaml
+  git_coordination: core/governance/Git协调者唯一入口.md
+  git_scope_policy: core/governance/git-scopes.json
 
 # 编辑≠发布：六因子授权 + Publish Service（根治「正式章节写权限断链」）
 #   core_dir           : 授权模型五 YAML（actions/resources/roles/state-permissions/immutable-policies）
@@ -154,6 +156,10 @@ commands:
   broker_acl_plan: platform broker acl-plan
   broker_acl_apply: platform broker acl-apply
   broker_acl_verify: platform broker acl-verify
+  git_status: platform git status
+  git_sync: platform git sync
+  git_commit: platform git commit
+  git_publish: platform git publish
 
 override_policy:
   # 不可覆盖：任何下层配置（题材模板 / 项目 / 任务运行时）均不得修改以下键。

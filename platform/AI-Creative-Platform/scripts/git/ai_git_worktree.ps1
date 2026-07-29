@@ -15,6 +15,13 @@ param(
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version 2.0
 
+if ($Action -in @("Pull", "Push")) {
+    throw (
+        "Legacy worktree $Action is disabled. Use the governed entrypoint: " +
+        "platform git sync/commit/publish. Remote publication targets only " +
+        "origin/main and is enforced by the actor project scope policy.")
+}
+
 function Resolve-Executable {
     param([string[]]$Candidates)
     foreach ($candidate in $Candidates) {

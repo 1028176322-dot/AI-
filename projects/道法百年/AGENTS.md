@@ -113,3 +113,9 @@
 31. **术语全量词表检查（Phase C）**：术语一致性以 `NKB/Terminology.yaml` 为唯一事实源——`standard` 为标准词、`forbidden` 为禁用同义（部分记录为空 `[]` 表示无同义需管）。`platform validate terminology --file F`（L1 预检）与 `platform terminology scan --project-root R`（全稿件扫描 `txt/` 树全部 `.txt`）均从 Terminology.yaml 取出**全量**禁用同义词表逐行比对，仅输出事实命中（行号 / 命中禁用词 / 应改标准词），**不替 AI 判定是否误用**。Level-1 既有 `_collect_terminology` 已修正字段映射（读 `forbidden`，兼容 `deprecated`/`aliases`）。`doctor` 接入 **TermGov**（`terminology_check.govern`）：`block`=Terminology.yaml 缺失或无记录，`proceed`=正常；不阻断内容型 task submit。
 
 32. **会话启动协议（Phase C PC-6）**：任何 AI 对话（写作/审查/修复/维护）第一步必须 `platform session bootstrap` 生成 `runtime/sessions/<id>/SESSION_BRIEF.md` + `SESSION_MANIFEST.yaml`，**未 bootstrap 不得写项目**（Phase4/5 写门禁 `require_session` 强制，已兼容新 Manifest 位置）。四命令：`bootstrap --project <id> [--intent auto|chapter_write|chapter_review|chapter_fix|nkb_update] [--target CH-020] [--role <r>]`（定位项目+任务、生成启动包、校验四门禁、输出 `bootstrap_result` 供 AI 首步返回）、`verify`（重验门禁）、`status`（摘要）、`close`（写 `handoffs/LATEST_HANDOFF.yaml` 交接）。门禁：`bootstrap_validated`/`task_inputs_ready`/`context_version_valid`/`policy_version_valid`；任一 false → `ready=false` + 阻塞项，**禁止直接写正文**。AI 首步须返回 `bootstrap_result` 确认项目/任务/权威版本/执行模式/允许修改范围/阻塞项，确认 `ready` 后再执行。严守红线：单会话、单 Agent、串行阶段切换、**禁止创建/委派/调用子 Agent**、NKB 正史仅 knowledge-manager 持 approved_event 可写、新事实只进 Candidate Queue。
+
+33. **Git 项目范围**：任何 Git 操作必须先读取平台
+    `platform.yaml -> governance.git_coordination`。本项目写作者使用用户分配的
+    `ACP_GIT_ACTOR_ID=writer-novel-dsf`，只能通过
+    `platform git status/sync/commit/publish` 提交
+    `projects/道法百年/**`；其他项目和平台内容只有读取、同步和使用权限。

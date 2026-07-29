@@ -243,6 +243,9 @@ def scaffold_layout(project_root, genre):
     开头、场景手法和结尾与章纲不匹配或近章模板化时不得通过审查。
 12. Broker 只能通过 `platform broker deploy --mode Plan/Apply/Verify/Rollback` 部署；
     禁止 AI 直接组合本地账户、Windows 服务、注册表或 NTFS ACL 命令。
+13. 任何 Git 操作必须先读取平台 `platform.yaml -> governance.git_coordination`；
+    所有对话只发布远端 main，但本地必须隔离 worktree/index；写作者只能通过
+    `platform git status/sync/commit/publish` 提交权限表登记的负责项目路径。
 """
     with open(os.path.join(project_root, "AGENTS.md"), "w", encoding="utf-8") as stream:
         stream.write(agents)

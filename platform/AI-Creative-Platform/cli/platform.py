@@ -124,6 +124,7 @@ GOV_MODULE_MAP = {
     "chapter": "chapter_cli",
     "style": "style_cli",
     "broker": "broker_cli",
+    "git": "git_scope_gateway",
     "selfcheck": "platform_selfcheck",
 }
 
@@ -908,7 +909,6 @@ def build_parser():
     gst.add_argument("rest", nargs=argparse.REMAINDER)
 
     gt = sub.add_parser("task", help="任务系统操作中心（create/claim/submit/review/...）")
-    gt.add_argument("--project-root", required=True)
     gt.add_argument("rest", nargs=argparse.REMAINDER)
 
     gv = sub.add_parser("ver", help="内容版本控制（commit/log/rollback）")
@@ -1008,6 +1008,9 @@ def build_parser():
     gbroker = sub.add_parser(
         "broker", help="独立受控写 Broker 运维与 ACL 验证")
     gbroker.add_argument("rest", nargs=argparse.REMAINDER)
+    ggit = sub.add_parser(
+        "git", help="单一远端 main 的项目范围同步、提交与发布网关")
+    ggit.add_argument("rest", nargs=argparse.REMAINDER)
     # ── Phase B 审查管线增强 ──
     gs2 = sub.add_parser("summary", help="章节/卷/弧/滚动摘要落盘（AI 填字段→脚本落盘）")
     gs2.add_argument("--project-root", default=None)
@@ -1055,7 +1058,7 @@ def main():
                       "index", "context", "policy", "validate", "query",
                       "summary", "delta", "review", "learn", "feedback", "reader-panel", "layout",
                       "report", "audit", "terminology", "chapter",
-                      "style", "broker",
+                      "style", "broker", "git",
                       "selfcheck"):
         _delegate_gov(args.cmd, args)
     else:

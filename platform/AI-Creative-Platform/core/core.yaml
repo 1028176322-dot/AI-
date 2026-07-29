@@ -11,6 +11,7 @@ modules:
   context-engine:    { type: engine,  desc: 上下文引擎 }
   contracts:         { type: schema,  desc: 契约/Schema 定义（*.schema.yaml / *.contract.yaml） }
   gates:             { type: gate,    desc: 各类门禁（agent_compliance / readiness 等） }
+  governance:        { type: policy,  desc: 工作空间治理（含 Git 协调者唯一入口） }
   impact-analyzer:   { type: engine,  desc: 影响分析 }
   knowledge:         { type: engine,  desc: 知识/NKB 治理 }
   memory-gov:        { type: engine,  desc: 记忆治理 }

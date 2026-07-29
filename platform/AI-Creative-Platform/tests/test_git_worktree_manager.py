@@ -51,6 +51,17 @@ class GitWorktreeManagerTest(unittest.TestCase):
     def test_all_git_calls_enable_windows_longpaths(self):
         self.assertIn("-c core.longpaths=true", self.source)
 
+    def test_legacy_pull_and_push_are_fail_closed(self):
+        self.assertIn(
+            'if ($Action -in @("Pull", "Push"))',
+            self.source)
+        self.assertIn(
+            "Legacy worktree $Action is disabled",
+            self.source)
+        self.assertIn(
+            "platform git sync/commit/publish",
+            self.source)
+
     def test_rollback_is_scoped_and_does_not_delete_global_index_lock(self):
         self.assertIn(
             '"update-ref", "-d",\n'

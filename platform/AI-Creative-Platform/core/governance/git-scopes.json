@@ -1,0 +1,92 @@
+{
+  "schema": "git-scope-policy@1.0.0",
+  "remote": "origin",
+  "integration_branch": "main",
+  "policy_path": "platform/AI-Creative-Platform/core/governance/git-scopes.json",
+  "default_actor": {
+    "role": "read_only",
+    "project_id": null,
+    "read_paths": [
+      "**"
+    ],
+    "write_paths": [],
+    "can_sync": true,
+    "can_commit": false,
+    "can_publish": false,
+    "require_task_id": false
+  },
+  "actors": {
+    "git-coordinator": {
+      "role": "git_coordinator",
+      "project_id": null,
+      "read_paths": [
+        "**"
+      ],
+      "write_paths": [
+        "**"
+      ],
+      "can_sync": true,
+      "can_commit": true,
+      "can_publish": true,
+      "require_task_id": false
+    },
+    "platform-modifier": {
+      "role": "modifier",
+      "project_id": null,
+      "read_paths": [
+        "**"
+      ],
+      "write_paths": [
+        "platform/AI-Creative-Platform/**",
+        "AGENTS.md",
+        "workspace.yaml"
+      ],
+      "can_sync": true,
+      "can_commit": false,
+      "can_publish": false,
+      "require_task_id": true
+    },
+    "writer-a": {
+      "role": "project_writer",
+      "project_id": "dushi-jishi",
+      "project_path": "projects/dushi-jishi",
+      "read_paths": [
+        "**"
+      ],
+      "write_paths": [
+        "projects/dushi-jishi/**"
+      ],
+      "can_sync": true,
+      "can_commit": true,
+      "can_publish": true,
+      "require_task_id": true
+    },
+    "writer-novel-dsf": {
+      "role": "project_writer",
+      "project_id": "novel-dsf",
+      "project_path": "projects/道法百年",
+      "read_paths": [
+        "**"
+      ],
+      "write_paths": [
+        "projects/道法百年/**"
+      ],
+      "can_sync": true,
+      "can_commit": true,
+      "can_publish": true,
+      "require_task_id": true
+    },
+    "read-only": {
+      "role": "read_only",
+      "project_id": null,
+      "read_paths": [
+        "**"
+      ],
+      "write_paths": [],
+      "can_sync": true,
+      "can_commit": false,
+      "can_publish": false,
+      "require_task_id": false
+    }
+  }
+}
