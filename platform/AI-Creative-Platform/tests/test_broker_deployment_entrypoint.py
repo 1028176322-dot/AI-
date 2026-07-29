@@ -120,6 +120,14 @@ class BrokerDeploymentEntrypointTest(unittest.TestCase):
                 "-InitiatingIdentity",
                 "initiating_identity_read",
                 "IsNullOrWhiteSpace($legacyReportedRoot)",
+                "Test-ServiceImagePathBoundToProject",
+                "Get-LegacyServiceAssessment",
+                "skipped_foreign_project_report",
+                "skipped_foreign_service",
+                "deleted_current_project_legacy",
+                "legacy_migration_policy",
+                "existingServiceRegistryPresent",
+                "Derived service name is already bound to another project",
                 "Stop-GovernedService",
                 "did not reach STOPPED state",
                 "AIStyleChapterWriter",
@@ -133,6 +141,10 @@ class BrokerDeploymentEntrypointTest(unittest.TestCase):
                 "ROLLED_BACK"):
             self.assertIn(marker, text)
         self.assertIn("New-Service", text)
+        self.assertNotIn(
+            "Legacy service exists but is not bound to this project", text)
+        self.assertNotIn(
+            "Legacy deployment report belongs to another project", text)
         self.assertNotIn("STYLE_WRITER_SERVICE_PASSWORD", text)
         self.assertNotIn("password= $env:", text)
 

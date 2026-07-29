@@ -104,6 +104,7 @@ $ExistingDeployment = if (
 } else {
     $null
 }
+$LegacyMigrationObservations = @()
 if ([string]::IsNullOrWhiteSpace($TaskRunnerAccount)) {
     $TaskRunnerAccount = if ($ExistingDeployment.taskrunner_account) {
         [string]$ExistingDeployment.taskrunner_account
@@ -337,22 +338,100 @@ function Remove-LegacyAclEntry {
     }
 }
 
+function Test-ServiceImagePathBoundToProject {
+    param(
+        [string]$ImagePath,
+        [string]$ExpectedProjectRoot
+    )
+    if ([string]::IsNullOrWhiteSpace($ImagePath)) {
+        return $false
+    }
+    $normalizedRoot = [IO.Path]::GetFullPath(
+        $ExpectedProjectRoot).TrimEnd("\")
+    $normalizedImagePath = $ImagePath.Replace("/", "\")
+    $escapedRoot = [Regex]::Escape($normalizedRoot)
+    $projectRootArgumentPattern = (
+        '(?:^|\s)--project-root\s+(?:"{0}"|{0})(?=\s|$)' -f
+        $escapedRoot)
+    return [Regex]::IsMatch(
+        $normalizedImagePath,
+        $projectRootArgumentPattern,
+        [Text.RegularExpressions.RegexOptions]::IgnoreCase)
+}
+
+function Get-LegacyServiceAssessment {
+    param([string]$Name)
+    $servicePath = "HKLM:\SYSTEM\CurrentControlSet\Services\$Name"
+    if (-not (Test-Path -Path $servicePath)) {
+        return [ordered]@{
+            service_name = $Name
+            registry_present = $false
+            service_api_present = $false
+            bound_to_current_project = $false
+            disposition = "absent"
+        }
+    }
+    $imagePath = [string](
+        Get-ItemProperty -Path $servicePath).ImagePath
+    $service = Get-Service -Name $Name -ErrorAction SilentlyContinue
+    $boundToCurrentProject = Test-ServiceImagePathBoundToProject `
+        -ImagePath $imagePath -ExpectedProjectRoot $ProjectRoot
+    return [ordered]@{
+        service_name = $Name
+        registry_present = $true
+        service_api_present = ($null -ne $service)
+        bound_to_current_project = $boundToCurrentProject
+        image_path = $imagePath
+        disposition = if ($boundToCurrentProject) {
+            "migrate_current_project"
+        } else {
+            "skip_foreign_or_unverifiable"
+        }
+    }
+}
+
 function Remove-LegacyDeploymentForCurrentProject {
     $legacyDeployments = @()
     if ($ExistingReport -and -not $ExistingDeployment) {
         $legacyReportedRoot = [string]$ExistingReport.project_root
+        $legacyRoot = $null
         if (-not [string]::IsNullOrWhiteSpace($legacyReportedRoot)) {
-            $legacyRoot = [IO.Path]::GetFullPath($legacyReportedRoot)
-            if ($legacyRoot -ne $ProjectRoot) {
-                throw (
-                    "Legacy deployment report belongs to another project " +
-                    "root; automatic migration is refused")
+            try {
+                $legacyRoot = [IO.Path]::GetFullPath($legacyReportedRoot)
+            } catch {
+                $script:LegacyMigrationObservations += [ordered]@{
+                    source = "deployment_report"
+                    disposition = "skipped_unverifiable_report"
+                    reported_project_root = $legacyReportedRoot
+                    reason = "project_root is not a valid absolute path"
+                }
+            }
+        } else {
+            $script:LegacyMigrationObservations += [ordered]@{
+                source = "deployment_report"
+                disposition = "skipped_unverifiable_report"
+                reason = "project_root is missing"
             }
         }
-        $legacyDeployments += @{
-            service = [string]$ExistingReport.service_name
-            runner = [string]$ExistingReport.taskrunner_account
-            writer = [string]$ExistingReport.writer_account
+        $reportBelongsToCurrentProject = (
+            -not [string]::IsNullOrWhiteSpace($legacyRoot) -and
+            [StringComparer]::OrdinalIgnoreCase.Equals(
+                $legacyRoot.TrimEnd("\"), $ProjectRoot.TrimEnd("\")))
+        if ($reportBelongsToCurrentProject) {
+            $legacyDeployments += @{
+                service = [string]$ExistingReport.service_name
+                runner = [string]$ExistingReport.taskrunner_account
+                writer = [string]$ExistingReport.writer_account
+                source = "deployment_report"
+            }
+        } elseif ($legacyRoot) {
+            $script:LegacyMigrationObservations += [ordered]@{
+                source = "deployment_report"
+                service_name = [string]$ExistingReport.service_name
+                disposition = "skipped_foreign_project_report"
+                reported_project_root = $legacyRoot
+                current_project_root = $ProjectRoot
+            }
         }
     }
     if ($ServiceName -ne "AIStyleChapterWriter") {
@@ -360,6 +439,7 @@ function Remove-LegacyDeploymentForCurrentProject {
             service = "AIStyleChapterWriter"
             runner = "SVC_TaskRunner"
             writer = "SVC_ChapterWriter"
+            source = "fixed_legacy_service"
         }
     }
 
@@ -382,12 +462,17 @@ function Remove-LegacyDeploymentForCurrentProject {
         $legacyServicePath = (
             "HKLM:\SYSTEM\CurrentControlSet\Services\$legacyService")
         if (Test-Path -Path $legacyServicePath) {
-            $imagePath = [string](
-                Get-ItemProperty -Path $legacyServicePath).ImagePath
-            if (-not $imagePath.Contains($ProjectRoot)) {
-                throw (
-                    "Legacy service exists but is not bound to this project; " +
-                    "automatic migration is refused")
+            $assessment = Get-LegacyServiceAssessment -Name $legacyService
+            if (-not $assessment.bound_to_current_project) {
+                $script:LegacyMigrationObservations += [ordered]@{
+                    source = [string]$legacy.source
+                    service_name = $legacyService
+                    disposition = "skipped_foreign_service"
+                    image_path = [string]$assessment.image_path
+                    service_api_present = (
+                        $assessment.service_api_present -eq $true)
+                }
+                continue
             }
             Stop-GovernedService -Name $legacyService
             & sc.exe delete $legacyService | Out-Null
@@ -395,6 +480,12 @@ function Remove-LegacyDeploymentForCurrentProject {
                 throw "Failed to delete governed legacy service $legacyService"
             }
             Start-Sleep -Seconds 1
+            $script:LegacyMigrationObservations += [ordered]@{
+                source = [string]$legacy.source
+                service_name = $legacyService
+                disposition = "deleted_current_project_legacy"
+                image_path = [string]$assessment.image_path
+            }
         }
     }
     foreach ($path in @($Drafts, $Approved)) {
@@ -652,6 +743,8 @@ if ($Mode -eq "Plan") {
         --project-root $ProjectRoot `
         --taskrunner $TaskRunnerAccount `
         --writer $WriterAccount
+    $legacyFixedService = Get-LegacyServiceAssessment `
+        -Name "AIStyleChapterWriter"
     [ordered]@{
         mode = "Plan"
         project_root = $ProjectRoot
@@ -666,6 +759,11 @@ if ($Mode -eq "Plan") {
             "the Broker key stays in the Windows service environment and " +
             "the client token is stored in an ACL-protected HKLM key.")
         client_registry_path = $RegistrySubPath
+        legacy_migration_policy = (
+            "Only legacy services whose --project-root exactly matches " +
+            "this project are migrated. Foreign or unverifiable legacy " +
+            "services and copied deployment reports are recorded and skipped.")
+        legacy_fixed_service = $legacyFixedService
         acl_plan = ($plan -join "`n")
         rollback = @(
             "Stop and delete service $ServiceName",
@@ -702,12 +800,12 @@ if ($Mode -eq "Apply") {
         Out-Null
     Remove-LegacyDeploymentForCurrentProject
     $existing = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
-    if ($existing) {
-        $existingServicePath = (
-            "HKLM:\SYSTEM\CurrentControlSet\Services\$ServiceName")
-        $existingImagePath = [string](
-            Get-ItemProperty -Path $existingServicePath).ImagePath
-        if (-not $existingImagePath.Contains($ProjectRoot)) {
+    $existingServicePath = (
+        "HKLM:\SYSTEM\CurrentControlSet\Services\$ServiceName")
+    $existingServiceRegistryPresent = Test-Path -Path $existingServicePath
+    if ($existingServiceRegistryPresent) {
+        $existingAssessment = Get-LegacyServiceAssessment -Name $ServiceName
+        if (-not $existingAssessment.bound_to_current_project) {
             throw (
                 "Derived service name is already bound to another project; " +
                 "use an explicitly approved non-conflicting service name")
@@ -764,9 +862,14 @@ if ($Mode -eq "Apply") {
     }
     Grant-ServiceLogonRight -Account $WriterAccount
 
-    if ($existing) {
+    if ($existingServiceRegistryPresent) {
         Stop-GovernedService -Name $ServiceName
         & sc.exe delete $ServiceName | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            throw (
+                "Failed to replace the current project's existing Broker " +
+                "service $ServiceName")
+        }
         Start-Sleep -Seconds 1
     }
     $Port = Find-AvailableLoopbackPort -StartingPort $Port
@@ -880,6 +983,10 @@ if ($Mode -eq "Apply") {
         acl = $acl
         service = $service
         client_registry = $clientRegistry
+        legacy_migration = @{
+            policy = "current-project-only; foreign legacy entries are skipped"
+            observations = @($LegacyMigrationObservations)
+        }
         taskrunner_direct_write_denied = $directWriteDenied
         taskrunner_direct_delete_denied = $directDeleteDenied
         taskrunner_write_probe_exit_code = $process.ExitCode
@@ -942,7 +1049,8 @@ if ($Mode -eq "Verify") {
             "client_token_location",
             "rollback_command",
             "taskrunner_write_probe_exit_code",
-            "taskrunner_delete_probe_exit_code"
+            "taskrunner_delete_probe_exit_code",
+            "legacy_migration"
         )) {
             $property = $ExistingDeployment.PSObject.Properties[$name]
             if ($property) {

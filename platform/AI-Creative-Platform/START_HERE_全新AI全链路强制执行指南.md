@@ -210,7 +210,7 @@ Everyone 或无关账号授权。未使用外部提权时不设置此变量，�
 
 1. 校验 Windows、项目根、`PROJECT_LAYOUT.yaml`、Python 和必要平台文件。
 2. 依据当前设备上的规范化项目根生成 8 位 `deployment_id`。
-3. 若发现旧固定服务部署，只在报告项目根和 Windows Service `ImagePath` 都精确绑定当前项目时自动迁移；绑定不一致立即拒绝，绝不删除其他项目服务。
+3. 若发现旧固定服务部署或从其他工作树复制来的部署报告，只在 Windows Service `ImagePath` 的 `--project-root` 与当前项目根精确一致时自动迁移；属于协调者、其他项目、其他 worktree 或无法确认归属的遗留项一律不删除、不停止，只在部署报告中记为 `skipped_foreign_service` / `skipped_foreign_project_report` 后继续。只有当前项目派生出的动态服务名 `AIStyleCW_<deployment_id>` 已被其他项目占用时才硬性拒绝，防止服务名碰撞和越权覆盖。
 4. 派生本项目独立身份与服务名：
    - `ACP_TR_<deployment_id>`：TaskRunner，只读章节目录；
    - `ACP_CW_<deployment_id>`：ChapterWriter，只供 Broker 使用；
