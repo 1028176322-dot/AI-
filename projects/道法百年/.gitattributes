@@ -1,0 +1,10 @@
+# 强制 LF 行尾（strict-v2 字节级校验要求）
+#
+# 仓库开启 core.autocrlf=true：Git 在「仓库内」归一化为 LF，但在「工作树」展开为 CRLF，
+# 且每次 checkout 会重新展开。strict-v2 broker 使用 RealFS 对文件「原始字节」做 SHA256，
+# 工作树的 CRLF 会导致 chapters/approved 与 canonical_manifest 认证哈希（LF）不一致，
+# 进而使 source_hash_equal / target_hash_equal 在校验时失败。
+# 下面显式指定关键治理产物的 eol=lf，使工作树字节与认证清单一致（eol=lf 覆盖 autocrlf）。
+chapters/** eol=lf
+canonical_manifest.yaml eol=lf
+operations/published/** eol=lf
