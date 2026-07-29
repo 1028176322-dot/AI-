@@ -1,23 +1,24 @@
 document:
   id: CHAR-JINGSHI-OVERSEAS-001
   type: character
-  title: 景氏海外据点负责人（草案·待定名）
-  status: candidate
-  version: 1
-  updated_at: 2026-07-29T20:30:00
+  title: 景氏海外据点负责人·陈天阔
+  status: final
+  version: 2
+  updated_at: 2026-07-29T20:40:00
   owner: writer-a
   project_id: novel-dushijishi
-  requires_user_decision: true
-  decision_note: 基于《邪帝校园行》反派势力技法(2/4)派生的候选，为景氏海外投送节点；具体据点区域、身份与和主角海外三支柱的交锋线由用户决策。
+  requires_user_decision: false
+  decision_note: 已定稿——用户于 2026-07-29 选定推荐名「陈天阔」与默认底牌；为景氏海外投送节点。
 character:
   id: CHAR-JINGSHI-OVERSEAS-001
-  canonical_name: 景氏海外据点负责人（草案·待定名）
+  canonical_name: 景氏海外据点负责人·陈天阔
   status: 景氏海外据点负责人，与主角海外三支柱交锋
   identity:
     current_age: 43
     role: 景氏海外分支 / 据点负责人
     origin: 海外（常驻）
   background: 执掌景氏在东南亚 / 欧美的海外据点，与主角海外建立的"野锋资本 / 夜枭 / 观澜"三支柱直接交锋；是景氏海外投送的节点，也是主角海外阶段的主要对手。
+  trump_card: 东南亚+欧美双据点，当地武装与情报线齐全，直接对抗主角「商业/情报/武装」三支柱；握有主角某个海外据点的地理与人员情报。
   personality:
     stable_traits:
       - 地缘老辣

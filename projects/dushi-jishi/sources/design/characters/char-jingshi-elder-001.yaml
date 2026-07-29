@@ -1,23 +1,24 @@
 document:
   id: CHAR-JINGSHI-ELDER-001
   type: character
-  title: 景氏长老（草案·待定名）
-  status: candidate
-  version: 1
-  updated_at: 2026-07-29T20:30:00
+  title: 景氏长老·景崇山
+  status: final
+  version: 2
+  updated_at: 2026-07-29T20:40:00
   owner: writer-a
   project_id: novel-dushijishi
-  requires_user_decision: true
-  decision_note: 基于《邪帝校园行》反派势力技法(5/7)派生的候选，具体人名、底牌内容与出场时机由用户决策；AI 不替编剧情。
+  requires_user_decision: false
+  decision_note: 已定稿——用户于 2026-07-29 选定推荐名「景崇山」与默认底牌；框架由 AI 依据《邪帝校园行》反派技法派生，未替编具体剧情。
 character:
   id: CHAR-JINGSHI-ELDER-001
-  canonical_name: 景氏长老（草案·待定名）
+  canonical_name: 景氏长老·景崇山
   status: 景氏家族长老 / 景奕辰叔父辈，老牌心腹，握体制内底牌
   identity:
     current_age: 62
     role: 景氏家族代表 / 终极底牌持有者
     origin: 京城
-  background: 景奕辰父辈的兄弟或发小，景氏发家的元老；掌握景奕辰不便直接持有的体制内关系与"致命把柄"，是景氏最后的屏障。因资历对景奕辰既有倚仗也有制约，并带有基于实力的理性傲慢（非无脑坏）。具体底牌内容（何种体制内资源/把柄）待用户定。
+  background: 景奕辰父辈的兄弟或发小，景氏发家元老；掌握景奕辰不便直接持有的体制内关系与"致命把柄"，是景氏最后屏障。因资历对景奕辰既有倚仗也有制约，并带基于实力的理性傲慢（非无脑坏）。
+  trump_card: 握一份早年与多名在职/退休官员共同运作的「国资改制旧账」影印件与资金流向，是关键时刻撬动体制内庇护的终极筹码，亦是其对景奕辰理性傲慢的来源。
   personality:
     stable_traits:
       - 深谋
@@ -35,7 +36,7 @@ character:
   relationships:
     - 与景奕辰：家族倚仗与制约并存
     - 与情报主管：并行核心圈
-    - 与主角：终极对立（秩序重建的对立面）
+    - 与主角：终极对立（秩序重建对立面）
   speech:
     register: 居高临下、点到即止
     prohibited_patterns:

@@ -1,0 +1,33 @@
+task:
+  id: TASK-JINGSHI-ANTAGONIST-DESIGN-001
+  type: character_design
+  title: 景氏反派班底设计源定稿（推荐名+默认底牌）
+  priority: high
+  agent:
+    required_role: character_designer
+  permissions:
+    write:
+      - sources/design/characters/**
+      - tasks/claimed/TASK-JINGSHI-ANTAGONIST-DESIGN-001.yaml
+    read:
+      - sources/**
+      - NKB/**
+      - tasks/**
+  inputs:
+    required:
+      - sources/design/characters/char-jingshi-elder-001.yaml
+      - sources/design/characters/char-jingshi-intel-001.yaml
+      - sources/design/characters/char-jingshi-cfo-001.yaml
+      - sources/design/characters/char-jingshi-front-001.yaml
+      - sources/design/characters/char-jingshi-domestic-001.yaml
+      - sources/design/characters/char-jingshi-umbrella-001.yaml
+      - sources/design/characters/char-jingshi-overseas-001.yaml
+      - sources/design/characters/char-jingshi-foreign-partner-001.yaml
+  version: 1
+  created: 2026-07-29T22:53:00
+  created_by: writer-a
+  urgency: normal
+  status: claimed
+  owner: writer-a
+  claimed_at: 2026-07-29T22:53:00
+  lease_expire: 2026-07-30T02:53:00

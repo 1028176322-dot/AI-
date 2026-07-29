@@ -1,23 +1,24 @@
 document:
   id: CHAR-JINGSHI-INTEL-001
   type: character
-  title: 景氏情报主管（草案·待定名）
-  status: candidate
-  version: 1
-  updated_at: 2026-07-29T20:30:00
+  title: 景氏情报主管·沈彻
+  status: final
+  version: 2
+  updated_at: 2026-07-29T20:40:00
   owner: writer-a
   project_id: novel-dushijishi
-  requires_user_decision: true
-  decision_note: 基于《邪帝校园行》反派势力技法(3/6)派生的候选，为主角"观澜"的镜像角色；具体人名与体系细节由用户决策。
+  requires_user_decision: false
+  decision_note: 已定稿——用户于 2026-07-29 选定推荐名「沈彻」与默认底牌；为主角"观澜"的镜像角色。
 character:
   id: CHAR-JINGSHI-INTEL-001
-  canonical_name: 景氏情报主管（草案·待定名）
+  canonical_name: 景氏情报主管·沈彻
   status: 景氏情报与反侦察体系主管，主角"观澜"的镜像
   identity:
     current_age: 41
     role: 景氏情报网 / 反侦察负责人
     origin: 京城
-  background: 统管景氏的情报搜集、监控主角归国动向、反窃听反追踪；与主角"观澜"形成情报战的对称对抗，是景氏"经济-军事-情报复合体"的情报支柱。其体系内部松散、存在可被渗透的缝隙（对应主角可乘之机）。
+  background: 统管景氏的情报搜集、监控主角归国动向、反窃听反追踪；与主角"观澜"形成情报战对称对抗，是景氏"经济-军事-情报复合体"的情报支柱。其体系内部松散、存在可被渗透的缝隙（对应主角可乘之机）。
+  trump_card: 一套覆盖海内外的私人情报网（退役侦察兵+商业间谍），主角归国后通讯与行程被持续监控；并掌握主角某个海外身份的破绽（护照/税务漏洞），可作为反将一军之点。
   personality:
     stable_traits:
       - 冷静
