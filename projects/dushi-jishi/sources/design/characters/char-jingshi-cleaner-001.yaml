@@ -1,0 +1,43 @@
+document:
+  id: CHAR-JINGSHI-CLEANER-001
+  type: character
+  title: 老韩
+  status: approved
+  version: 1
+  updated_at: 2026-07-29T19:50:00
+  owner: writer-a
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-29T19:50:00
+character:
+  id: CHAR-JINGSHI-CLEANER-001
+  canonical_name: 老韩
+  status: 景氏财团清道夫组负责人，灭口与痕迹清除执行层
+  identity:
+    current_age: 46
+    role: 景氏隐秘行动组（清道夫）负责人
+    origin: 不明（京城外派）
+  background: 专司“脏活”——主角家人灭口、关键证人消失、痕迹清除；直接听令于温言（景奕辰线）。
+  personality:
+    stable_traits:
+      - 专业
+      - 冷血
+      - 隐忍
+    values:
+      - 任务完成
+    forbidden_behaviors:
+      - 留活口
+      - 留痕
+  goal: 抹除一切威胁景氏的痕迹
+  abilities:
+    - 监视
+    - 渗透
+    - 无声清除
+  relationships:
+    - 受温言指挥
+    - 与马彪（鼎丰打手）：灭口行动协同
+    - 与主角：终极对立（灭门仇）
+  speech:
+    register: 极少、指令式
+    prohibited_patterns:
+      - 多言

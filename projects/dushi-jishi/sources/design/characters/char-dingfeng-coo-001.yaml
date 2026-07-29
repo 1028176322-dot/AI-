@@ -1,0 +1,43 @@
+document:
+  id: CHAR-DINGFENG-COO-001
+  type: character
+  title: 周慎
+  status: approved
+  version: 1
+  updated_at: 2026-07-29T19:50:00
+  owner: writer-a
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-29T19:50:00
+character:
+  id: CHAR-DINGFENG-COO-001
+  canonical_name: 周慎
+  status: 鼎丰集团二号人物，陆敬山绝对心腹，替身计划日常执行协调人
+  identity:
+    current_age: 49
+    role: 鼎丰集团首席运营官（COO）
+    origin: 临江市
+  background: 追随陆敬山二十年，掌管集团日常运营与“特殊事务”通道；替身计划落地后由其调度会所、考勤与“在场证据”链，是构陷主角这一盘棋的常务操盘。
+  personality:
+    stable_traits:
+      - 沉稳
+      - 执行力强
+      - 护主
+    values:
+      - 陆家利益至上
+    forbidden_behaviors:
+      - 擅作主张越级
+  goal: 确保替身计划无缝推进，替陆家压下一切风声
+  abilities:
+    - 集团资源调度
+    - 政商周旋
+    - 危机公关
+  relationships:
+    - 与陆敬山：主仆兼执行，替身计划常务操盘
+    - 与沈拙（法务）：配合伪造证据链
+    - 与马彪（打手）：直接指挥
+    - 与主角：间接构陷执行层
+  speech:
+    register: 滴水不漏、公事公办
+    prohibited_patterns:
+      - 失口露底

@@ -1,0 +1,42 @@
+document:
+  id: CHAR-LOCAL-SHIELD-001
+  type: character
+  title: 邵立
+  status: approved
+  version: 1
+  updated_at: 2026-07-29T19:50:00
+  owner: writer-a
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-29T19:50:00
+character:
+  id: CHAR-LOCAL-SHIELD-001
+  canonical_name: 邵立
+  status: 临江地方保护伞，鼎丰案司法通道的关键节点
+  identity:
+    current_age: 53
+    role: 临江市公安局副局长（分管刑侦）
+    origin: 临江市
+  background: 与鼎丰利益共生，在陆峥系列案与主角顶罪案中“把关”方向、压住异动；是陆家地方关系网的核心节点。
+  personality:
+    stable_traits:
+      - 老练
+      - 贪权
+      - 谨慎
+    values:
+      - 政绩与私利平衡
+    forbidden_behaviors:
+      - 留痕
+  goal: 让案件按鼎丰期望定性，自身安全
+  abilities:
+    - 刑侦指挥
+    - 口径把控
+    - 关系调度
+  relationships:
+    - 与沈拙（法务）：司法配合
+    - 与陆敬山：利益交换
+    - 与主角：间接（压案）
+  speech:
+    register: 官腔、留余地
+    prohibited_patterns:
+      - 明说违规

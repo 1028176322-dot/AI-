@@ -1,0 +1,43 @@
+document:
+  id: CHAR-DINGFENG-LEGAL-001
+  type: character
+  title: 沈拙
+  status: approved
+  version: 1
+  updated_at: 2026-07-29T19:50:00
+  owner: writer-a
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-29T19:50:00
+character:
+  id: CHAR-DINGFENG-LEGAL-001
+  canonical_name: 沈拙
+  status: 鼎丰集团法务总监，替身计划证据链的司法擦屁股人
+  identity:
+    current_age: 44
+    role: 鼎丰集团法务总监 / 外聘律所合伙人
+    origin: 临江市
+  background: 负责把“主角在场证据”做成合法闭环，协调关系网让案件顺利定性；陆峥死缓案的外部法律操盘，确保程序上没有破绽。
+  personality:
+    stable_traits:
+      - 精明
+      - 钻营
+      - 风险厌恶
+    values:
+      - 程序合规即安全
+    forbidden_behaviors:
+      - 留下书面把柄
+  goal: 让构陷在纸面上无懈可击，保陆峥不死
+  abilities:
+    - 刑诉实务
+    - 关系网运作
+    - 文书合规化（伪证外衣）
+  relationships:
+    - 与周慎（COO）：配合伪造证据链
+    - 与邵立（保护伞）：司法配合
+    - 与陆敬山：汇报
+    - 与主角：间接构陷执行层
+  speech:
+    register: 引经据典、含蓄
+    prohibited_patterns:
+      - 直说非法

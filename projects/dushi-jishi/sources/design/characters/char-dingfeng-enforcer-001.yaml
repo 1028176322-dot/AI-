@@ -1,0 +1,42 @@
+document:
+  id: CHAR-DINGFENG-ENFORCER-001
+  type: character
+  title: 马彪
+  status: approved
+  version: 1
+  updated_at: 2026-07-29T19:50:00
+  owner: writer-a
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-29T19:50:00
+character:
+  id: CHAR-DINGFENG-ENFORCER-001
+  canonical_name: 马彪
+  status: 鼎丰关联高端会所保安队长，构陷与灭口的直接打手
+  identity:
+    current_age: 37
+    role: 会所保安队长 / 陆家私人打手
+    origin: 临江周边县城
+  background: 会所当晚值班带班，按指令篡改监控与考勤、制造主角“在场”；后续负责盯梢与清除隐患，是主角家人灭口执行层之一。
+  personality:
+    stable_traits:
+      - 凶悍
+      - 愚忠
+      - 贪财
+    values:
+      - 陆家赏饭
+    forbidden_behaviors:
+      - 违抗指令
+  goal: 执行上级交办的脏活，保自己平安
+  abilities:
+    - 格斗
+    - 监控操控
+    - 盯梢
+  relationships:
+    - 受周慎 / 上层指挥
+    - 与老韩（清道夫）：灭口行动协同
+    - 与主角：直接对立（篡改证据、灭门执行）
+  speech:
+    register: 粗、直、带狠
+    prohibited_patterns:
+      - 文绉绉

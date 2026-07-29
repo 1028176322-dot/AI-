@@ -1,0 +1,42 @@
+document:
+  id: CHAR-JINGSHI-AIDE-001
+  type: character
+  title: 温言
+  status: approved
+  version: 1
+  updated_at: 2026-07-29T19:50:00
+  owner: writer-a
+  project_id: novel-dushijishi
+  approved_via: delegated:balanced
+  approved_at: 2026-07-29T19:50:00
+character:
+  id: CHAR-JINGSHI-AIDE-001
+  canonical_name: 温言
+  status: 景奕辰贴身助理，隐秘代理人，京城白手套执行层
+  identity:
+    current_age: 35
+    role: 景奕辰私人助理 / 景氏特别事务专员
+    origin: 京城
+  background: 替景奕辰处理不便经手的事务——调度资金、安排“清道夫”、监控临江棋局；主角家人灭口的幕后指令经其下达。前期不出面。
+  personality:
+    stable_traits:
+      - 缜密
+      - 冷
+      - 绝对忠诚
+    values:
+      - 景氏至上
+    forbidden_behaviors:
+      - 擅自决策
+  goal: 维护景奕辰盘面不被掀翻，清除隐患
+  abilities:
+    - 顶层资源调度
+    - 隐秘通讯
+    - 善后
+  relationships:
+    - 与景奕辰：主仆兼代理
+    - 与老韩（清道夫）：指挥
+    - 与陆敬山：跨层指令传递
+  speech:
+    register: 温润、滴水不漏
+    prohibited_patterns:
+      - 情绪化

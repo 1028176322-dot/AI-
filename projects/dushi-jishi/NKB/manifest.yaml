@@ -14,13 +14,13 @@ components:
     version: 9
   Characters:
     file: Characters.yaml
-    version: 4
+    version: 5
   Locations:
     file: Locations.yaml
     version: 2
   Organizations:
     file: Organizations.yaml
-    version: 6
+    version: 7
   Timeline:
     file: Timeline.yaml
     version: 0

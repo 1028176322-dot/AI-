@@ -12,6 +12,9 @@ records:
     relationships:
       - 与陆家/鼎丰：主从（钱袋子）
       - 与主角：终极对抗
+    members:
+      - CHAR-JINGSHI-AIDE-001
+      - CHAR-JINGSHI-CLEANER-001
     name: 景氏财团
     source:
       source_type: design_source
@@ -38,6 +41,11 @@ records:
       - 与主角：构陷与追杀（前期主要对手）
       - 与司法及地方：利益共生
       - 与景氏财团：主从（钱袋子）
+    members:
+      - CHAR-DINGFENG-COO-001
+      - CHAR-DINGFENG-LEGAL-001
+      - CHAR-DINGFENG-ENFORCER-001
+      - CHAR-LOCAL-SHIELD-001
     name: 鼎丰集团
     source:
       source_type: design_source

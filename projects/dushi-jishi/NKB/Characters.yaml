@@ -195,3 +195,279 @@ records:
       occurred: false
       revealed_to_reader: false
       known_by_characters: []
+  - id: CHAR-DINGFENG-COO-001
+    canonical_name: 周慎
+    status: 鼎丰集团二号人物，陆敬山绝对心腹，替身计划日常执行协调人
+    identity:
+      current_age: 49
+      role: 鼎丰集团首席运营官（COO）
+      origin: 临江市
+    background: 追随陆敬山二十年，掌管集团日常运营与“特殊事务”通道；替身计划落地后由其调度会所、考勤与“在场证据”链，是构陷主角这一盘棋的常务操盘。
+    personality:
+      stable_traits:
+        - 沉稳
+        - 执行力强
+        - 护主
+      values:
+        - 陆家利益至上
+      forbidden_behaviors:
+        - 擅作主张越级
+    goal: 确保替身计划无缝推进，替陆家压下一切风声
+    abilities:
+      - 集团资源调度
+      - 政商周旋
+      - 危机公关
+    relationships:
+      - 与陆敬山：主仆兼执行，替身计划常务操盘
+      - 与沈拙（法务）：配合伪造证据链
+      - 与马彪（打手）：直接指挥
+      - 与主角：间接构陷执行层
+    speech:
+      register: 滴水不漏、公事公办
+      prohibited_patterns:
+        - 失口露底
+    name: 周慎
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-dingfeng-coo-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+    reveal_notes: fact_status 语义说明：revealed_to_reader 为 false 指其作为替身计划常务操盘的真实角色尚未揭晓；周慎在会所与主角有过照面（CH-001 起），known_by_characters 暂为空，待角色确知身份后修正。
+  - id: CHAR-DINGFENG-LEGAL-001
+    canonical_name: 沈拙
+    status: 鼎丰集团法务总监，替身计划证据链的司法擦屁股人
+    identity:
+      current_age: 44
+      role: 鼎丰集团法务总监 / 外聘律所合伙人
+      origin: 临江市
+    background: 负责把“主角在场证据”做成合法闭环，协调关系网让案件顺利定性；陆峥死缓案的外部法律操盘，确保程序上没有破绽。
+    personality:
+      stable_traits:
+        - 精明
+        - 钻营
+        - 风险厌恶
+      values:
+        - 程序合规即安全
+      forbidden_behaviors:
+        - 留下书面把柄
+    goal: 让构陷在纸面上无懈可击，保陆峥不死
+    abilities:
+      - 刑诉实务
+      - 关系网运作
+      - 文书合规化（伪证外衣）
+    relationships:
+      - 与周慎（COO）：配合伪造证据链
+      - 与邵立（保护伞）：司法配合
+      - 与陆敬山：汇报
+      - 与主角：间接构陷执行层
+    speech:
+      register: 引经据典、含蓄
+      prohibited_patterns:
+        - 直说非法
+    name: 沈拙
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-dingfeng-legal-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: CHAR-DINGFENG-ENFORCER-001
+    canonical_name: 马彪
+    status: 鼎丰关联高端会所保安队长，构陷与灭口的直接打手
+    identity:
+      current_age: 37
+      role: 会所保安队长 / 陆家私人打手
+      origin: 临江周边县城
+    background: 会所当晚值班带班，按指令篡改监控与考勤、制造主角“在场”；后续负责盯梢与清除隐患，是主角家人灭口执行层之一。
+    personality:
+      stable_traits:
+        - 凶悍
+        - 愚忠
+        - 贪财
+      values:
+        - 陆家赏饭
+      forbidden_behaviors:
+        - 违抗指令
+    goal: 执行上级交办的脏活，保自己平安
+    abilities:
+      - 格斗
+      - 监控操控
+      - 盯梢
+    relationships:
+      - 受周慎 / 上层指挥
+      - 与老韩（清道夫）：灭口行动协同
+      - 与主角：直接对立（篡改证据、灭门执行）
+    speech:
+      register: 粗、直、带狠
+      prohibited_patterns:
+        - 文绉绉
+    name: 马彪
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-dingfeng-enforcer-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters:
+        - CHAR-PROTAGONIST-001
+    reveal_notes: 陆野在会所当晚正面接触过马彪（CH-001），已知其名与岗位，known_by_characters 含 CHAR-PROTAGONIST-001。
+  - id: CHAR-LOCAL-SHIELD-001
+    canonical_name: 邵立
+    status: 临江地方保护伞，鼎丰案司法通道的关键节点
+    identity:
+      current_age: 53
+      role: 临江市公安局副局长（分管刑侦）
+      origin: 临江市
+    background: 与鼎丰利益共生，在陆峥系列案与主角顶罪案中“把关”方向、压住异动；是陆家地方关系网的核心节点。
+    personality:
+      stable_traits:
+        - 老练
+        - 贪权
+        - 谨慎
+      values:
+        - 政绩与私利平衡
+      forbidden_behaviors:
+        - 留痕
+    goal: 让案件按鼎丰期望定性，自身安全
+    abilities:
+      - 刑侦指挥
+      - 口径把控
+      - 关系调度
+    relationships:
+      - 与沈拙（法务）：司法配合
+      - 与陆敬山：利益交换
+      - 与主角：间接（压案）
+    speech:
+      register: 官腔、留余地
+      prohibited_patterns:
+        - 明说违规
+    name: 邵立
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-local-shield-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: CHAR-JINGSHI-AIDE-001
+    canonical_name: 温言
+    status: 景奕辰贴身助理，隐秘代理人，京城白手套执行层
+    identity:
+      current_age: 35
+      role: 景奕辰私人助理 / 景氏特别事务专员
+      origin: 京城
+    background: 替景奕辰处理不便经手的事务——调度资金、安排“清道夫”、监控临江棋局；主角家人灭口的幕后指令经其下达。前期不出面。
+    personality:
+      stable_traits:
+        - 缜密
+        - 冷
+        - 绝对忠诚
+      values:
+        - 景氏至上
+      forbidden_behaviors:
+        - 擅自决策
+    goal: 维护景奕辰盘面不被掀翻，清除隐患
+    abilities:
+      - 顶层资源调度
+      - 隐秘通讯
+      - 善后
+    relationships:
+      - 与景奕辰：主仆兼代理
+      - 与老韩（清道夫）：指挥
+      - 与陆敬山：跨层指令传递
+    speech:
+      register: 温润、滴水不漏
+      prohibited_patterns:
+        - 情绪化
+    name: 温言
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-jingshi-aide-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
+  - id: CHAR-JINGSHI-CLEANER-001
+    canonical_name: 老韩
+    status: 景氏财团清道夫组负责人，灭口与痕迹清除执行层
+    identity:
+      current_age: 46
+      role: 景氏隐秘行动组（清道夫）负责人
+      origin: 不明（京城外派）
+    background: 专司“脏活”——主角家人灭口、关键证人消失、痕迹清除；直接听令于温言（景奕辰线）。
+    personality:
+      stable_traits:
+        - 专业
+        - 冷血
+        - 隐忍
+      values:
+        - 任务完成
+      forbidden_behaviors:
+        - 留活口
+        - 留痕
+    goal: 抹除一切威胁景氏的痕迹
+    abilities:
+      - 监视
+      - 渗透
+      - 无声清除
+    relationships:
+      - 受温言指挥
+      - 与马彪（鼎丰打手）：灭口行动协同
+      - 与主角：终极对立（灭门仇）
+    speech:
+      register: 极少、指令式
+      prohibited_patterns:
+        - 多言
+    name: 老韩
+    type: character
+    source:
+      source_type: design_source
+      source_file: sources\design\characters\char-jingshi-cleaner-001.yaml
+      source_anchor: character
+      source_version: 1
+      extracted_at: 2026-07-29
+      extracted_by: writer-a
+      approval_status: approved
+    fact_status:
+      designed: true
+      occurred: false
+      revealed_to_reader: false
+      known_by_characters: []
