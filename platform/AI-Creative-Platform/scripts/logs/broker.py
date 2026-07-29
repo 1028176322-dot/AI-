@@ -20,6 +20,7 @@ import json
 import datetime
 import hashlib
 import hmac
+import locale
 import os
 import socket
 import subprocess
@@ -547,6 +548,11 @@ def load_trusted_context(root, task_id, session_id, actor_id):
 # --------------------------------------------------------------------------
 # Windows NTFS ACL 双身份（默认 dry-run，安全；运维以管理员实际执行）
 # --------------------------------------------------------------------------
+def _native_command_encoding():
+    """Encoding used by localized Windows command-line utilities."""
+    return locale.getpreferredencoding(False) or "utf-8"
+
+
 def build_acl_commands(drafts, approved, taskrunner_account, writer_account):
     """构造 icacls 命令：Writer 授写、TaskRunner 拒写（双重不可绕过）。"""
     cmds = []
@@ -586,7 +592,8 @@ def verify_ntfs_acl(
     for account in (taskrunner_account, writer_account):
         identity = subprocess.run(
             ["net", "user", account], capture_output=True, text=True,
-            encoding="utf-8", errors="replace", check=False)
+            encoding=_native_command_encoding(),
+            errors="backslashreplace", check=False)
         identities[account] = {
             "exists": identity.returncode == 0,
             "returncode": identity.returncode,
@@ -595,7 +602,8 @@ def verify_ntfs_acl(
     for path in (drafts, approved):
         proc = subprocess.run(
             ["icacls", path], capture_output=True, text=True,
-            encoding="utf-8", errors="replace", check=False)
+            encoding=_native_command_encoding(),
+            errors="backslashreplace", check=False)
         text = (proc.stdout or "") + (proc.stderr or "")
         lines = [
             line.replace(" ", "").lower()
@@ -663,7 +671,8 @@ def apply_ntfs_acl(drafts, approved, taskrunner_account, writer_account,
         for command, required in argv:
             proc = subprocess.run(
                 command, capture_output=True, text=True,
-                encoding="utf-8", errors="replace", check=False)
+                encoding=_native_command_encoding(),
+                errors="backslashreplace", check=False)
             results.append({
                 "command": command,
                 "required": required,
