@@ -8,3 +8,4 @@
 chapters/** eol=lf
 canonical_manifest.yaml eol=lf
 operations/published/** eol=lf
+chapters/output/** eol=lf

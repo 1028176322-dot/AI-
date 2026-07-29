@@ -7738,9 +7738,9 @@ canonical_manifest:
       path: chapters/approved/CH-201.md
       status: published
       revision: 1
-      hash: d640a53756a3d45780f974b4e697bcdcb7f28a7b9a2631c5dd8a7456a038c908
+      hash: 030adb1fad5db904d940eac6e2a917f7234dfeaf089fa5cc61269f57c32eb9c9
       source: chapters/drafts/CH-201.md
-      published_at: 2026-07-29T14:45:51
+      published_at: 2026-07-29T07:27:30
       versions:
         - revision: 1
           hash: d640a53756a3d45780f974b4e697bcdcb7f28a7b9a2631c5dd8a7456a038c908
