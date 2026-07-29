@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Canonical cross-device Broker deployment entrypoint regression tests."""
 import argparse
+import io
 import json
 import os
 import sys
@@ -20,6 +21,23 @@ import controlled_chapter_client  # noqa: E402
 
 
 class BrokerDeploymentEntrypointTest(unittest.TestCase):
+    def test_machine_json_is_safe_on_strict_gbk_console(self):
+        buffer = io.BytesIO()
+        stream = io.TextIOWrapper(
+            buffer, encoding="gbk", errors="strict")
+        try:
+            with mock.patch.object(broker_cli.sys, "stdout", stream):
+                broker_cli._emit_json({
+                    "acl": "\ufffd",
+                    "project": "道法百年",
+                }, indent=2)
+                stream.flush()
+            payload = buffer.getvalue()
+        finally:
+            stream.detach()
+        self.assertIn(b"\\ufffd", payload)
+        self.assertIn(b"\\u9053\\u6cd5\\u767e\\u5e74", payload)
+
     def test_cli_deploy_invokes_only_canonical_script(self):
         arguments = argparse.Namespace(
             mode="Plan",

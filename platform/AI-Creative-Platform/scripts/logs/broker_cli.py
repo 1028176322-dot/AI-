@@ -15,6 +15,11 @@ from broker import (
 )
 
 
+def _emit_json(body, indent=None):
+    """Emit machine JSON using ASCII-only escapes on every Windows console."""
+    print(json.dumps(body, ensure_ascii=True, indent=indent))
+
+
 def _status_path(project_root):
     return os.path.join(
         project_root, "runtime", "learning", "broker-status.json")
@@ -83,7 +88,7 @@ def _serve(arguments):
         "started_at": time.time(),
     }
     path = _write_status(arguments.project_root, status)
-    print(json.dumps({"status": path, **status}, ensure_ascii=False))
+    _emit_json({"status": path, **status})
     try:
         while server._thread and server._thread.is_alive():
             server._thread.join(timeout=1.0)
@@ -112,7 +117,7 @@ def _show_status(arguments):
         result.update(probe)
         if not probe["reachable"]:
             result["state"] = "STALE_OR_STOPPED"
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    _emit_json(result, indent=2)
     return 0 if result.get("reachable") else 1
 
 
@@ -227,7 +232,7 @@ def main():
         result = apply_ntfs_acl(
             drafts, approved, arguments.taskrunner, arguments.writer,
             apply=True, dry_run=False)
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    _emit_json(result, indent=2)
     if arguments.action == "acl-verify" and not result.get("verified"):
         sys.exit(1)
 
