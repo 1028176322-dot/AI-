@@ -288,6 +288,55 @@ function Write-ClientRegistryConfiguration {
     Set-Acl -Path $RegistryProviderPath -AclObject $acl
 }
 
+function Test-ExplicitAclEntryPresent {
+    param(
+        [string]$Path,
+        [string]$Account,
+        [ValidateSet("Allow", "Deny")]
+        [string]$AccessType
+    )
+    $acl = Get-Acl -LiteralPath $Path
+    foreach ($rule in $acl.Access) {
+        if ($rule.IsInherited) {
+            continue
+        }
+        $identity = [string]$rule.IdentityReference
+        $matchesAccount = (
+            $identity.Equals(
+                $Account, [StringComparison]::OrdinalIgnoreCase) -or
+            $identity.EndsWith(
+                "\$Account", [StringComparison]::OrdinalIgnoreCase))
+        if ($matchesAccount -and
+            [string]$rule.AccessControlType -ieq $AccessType) {
+            return $true
+        }
+    }
+    return $false
+}
+
+function Remove-LegacyAclEntry {
+    param(
+        [string]$Path,
+        [string]$Account,
+        [ValidateSet("Allow", "Deny")]
+        [string]$AccessType
+    )
+    $removeOption = if ($AccessType -eq "Deny") {
+        "/remove:d"
+    } else {
+        "/remove:g"
+    }
+    & icacls.exe $Path $removeOption $Account | Out-Null
+    # icacls returns non-zero when the account or ACE is already absent.
+    # Read-back is authoritative: only a surviving explicit ACE is failure.
+    if (Test-ExplicitAclEntryPresent `
+            -Path $Path -Account $Account -AccessType $AccessType) {
+        throw (
+            "Legacy $AccessType ACL remains after removal: " +
+            "$Account on $Path")
+    }
+}
+
 function Remove-LegacyDeploymentForCurrentProject {
     $legacyDeployments = @()
     if ($ExistingReport -and -not $ExistingDeployment) {
@@ -350,16 +399,12 @@ function Remove-LegacyDeploymentForCurrentProject {
     }
     foreach ($path in @($Drafts, $Approved)) {
         foreach ($legacyRunner in ($legacyRunners | Select-Object -Unique)) {
-            & icacls.exe $path /remove:d $legacyRunner | Out-Null
-            if ($LASTEXITCODE -ne 0) {
-                throw "Failed to remove legacy TaskRunner ACL: $legacyRunner"
-            }
+            Remove-LegacyAclEntry `
+                -Path $path -Account $legacyRunner -AccessType "Deny"
         }
         foreach ($legacyWriter in ($legacyWriters | Select-Object -Unique)) {
-            & icacls.exe $path /remove:g $legacyWriter | Out-Null
-            if ($LASTEXITCODE -ne 0) {
-                throw "Failed to remove legacy writer ACL: $legacyWriter"
-            }
+            Remove-LegacyAclEntry `
+                -Path $path -Account $legacyWriter -AccessType "Allow"
         }
     }
 }
