@@ -1,0 +1,43 @@
+document:
+  id: CHARTER-novel-dushijishi
+  type: project_charter
+  title: "《替罪入狱后，我成了海外大佬》项目立项书"
+  status: approved
+  version: 1
+  updated_at: "2026-07-29"
+  owner: chengsilong
+  project_id: novel-dushijishi
+
+project:
+  id: novel-dushijishi
+  working_title: "替罪入狱后，我成了海外大佬"
+  project_type: novel
+  status: initiated
+  genre: "都市·悬疑复仇·海外商战"
+
+concept:
+  one_sentence_premise: "一个与死刑公子长相相同的山野青年被构陷顶罪、家破人亡，他在狱中淬炼出獠牙，偷渡海外从零建立商业、情报与武装三支柱势力，隐身幕后归国清算，最终扳倒隐于幕后的终极操盘者景奕辰。"
+  central_question: "当替罪羊从牢笼里长出獠牙，他能否在守住人性底线的前提下，一层层掀开藏在地方资本之上的终极黑手？"
+
+goals:
+  length_target: "规划总章数下限 1000 章，按剧情自然推导可向上扩展，不得封顶亦不得低于 1000"
+  serialization: "严格治理(strict) + 单 Agent 执行；长线连载，强调强读者黏性与清晰的长期爽点节奏"
+
+scope:
+  included:
+    - "主线：冤狱替罪 → 狱中淬炼 → 暴动越狱 → 国内逃亡 → 偷渡赴美 → 势力构建 → 扳倒陆家洗清冤屈 → 锁定景氏财团 → 与景奕辰终极交战"
+    - "主角陆野成长弧：从猎物到猎手，分阶段身份披露（V3-V4 小露、V6 小露、V9 终极露）"
+    - "反派层级：陆峥（替身对象）/ 陆家·鼎丰（前期地方资本）/ 景奕辰·景氏财团（最终黑手）"
+    - "核心爽点引擎：扮猪吃虎、马甲掉落的重复打脸，而非一次性大招"
+    - "作者明确禁区：不虐主、不写校园、不狗血感情线、全书写实无超自然"
+  excluded:
+    - "校园 / 学校 / 学生恋爱场景与人物线"
+    - "为虐而虐、长期剥夺主角能动性的苦难题材"
+    - "三角虐恋 / 恋爱救赎 / 为爱降智的感情线"
+    - "任何超自然、玄幻、系统流设定"
+    - "主角确切年龄等尚未由作者确认的细节"
+
+success_criteria:
+  creative: "强读者黏性 + 长期爽点节奏；主角成长线与都市现实质感并重；每卷都有打脸燃料"
+  structural: "总章数 ≥ 1000；分阶段身份披露保证 V2-V8 每卷爽点不断；前期扳倒陆家即洗冤、中期锁定景奕辰、后期全面交战"
+  operational: "平台严格治理 + 单 Agent 执行；NKB 14 组件为 SSOT；设计经作者决策包与 DESIGN_APPROVAL=pass 放行"

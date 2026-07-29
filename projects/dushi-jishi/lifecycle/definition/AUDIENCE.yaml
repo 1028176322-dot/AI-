@@ -1,0 +1,18 @@
+document:
+  id: AUDIENCE-novel-dushijishi
+  type: audience
+  title: "《替罪入狱后，我成了海外大佬》目标读者"
+  status: approved
+  version: 1
+  updated_at: "2026-07-29"
+  owner: chengsilong
+  project_id: novel-dushijishi
+
+audience:
+  primary:
+    segment: "男频都市 / 悬疑复仇 / 海外商战网文读者"
+    age_range: "18–40 岁"
+    platforms: "番茄、起点等主流网文连载平台"
+    reading_habits: "追更习惯强，看重长期爽点节奏、打脸密度与势力经营爽感"
+    core_experience_expectation: "看一个蒙冤替罪羊从牢笼里长出獠牙，在异国从零建立商业、情报与武装三支柱，隐身幕后逐级清算的智斗与爽感"
+    tone_preference: "写实、重现实质感与代价逻辑；不虐主、不狗血、不降智"
