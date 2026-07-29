@@ -132,6 +132,9 @@ Git 协调者拥有 Git 权限，不拥有内容创作权限。发现文件问�
 
 同步规则：
 
+- 治理上线前创建的旧 worktree 即使本地尚无 `git-scopes.json`，也先从固定
+  `origin/main` 读取权威策略，再执行权限判断和 fast-forward；本地策略只显示
+  `missing/invalid/differs/matches` 诊断状态，从不参与授权；
 - worktree 必须干净；
 - 只 Fetch 权威 `main`；
 - 只允许 fast-forward；
@@ -142,6 +145,35 @@ Git 协调者拥有 Git 权限，不拥有内容创作权限。发现文件问�
 - 禁止自动 stash、reset、clean 或覆盖。
 
 所有角色都可以同步，因为所有角色都有全仓库读取权。
+
+若托管 Python 的 `PATH` 中没有 Git，网关按以下顺序寻找：
+
+1. `ACP_GIT_EXECUTABLE` 指定的 `git.exe`；
+2. 当前 `PATH`；
+3. WorkBuddy PortableGit；
+4. Codex bundled Git；
+5. Windows 标准 Git 安装目录。
+
+因此不得因托管环境缺少 PATH 项而绕开网关；非标准安装只需由启动器设置
+`ACP_GIT_EXECUTABLE`。
+
+从 Git Bash 调用时，`--repo` 使用 `D:/AI-Workspace-...` 或 `/d/...` 形式；
+反斜杠会被 Bash 当作转义符。这只是 shell 路径写法，不改变网关语义。
+
+旧 worktree 自举时，它自身的旧网关代码尚未修复，第一次必须调用同一设备上
+已经更新到新版 `main` 的主/协调者工作树入口，并把旧 worktree 传给 `--repo`：
+
+```powershell
+$env:ACP_GIT_ACTOR_ID = "writer-a"
+& "D:\AI-Workspace\platform\AI-Creative-Platform\platform.bat" git status `
+  --repo "D:\AI-Workspace-ai-worktrees\writer-a"
+& "D:\AI-Workspace\platform\AI-Creative-Platform\platform.bat" git sync `
+  --repo "D:\AI-Workspace-ai-worktrees\writer-a"
+```
+
+第一条应显示 `local_policy.state=missing`，第二条应返回 `FAST_FORWARDED`。完成后
+旧 worktree 已包含新版网关和策略，后续才可改用它自身的 `platform.bat`。禁止从
+远端手工复制单个策略文件，因为那不会升级旧网关代码，也会破坏可审计的快进过程。
 
 ### 6.3 提交
 
@@ -317,6 +349,8 @@ Git 网关把审计写到设备本地：
 | code | 含义 | 唯一下一步 |
 |---|---|---|
 | `ACTOR_ID_REQUIRED` | 未指定身份 | 由用户/启动器分配 actor |
+| `GIT_EXECUTABLE_NOT_FOUND` | PATH 和标准位置均找不到 Git | 由启动器设置 `ACP_GIT_EXECUTABLE` |
+| `GIT_EXECUTABLE_INVALID` | 显式 Git 路径不存在 | 修正 `ACP_GIT_EXECUTABLE` |
 | `ACTION_NOT_AUTHORIZED` | 角色无该权限 | 停止，不得改身份绕过 |
 | `TASK_NOT_FOUND_OR_ELIGIBLE` | Task 不存在或状态不可交付 | 回到任务系统处理 |
 | `PATH_SCOPE_VIOLATION` | 含非负责项目路径 | 退回越权修改 |

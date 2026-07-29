@@ -1577,6 +1577,14 @@ PROJECT_ROOT/canonical_manifest.yaml
   `Diagnose/Ensure/OpenBash/OpenGui` 动作管理。旧 `Pull/Push` 动作强制拒绝。
 - 同步、提交、发布的唯一入口是
   `platform git status/sync/commit/publish`。禁止直接运行原生 Git 写命令。
+- 治理上线前建立的旧 worktree 即使本地缺 `git-scopes.json`，也使用新版网关从
+  固定 `origin/main` 读取权威策略并执行 `status/sync` 自举；不得手工复制策略。
+  本地策略的 `missing/invalid/differs` 只用于诊断，不能影响 actor 权限。第一次
+  自举须从已更新的主/协调者工作树启动 `platform.bat`，以 `--repo` 指向旧
+  worktree；`FAST_FORWARDED` 后才使用旧 worktree 自身入口。
+- 托管 Python 的 PATH 中没有 Git 时，网关自动搜索 WorkBuddy、Codex 和 Windows
+  标准位置；非标准安装由启动器设置 `ACP_GIT_EXECUTABLE`。Git Bash 的
+  `--repo` 使用 `D:/...` 或 `/d/...`。
 - `platform git commit` 必须绑定真实 Task ID 并显式列出路径；网关检查工作树和
   暂存区全部路径。`platform git publish` 会逐个复核待发布 commit 的路径，并只
   以普通 fast-forward 更新 `origin/main`。

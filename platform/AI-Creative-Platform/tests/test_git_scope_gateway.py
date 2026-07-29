@@ -12,6 +12,8 @@ GATEWAY = os.path.join(
     PLATFORM_ROOT, "scripts", "git", "git_scope_gateway.py")
 POLICY = os.path.join(
     PLATFORM_ROOT, "core", "governance", "git-scopes.json")
+POLICY_REPO_PATH = (
+    "platform/AI-Creative-Platform/core/governance/git-scopes.json")
 
 
 def run(command, cwd=None, env=None, check=True):
@@ -272,8 +274,109 @@ class GitScopeGatewayTest(unittest.TestCase):
             json.dump(policy, stream)
         completed, body = self.gateway(
             "status", "--actor-id", "writer-a", check=False)
+        self.assertEqual(0, completed.returncode)
+        self.assertEqual("ALLOW_READ", body["decision"])
+        self.assertEqual("invalid", body["local_policy"]["state"])
+        self.assertFalse(body["local_policy"]["authoritative"])
+        self.assertEqual("project_writer", body["actor"]["role"])
+
+    def test_valid_local_policy_cannot_expand_writer_scope(self):
+        policy_path = os.path.join(
+            self.writer, "platform", "AI-Creative-Platform",
+            "core", "governance", "git-scopes.json")
+        with open(policy_path, "r", encoding="utf-8") as stream:
+            policy = json.load(stream)
+        policy["actors"]["writer-a"]["role"] = "git_coordinator"
+        policy["actors"]["writer-a"]["project_id"] = None
+        policy["actors"]["writer-a"]["write_paths"] = ["**"]
+        with open(policy_path, "w", encoding="utf-8") as stream:
+            json.dump(policy, stream)
+        _, status = self.gateway(
+            "status", "--actor-id", "writer-a")
+        self.assertEqual("differs", status["local_policy"]["state"])
+        self.assertEqual(
+            ["projects/dushi-jishi/**"],
+            status["actor"]["write_paths"])
+
+        completed, blocked = self.gateway(
+            "commit", "--actor-id", "writer-a",
+            "--task-id", "TASK-TEST-002",
+            "--message", "attempt local policy escalation",
+            "--path", POLICY_REPO_PATH,
+            check=False)
         self.assertNotEqual(0, completed.returncode)
-        self.assertEqual("POLICY_REMOTE_INVALID", body["code"])
+        self.assertEqual("PATH_SCOPE_VIOLATION", blocked["code"])
+
+    def test_legacy_worktree_without_local_policy_can_self_bootstrap(self):
+        legacy_remote = os.path.join(self.temp, "legacy-remote.git")
+        legacy_seed = os.path.join(self.temp, "legacy-seed")
+        legacy_writer = os.path.join(self.temp, "legacy-writer")
+        run(["git", "init", "--bare", legacy_remote])
+        run(["git", "init", legacy_seed])
+        run(["git", "config", "user.name", "Legacy Seed"],
+            cwd=legacy_seed)
+        run(["git", "config", "user.email", "legacy@example.invalid"],
+            cwd=legacy_seed)
+        readme = os.path.join(
+            legacy_seed, "platform", "AI-Creative-Platform",
+            "README.md")
+        os.makedirs(os.path.dirname(readme), exist_ok=True)
+        with open(readme, "w", encoding="utf-8") as stream:
+            stream.write("legacy worktree without policy\n")
+        run(["git", "add", "-A"], cwd=legacy_seed)
+        run(["git", "commit", "-m", "legacy before governance"],
+            cwd=legacy_seed)
+        run(["git", "branch", "-M", "main"], cwd=legacy_seed)
+        run(["git", "remote", "add", "origin", legacy_remote],
+            cwd=legacy_seed)
+        run(["git", "push", "origin", "main"], cwd=legacy_seed)
+        run(["git", "symbolic-ref", "HEAD", "refs/heads/main"],
+            cwd=legacy_remote)
+        run(["git", "clone", legacy_remote, legacy_writer])
+
+        policy_target = os.path.join(
+            legacy_seed, "platform", "AI-Creative-Platform",
+            "core", "governance", "git-scopes.json")
+        os.makedirs(os.path.dirname(policy_target), exist_ok=True)
+        shutil.copyfile(POLICY, policy_target)
+        run(["git", "add", "-A"], cwd=legacy_seed)
+        run(["git", "commit", "-m", "roll out governance"],
+            cwd=legacy_seed)
+        run(["git", "push", "origin", "main"], cwd=legacy_seed)
+
+        def legacy_gateway(*arguments):
+            completed = run(
+                [sys.executable, GATEWAY] + list(arguments),
+                cwd=legacy_writer, env=self.environment, check=False)
+            return completed, json.loads(completed.stdout)
+
+        completed, status = legacy_gateway(
+            "status", "--actor-id", "writer-a")
+        self.assertEqual(0, completed.returncode)
+        self.assertEqual("missing", status["local_policy"]["state"])
+        self.assertFalse(status["local_policy"]["authoritative"])
+
+        completed, sync = legacy_gateway(
+            "sync", "--actor-id", "writer-a")
+        self.assertEqual(0, completed.returncode)
+        self.assertEqual("FAST_FORWARDED", sync["state"])
+        self.assertTrue(os.path.isfile(os.path.join(
+            legacy_writer, "platform", "AI-Creative-Platform",
+            "core", "governance", "git-scopes.json")))
+
+    def test_explicit_git_executable_works_without_git_on_path(self):
+        environment = dict(self.environment)
+        environment["ACP_GIT_EXECUTABLE"] = shutil.which("git")
+        environment["PATH"] = ""
+        completed = run(
+            [
+                sys.executable, GATEWAY, "status",
+                "--actor-id", "writer-a",
+            ],
+            cwd=self.writer, env=environment, check=False)
+        body = json.loads(completed.stdout)
+        self.assertEqual(0, completed.returncode)
+        self.assertEqual("ALLOW_READ", body["decision"])
 
     def test_second_project_writer_can_commit_unicode_project_path(self):
         project_path = os.path.join(

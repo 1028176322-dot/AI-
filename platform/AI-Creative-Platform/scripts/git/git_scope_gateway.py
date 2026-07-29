@@ -14,6 +14,7 @@ import hashlib
 import json
 import os
 import posixpath
+import shutil
 import subprocess
 import sys
 
@@ -26,6 +27,7 @@ SCHEMA = "git-scope-gateway-result@1.0.0"
 GIT_ELIGIBLE_TASK_STATES = (
     "claimed", "running", "submitted", "review", "reviewing",
     "passed", "completed", "archive")
+_GIT_EXECUTABLE = None
 
 
 class GatewayError(RuntimeError):
@@ -35,9 +37,70 @@ class GatewayError(RuntimeError):
         self.details = details or {}
 
 
+def _resolve_git_executable():
+    """Locate Git without depending on the caller's PATH."""
+    global _GIT_EXECUTABLE
+    if _GIT_EXECUTABLE:
+        return _GIT_EXECUTABLE
+    configured = os.environ.get("ACP_GIT_EXECUTABLE")
+    if configured:
+        candidate = os.path.abspath(os.path.expanduser(
+            os.path.expandvars(configured.strip().strip('"'))))
+        if not os.path.isfile(candidate):
+            raise GatewayError(
+                "GIT_EXECUTABLE_INVALID",
+                "ACP_GIT_EXECUTABLE does not point to a file",
+                {"path": candidate},
+            )
+        _GIT_EXECUTABLE = candidate
+        return candidate
+    discovered = shutil.which("git")
+    if discovered:
+        _GIT_EXECUTABLE = discovered
+        return discovered
+    home = os.path.expanduser("~")
+    candidates = [
+        os.path.join(
+            home, ".workbuddy", "vendor", "PortableGit",
+            "cmd", "git.exe"),
+        os.path.join(
+            home, ".workbuddy", "vendor", "PortableGit",
+            "bin", "git.exe"),
+        os.path.join(
+            home, ".cache", "codex-runtimes",
+            "codex-primary-runtime", "dependencies",
+            "native", "git", "cmd", "git.exe"),
+    ]
+    for env_name in ("ProgramFiles", "ProgramFiles(x86)", "LOCALAPPDATA"):
+        base = os.environ.get(env_name)
+        if not base:
+            continue
+        if env_name == "LOCALAPPDATA":
+            candidates.append(os.path.join(
+                base, "Programs", "Git", "cmd", "git.exe"))
+        else:
+            candidates.append(os.path.join(
+                base, "Git", "cmd", "git.exe"))
+    for candidate in candidates:
+        if os.path.isfile(candidate):
+            _GIT_EXECUTABLE = candidate
+            return candidate
+    raise GatewayError(
+        "GIT_EXECUTABLE_NOT_FOUND",
+        "Git executable was not found",
+        {
+            "resolution": (
+                "Set ACP_GIT_EXECUTABLE to git.exe, install Git in a "
+                "standard location, or add Git to PATH."),
+            "searched": candidates,
+        },
+    )
+
+
 def _run_git(repo, *arguments, check=True):
     command = [
-        "git", "-c", "core.longpaths=true", "-c", "core.quotepath=false",
+        _resolve_git_executable(),
+        "-c", "core.longpaths=true", "-c", "core.quotepath=false",
         "-C", repo,
     ] + list(arguments)
     completed = subprocess.run(
@@ -166,6 +229,31 @@ def _load_local_policy(repo):
         )
     _validate_policy(policy)
     return policy
+
+
+def _local_policy_diagnostic(repo, trusted_policy):
+    """Report local rollout state without granting it any authority."""
+    path = os.path.join(repo, *POLICY_RELATIVE_PATH.split("/"))
+    if not os.path.isfile(path):
+        return {
+            "state": "missing",
+            "path": path,
+            "authoritative": False,
+        }
+    try:
+        local = _load_local_policy(repo)
+    except GatewayError as exc:
+        return {
+            "state": "invalid",
+            "path": path,
+            "authoritative": False,
+            "code": exc.code,
+        }
+    return {
+        "state": "matches" if local == trusted_policy else "differs",
+        "path": path,
+        "authoritative": False,
+    }
 
 
 def _validate_policy(policy):
@@ -558,7 +646,6 @@ def _audit(repo, event):
 
 
 def _trusted_context(repo, actor_id):
-    _load_local_policy(repo)
     remote = REMOTE_NAME
     branch = INTEGRATION_BRANCH
     remote_sha = _remote_tip(repo, remote, branch)
@@ -583,6 +670,8 @@ def command_status(args):
         "remote_branch": branch,
         "remote_head": remote_sha,
         "dirty_paths": _status_paths(repo),
+        "local_policy": _local_policy_diagnostic(
+            repo, policy),
         "policy_schema": policy.get("schema"),
     }
 

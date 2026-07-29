@@ -115,6 +115,26 @@ $env:ACP_GIT_ACTOR_ID = "writer-a"
 网关只允许 actor 权限表登记的项目路径。不同设备使用相同入口；不需要共享对象库，
 也不创建远程 writer 分支。
 
+治理上线前已经存在的旧 worktree 可能尚无本地 `git-scopes.json`。这不是人工复制
+策略或绕过网关的理由：新版网关会先从固定 `origin/main` 读取权威策略，
+`status` 报告 `local_policy.state=missing`，随后 `sync` 在工作树干净时直接
+fast-forward，把策略和新版平台一起带入。若本地策略无效或被修改，只显示
+`invalid/differs`，不参与授权。
+
+第一次自举不能调用旧 worktree 自己的旧脚本；必须从已经更新的主/协调者工作树
+启动新版 `platform.bat`，用 `--repo` 指向旧 worktree。返回 `FAST_FORWARDED`
+后，旧 worktree 才能恢复使用自身入口。标准命令见
+[Git协调者唯一入口.md](Git协调者唯一入口.md) 的“同步”章节。
+
+托管 Python 找不到 Git 时，启动器可设置：
+
+```powershell
+$env:ACP_GIT_EXECUTABLE = "<git.exe 的绝对路径>"
+```
+
+未设置时网关会自动搜索 PATH、WorkBuddy PortableGit、Codex bundled Git 和
+Windows 标准安装目录。Git Bash 中 `--repo` 使用 `D:/...` 或 `/d/...` 路径。
+
 ## 5. 关于 refs/codex/turn-diffs
 
 Codex checkpoint 引用：
@@ -135,6 +155,7 @@ refs/heads/codex/**
 
 - `git fetch` 成功不能证明本地分支引用可写，必须以创建和回读探针为准；
 - `origin/main` 可能陈旧，统一脚本会通过远端回读取得权威 SHA；
+- 本地缺少 `git-scopes.json` 不再阻断旧 worktree 自举；远端权威策略缺失才阻断；
 - `.git/index.lock` 可能属于另一个正在运行的 AI；
 - 脚本失败时不得自动删除全局 `index.lock`；
 - 只有 Git 协调者确认所有相关 Git 进程已停止并确认锁为残留后，才可单独处理锁；
