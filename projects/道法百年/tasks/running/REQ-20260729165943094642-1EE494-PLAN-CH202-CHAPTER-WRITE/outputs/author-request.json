@@ -1,0 +1,38 @@
+{
+  "chapter_id": "CH-202",
+  "chapter_ref": "chapters/drafts/CH-202.txt",
+  "hard_rules": [
+    "obey every resolved Task Packet input and constraint",
+    "return original prose, never copy reference source wording",
+    "do not claim human feedback or bypass a gate",
+    "return JSON only"
+  ],
+  "model_id": "model-strong",
+  "packet_root": "E:\\AI-Workspace\\projects\\道法百年\\runtime\\task-packets\\REQ-20260729165943094642-1EE494-PLAN-CH202-CHAPTER-WRITE",
+  "project_root": "E:\\AI-Workspace\\projects\\道法百年",
+  "response_contract": {
+    "candidate_facts": "mapping rooted at knowledge_delta",
+    "chapter_draft": "complete chapter prose string",
+    "format": "json",
+    "handoff": "mapping rooted at nkb_handoff",
+    "required_fields": [
+      "chapter_draft",
+      "self_check",
+      "writing_strategy_evidence",
+      "candidate_facts",
+      "handoff"
+    ],
+    "self_check": "mapping with constitution/planning/context = pass",
+    "writing_strategy_evidence": "mapping rooted at writing_strategy_evidence"
+  },
+  "schema": "chapter-author-request@1.0.0",
+  "task_id": "REQ-20260729165943094642-1EE494-PLAN-CH202-CHAPTER-WRITE",
+  "task_packet": {
+    "constraints.md": "# 约束（Constraints）\n\n## 权限边界\nread   : ['NKB/**', 'sources/outline/**', 'runtime/writing-strategies/**', 'runtime/learning/**', 'memory/project/style-library/**', 'chapters/approved/**']\nwrite  : ['tasks/running/<id>/outputs/**', 'chapters/drafts/**']\nforbidden: ['core/**', 'registry/**', 'templates/**', 'NKB/**', 'chapters/approved/**']\n\n## 单 Agent 执行策略\nagent_mode: single\ndelegation_allowed: False\nsubagent_allowed: False\nparallel_execution_allowed: False\nmax_agents: 1\nrequired_session: current\n\n禁止：创建子 Agent / 委派 / 并行 Agent / 后台工作单元。\n角色切换通过 Context Package 实现（同会话内），非多 Agent。\n",
+    "context.md": "# Context Package（REQ-20260729165943094642-1EE494-PLAN-CH202-CHAPTER-WRITE）\n\n完整最小上下文已生成：runtime/context/CTX-REQ-20260729165943094642-1EE494-PLAN-CH202-CHAPTER-WRITE-001.md\n（由 `platform context build --task REQ-20260729165943094642-1EE494-PLAN-CH202-CHAPTER-WRITE` 产出）\n",
+    "execution-manifest.yaml": "task_id: REQ-20260729165943094642-1EE494-PLAN-CH202-CHAPTER-WRITE\nrole: writer\nmode: single\nbudget_tokens: 12000\ngenerated_at: 2026-07-29T23:02:30\npacket_version: 1.0.0\nstyle_guidance_sha256: d60a4269b542dc62210232e371c719cb98138f39791b6ed35e0db8594ad0ba32\n",
+    "input-index.yaml": "task_id: REQ-20260729165943094642-1EE494-PLAN-CH202-CHAPTER-WRITE\nrequired_inputs:\n  - name: chapter_plan\n    path: E:\\AI-Workspace\\projects\\道法百年\\tasks/running/REQ-20260729165943094642-1EE494-PLAN-CH202/outputs/chapter_plan.yaml\n    resolved: true\n  - name: writing_strategy\n    path: E:\\AI-Workspace\\projects\\道法百年\\runtime\\writing-strategies\\STRATEGY-CH-202.yaml\n    resolved: true\n  - name: style_guidance\n    path: E:\\AI-Workspace\\projects\\道法百年\\runtime\\learning\\style-guidance\\REQ-20260729165943094642-1EE494-PLAN-CH202-CHAPTER-WRITE.yaml\n    resolved: true\n  - name: final_context\n    path: E:\\AI-Workspace\\projects\\道法百年\\runtime\\context\\CTX-REQ-20260729165943094642-1EE494-PLAN-CH202-CHAPTER-WRITE-001.md\n    resolved: true\n  - name: nkb_snapshot\n    path: E:\\AI-Workspace\\projects\\道法百年\\NKB\n    resolved: true\n  - name: previous_chapter_handoff\n    path: E:\\AI-Workspace\\projects\\道法百年\\handoffs\\.gitkeep\n    resolved: true\nall_resolved: true\n",
+    "output-contract.yaml": "task_id: REQ-20260729165943094642-1EE494-PLAN-CH202-CHAPTER-WRITE\nallowed_outputs:\n  - chapter_draft\n  - self_check\n  - writing_strategy_evidence\n  - candidate_facts\n  - handoff\nacceptance:\n  criteria:\n    - 按 chapter_write 模板完成\nnext_tasks:\n  on_submit:\n    - chapter_review\n",
+    "task.yaml": "task:\n  id: REQ-20260729165943094642-1EE494-PLAN-CH202-CHAPTER-WRITE\n  version: 1\n  project: novel-dsf\n  type: chapter_write\n  title: REQ-20260729165943094642-1EE494-PLAN-CH202 后继 chapter_write\n  status: running\n  priority: high\n  created: 2026-07-29T22:50:08\n  created_by: task-system\n  goal:\n  chapter_ref: chapters/drafts/CH-202.txt\n  conversation_request_id: REQ-20260729165943094642-1EE494\n  dependencies:\n    - REQ-20260729165943094642-1EE494-PLAN-CH202\n  inputs:\n    required:\n      - chapter_plan\n      - writing_strategy\n      - style_guidance\n      - final_context\n      - nkb_snapshot\n      - previous_chapter_handoff\n    values:\n      source_task: REQ-20260729165943094642-1EE494-PLAN-CH202\n      source_artifact: tasks/running/REQ-20260729165943094642-1EE494-PLAN-CH202/outputs/chapter_plan.yaml\n      chapter_plan: tasks/running/REQ-20260729165943094642-1EE494-PLAN-CH202/outputs/chapter_plan.yaml\n  expected_outputs:\n    - chapter_draft\n    - self_check\n    - writing_strategy_evidence\n    - candidate_facts\n    - handoff\n  acceptance:\n    criteria:\n      - 按 chapter_write 模板完成\n  permissions:\n    read:\n      - NKB/**\n      - sources/outline/**\n      - runtime/writing-strategies/**\n      - runtime/learning/**\n      - memory/project/style-library/**\n      - chapters/approved/**\n    write:\n      - tasks/running/<id>/outputs/**\n      - chapters/drafts/**\n    forbidden:\n      - core/**\n      - registry/**\n      - templates/**\n      - NKB/**\n      - chapters/approved/**\n  agent:\n    required_role: writer\n  execution_policy:\n    agent_mode: single\n    delegation_allowed: false\n    subagent_allowed: false\n    parallel_execution_allowed: false\n    max_agents: 1\n    max_parallel_steps: 1\n    required_session: current\n  owner: 橘子\n  claimed_at: 2026-07-29T23:02:29\n  lease_expire: 2026-07-30T00:02:29\n  workspace: tasks\\running\\REQ-20260729165943094642-1EE494-PLAN-CH202-CHAPTER-WRITE\\outputs\n"
+  }
+}

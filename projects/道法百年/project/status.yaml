@@ -15,10 +15,10 @@ current:
     id: null
     name: null
   chapter:
-    current: chapters/drafts/CH-201.md
+    current: chapters/drafts/CH-202.txt
     title: null
     workflow_current_step: write
   blocked: false
   blocked_reason: null
 updated_by: task-system
-updated: 2026-07-29T12:19:00
+updated: 2026-07-30T10:07:32
