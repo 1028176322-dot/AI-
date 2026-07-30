@@ -1,0 +1,11 @@
+readiness_report:
+  checked_at: 2026-07-30
+  dimensions:
+    A: pass
+    B: pass
+    C: pass
+    D: pass
+    E: pass
+    F: pass
+  missing: []
+  overall: pass

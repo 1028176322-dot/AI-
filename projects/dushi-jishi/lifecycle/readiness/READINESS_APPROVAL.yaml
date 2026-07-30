@@ -1,0 +1,6 @@
+readiness_gate:
+  status: pass
+  approved_by: user
+  approved_at: 2026-07-30
+  entry_point: CH-001
+  nkb_snapshot: NKB-GENESIS-001

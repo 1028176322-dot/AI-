@@ -1,17 +1,16 @@
 document:
-  id: BRIEF-novel-dushijishi
+  id: BRIEF-DUSHIJISHI-001
   type: project_brief
-  title: "《替罪入狱后，我成了海外大佬》项目定义书"
+  title: 《替罪入狱后，我成了海外大佬》项目定义书
   status: approved
   version: 1
-  updated_at: "2026-07-29"
-  owner: chengsilong
+  updated_at: 2026-07-30T09:30:00
+  owner: writer-a
   project_id: novel-dushijishi
-
 project_brief:
-  genre: "都市·悬疑复仇·海外商战"
-  narrative_mode: "第三人称限知视角，强代入感；扮猪吃虎、马甲掉落的爽文节奏与写实质感并重"
-  target_length: "规划下限 1000 章，可向上扩展"
-  chapter_length: "约 2200–2800 字/章"
-  serialization_mode: "长线连载（平台 strict 治理 + 单 Agent 执行）"
+  genre: 都市(dushi)
+  narrative_mode: 第三人称限知 / 主角视角
+  target_length: 1000+
+  chapter_length: 2500
+  serialization_mode: 网络连载
   ending_type: closed

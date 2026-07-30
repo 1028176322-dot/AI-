@@ -1,0 +1,31 @@
+task:
+  id: TASK-DUSHI-READINESS-GATE-001
+  type: lifecycle_gate
+  title: 补 canonical 门禁文件并通过 ready 开写验收
+  priority: high
+  agent:
+    required_role: project_writer
+  permissions:
+    write:
+      - lifecycle/initiation/PROJECT_CHARTER.yaml
+      - lifecycle/definition/PROJECT_BRIEF.yaml
+      - lifecycle/definition/AUDIENCE.yaml
+      - lifecycle/readiness/READINESS_APPROVAL.yaml
+      - lifecycle/readiness/READINESS_REPORT.yaml
+      - lifecycle/status.yaml
+      - tasks/claimed/TASK-DUSHI-READINESS-GATE-001.yaml
+    read:
+      - lifecycle/**
+      - sources/design/**
+  inputs:
+    required:
+      - sources/design/_intake/inspiration-brief.yaml
+      - sources/design/story_core/story-core-001.yaml
+  version: 1
+  created: 2026-07-30T09:30:00
+  created_by: writer-a
+  urgency: normal
+  status: claimed
+  owner: writer-a
+  claimed_at: 2026-07-30T09:30:00
+  lease_expire: 2026-07-30T13:30:00
